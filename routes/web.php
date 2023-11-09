@@ -14,10 +14,18 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::get('/', function () {
-    return view('welcome');
+    return view('frontEnd.index');
 });
 Auth::routes(['register' => false,'reset' => false, 'login'=>false]);
 // Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Route for Membership
+Route::get('/membership/registration', function () {
+    return view('membership');
+});
