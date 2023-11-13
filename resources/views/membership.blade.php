@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Membership Registration</title>     
+        <title>Membership Registration</title>
+        <!-- Favicon  -->
+        <link rel="icon" href="/assets/img/NHAPK.JPEG">
         
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
@@ -158,7 +160,7 @@
                                         </center>
                                         <div class="modal-footer">
                                             <div class="btn btn-link ml-3" >
-                                                <a href="{{route('saveHostel')}}" target="_blank">If not found Add Your Hostel</a></div>
+                                                <a href="{{route('saveHostelForm')}}" target="_blank">If not found Add Your Hostel</a></div>
                                             <button class="btn btn-primary" data-bs-toggle="modal">close</button>
                                         </div>
                                     </form>

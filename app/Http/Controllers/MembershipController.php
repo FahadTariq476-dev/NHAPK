@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Country;
 use App\Models\Membership;
 use Illuminate\Http\Request;
 use App\Models\MembershipTypes;
 use App\Models\Properties;
+use App\Models\PropertyType;
 
 class MembershipController extends Controller
 {
-    //
+    
     public function show(){
         // 
         $countries = Country::all();
@@ -75,7 +77,9 @@ class MembershipController extends Controller
         }
         
     }
-    public function saveHostel(Request $req){
-        return $req;
+    public function saveHostel(Request $req){  
+        $countries = Country::all();
+        $categories = Category::all();
+        return view('hostelregistration')->with(['countries'=>$countries,'categories'=>$categories]);
     }
 }

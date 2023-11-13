@@ -35,7 +35,7 @@ Auth::routes(['register' => false,'reset' => false, 'login'=>false]);
 // });
 Route::get('/membership/registration', [MembershipController::class, 'show'])->name('membershipRegister');
 Route::post('/addMembership',[MembershipController::class,'addMembership']);
-Route::get('/membership/saveHostel', [MembershipController::class, 'saveHostel'])->name('saveHostel');
+Route::get('/saveHostelForm', [MembershipController::class, 'saveHostel'])->name('saveHostelForm');
 Route::get('/get-states/{country_id}', [StatesController::class, 'getStates'])->name('get.states');
 Route::get('/get-cities/{state_id}', [CityController::class, 'getCities'])->name('get.cities');
 Route::get('/get-properties/{city_id}', [PropertyController::class, 'getProperties'])->name('get.properties');
