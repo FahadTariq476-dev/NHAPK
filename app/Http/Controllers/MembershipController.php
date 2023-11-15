@@ -79,7 +79,12 @@ class MembershipController extends Controller
     }
     public function saveHostel(Request $req){  
         $countries = Country::all();
-        $categories = Category::all();
-        return view('hostelregistration')->with(['countries'=>$countries,'categories'=>$categories]);
+        $categories = Category::all();  // Hostel Categories
+        $property_types = PropertyType::all();      // Hostel Property Types
+        return view('hostelregistration')
+        ->with(['countries' => $countries,
+                'categories' => $categories,
+                'property_types' => $property_types
+            ]);
     }
 }

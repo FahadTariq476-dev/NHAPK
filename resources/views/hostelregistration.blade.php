@@ -22,7 +22,8 @@
                 <div class="col-md-12">
                     <h2 class="text-center">Hostel Registration From</h2>
                 </div>
-                <form action="#" method="POST" enctype="multipart/form-data" id="hostelRegForm">
+                <form action="hostelRegistration/save" method="POST" enctype="multipart/form-data" id="hostelRegForm">
+                    @csrf
                     <div class="row">
                         {{-- Start of First Column --}}
                         <div class="col-md-offset-2 col-md-4 col-sm-6 col-xs-6">
@@ -58,7 +59,7 @@
                                     placeholder="Hostel Owner / Head Contact No" data-inputmask="'mask': '+92-99999999' " required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="hostelOwnerId" id="hostelOwnerId"
+                                    <input type="text" class="form-control" name="hostelOwnerCnic" id="hostelOwnerCnic"
                                     placeholder="Hostel Owner / Head CNIC No" data-inputmask="'mask': '+92-99999999' " required>
                                 </div>
                                 <div class="cnicverify">
@@ -76,8 +77,8 @@
                                 <div class="form-group">
                                     <select class="form-control" id="hostelType" name="hostelType">
                                         <option>Select Hostel Type</option>
-                                        @foreach ($categories as $category)
-                                        <option value="{{$category->id}}">{{$category->name}}</option>    
+                                        @foreach ($property_types as $property_type)
+                                        <option value="{{$property_type->id}}">{{$property_type->name}}</option>    
                                         @endforeach
                                     </select>
                                 </div>                                
@@ -102,22 +103,43 @@
                                 <input type="text" class="form-control" name="hostelLandLine" id="hostelLandLine" placeholder="Hostel Land Line Number [Optional]">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="hostelPartner" id="hostelPartner" placeholder="Hostel Partner [Optional]">
+                                <input type="text" class="form-control" name="hostelPartnerName" id="hostelPartnerName" placeholder="Hostel Partner Name [Optional]">
                             </div>
+                            {{-- Start of Hostel Partner Details if any --}}
+                            <div id="hostelPartnerDetails">
+                                <div class="form-group">
+                                    <input type="text" name="partnerContact" id="partnerContact" placeholder="Hostel Partner Contact " class="form-control" />
+                                </div>
+                
+                                <div class="form-group">
+                                    <input type="text" data-inputmask="'mask': '99999-9999999-9'" name="partnerCnic" id="partnerCnic" placeholder="Hostel Partner CNIC#" class="form-control" />
+                                </div>
+                            </div>
+                            {{-- End of Hostel Partner Details if any --}}
                             <div class="form-group">
-                                <input type="text" class="form-control" name="hostelWardanName" id="hostelWardanName" placeholder="Hostel Wardan Name [Optional]">
+                                <input type="text" class="form-control" name="hostelWardenName" id="hostelWardenName" placeholder="Hostel Warden Name [Optional]">
                             </div>
+
+                            {{-- Start of Hostel Warden Detailas if any --}}
+                            <div id="hostelWardenDetails">
+                                <div class="form-group">
+                                    <input type="text" name="hostelWardenContact" id="hostelWardenContact" placeholder="Hostel Warden Contact " class="form-control" />
+                                </div>                
+                                <div class="form-group">
+                                    <input type="text" data-inputmask="'mask': '99999-9999999-9'" name="hostelWardenCnic" id="hostelWardenCnic" placeholder="Hostel Warden CNIC#" class="form-control" />
+                                </div>
+                            </div>
+                            {{-- End of Hostel Warden Detailas if any --}}
+
                             <div class="form-group">
                                 <input type="text" class="form-control" name="referalCNIC" id="referalCNIC" placeholder="Enter Your Referal CNIC [Optional]">
                             </div>
                             <div class="form-group">
-                                <select class="form-control" id="hosteltype" name="hostelType">
-                                    <option>Select Building Type</option>
-                                    <option value="hostel">Hostel</option>
-                                    <option value="house">House</option>
-                                    <option value="Apartment">Apartment</option>
-                                    <option value="plaza">Plaza Type</option>
-                                    <option value="rooms">Rooms For Rent</option>     
+                                <select class="form-control" id="hostelCategories" name="hostelCategories">
+                                    <option>Select Hostel Categories</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{$category->id}}">{{$category->name}}</option>    
+                                        @endforeach   
                                 </select>
                             </div>
                             <div class="form-group">
@@ -213,5 +235,104 @@
             });
         </script>
         {{-- End of script tag of get cities from state id --}}
+
+        <script>
+            $(document).ready(function(){
+                $("#hostelPartnerDetails").hide();
+                $("#hostelWardenDetails").hide();
+                // Start of showing the Hostel Partner Details
+                hostelPartnerName.onkeyup=function(){
+                    let partnerAvail = $('#hostelPartnerName').val();
+                    if(partnerAvail.length>2){
+                        $("#hostelPartnerDetails").show(20);
+                        $("#partnerContact").css({"border":"2px solid red"});
+                        $("#partnerCnic").css({"border":"2px solid red"});
+                    }
+                    else{
+                        $("#hostelPartnerDetails").slideUp(120);
+                        $("#hostelPartnerDetails").hide();
+                    }
+                };
+                // End of showing the Hostel Partner Details
+
+
+                // Start of showing the Hostel Warden Details
+                hostelWardenName.onkeyup = function(){
+                    let hostelWardenAvail = $('#hostelWardenName').val();
+                    if(hostelWardenAvail.length>2){
+                        $("#hostelWardenDetails").show(20);
+                        $("#hostelWardenContact").css({"border":"2px solid red"});
+                        $("#hostelWardenCnic").css({"border":"2px solid red"});
+                    }
+                    else{
+                        $('#hostelWardenDetails').slideUp(120);
+                        $('#hostelWardenDetails').hide();
+                    }
+                };
+                // End of showing the Hostel Warden Details
+            });
+        </script>
+
+        {{-- Start of script to verify the cnic of the owner --}}
+        <script>
+            $(document).ready(function(){
+                $('#hostelOwnerCnic').focusout(function(){
+                    //
+                    let hostelOwnerCnic = $('#hostelOwnerCnic').val();
+                    $.ajax({
+                        type:'GET',
+                        url:'hostelRegistration/hostelOwnerCniccheck/' + hostelOwnerCnic,
+                        success:function(response){
+                            if(response==0){
+                                $(".cnicverify").show();
+                                $(".cnicverify").html("This CNIC already exist.");
+                                $("#hostelOwnerCnic").focus();
+                                $(".cnicverify").css({"border":"2px solid red"});
+                            }
+                            else{
+                                $(".cnicverify").html("");
+                                $(".cnicverify").hide();
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                });
+            });
+        </script>
+        {{-- End of script to verify the cnic of the owner --}}
+
+        {{-- Start of script to verify the Name of the Hostel --}}
+        <script>
+            $(document).ready(function(){
+                $('#hostelName').focusout(function(){
+                    let hostelName = $('#hostelName').val();
+                    if(hostelName.length>2){
+                        // alert("Yes");
+                        $.ajax({
+                            url:'hostelRegistration/hostelName/' + hostelName,
+                            type:'GET',
+                            success:function(response){
+                                if(response==0){
+                                    $(".samehostel").show();
+                                    $(".samehostel").html("Hostel Name Already Exist");
+                                }
+                                else{
+                                    $(".samehostel").hide();
+                                    $(".samehostel").html();
+                                }
+                                // alert(response);
+                            },
+                            error: function(error) {
+                                console.log(error);
+                            }
+                        });
+                    }
+
+                });
+            });
+        </script>
+        {{-- End of script to verify the Name of the Hostel --}}
     </body>
 </html>
