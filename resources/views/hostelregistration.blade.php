@@ -49,6 +49,8 @@
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="hostelLocation" id="hostelLocation"
                                     placeholder="Select Hostel Location" required>
+                                    <input type="hidden" class="form-control" name="latitude" id="latitude" placeholder="Latitude Here" readonly/>
+                                    <input type="hidden" class="form-control" name="longitude" id="longitude" placeholder="Latitude Here" readonly/>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="hostelOwnerName" id="hostelOwnerName"
@@ -334,5 +336,25 @@
             });
         </script>
         {{-- End of script to verify the Name of the Hostel --}}
+
+        {{-- Start of script for Location using google map --}}
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrN1lnwhavrmfKr2HWruDFDdXJcIfAM1M&libraries=places"></script>
+        <script>
+            $(document).ready(function() {
+                // Initialize Google Places Autocomplete
+                var input = document.getElementById('hostelLocation');
+                var autocomplete = new google.maps.places.Autocomplete(input);
+        
+                // Event listener for place selection
+                google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                    var place = autocomplete.getPlace();
+                    // Display latitude and longitude
+                    $('#latitude').val(place.geometry.location.lat());
+                    $('#longitude').val(place.geometry.location.lng());
+        
+                });
+            });
+        </script>
+        {{-- Start of script for Location using google map --}}
     </body>
 </html>
