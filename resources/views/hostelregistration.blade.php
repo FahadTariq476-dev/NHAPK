@@ -20,13 +20,18 @@
         <div class="container">
             <div class="row registrationForm" style="margin-top:5%;">
                 <div class="col-md-12">
+                    @if(session('success'))
+                    <div class="alert alert-success">
+                    {{ session('success') }}
+                    </div>
+                    @endif
                     <h2 class="text-center">Hostel Registration From</h2>
                 </div>
                 <form action="hostelRegistration/save" method="POST" enctype="multipart/form-data" id="hostelRegForm">
                     @csrf
                     <div class="row">
                         {{-- Start of First Column --}}
-                        <div class="col-md-offset-2 col-md-4 col-sm-6 col-xs-6">
+                        <div class="col-md-offset-2 col-md-6 col-sm-6 col-xs-6">
                             <fieldset id="step1">
                                 <div class="form-group">
                                     <select name="countries" class="form-control" id="countryId">
@@ -64,6 +69,11 @@
                                     <input type="text" class="form-control" name="hostelOwnerCnic" id="hostelOwnerCnic"
                                     placeholder="Hostel Owner / Head CNIC No" data-inputmask="'mask': '+92-99999999' " required>
                                 </div>
+                                {{-- Get the email if the user is new --}}
+                                <div class="form-group">
+                                    <input type="email" class="form-control" name="hostelOwnerEmail" id="hostelOwnerEmail" placeholder="Enter email here" style="display:none;"/>
+                                </div>
+                                {{-- Get the email if the user is new --}}
                                 <div class="cnicverify">
                                 </div>
                                 <div class="form-group">
@@ -72,8 +82,8 @@
                                 <div class="form-group">
                                     <select class="form-control" name="hostelGender" id="hostelGender">
                                         <option>Hostel For</option>
-                                        <option value="boys">Boys</option>
-                                        <option value="girls">Girls</option>
+                                        <option value="Male">Boys</option>
+                                        <option value="Female">Girls</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -90,7 +100,7 @@
 
 
                         <!-- Second column -->
-                        <div class="col-md-4 col-sm-6 col-xs-6">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
                             <div class="samehostel" style="color:red;"></div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="hostelName" id="hostelName" placeholder="Hostel Name" required>
@@ -181,8 +191,6 @@
                     alert("No country selected!");
                     return;  // Exit the function early
                     }
-                    // Your existing code for the selected country
-                    // alert(countryId);
                     $.ajax({
                         url: '/get-states/' + countryId,
                         type: 'GET',
@@ -287,9 +295,18 @@
                         success:function(response){
                             if(response==0){
                                 $(".cnicverify").show();
-                                $(".cnicverify").html("This CNIC already exist.");
+                                $(".cnicverify").html("Hostel is Registered with this CNIC.");
                                 $("#hostelOwnerCnic").focus();
+                                $('#hostelOwnerEmail').hide();
+                                $('#hostelOwnerEmail').val('');
                                 $(".cnicverify").css({"border":"2px solid red"});
+                            }
+                            else if(response==-1){
+                                $(".cnicverify").show();
+                                $(".cnicverify").html("You are a new user kindly provide the email of the owner");
+                                $('#hostelOwnerEmail').show();
+                                $("#hostelOwnerEmail").focus();
+                                $(".cnicverify").css({"border":"2px solid green"});
                             }
                             else{
                                 $(".cnicverify").html("");
@@ -344,14 +361,12 @@
                 // Initialize Google Places Autocomplete
                 var input = document.getElementById('hostelLocation');
                 var autocomplete = new google.maps.places.Autocomplete(input);
-        
                 // Event listener for place selection
                 google.maps.event.addListener(autocomplete, 'place_changed', function () {
                     var place = autocomplete.getPlace();
                     // Display latitude and longitude
                     $('#latitude').val(place.geometry.location.lat());
                     $('#longitude').val(place.geometry.location.lng());
-        
                 });
             });
         </script>
