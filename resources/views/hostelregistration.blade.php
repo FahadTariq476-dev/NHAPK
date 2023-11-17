@@ -71,6 +71,7 @@
                                 </div>
                                 {{-- Get the email if the user is new --}}
                                 <div class="form-group">
+                                    {{-- <input type="email" class="form-control" name="hostelOwnerEmail" id="hostelOwnerEmail" placeholder="Enter email here" style=""/> --}}
                                     <input type="email" class="form-control" name="hostelOwnerEmail" id="hostelOwnerEmail" placeholder="Enter email here" style="display:none;"/>
                                 </div>
                                 {{-- Get the email if the user is new --}}
@@ -129,6 +130,10 @@
                             </div>
                             {{-- End of Hostel Partner Details if any --}}
                             <div class="form-group">
+                                <input type="email" name="hostelPartnerEmail" id="hostelPartnerEmail" placeholder="Hostel Partner Email Here:" class="form-control" style="display: none;"/>
+                            </div>
+                            <div class="PartnerCnicVerify"></div>
+                            <div class="form-group">
                                 <input type="text" class="form-control" name="hostelWardenName" id="hostelWardenName" placeholder="Hostel Warden Name [Optional]">
                             </div>
 
@@ -142,6 +147,10 @@
                                 </div>
                             </div>
                             {{-- End of Hostel Warden Detailas if any --}}
+                            <div class="wardenCnicVeryify"></div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" name="hostelWardenEmail" id="hostelWardenEmail" placeholder="Enter Hodtel Warden Email Here:" style="display: none" />
+                            </div>
 
                             <div class="form-group">
                                 <input type="text" class="form-control" name="referalCNIC" id="referalCNIC" placeholder="Enter Your Referal CNIC [Optional]">
@@ -321,6 +330,88 @@
             });
         </script>
         {{-- End of script to verify the cnic of the owner --}}
+        
+        {{-- Start of script to verify the cnic of the Hostel Partner --}}
+        <script>
+            $(document).ready(function(){
+                $('#partnerCnic').focusout(function(){
+                    //
+                    let hostelPartnerCnic = $('#partnerCnic').val();
+                    $.ajax({
+                        type:'GET',
+                        url:'hostelRegistration/hostelPartnerCniccheck/' + hostelPartnerCnic,
+                        success:function(response){
+                            if(response==0){
+                                $(".PartnerCnicVerify").show();
+                                $(".PartnerCnicVerify").html("Hostel Partner is Registered with this CNIC.");
+                                $("#partnerCnic").focus();
+                                $('#hostelPartnerEmail').hide();
+                                $('#hostelPartnerEmail').val('');
+                                $(".PartnerCnicVerify").css({"border":"2px solid red"});
+                            }
+                            else if(response==-1){
+                                $(".PartnerCnicVerify").show();
+                                $(".PartnerCnicVerify").html("Hostel Partner is a new user kindly provide the email of the partner");
+                                $('#hostelPartnerEmail').show();
+                                $("#hostelPartnerEmail").focus();
+                                $(".PartnerCnicVerify").css({"border":"2px solid green"});
+                            }
+                            else{
+                                $(".PartnerCnicVerify").html("");
+                                $(".PartnerCnicVerify").hide();
+                                $('#hostelPartnerEmail').hide();
+                                $('#hostelPartnerEmail').val('');
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                });
+            });
+        </script>
+        {{-- End of script to verify the cnic of the Hostel Partner --}}
+
+        {{-- Start of script to verify the cnic of the Hostel Warden --}}
+        <script>
+            $(document).ready(function(){
+                $('#hostelWardenCnic').focusout(function(){
+                    //
+                    let hostelPartnerCnic = $('#hostelWardenCnic').val();
+                    $.ajax({
+                        type:'GET',
+                        url:'hostelRegistration/hostelPartnerCniccheck/' + hostelPartnerCnic,
+                        success:function(response){
+                            if(response==0){
+                                $(".wardenCnicVeryify").show();
+                                $(".wardenCnicVeryify").html("Hostel Warden is Registered with this CNIC.");
+                                $("#partnerCnic").focus();
+                                $('#hostelWardenEmail').hide();
+                                $('#hostelWardenEmail').val('');
+                                $(".wardenCnicVeryify").css({"border":"2px solid red"});
+                            }
+                            else if(response==-1){
+                                $(".wardenCnicVeryify").show();
+                                $(".wardenCnicVeryify").html("Hostel Warden is a new user kindly provide the email of the warden");
+                                $('#hostelWardenEmail').show();
+                                $("#hostelWardenEmail").focus();
+                                $(".wardenCnicVeryify").css({"border":"2px solid green"});
+                            }
+                            else{
+                                $(".wardenCnicVeryify").html("");
+                                $(".wardenCnicVeryify").hide();
+                                $('#hostelWardenEmail').hide();
+                                $('#hostelWardenEmail').val('');
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                });
+            });
+        </script>
+        {{-- End of script to verify the cnic of the Hostel Warden --}}
 
         {{-- Start of script to verify the Name of the Hostel --}}
         <script>
@@ -330,7 +421,7 @@
                     if(hostelName.length>2){
                         // alert("Yes");
                         $.ajax({
-                            url:'hostelRegistration/hostelName/' + hostelName,
+                            url:'' + hostelName,
                             type:'GET',
                             success:function(response){
                                 if(response==0){
@@ -353,6 +444,47 @@
             });
         </script>
         {{-- End of script to verify the Name of the Hostel --}}
+        <script>
+            function isValidEmail(email) {
+                // Regular expression for a simple email validation
+                var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+        </script>
+        {{-- Start of Script to check that given email is unique or not --}}
+        <script>
+            function checkEmail(inputFieldId) {
+                let email = $(inputFieldId).val();
+                if (isValidEmail(email)) {
+                    $.ajax({
+                    url: '/checkEmail/' + email,
+                    type: 'GET',
+                    success: function(response){
+                        if (response == 0) {
+                            alert(email+": Email already exists");
+                            $(inputFieldId).val('');
+                            }
+                        }
+                    });
+                }
+                else {
+                    alert("Kindly provide the email in the correct format");
+                }
+            }
+            $(document).ready(function(){
+                $('#hostelOwnerEmail').focusout(function(){
+                    checkEmail('#hostelOwnerEmail');
+                });
+                $('#hostelPartnerEmail').focusout(function(){
+                    checkEmail('#hostelPartnerEmail');
+                });
+                $('#hostelWardenEmail').focusout(function(){
+                    checkEmail('#hostelWardenEmail');
+                });
+            });
+        </script>
+        {{-- End of Script to check that given email is unique or not --}}
+
 
         {{-- Start of script for Location using google map --}}
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrN1lnwhavrmfKr2HWruDFDdXJcIfAM1M&libraries=places"></script>
