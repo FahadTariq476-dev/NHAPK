@@ -87,4 +87,13 @@ class MembershipController extends Controller
                 'property_types' => $property_types
             ]);
     }
+    public function chkMembershipCNIC($cnic){
+        $result = Membership::where('cnic',$cnic)->get();
+        if(count($result)>0){
+            return 1;       // It means CNIC exist   
+        }
+        else{
+            return 0;       // It means CNIC doesn't exist
+        }
+    }
 }

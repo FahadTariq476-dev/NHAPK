@@ -43,7 +43,12 @@ Route::get('/get-states/{country_id}', [StatesController::class, 'getStates'])->
 Route::get('/get-cities/{state_id}', [CityController::class, 'getCities'])->name('get.cities');
 Route::get('/get-properties/{city_id}', [PropertyController::class, 'getProperties'])->name('get.properties');
 Route::get('/checkEmail/{email}', [UserController::class, 'uniqueEmail']);
-
+// Route the check the CNIC from the user table
+Route::get('/checkCNIC/{cnic}',[UserController::class,'uniqueCNIC'])->name('uniqueCNIC');
+// Route to check the CNIC in Membership table
+Route::get('/checkCNIC_Membership/{cnic}',[MembershipController::class,'chkMembershipCNIC'])->name('checkCNIC_Membership');
+// Route to check the Hostel Id from the properties table
+Route::get('/checkHostelId/{id}',[PropertyController::class,'properties_IdCheck'])->name('properties.checkHostelId');
 
 Route::get('hostelRegistration/hostelOwnerCniccheck/{hostelOwnerCnic}', [HostelRegistrationController::class, 'hostelOwnerCniccheck'])->name('hostelRegistration.OwnerCnicCheck');
 Route::get('hostelRegistration/hostelPartnerCniccheck/{hostelPartnerCnic}', [HostelRegistrationController::class, 'hostelPartnerCniccheck'])->name('hostelRegistration.PartnerCnicCheck');

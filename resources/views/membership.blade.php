@@ -48,6 +48,7 @@
                                             id="cnic" placeholder="Enter Your CNIC #" class="form-control"
                                             value="" required />
                             </div>
+                            <div class="cnicverify"></div>
                             <div class="mb-1 mt-3">                                
                                 <select class="form-control input-sm" name="membershiptype_id" id="membershiptype">
                                     <option value="">Select Membership Type</option>
@@ -58,10 +59,9 @@
                             </div>
                             <div class="mb-1 mt-3">
                                 <input id="hostelreg_no" type="text" placeholder="Enter Your Hostel Registration No."
-                                    data-inputmask="'mask': 'NH\\AP-AAA-999999'" name="hostelreg_no"
-                                    class="form-control mb-2 emptyCheck text-uppercase"
-                                    value="" required/>
+                                    name="hostelreg_no"  class="form-control mb-2" value="" required/>
                             </div>
+                            <div class="mb-1 mt-3" id="verify_hostelreg_no"></div>
                             <div class="mb-1 mt-3">
                                 <button class="btn btn-link" id="btn_search_hostel" data-bs-target="#exampleModalToggle"
                                     data-bs-toggle="modal">If don't know Search your hostel Registration Number by clicking
@@ -86,6 +86,7 @@
                             <div class="mb-1 mt-3">
                                 <input type="date" id="date" placeholder="Living Since" class="form-control" 
                                 name="livingSince" value="" required>
+                                <small class="form-text text-muted">Livin Since</small>
                             </div>
                             <div class="mb-1 mt-3">
                                 <input type="text" name="previous_hostel" placeholder="Previous Hostel [Optional]" 
@@ -267,11 +268,6 @@
                     // $('#btn_search_hostel').show();
                 }
                 });
-                $('#cnic').inputmask("(9999)_99999_9");
-                $('#hostelreg_no').inputmask('NH\\AP-AAA-999999');
-                $('#referal_cnic').inputmask('99999-9999999-9');
-                // $('#contact_number').inputmask('3333-9999999');
-                $("#date").datepicker();
             });
         </script>
         <script>
@@ -286,6 +282,80 @@
         {{-- Start of the Script to Verufy CNIC Which is going to be registered for Membership --}}
         
         {{-- Start of the Script to Verufy CNIC Which is going to be registered for Membership --}}
+        <script>
+            $(document).ready(function(){
+                $('#cnic').focusout(function(){
+                    let cnic = $('#cnic').val();
+                    if(cnic.length==0){
+                        $(".cnicverify").hide();
+                        $(".cnicverify").html("");
+                        return;
+                    }
+                    if(cnic.length!==15){
+                        // alert("Kindly Provide the cnic correctly");
+                        $(".cnicverify").css({"border":"2px solid red"});
+                        $(".cnicverify").show();
+                        $(".cnicverify").html("Kindly Provide the cnic correctly");
+                        $('#cnic').focus();
+                        return;
+                    }
+                    else{
+                        $(".cnicverify").hide();
+                        $(".cnicverify").html("");
+                        $.ajax({
+                            url:'/checkCNIC_Membership/'+cnic,
+                            type:"GET",
+                            success:function(response){
+                                if(response==1){
+                                    // it means cnic exist.
+                                    $(".cnicverify").css({"border":"2px solid red"});
+                                    $(".cnicverify").show();
+                                    $(".cnicverify").html("Membership is already registered with this CNIC. Kindly Register the Memebership with new CNIC.");
+                                    $('#cnic').focus();
+                                    return;
+                                }
+                                else{
+                                    // cnic did not exist
+                                }
+                            },
+                        });
+                    }
+                });
+            });
+        </script>
+        {{-- End of the Script to Verufy CNIC Which is going to be registered for Membership --}}
+
+        {{-- Start of the script to Verify the hostel id from Properties Table --}}
+        <script>
+            $(document).ready(function(){
+                $('#hostelreg_no').focusout(function(){
+                    let hostelreg_no = $('#hostelreg_no').val();
+                    if(hostelreg_no.length>0){
+                        //
+                        $.ajax({
+                            url:'/checkHostelId/'+hostelreg_no,
+                            type:"GET",
+                            success:function(response){
+                                if(response==0){
+                                    $("#verify_hostelreg_no").css({"border":"2px solid red"});
+                                    $("#verify_hostelreg_no").show();
+                                    $("#verify_hostelreg_no").html("Hostel does not exist. Kindly Used the Registered Hostel Number");
+                                    $('#hostelreg_no').focus();
+                                    return;
+                                    // alert("Hostel does not exist. Kindly Used the Registered Hostel Number");
+                                }
+                                else{
+                                    $("#verify_hostelreg_no").hide();
+                                    $("#verify_hostelreg_no").html("");
+                                }
+                                // alert(response);
+                            },
+                        });
+                    }
+                });
+            });
+        </script>
+        {{-- End of the script to Verify the hostel id from Properties Table --}}
 
 {{-- Start of Script to Get States Using Country Id --}}
 <script>

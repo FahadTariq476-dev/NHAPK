@@ -33,7 +33,7 @@
                         {{-- Start of First Column --}}
                         <div class="col-md-offset-2 col-md-6 col-sm-6 col-xs-6">
                             <fieldset id="step1">
-                                <div class="form-group">
+                                <div class="mb-1 mt-3">
                                     <select name="countries" class="form-control" id="countryId">
                                         <option value="null">Select Country</option>
                                         @foreach ($countries as $country)
@@ -41,53 +41,53 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="mb-1 mt-3">
                                     <select name="states" class="form-control" id="stateId">
                                         <option value="null">Select State</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="mb-1 mt-3">
                                     <select name="cities" class="form-control" id="cityId">
                                         <option value="null">Select City</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="mb-1 mt-3">
                                     <input type="text" class="form-control" name="hostelLocation" id="hostelLocation"
                                     placeholder="Select Hostel Location" required>
                                     <input type="hidden" class="form-control" name="latitude" id="latitude" placeholder="Latitude Here" readonly/>
                                     <input type="hidden" class="form-control" name="longitude" id="longitude" placeholder="Latitude Here" readonly/>
                                 </div>
-                                <div class="form-group">
+                                <div class="mb-1 mt-3">
                                     <input type="text" class="form-control" name="hostelOwnerName" id="hostelOwnerName"
                                     placeholder="Name of Private Hostel Owner / Head of Govt. Hostel" required >
                                 </div>
-                                <div class="form-group">
+                                <div class="mb-1 mt-3">
                                     <input type="text" class="form-control" name="hostelOwnerContact" id="hostelOwnerContact"
                                     placeholder="Hostel Owner / Head Contact No" data-inputmask="'mask': '+92-99999999' " required>
                                 </div>
-                                <div class="form-group">
+                                <div class="mb-1 mt-3">
                                     <input type="text" class="form-control" name="hostelOwnerCnic" id="hostelOwnerCnic"
                                     placeholder="Hostel Owner / Head CNIC No" data-inputmask="'mask': '+92-99999999' " required>
                                 </div>
                                 {{-- Get the email if the user is new --}}
-                                <div class="form-group">
+                                <div class="mb-1 mt-3">
                                     {{-- <input type="email" class="form-control" name="hostelOwnerEmail" id="hostelOwnerEmail" placeholder="Enter email here" style=""/> --}}
                                     <input type="email" class="form-control" name="hostelOwnerEmail" id="hostelOwnerEmail" placeholder="Enter email here" style="display:none;"/>
                                 </div>
                                 {{-- Get the email if the user is new --}}
                                 <div class="cnicverify">
                                 </div>
-                                <div class="form-group">
+                                <div class="mb-1 mt-3">
                                     <input type="number" class="form-control" name="totalRooms" id="totalRooms" placeholder="Total Rooms" required>
                                 </div>
-                                <div class="form-group">
+                                <div class="mb-1 mt-3">
                                     <select class="form-control" name="hostelGender" id="hostelGender">
                                         <option>Hostel For</option>
                                         <option value="Male">Boys</option>
                                         <option value="Female">Girls</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="mb-1 mt-3">
                                     <select class="form-control" id="hostelType" name="hostelType">
                                         <option>Select Hostel Type</option>
                                         @foreach ($property_types as $property_type)
@@ -103,59 +103,59 @@
                         <!-- Second column -->
                         <div class="col-md-6 col-sm-6 col-xs-6">
                             <div class="samehostel" style="color:red;"></div>
-                            <div class="form-group">
+                            <div class="mb-1 mt-3">
                                 <input type="text" class="form-control" name="hostelName" id="hostelName" placeholder="Hostel Name" required>
                             </div>
-                            <div class="form-group">
+                            <div class="mb-1 mt-3">
                                 <textarea class="form-control" name="hostelAddress" id="hostelAddress" rows="1" placeholder="Hostel Address" required></textarea>
                             </div>
-                            <div class="form-group">
+                            <div class="mb-1 mt-3">
                                 <input type="text" class="form-control" name="hostelContactNumber" id="hostelContactNumber" placeholder="Hostel Contact Number" required>
                             </div>
-                            <div class="form-group">
+                            <div class="mb-1 mt-3">
                                 <input type="text" class="form-control" name="hostelLandLine" id="hostelLandLine" placeholder="Hostel Land Line Number [Optional]">
                             </div>
-                            <div class="form-group">
+                            <div class="mb-1 mt-3">
                                 <input type="text" class="form-control" name="hostelPartnerName" id="hostelPartnerName" placeholder="Hostel Partner Name [Optional]">
                             </div>
                             {{-- Start of Hostel Partner Details if any --}}
                             <div id="hostelPartnerDetails">
-                                <div class="form-group">
+                                <div class="mb-1 mt-3">
                                     <input type="text" name="partnerContact" id="partnerContact" placeholder="Hostel Partner Contact " class="form-control" />
                                 </div>
                 
-                                <div class="form-group">
+                                <div class="mb-1 mt-3">
                                     <input type="text" data-inputmask="'mask': '99999-9999999-9'" name="partnerCnic" id="partnerCnic" placeholder="Hostel Partner CNIC#" class="form-control" />
                                 </div>
                             </div>
                             {{-- End of Hostel Partner Details if any --}}
-                            <div class="form-group">
+                            <div class="mb-1 mt-3">
                                 <input type="email" name="hostelPartnerEmail" id="hostelPartnerEmail" placeholder="Hostel Partner Email Here:" class="form-control" style="display: none;"/>
                             </div>
                             <div class="PartnerCnicVerify"></div>
-                            <div class="form-group">
+                            <div class="mb-1 mt-3">
                                 <input type="text" class="form-control" name="hostelWardenName" id="hostelWardenName" placeholder="Hostel Warden Name [Optional]">
                             </div>
 
                             {{-- Start of Hostel Warden Detailas if any --}}
                             <div id="hostelWardenDetails">
-                                <div class="form-group">
+                                <div class="mb-1 mt-3">
                                     <input type="text" name="hostelWardenContact" id="hostelWardenContact" placeholder="Hostel Warden Contact " class="form-control" />
                                 </div>                
-                                <div class="form-group">
+                                <div class="mb-1 mt-3">
                                     <input type="text" data-inputmask="'mask': '99999-9999999-9'" name="hostelWardenCnic" id="hostelWardenCnic" placeholder="Hostel Warden CNIC#" class="form-control" />
                                 </div>
                             </div>
                             {{-- End of Hostel Warden Detailas if any --}}
                             <div class="wardenCnicVeryify"></div>
-                            <div class="form-group">
+                            <div class="mb-1 mt-3">
                                 <input type="email" class="form-control" name="hostelWardenEmail" id="hostelWardenEmail" placeholder="Enter Hodtel Warden Email Here:" style="display: none" />
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-1 mt-3">
                                 <input type="text" class="form-control" name="referalCNIC" id="referalCNIC" placeholder="Enter Your Referal CNIC [Optional]">
                             </div>
-                            <div class="form-group">
+                            <div class="mb-1 mt-3">
                                 <select class="form-control" id="hostelCategories" name="hostelCategories">
                                     <option>Select Hostel Categories</option>
                                     @foreach ($categories as $category)
@@ -163,11 +163,11 @@
                                         @endforeach   
                                 </select>
                             </div>
-                            <div class="form-group">
+                            <div class="mb-1 mt-3">
                                 <label>Attach Your Reg Fee Vochure / ScreenShot of Your Transaction</label>
                                 <input type="file"  name="image" class="form-control" required>
                             </div>
-                            <div class="form-group">
+                            <div class="mb-1 mt-3">
                                 <input type="checkbox" id="terms" name="terms" value="true" required/>
 					            <a href="https://termsfeed.com/terms-conditions/f18d6159c88d21b6c392878b73562e24">Are You Agree with Terms & Conditions</a> 
                             </div>
@@ -460,9 +460,10 @@
                     url: '/checkEmail/' + email,
                     type: 'GET',
                     success: function(response){
-                        if (response == 0) {
+                        if (response == 1) {
                             alert(email+": Email already exists");
                             $(inputFieldId).val('');
+                            return;
                             }
                         }
                     });
