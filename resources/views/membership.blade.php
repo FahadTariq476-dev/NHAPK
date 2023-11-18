@@ -26,27 +26,35 @@
         <div class="container">
             <div class="row mt-5 justify-content-center">
                 <div class="col-6">
-                    @if(session('success'))
-                    <div class="alert alert-success">
-                    {{ session('success') }}
-                    </div>
-                    @endif
                     <center>
                     <h3>
                         Registration form for Membership<br>
                         Personal Detail
                     </h3>
                     </center>
-                    <form method="POST" action="/addMembership" id="#m_form_membership">
+                    <div class="col-12">
+                        @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                        @endif
+                        @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                        @endif
+                    </div>
+                    <form method="POST" action="/addMembership" id="#membership" onsubmit="return confirmSubmit()">
                         @csrf
                         <div class="modal-body">
                             <div class="mb-1 mt-3">
-                                <input type="text" placeholder="Enter Your Full Name:" id="name" name="name" value="" class="form-control" required >
+                                {{-- <input type="text" placeholder="Enter Your Full Name:" id="name" name="name" value="" class="form-control" required > --}}
+                                <input type="text" placeholder="Enter Your Full Name:" id="name" name="name" class="form-control" />
                             </div>
                             <div class="mb-1 mt-3">
                                 <input type="text" name="cnic" data-inputmask="'mask': '99999-9999999-9'"
                                             id="cnic" placeholder="Enter Your CNIC #" class="form-control"
-                                            value="" required />
+                                            value="" />
                             </div>
                             <div class="cnicverify"></div>
                             <div class="mb-1 mt-3">                                
@@ -59,7 +67,7 @@
                             </div>
                             <div class="mb-1 mt-3">
                                 <input id="hostelreg_no" type="text" placeholder="Enter Your Hostel Registration No."
-                                    name="hostelreg_no"  class="form-control mb-2" value="" required/>
+                                    name="hostelreg_no"  class="form-control mb-2" value="" />
                             </div>
                             <div class="mb-1 mt-3" id="verify_hostelreg_no"></div>
                             <div class="mb-1 mt-3">
@@ -68,13 +76,11 @@
                                     here</button>
                             </div>
                             <div class="mb-1 mt-3">
-                                <input type="cnic" name="referal_cnic" data-inputmask="'mask': '99999-9999999-9'"
-                                    id="referal_cnic" placeholder="Enter Referal  CNIC #"
-                                    value="" class="form-control" required />
+                                <input type="cnic" name="referal_cnic" id="referal_cnic" placeholder="Enter Referal  CNIC #"
+                                    value="" class="form-control"  />
                             </div>
                             <div class="mb-1 mt-3">
-                                <input type="text" name="transaction_no" id="transaction_no" class="form-control" 
-                                placeholder="Enter You Transaction Number..." value="" required>
+                                <input type="text" name="transaction_no" id="transaction_no" class="form-control" placeholder="Enter You Transaction Number..." value="" />
                             </div>
                             <div class="mb-1 mt-3">
                                 <select class="form-control" name="gender" id="selectgender">
@@ -84,22 +90,20 @@
                                 </select>
                             </div>
                             <div class="mb-1 mt-3">
-                                <input type="date" id="date" placeholder="Living Since" class="form-control" 
-                                name="livingSince" value="" required>
+                                <input type="date" id="livingSince" placeholder="Living Since" class="form-control" name="livingSince" value="" />
                                 <small class="form-text text-muted">Livin Since</small>
                             </div>
                             <div class="mb-1 mt-3">
-                                <input type="text" name="previous_hostel" placeholder="Previous Hostel [Optional]" 
-                                class="form-control" value="">
+                                <input type="text" name="previous_hostel" placeholder="Previous Hostel [Optional]" class="form-control" value="">
                             </div>
                             <div class="mb-1 mt-3">
-                                <input type="checkbox" id="terms" name="terms" value="true" required />
+                                <input type="checkbox" id="terms" name="terms" value="true" />
                                 <a href="https://www.termsfeed.com/terms-conditions/f18d6159c88d21b6c392878b73562e24" target="_blank()"> Are You
                                     Agree with Terms & Conditions</a>
                             </div>
                             <div class="mb-1 mt-3">
                                 <a href="#" class="btn btn-secondary">Back</a>
-                                <button type="submit" value="submit" class="btn btn-primary">Save</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
                             </div>
             
                         </div>
@@ -107,6 +111,36 @@
                 </div>
             </div>
         </div>
+        <script>
+            function confirmSubmit() {
+                function validateAndFocus(element, errorMessage) {
+                    var value = element.value.trim();
+                    if (value === "") {
+                        alert(errorMessage);
+                        element.focus();
+                        return false;
+                    }
+                    return true;
+                }
+                if (!validateAndFocus(document.getElementById("name"), "Name should be provided") ||
+                    !validateAndFocus(document.getElementById("cnic"), "CNIC should be provided") ||
+                    !validateAndFocus(document.getElementById("membershiptype"), "Membership should be selected") ||
+                    !validateAndFocus(document.getElementById("hostelreg_no"), "Hostel Registration Number should be provided") ||
+                    !validateAndFocus(document.getElementById("referal_cnic"), "Referral CNIC should be provided") ||
+                    !validateAndFocus(document.getElementById("transaction_no"), "Transaction Number should be provided") ||
+                    !validateAndFocus(document.getElementById("selectgender"), "Gender should be provided") ||
+                    !validateAndFocus(document.getElementById("livingSince"), "Date Living Since should be provided")) {
+                        return false;
+                }
+                if(!document.getElementById("terms").checked){
+                    alert("You should agree the terms and conditions");
+                    document.getElementById("terms").focus;
+                    return false;
+                }
+                // Show a confirmation alert
+                return confirm("Are you sure you want to submit the form?");
+            }
+        </script>
 
         <!-- Modal to Search Hostel Registration Number -->
         <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
@@ -176,87 +210,10 @@
     </div>
     </div>
     {{-- Close of Modal for search hostel registraion number --}}
-
-    <script>
-        $(document).ready(function(){
-            $("#m_form_membership").validate({
-                rules: {
-                    name: {
-                        required: true,
-                        minLength: 200
-                    },
-                    cnic: {
-                        required: true,
-                        minLength: 2000
-                    },
-                    hostelreg_no: {
-                        required: true,
-                        minLength: 2000
-                    },
-                    referal_cnic: {
-                        required: true,
-                        minLength: 2000
-                    },
-                    transaction_no: {
-                        required: true,
-                        minLength: 2000
-                    },
-                    since: {
-                        required: true,
-                        minLength: 2000
-                    },
-                    previous_hostel: {
-                        required: true,
-                        minLength: 2000
-                    },
-                    
-                },
-                messages: {
-                    name: {
-                        required: 'Please enter name',
-                        minlength: 'Name must be at least 200 characters long'
-                    },
-                    cnic: {
-                        required: 'Please enter cnic',
-                        minlength: 'Name must be at least 15 characters long'
-                    },
-                    hostelreg_no: {
-                        required: 'Please enter hostelreg no',
-                        minlength: 'Name must be at least 15 characters long'
-                    },
-                    referal_cnic: {
-                        required: 'Please enter referal cnic',
-                        minlength: 'Name must be at least 15 characters long'
-                    },
-                    transaction_no: {
-                        required: 'Please enter transaction no',
-                        minlength: 'Name must be at least 15 characters long'
-                    },
-                    since: {
-                        required: 'Please enter  since',
-                        minlength: 'Name must be at least 15 characters long'
-                    },
-                    previous_hostel: {
-                        required: 'Please enter previous hostel',
-                        minlength: 'Name must be at least 15 characters long'
-                    },
-                },
-                submitHandler: function(form) {
-                    $(form).submit();
-                }
-            });
-        });
-    </script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         
-        <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-        <script src="https://itispakistan.com/app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
-        <!--datetimepicker --> 
-        <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">        
-        <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-        <!--- inpumask link jqurey -->
-        <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <script>
             $(document).ready(function(){
@@ -297,6 +254,7 @@
                         $(".cnicverify").show();
                         $(".cnicverify").html("Kindly Provide the cnic correctly");
                         $('#cnic').focus();
+                        $('#cnic').val("");
                         return;
                     }
                     else{
