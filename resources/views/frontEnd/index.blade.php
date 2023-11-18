@@ -121,10 +121,10 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="about.html" class="nav-link">About</a>
+                            <a href="{{route('membershipRegister')}}" class="nav-link">Membership Registration</a>
                         </li>
                         <li class="nav-item">
-                            <a href="services.html" class="nav-link">Services</a>
+                            <a href="{{route('saveHostelForm')}}" class="nav-link">Register Hostel</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#">Pages <i class="fas fa-angle-down ml-1"></i></a>
@@ -195,7 +195,7 @@
                     <!-- Navbar Action Button -->
                     <ul class="navbar-nav action">
                         <li class="nav-item ml-3">
-                            <a href="#" class="btn ml-lg-auto btn-bordered-white"><i class="fas fa-paper-plane contact-icon mr-md-2"></i>Contact Us</a>
+                            <a href="{{route('ContactUsForm')}}" class="btn ml-lg-auto btn-bordered-white"><i class="fas fa-paper-plane contact-icon mr-md-2"></i>Contact Us</a>
                         </li>
                     </ul>
                 </div>
