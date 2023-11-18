@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\HostelRegistrationController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\PropertyController;
@@ -49,3 +50,8 @@ Route::get('hostelRegistration/hostelPartnerCniccheck/{hostelPartnerCnic}', [Hos
 
 Route::get('hostelRegistration/hostelName/{hostelName}', [HostelRegistrationController::class, 'hostelNameCheck'])->name('hostelRegistration.HostelNameCheck');
 Route::post('hostelRegistration/save',[HostelRegistrationController::class, 'hostelRegister'])->name('hostelRegistration.save');
+
+// Show the contact us Form
+Route::get('contactUs',[ContactUsController::class,'showContactUsForm'])->name('ContactUsForm');
+// Save the Contact Us data
+Route::post('saveContactUs',[ContactUsController::class, 'saveData'])->name('saveContactUsData');

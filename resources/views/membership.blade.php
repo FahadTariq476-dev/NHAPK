@@ -283,6 +283,10 @@
             });
         </script>
 
+        {{-- Start of the Script to Verufy CNIC Which is going to be registered for Membership --}}
+        
+        {{-- Start of the Script to Verufy CNIC Which is going to be registered for Membership --}}
+
 {{-- Start of Script to Get States Using Country Id --}}
 <script>
     $(document).ready(function() {

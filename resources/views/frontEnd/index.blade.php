@@ -195,7 +195,7 @@
                     <!-- Navbar Action Button -->
                     <ul class="navbar-nav action">
                         <li class="nav-item ml-3">
-                            <a href="#" class="btn ml-lg-auto btn-bordered-white"><i class="fas fa-paper-plane contact-icon mr-md-2"></i>Contact Us</a>
+                            <a href="{{route('ContactUsForm')}}" class="btn ml-lg-auto btn-bordered-white"><i class="fas fa-paper-plane contact-icon mr-md-2"></i>Contact Us</a>
                         </li>
                     </ul>
                 </div>
