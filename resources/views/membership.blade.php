@@ -52,9 +52,7 @@
                                 <input type="text" placeholder="Enter Your Full Name:" id="name" name="name" class="form-control" />
                             </div>
                             <div class="mb-1 mt-3">
-                                <input type="text" name="cnic" data-inputmask="'mask': '99999-9999999-9'"
-                                            id="cnic" placeholder="Enter Your CNIC #" class="form-control"
-                                            value="" />
+                                <input type="text" name="cnic"  id="cnic" placeholder="Enter Your CNIC #" class="form-control" />
                             </div>
                             <div class="cnicverify"></div>
                             <div class="mb-1 mt-3">                                
@@ -71,9 +69,9 @@
                             </div>
                             <div class="mb-1 mt-3" id="verify_hostelreg_no"></div>
                             <div class="mb-1 mt-3">
-                                <button class="btn btn-link" id="btn_search_hostel" data-bs-target="#exampleModalToggle"
-                                    data-bs-toggle="modal">If don't know Search your hostel Registration Number by clicking
-                                    here</button>
+                                <button class="btn btn-link" id="btn_search_hostel" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
+                                    If don't know Search your hostel Registration Number by clickinghere
+                                </button>
                             </div>
                             <div class="mb-1 mt-3">
                                 <input type="cnic" name="referal_cnic" id="referal_cnic" placeholder="Enter Referal  CNIC #"
@@ -82,6 +80,7 @@
                             <div class="mb-1 mt-3">
                                 <input type="text" name="transaction_no" id="transaction_no" class="form-control" placeholder="Enter You Transaction Number..." value="" />
                             </div>
+                            <div class="mb-1 mt-3" id="verify_transaction_no"></div>
                             <div class="mb-1 mt-3">
                                 <select class="form-control" name="gender" id="selectgender">
                                     <option value="">Select Gender</option>
@@ -204,7 +203,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -213,7 +211,23 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        
+    
+    <!-- Include Inputmask.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
+    {{-- Start of the script to input masking the id card --}}
+    <script>
+        $(document).ready(function () {
+            // Apply input masking to ID card input
+            $('#cnic').inputmask('99999-9999999-9', { placeholder: '_' });
+            $('#referal_cnic').inputmask('99999-9999999-9', { placeholder: '_' });
+        });
+    </script>
+    {{-- End of the script to input masking the id card --}}
+
+    {{-- Start of the script to check that id card on selecting the gender --}}
+    <script></script>
+    {{-- End of the script to check that id card on selecting the gender --}}
+    
 
         <script>
             $(document).ready(function(){
@@ -236,8 +250,6 @@
             });
         </script>
 
-        {{-- Start of the Script to Verufy CNIC Which is going to be registered for Membership --}}
-        
         {{-- Start of the Script to Verufy CNIC Which is going to be registered for Membership --}}
         <script>
             $(document).ready(function(){
@@ -282,6 +294,38 @@
             });
         </script>
         {{-- End of the Script to Verufy CNIC Which is going to be registered for Membership --}}
+
+        {{-- Start of the Script to Verify that Transaction id is uniqe or not --}}
+        <script>
+            $(document).ready(function(){
+                $('#transaction_no').focusout(function(){
+                    let transaction_no = $('#transaction_no').val();
+                    if(transaction_no.length>0){
+                        $.ajax({
+                            url:'/checkTransaction_no/'+transaction_no,
+                            type:"GET",
+                            success:function(response){
+                                if(response==1){    // 1 means true transsction id exist
+                                    $("#verify_transaction_no").css({"border":"2px solid red"});
+                                    $("#verify_transaction_no").show();
+                                    $("#verify_transaction_no").html("Transaction Id is already used. Kindly use the new and unique transaction id");
+                                    $('#transaction_no').focus();
+                                    return;
+                                }
+                                else{
+                                    $("#verify_transaction_no").hide();
+                                    $("#verify_transaction_no").html("");
+                                }
+                            },
+                        });
+                    }else{
+                        $("#verify_transaction_no").hide();
+                                    $("#verify_transaction_no").html("");
+                    }
+                });
+            });
+        </script>
+        {{-- End of the Script to Verify that Transaction id is uniqe or not --}}
 
         {{-- Start of the script to Verify the hostel id from Properties Table --}}
         <script>

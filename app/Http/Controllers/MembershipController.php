@@ -23,6 +23,18 @@ class MembershipController extends Controller
             'countries' => $countries,
         ]);
     }
+
+    public function checkTransaction_No($transaction_no){
+        $result = Membership::where('transaction_no', $transaction_no)->get();
+        if(count($result)>0){
+            return 1;   // 1 Means true. Transaction No exist
+        }
+        else{
+            return 0;   // 0 means false. Transaction No doesn't exist
+        }
+    }
+
+    
     public function addMembership(Request $req) {
         $fields = ['name', 'cnic', 'membershiptype_id', 'hostelreg_no', 'transaction_no', 'gender', 'livingSince'];
         $requiredFields = ['name', 'cnic', 'membershiptype_id', 'hostelreg_no', 'transaction_no', 'gender', 'livingSince'];

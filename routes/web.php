@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\LogoutController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\HostelRegistrationController;
@@ -7,6 +10,7 @@ use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\StatesController;
 use App\Http\Controllers\UserController;
+use App\Models\Membership;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,7 +32,7 @@ Route::get('/', function () {
     return view('frontEnd.index');
 });
 Auth::routes(['register' => false,'reset' => false, 'login'=>false]);
-// Auth::routes();
+Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -49,6 +53,8 @@ Route::get('/checkCNIC/{cnic}',[UserController::class,'uniqueCNIC'])->name('uniq
 Route::get('/checkCNIC_Membership/{cnic}',[MembershipController::class,'chkMembershipCNIC'])->name('checkCNIC_Membership');
 // Route to check the Hostel Id from the properties table
 Route::get('/checkHostelId/{id}',[PropertyController::class,'properties_IdCheck'])->name('properties.checkHostelId');
+// Route to check the transaction no from the membership table
+Route::get('/checkTransaction_no/{id}',[MembershipController::class,'checkTransaction_No'])->name('v');
 
 Route::get('hostelRegistration/hostelOwnerCniccheck/{hostelOwnerCnic}', [HostelRegistrationController::class, 'hostelOwnerCniccheck'])->name('hostelRegistration.OwnerCnicCheck');
 Route::get('hostelRegistration/hostelPartnerCniccheck/{hostelPartnerCnic}', [HostelRegistrationController::class, 'hostelPartnerCniccheck'])->name('hostelRegistration.PartnerCnicCheck');
@@ -60,3 +66,16 @@ Route::post('hostelRegistration/save',[HostelRegistrationController::class, 'hos
 Route::get('contactUs',[ContactUsController::class,'showContactUsForm'])->name('ContactUsForm');
 // Save the Contact Us data
 Route::post('saveContactUs',[ContactUsController::class, 'saveData'])->name('saveContactUsData');
+
+
+
+// Route to show the admin login page
+Route::get('/login',[LoginController::class,'showAdminLoginForm'])->name('admin.login.showForm');
+// Route to login the page
+Route::post('/login',[LoginController::class,'AdminloginPost'])->name('admin.login.post');
+
+Route::middleware(['auth'])->group(function(){
+    //
+    Route::get('/admin/dashboard',[DashboardController::class,'showAdminDashboard'])->name('admin.ShowDashboard');
+    Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+});
