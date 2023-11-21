@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\LogoutController;
@@ -75,6 +76,7 @@ Route::get('/login',[LoginController::class,'showAdminLoginForm'])->name('admin.
 Route::post('/login',[LoginController::class,'AdminloginPost'])->name('admin.login.post');
 
 Route::group(['middleware' => ['role:nhapk_admin','auth']], function () {
+    // Admin Front Routes
     Route::get('/admin/dashboard',[DashboardController::class,'index'])->name('admin.ShowDashboard');
     // Route::get('/admin/dashboard',[DashboardController::class,'showAdminDashboard'])->name('admin.ShowDashboard');
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
@@ -82,5 +84,6 @@ Route::group(['middleware' => ['role:nhapk_admin','auth']], function () {
 
 
 
-// Admin Front Routes
-Route::get('/admin/dashboard/index',[DashboardController::class, 'index']);
+
+// Routes For FronEnd
+Route::get('/about',[AboutController::class,'showAbout'])->name('forntEnd.showAbout');
