@@ -30,9 +30,9 @@ use Illuminate\Support\Facades\Auth;
 // });
 Route::get('/', function () {
     return view('frontEnd.index');
-});
-Auth::routes(['register' => false,'reset' => false, 'login'=>false]);
-Auth::routes();
+})->name('Home');
+// Auth::routes(['register' => false,'reset' => false, 'login'=>false]);
+// Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -70,12 +70,11 @@ Route::post('saveContactUs',[ContactUsController::class, 'saveData'])->name('sav
 
 
 // Route to show the admin login page
-Route::get('/login',[LoginController::class,'showAdminLoginForm'])->name('admin.login.showForm');
+Route::get('/login',[LoginController::class,'showAdminLoginForm'])->name('admin.login.showForm')->middleware('guest');;
 // Route to login the page
 Route::post('/login',[LoginController::class,'AdminloginPost'])->name('admin.login.post');
 
-Route::middleware(['auth'])->group(function(){
-    //
+Route::group(['middleware' => ['role:nhapk_admin','auth']], function () {
     Route::get('/admin/dashboard',[DashboardController::class,'showAdminDashboard'])->name('admin.ShowDashboard');
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 });
