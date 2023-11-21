@@ -225,7 +225,26 @@
     {{-- End of the script to input masking the id card --}}
 
     {{-- Start of the script to check that id card on selecting the gender --}}
-    <script></script>
+    <script>
+       $(document).ready(function(){
+    $('#selectgender').change(function(){
+        let cnic = $('#cnic').val(), gender = $('#selectgender').val();
+        if(gender && cnic.length === 15){
+            var lastDigit = parseInt(cnic.slice(-1));
+            if(!(lastDigit % 2 === 0 && gender === 'female') && !(lastDigit % 2 !== 0 && gender === 'male')){
+                alert("Kindly Select Your Gender According to your CNIC. Gender does not match with your CNIC.");
+                $('#selectgender').val('').focus();
+                $('#cnic').focus();
+            }
+        } else {
+            alert("Kindly Provide the CNIC First");
+            $('#cnic').focus();
+            $('#selectgender').val('');
+        }
+    });
+});
+
+    </script>
     {{-- End of the script to check that id card on selecting the gender --}}
     
 
@@ -270,6 +289,7 @@
                         return;
                     }
                     else{
+                        $('#selectgender').val('');
                         $(".cnicverify").hide();
                         $(".cnicverify").html("");
                         $.ajax({
