@@ -14,4 +14,14 @@ class PropertyController extends Controller
         // Return the states as a JSON response
         return response()->json($properties);
     }
+    public function properties_IdCheck($id){
+        $properties = Properties::find($id);
+        if(!$properties){
+            return 0;   // 0 Means False Hostel does not exist
+        }
+        else{
+            return 1;   // 1 means True Hostel exist
+        }
+        
+    }
 }

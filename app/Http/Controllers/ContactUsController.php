@@ -9,12 +9,13 @@ class ContactUsController extends Controller
 {
     //
     public function showContactUsForm(){
-        return view('contactus');
+        return view('frontEnd.contact');
+        // return view('contactus');
     }
     public function saveData(Request $req){
         //
         // return $req;
-        // dd($req->toArray());
+        dd($req->toArray());
         $name = $req->name;
         $mob_no = "+923".$req->mob_no;
         $email = $req->email;
