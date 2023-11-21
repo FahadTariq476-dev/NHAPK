@@ -11,5 +11,9 @@ class DashboardController extends Controller
     public function showAdminDashboard(){
         return view('admin.dashboard');
     }
+
+    public function index(){
+        return view('admin.index');
+    }
     
 }

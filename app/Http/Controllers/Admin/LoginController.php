@@ -19,6 +19,7 @@ class LoginController extends Controller
         //
         $email = $req->username;
         $password=$req->password;
+        // return $req;
         if(!empty($email) && !empty($password)){
             // Retrieve the submitted login credentials
             $credentials = ['email' => $email, 'password' => $password];
@@ -26,6 +27,7 @@ class LoginController extends Controller
             if (Auth::attempt($credentials)) {
                 // return view('admin.dashboard');
                 return redirect()->route('admin.ShowDashboard')->with('success',"Logged in");
+                // return redirect()->route('admin.ShowDashboard')->with('success',"Logged in");
                 // return "Login Successfull";
             } else {
                 return redirect()->route('admin.login.showForm')->with('error', 'Invalid Credentials');

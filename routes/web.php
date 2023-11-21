@@ -75,6 +75,12 @@ Route::get('/login',[LoginController::class,'showAdminLoginForm'])->name('admin.
 Route::post('/login',[LoginController::class,'AdminloginPost'])->name('admin.login.post');
 
 Route::group(['middleware' => ['role:nhapk_admin','auth']], function () {
-    Route::get('/admin/dashboard',[DashboardController::class,'showAdminDashboard'])->name('admin.ShowDashboard');
-    Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+    Route::get('/admin/dashboard',[DashboardController::class,'index'])->name('admin.ShowDashboard');
+    // Route::get('/admin/dashboard',[DashboardController::class,'showAdminDashboard'])->name('admin.ShowDashboard');
+    Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
 });
+
+
+
+// Admin Front Routes
+Route::get('/admin/dashboard/index',[DashboardController::class, 'index']);
