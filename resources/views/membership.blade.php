@@ -48,11 +48,10 @@
                         @csrf
                         <div class="modal-body">
                             <div class="mb-1 mt-3">
-                                {{-- <input type="text" placeholder="Enter Your Full Name:" id="name" name="name" value="" class="form-control" required > --}}
-                                <input type="text" placeholder="Enter Your Full Name:" id="name" name="name" class="form-control" />
+                                <input type="text" placeholder="Enter Your Full Name:" id="name" name="name" class="form-control" required/>
                             </div>
                             <div class="mb-1 mt-3">
-                                <input type="text" name="cnic"  id="cnic" placeholder="Enter Your CNIC #" class="form-control" />
+                                <input type="text" name="cnic"  id="cnic" placeholder="Enter Your CNIC #" class="form-control" required/>
                             </div>
                             <div class="cnicverify"></div>
                             <div class="mb-1 mt-3">                                
@@ -64,8 +63,7 @@
                                 </select>
                             </div>
                             <div class="mb-1 mt-3">
-                                <input id="hostelreg_no" type="text" placeholder="Enter Your Hostel Registration No."
-                                    name="hostelreg_no"  class="form-control mb-2" value="" />
+                                <input id="hostelreg_no" type="text" placeholder="Enter Your Hostel Registration No." name="hostelreg_no"  class="form-control mb-2" value="" required/>
                             </div>
                             <div class="mb-1 mt-3" id="verify_hostelreg_no"></div>
                             <div class="mb-1 mt-3">
@@ -74,11 +72,10 @@
                                 </button>
                             </div>
                             <div class="mb-1 mt-3">
-                                <input type="cnic" name="referal_cnic" id="referal_cnic" placeholder="Enter Referal  CNIC #"
-                                    value="" class="form-control"  />
+                                <input type="cnic" name="referal_cnic" id="referal_cnic" placeholder="Enter Referal  CNIC #" value="" class="form-control"  required/>
                             </div>
                             <div class="mb-1 mt-3">
-                                <input type="text" name="transaction_no" id="transaction_no" class="form-control" placeholder="Enter You Transaction Number..." value="" />
+                                <input type="text" name="transaction_no" id="transaction_no" class="form-control" placeholder="Enter You Transaction Number..." value="" required/>
                             </div>
                             <div class="mb-1 mt-3" id="verify_transaction_no"></div>
                             <div class="mb-1 mt-3">
@@ -89,7 +86,7 @@
                                 </select>
                             </div>
                             <div class="mb-1 mt-3">
-                                <input type="date" id="livingSince" placeholder="Living Since" class="form-control" name="livingSince" value="" />
+                                <input type="date" id="livingSince" placeholder="Living Since" class="form-control" name="livingSince" value="" required/>
                                 <small class="form-text text-muted">Livin Since</small>
                             </div>
                             <div class="mb-1 mt-3">
@@ -97,14 +94,14 @@
                             </div>
                             <div class="mb-1 mt-3">
                                 <input type="checkbox" id="terms" name="terms" value="true" />
-                                <a href="https://www.termsfeed.com/terms-conditions/f18d6159c88d21b6c392878b73562e24" target="_blank()"> Are You
-                                    Agree with Terms & Conditions</a>
+                                <a href="https://www.termsfeed.com/terms-conditions/f18d6159c88d21b6c392878b73562e24" target="_blank()">
+                                    Are You Agree with Terms & Conditions
+                                </a>
                             </div>
                             <div class="mb-1 mt-3">
-                                <a href="#" class="btn btn-secondary">Back</a>
+                                <a href="/" class="btn btn-secondary">Back</a>
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </div>
-            
                         </div>
                     </form>
                 </div>
@@ -340,7 +337,7 @@
                         });
                     }else{
                         $("#verify_transaction_no").hide();
-                                    $("#verify_transaction_no").html("");
+                        $("#verify_transaction_no").html("");
                     }
                 });
             });
@@ -424,7 +421,7 @@
                 success: function(response) {
                     // Clear existing options
                     $('#city_id').empty();
-                    $('#city_id').append('<option value="">Select State</option>');
+                    $('#city_id').append('<option value="">Select City</option>');
                     // Populate the state dropdown with the fetched data
                     $.each(response, function(key, value) {
                         $('#city_id').append('<option value="' + value.id + '">' + value.name + '</option>');

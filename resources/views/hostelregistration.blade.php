@@ -52,26 +52,22 @@
                                     </select>
                                 </div>
                                 <div class="mb-1 mt-3">
-                                    <input type="text" class="form-control" name="hostelLocation" id="hostelLocation"
-                                    placeholder="Select Hostel Location" required>
+                                    <input type="text" class="form-control" name="hostelLocation" id="hostelLocation" placeholder="Select Hostel Location" required>
                                     <input type="hidden" class="form-control" name="latitude" id="latitude" placeholder="Latitude Here" readonly/>
                                     <input type="hidden" class="form-control" name="longitude" id="longitude" placeholder="Latitude Here" readonly/>
                                 </div>
                                 <div class="mb-1 mt-3">
-                                    <input type="text" class="form-control" name="hostelOwnerName" id="hostelOwnerName"
-                                    placeholder="Name of Private Hostel Owner / Head of Govt. Hostel" required >
+                                    <input type="text" class="form-control" name="hostelOwnerName" id="hostelOwnerName" placeholder="Name of Private Hostel Owner / Head of Govt. Hostel" required >
                                 </div>
                                 <div class="mb-1 mt-3">
-                                    <input type="text" class="form-control" name="hostelOwnerContact" id="hostelOwnerContact"
-                                    placeholder="Hostel Owner / Head Contact No" data-inputmask="'mask': '+92-99999999' " required>
+                                    <input type="text" class="form-control" name="hostelOwnerContact" id="hostelOwnerContact" placeholder="Hostel Owner / Head Contact No" required />
+                                    <small class="form-text text-muted" id="HostelOwnerLblMobNo">Please enter a mobile number. Don't add +923</small>
                                 </div>
                                 <div class="mb-1 mt-3">
-                                    <input type="text" class="form-control" name="hostelOwnerCnic" id="hostelOwnerCnic"
-                                    placeholder="Hostel Owner / Head CNIC No" data-inputmask="'mask': '+92-99999999' " required>
+                                    <input type="text" class="form-control" name="hostelOwnerCnic" id="hostelOwnerCnic" placeholder="Hostel Owner / Head CNIC No"  required>
                                 </div>
                                 {{-- Get the email if the user is new --}}
                                 <div class="mb-1 mt-3">
-                                    {{-- <input type="email" class="form-control" name="hostelOwnerEmail" id="hostelOwnerEmail" placeholder="Enter email here" style=""/> --}}
                                     <input type="email" class="form-control" name="hostelOwnerEmail" id="hostelOwnerEmail" placeholder="Enter email here" style="display:none;"/>
                                 </div>
                                 {{-- Get the email if the user is new --}}
@@ -102,15 +98,16 @@
 
                         <!-- Second column -->
                         <div class="col-md-6 col-sm-6 col-xs-6">
-                            <div class="samehostel" style="color:red;"></div>
                             <div class="mb-1 mt-3">
                                 <input type="text" class="form-control" name="hostelName" id="hostelName" placeholder="Hostel Name" required>
                             </div>
+                            <div class="samehostel" style="color:red;"></div>
                             <div class="mb-1 mt-3">
-                                <textarea class="form-control" name="hostelAddress" id="hostelAddress" rows="1" placeholder="Hostel Address" required></textarea>
+                                <textarea class="form-control" name="hostelAddress" id="hostelAddress" rows="3" placeholder="Hostel Address" required></textarea>
                             </div>
                             <div class="mb-1 mt-3">
-                                <input type="text" class="form-control" name="hostelContactNumber" id="hostelContactNumber" placeholder="Hostel Contact Number" required>
+                                <input type="text" class="form-control" name="hostelContactNumber" id="hostelContactNumber" placeholder="Hostel Contact Number" required />
+                                <small class="form-text text-muted" id="HostelContactLblMobNo">Please enter a mobile number. Don't add +923</small>
                             </div>
                             <div class="mb-1 mt-3">
                                 <input type="text" class="form-control" name="hostelLandLine" id="hostelLandLine" placeholder="Hostel Land Line Number [Optional]">
@@ -121,11 +118,12 @@
                             {{-- Start of Hostel Partner Details if any --}}
                             <div id="hostelPartnerDetails">
                                 <div class="mb-1 mt-3">
-                                    <input type="text" name="partnerContact" id="partnerContact" placeholder="Hostel Partner Contact " class="form-control" />
+                                    <input type="text" name="partnerContact" id="partnerContact" placeholder="Hostel Partner Contact Number:" class="form-control" />
+                                    <small class="form-text text-muted" id="PartnerContactLblMobNo">Please enter a mobile number. Don't add +923</small>
                                 </div>
                 
                                 <div class="mb-1 mt-3">
-                                    <input type="text" data-inputmask="'mask': '99999-9999999-9'" name="partnerCnic" id="partnerCnic" placeholder="Hostel Partner CNIC#" class="form-control" />
+                                    <input type="text" ame="partnerCnic" id="partnerCnic" placeholder="Hostel Partner CNIC#" class="form-control" />
                                 </div>
                             </div>
                             {{-- End of Hostel Partner Details if any --}}
@@ -140,10 +138,11 @@
                             {{-- Start of Hostel Warden Detailas if any --}}
                             <div id="hostelWardenDetails">
                                 <div class="mb-1 mt-3">
-                                    <input type="text" name="hostelWardenContact" id="hostelWardenContact" placeholder="Hostel Warden Contact " class="form-control" />
+                                    <input type="text" name="hostelWardenContact" id="hostelWardenContact" placeholder="Hostel Warden Contact Number:" class="form-control" />
+                                    <small class="form-text text-muted" id="HostelWardenLblMobNo">Please enter a mobile number. Don't add +923</small>
                                 </div>                
                                 <div class="mb-1 mt-3">
-                                    <input type="text" data-inputmask="'mask': '99999-9999999-9'" name="hostelWardenCnic" id="hostelWardenCnic" placeholder="Hostel Warden CNIC#" class="form-control" />
+                                    <input type="text" name="hostelWardenCnic" id="hostelWardenCnic" placeholder="Hostel Warden CNIC#" class="form-control" />
                                 </div>
                             </div>
                             {{-- End of Hostel Warden Detailas if any --}}
@@ -187,6 +186,50 @@
 
         <!-- Include jQuery via CDN -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+         <!-- Include Inputmask.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
+        {{-- Start of the script to input masking the id card --}}
+        <script>
+            $(document).ready(function () {
+                // Apply input masking to ID card input
+                $('#hostelOwnerCnic').inputmask('99999-9999999-9', { placeholder: '_' });
+                $('#partnerCnic').inputmask('99999-9999999-9', { placeholder: '_' });
+                $('#hostelWardenCnic').inputmask('99999-9999999-9', { placeholder: '_' });
+                $('#referalCNIC').inputmask('99999-9999999-9', { placeholder: '_' });
+                $('#hostelOwnerContact').inputmask('999999999', { placeholder: '_' });
+                $('#hostelContactNumber').inputmask('999999999', { placeholder: '_' });
+                $('#partnerContact').inputmask('999999999', { placeholder: '_' });
+                $('#hostelWardenContact').inputmask('999999999', { placeholder: '_' });
+            });
+        </script>
+        {{-- End of the script to input masking the id card --}}
+
+        {{-- <script>
+            $(document).ready(function () {
+                $('#hostelRegForm').submit(function (event) {
+                    // Prevent the default form submission
+                    event.preventDefault();
+                    alert("yes");
+    
+                    // Validate empty fields
+                    var isValid = true;
+                    $(this).find('input').each(function () {
+                        if ($.trim($(this).val()) === '') {
+                            alert('Please fill in all fields.');
+                            isValid = false;
+                            return false; // Exit the loop early if an empty field is found
+                        }
+                    });
+    
+                    // If all fields are filled, you can proceed with form submission
+                    if (isValid) {
+                        // Perform your form submission logic here
+                        alert('Form submitted successfully!');
+                    }
+                });
+            });
+        </script> --}}
+    
 
 
         {{-- Start of script tag of get states from country id --}}
@@ -421,10 +464,10 @@
                     if(hostelName.length>2){
                         // alert("Yes");
                         $.ajax({
-                            url:'' + hostelName,
+                            url:'hostelRegistration/hostelName/' + hostelName,
                             type:'GET',
                             success:function(response){
-                                if(response==0){
+                                if(response==1){
                                     $(".samehostel").show();
                                     $(".samehostel").html("Hostel Name Already Exist");
                                 }
@@ -438,6 +481,10 @@
                                 console.log(error);
                             }
                         });
+                    }
+                    else if(hostelName.length==0){
+                        $(".samehostel").hide();
+                        $(".samehostel").html();
                     }
 
                 });
@@ -455,21 +502,26 @@
         <script>
             function checkEmail(inputFieldId) {
                 let email = $(inputFieldId).val();
-                if (isValidEmail(email)) {
-                    $.ajax({
-                    url: '/checkEmail/' + email,
-                    type: 'GET',
-                    success: function(response){
-                        if (response == 1) {
-                            alert(email+": Email already exists");
-                            $(inputFieldId).val('');
-                            return;
+                if(email.length!=0){
+                    if (isValidEmail(email)) {
+                        $.ajax({
+                        url: '/checkEmail/' + email,
+                        type: 'GET',
+                        success: function(response){
+                            if (response == 1) {
+                                alert(email+": Email already exists");
+                                $(inputFieldId).val('');
+                                $(inputFieldId).focus();
+                                return;
                             }
                         }
                     });
                 }
                 else {
                     alert("Kindly provide the email in the correct format");
+                    $(inputFieldId).focus();
+                    $(inputFieldId).val('');
+                }
                 }
             }
             $(document).ready(function(){

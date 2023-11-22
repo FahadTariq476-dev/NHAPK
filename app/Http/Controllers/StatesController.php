@@ -10,7 +10,7 @@ class StatesController extends Controller
     //
     public function getStates($country_id){
         // Retrieve states based on the provided country_id
-        $states = State::where('country_id', $country_id)->get();
+        $states = State::where('country_id', $country_id)->select('name','id')->get();
         // Return the states as a JSON response
         return response()->json($states);
     }

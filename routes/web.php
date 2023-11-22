@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\LogoutController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\HostelRegistrationController;
 use App\Http\Controllers\MembershipController;
@@ -86,4 +87,15 @@ Route::group(['middleware' => ['role:nhapk_admin','auth']], function () {
 
 
 // Routes For FronEnd
+// Route to Show the about Us Page on the front End
 Route::get('/about',[AboutController::class,'showAbout'])->name('forntEnd.showAbout');
+
+// Begin: Routes for Complaint
+// Route to show thw complaint form on the front end
+Route::get('/complaint',[ComplaintController::class, 'showComplaintForm'])->name('forntEnd.showComplaintForm');
+Route::post('complaintPost',[ComplaintController::class,'saveComplaint'])->name('frontEnd.saveComplaint');
+// End: Routes for Complaint
+
+
+
+
