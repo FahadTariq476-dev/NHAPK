@@ -9,4 +9,8 @@ class Complaint extends Model
 {
     use HasFactory;
     protected $table = 'complaints';
+
+    public function property(){
+        return $this->belongsTo(Properties::class, 'hostel_id');
+    }
 }

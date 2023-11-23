@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Complaint;
 use App\Models\Country;
+use App\Models\Complaint;
 use App\Models\Properties;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class ComplaintController extends Controller
 {
@@ -17,6 +18,42 @@ class ComplaintController extends Controller
             'countries' => $countries,
         ]);
     }
+
+    public function adminListComplaintView(){
+        return view('admin.complaint_list');
+    }
+
+    public function adminListingComplaint(Request $request){
+        if ($request->ajax()) {
+            $complaints = Complaint::with('property')->latest()->get();
+            return DataTables::of($complaints)
+                ->addIndexColumn()
+                ->make(true);
+        }
+        return abort(403, 'Unauthorized action.');
+    }
+
+    // To Update the status
+    public function updateComplaintStatus($status,$complaintId){
+        // Define an array of valid status values
+        $validStatuses = ['pending', 'approved', 'resolved', 'inprocess'];
+
+        // Check if the given $status is in the array of valid statuses
+        if (!(in_array($status, $validStatuses))) {
+            return 'error';
+        }
+        $complaint = Complaint::find($complaintId);
+        if(!$complaint){
+            return 'error';
+        }
+        $complaint->status = $status;
+        $complaint->save();
+
+        return 'success';
+
+    }
+
+
 
     // To Save the complaint into db
     public function saveComplaint(Request $req){

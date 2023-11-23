@@ -81,6 +81,13 @@ Route::group(['middleware' => ['role:nhapk_admin','auth']], function () {
     Route::get('/admin/dashboard',[DashboardController::class,'index'])->name('admin.ShowDashboard');
     // Route::get('/admin/dashboard',[DashboardController::class,'showAdminDashboard'])->name('admin.ShowDashboard');
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+
+    // Route to Show List Complaint View
+    Route::get('/admin/listComplaint',[ComplaintController::class,'adminListComplaintView'])->name('admin.ListComplaintView');
+    // Route for admin to list complaint
+    Route::get('/get-adminListingComplaint',[ComplaintController::class,'adminListingComplaint'])->name('admin.adminListingComplaint');
+    // Route for admin to update the complaint status
+    Route::get('/complaint/update-status/{status}/{complaintId}',[ComplaintController::class,'updateComplaintStatus'])->name('admin.updateComplaintStatus');
 });
 
 

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('complaint_type');
             $table->string('complaint_priority');
             $table->text('complaint_details');
-            $table->enum('status', ['pending', 'working','resolved'])->default('pending');
+            $table->enum('status', ['pending', 'approved','resolved','inprocess'])->default('pending');
             $table->timestamps();
         });
     }
