@@ -14,7 +14,7 @@
     <title>NHA Pakistan | National Hostel Association of Pakistan</title>
 
     <!-- Favicon  -->
-    <link rel="icon" href="/assets/img/NHAPK.JPEG">
+    <link rel="icon" href="{{asset('assets/img/NHAPK.jpeg')}}">
 
     <!-- ***** All CSS Files ***** -->
 
@@ -88,8 +88,8 @@
                 <div class="container header">
                     <!-- Navbar Brand-->
                     <a class="navbar-brand" href="/">
-                        <img class="navbar-brand-regular" src="{{asset('assets/img/logo/NHAPK.JPEG')}}" alt="brand-logo" style="width:50px">
-                        <img class="navbar-brand-sticky" src="{{asset('assets/img/logo/NHAPK.JPEG')}}" alt="sticky brand-logo" style="width:50px">
+                        <img class="navbar-brand-regular" src="{{asset('assets/img/logo/NHAPK.jpeg')}}" alt="brand-logo" style="width:50px">
+                        <img class="navbar-brand-sticky" src="{{asset('assets/img/logo/NHAPK.jpeg')}}" alt="sticky brand-logo" style="width:50px">
                     </a>
                     <div class="ml-auto"></div>
                     <!-- Navbar -->
