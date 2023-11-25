@@ -25,6 +25,8 @@
     <!-- Responsive css -->
     <link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
     
+    <!-- jQuery(necessary for all JavaScript plugins) -->
+    <script src="{{asset('assets/js/jquery/jquery-3.5.1.min.js')}}"></script>
 
 </head>
 
@@ -82,12 +84,12 @@
         <!-- ***** Header Start ***** -->
         <header id="header">
             <!-- Navbar -->
-            <nav data-aos="zoom-out" data-aos-delay="800" class="navbar navbar-expand">
+            <nav data-aos="zoom-out" data-aos-delay="800" class="navbar navbar-expand fixed-top">
                 <div class="container header">
                     <!-- Navbar Brand-->
                     <a class="navbar-brand" href="/">
                         <img class="navbar-brand-regular" src="{{asset('assets/img/logo/NHAPK.JPEG')}}" alt="brand-logo" style="width:50px">
-                        <img class="navbar-brand-sticky" src="{{asset('assets/img/logo/NHAPK.JPEG')}}" alt="sticky brand-logo">
+                        <img class="navbar-brand-sticky" src="{{asset('assets/img/logo/NHAPK.JPEG')}}" alt="sticky brand-logo" style="width:50px">
                     </a>
                     <div class="ml-auto"></div>
                     <!-- Navbar -->
@@ -111,9 +113,12 @@
                             <a href="{{route('ContactUsForm')}}" class="nav-link"><i class="fas fa-paper-plane contact-icon mr-md-2"></i>Contact Us</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="#">Blog<i class="fas fa-angle-down ml-1"></i></a>
+                            <a class="nav-link" href="#">More<i class="fas fa-angle-down ml-1"></i></a>
                             <ul class="dropdown-menu">
-                                <li class="nav-item dropdown">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('forntEnd.showComplaintForm')}}">Complaint</a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="#">Blog (News Feed)<i class="fas fa-angle-right ml-1"></i></a>
                                 </li>
                                 <li class="nav-item dropdown">

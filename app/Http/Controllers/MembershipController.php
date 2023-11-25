@@ -15,7 +15,8 @@ class MembershipController extends Controller
     
     public function show(){
         // 
-        $countries = Country::all();
+        $countries = Country::select('name','id')->get();
+        // dd($countries->toArray());
         $membershipTypes = MembershipTypes::all();
         // dd($membershipTypes);
         return view('membership')->with([

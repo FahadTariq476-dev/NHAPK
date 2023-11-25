@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\LogoutController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\HostelRegistrationController;
 use App\Http\Controllers\MembershipController;
@@ -80,10 +81,28 @@ Route::group(['middleware' => ['role:nhapk_admin','auth']], function () {
     Route::get('/admin/dashboard',[DashboardController::class,'index'])->name('admin.ShowDashboard');
     // Route::get('/admin/dashboard',[DashboardController::class,'showAdminDashboard'])->name('admin.ShowDashboard');
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
+
+    // Route to Show List Complaint View
+    Route::get('/admin/listComplaint',[ComplaintController::class,'adminListComplaintView'])->name('admin.ListComplaintView');
+    // Route for admin to list complaint
+    Route::get('/get-adminListingComplaint',[ComplaintController::class,'adminListingComplaint'])->name('admin.adminListingComplaint');
+    // Route for admin to update the complaint status
+    Route::get('/complaint/update-status/{status}/{complaintId}',[ComplaintController::class,'updateComplaintStatus'])->name('admin.updateComplaintStatus');
 });
 
 
 
 
 // Routes For FronEnd
+// Route to Show the about Us Page on the front End
 Route::get('/about',[AboutController::class,'showAbout'])->name('forntEnd.showAbout');
+
+// Begin: Routes for Complaint
+// Route to show thw complaint form on the front end
+Route::get('/complaint',[ComplaintController::class, 'showComplaintForm'])->name('forntEnd.showComplaintForm');
+Route::post('complaintPost',[ComplaintController::class,'saveComplaint'])->name('frontEnd.saveComplaint');
+// End: Routes for Complaint
+
+
+
+

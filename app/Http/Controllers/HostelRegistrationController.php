@@ -77,13 +77,14 @@ class HostelRegistrationController extends Controller
         //
         $result = Properties::where('name',$hostelName)->get();
         if(count($result)>0){
-            return 0;
+            return 1;   // 1 means true. It means that hostel already exist with the same name
         }
         else{
-            return 1;
+            return 0;   // 0 means false. It means that hostel doesn't exist with this name
         }
         // dd($result);
     }
+    
     public function hostelRegister(Request $req){
         //
         $author_id = '';
@@ -121,7 +122,7 @@ class HostelRegistrationController extends Controller
         $queryChechk_Partner='';
         $queryChechk_Warden='';
 
-        // dd($req->toArray());
+        dd($req->toArray());
 
         // Secondly we check the Hostel Name
         $resultChkHostelName = HostelRegistrationController::hostelNameCheck($hostelName);
