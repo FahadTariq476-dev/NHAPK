@@ -99,6 +99,8 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth']], function () {
     Route::get('/admin/post-blogs',[PostBlogsController::class, 'index'])->name('admin.post-blogs');
     // Route to save the blog post
     Route::post('/admin/saveBlogPost',[PostBlogsController::class, 'saveBlogPost'])->name('admin.saveBlogPost');
+    // Route to show the list-blog page
+    Route::get('/admin/list-blogs',[PostBlogsController::class,'listBlogView'])->name('admin.list-blogs');
 });
 
 

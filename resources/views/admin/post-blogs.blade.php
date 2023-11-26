@@ -38,18 +38,7 @@
                     <div class="container">
                         <form class="blog-form" id="blogForm" action="{{route('admin.saveBlogPost')}}" method="POST" enctype="multipart/form-data">
                           <h2 class="text-center mb-4">Blog Entry</h2>
-                          <!-- Your form fields here -->
-
-                            @if($errors->any())
-                            <div class="alert alert-danger">
-                            <ul>
-                            @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                            </ul>
-                            </div>
-                            @endif
-                            @if(session('success'))
+                          @if(session('success'))
                             <div class="alert alert-success">
                                 {{ session('success') }}
                             </div>
@@ -58,54 +47,71 @@
                             <div class="alert alert-danger">
                                 {{ session('error') }}
                             </div>
-                    @endif
+                            @endif
+                          <!-- Your form fields here -->
                           @csrf
                       
                           <div class="form-group">
                             <label for="title">Blog Title:</label>
-                            <input type="text" class="form-control" id="title" name="title" placeholder="Enter the title" required>
+                            <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" placeholder="Enter the title">
                           </div>
+                            @error('title')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                       
                           <div class="form-group">
                             <label for="shortDescription">Short Description:</label>
-                            <input type="text" class="form-control" id="shortDescription" name="shortDescription" placeholder="Enter a short description" required>
+                            <input type="text" class="form-control" id="shortDescription" name="shortDescription" value="{{old('shortDescription')}}" maxlength="255" placeholder="Enter a short description">
                           </div>
-                      
-                          <div class="form-group">
-                            <label for="fullDescription">Full Description:</label>
-                            <textarea class="form-control" id="fullDescription" name="fullDescription" rows="5" placeholder="Write the full blog content here" required></textarea>
-                          </div>
+                          @error('shortDescription')
+                              <div class="alert alert-danger">{{$message}}</div>
+                          @enderror
                       
                           <div class="form-group">
                             <label for="editor">Editor:</label>
-                            <textarea id="editor" name="editor"></textarea>
+                            <textarea id="editor" name="editor" class="form-control">{{ old('editor') }}</textarea>
                           </div>
+                          @error('editor')
+                            <div class="alert alert-danger">{{$message}}</div>
+                          @enderror
                       
                           <div class="form-group">
                             <label for="image">Blog Image:</label>
-                            <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required>
+                            <input type="file" class="form-control-file" id="image" name="image" value="{{old('image')}}" accept="image/*">
                           </div>
+                          @error('image')
+                              <div class="alert alert-danger">{{$message}}</div>
+                          @enderror
                       
                           <div class="form-group">
                             <label for="thumbnailImage">Thumbnail Image:</label>
-                            <input type="file" class="form-control-file" id="thumbnailImage" name="thumbnailImage" accept="image/*" required>
+                            <input type="file" class="form-control-file" id="thumbnailImage" name="thumbnailImage" value="{{old('thumbnailImage')}}" accept="image/*">
                           </div>
+                          @error('thumbnailImage')
+                              <div class="alert alert-danger">{{$message}}</div>
+                          @enderror
                       
                           <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="featuredPost" name="featuredPost">
+                            <input type="checkbox" class="form-check-input" id="featuredPost" name="featuredPost" @if(old('featuredPost')) checked @endif>
                             <label class="form-check-label" for="featuredPost">Mark as Featured Post</label>
                           </div>
+                          @error('featuredPost')
+                              <div class="alert alert-danger">{{$message}}</div>
+                          @enderror
                       
                           <div class="form-group">
                             <label for="status">Status:</label>
                             <select class="form-control" id="status" name="status">
-                                <option value="" disabled selected>Select Status</option>
-                              <option value="draft">Draft</option>
-                              <option value="published">Published</option>
+                                <option value="" disabled @if(old('status') == '') selected @endif>Select Status</option>
+                              <option value="pending" @if(old('status') == 'pending') selected @endif>Pending</option>
+                              <option value="published" @if(old('status') == 'published') selected @endif>Published</option>
                             </select>
                           </div>
+                          @error('status')
+                              <div class="alert alert-danger">{{$message}}</div>
+                          @enderror
                       
-                          <div class="form-group">
+                          {{-- <div class="form-group">
                             <label for="postCategory">Post Category:</label>
                             <select class="form-control" id="postCategory" name="postCategory" required>
                               <option value="" disabled selected>Select a category</option>
@@ -114,7 +120,7 @@
                               <option value="lifestyle">Lifestyle</option>
                               <!-- Add more categories as needed -->
                             </select>
-                          </div>
+                          </div> --}}
                           <button type="submit" class="btn btn-primary btn-block">Submit Blog</button>
                         </form>
                       </div>
@@ -150,5 +156,85 @@
           // Add any additional configuration for the editor if needed
         });
       </script>
-      
+
+    <!-- Add this at the end of your file, after including jQuery -->
+<script>
+    $(document).ready(function () {
+      // Form validation logic
+      $("#blogForm").submit(function (e) {
+        // Reset previous error messages
+        $(".alert-danger").remove();
+  
+        // Check if the title is empty
+        var title = $("#title").val();
+        if (title.trim() === "") {
+          e.preventDefault();
+          $("#title").after('<div class="alert alert-danger">Title is required.</div>');
+        }
+  
+        // Check if the short description is empty
+        var shortDescription = $("#shortDescription").val();
+        if (shortDescription.trim() === "" || shortDescription.length > 255) {
+          e.preventDefault();
+          $("#shortDescription").after('<div class="alert alert-danger">Short Description is required and Short description Length should not be greater than 255 chraceters.</div>');
+        }
+  
+        // Check if the editor content is empty (assuming you want it to be required)
+        var editorContent = tinymce.get('editor').getContent();
+        if (editorContent.trim() === "") {
+          e.preventDefault();
+          $("#editor").after('<div class="alert alert-danger">Editor content is required.</div>');
+        }
+
+        
+        // Check if an image is selected
+        var image = $("#image")[0].files[0];
+        if (!image) {
+          e.preventDefault();
+          $("#image").after('<div class="alert alert-danger">Image is required.</div>');
+        } else {
+          // Check image size
+          if (image.size > 2 * 1024 * 1024) { // 2MB in bytes
+            e.preventDefault();
+            $("#image").after('<div class="alert alert-danger">Image size should not be greater than 2MB.</div>');
+          }
+  
+          // Check image extension
+          var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.JPEG|\.JPG|\.PNG)$/i;
+          if (!allowedExtensions.exec(image.name)) {
+            e.preventDefault();
+            $("#image").after('<div class="alert alert-danger">Invalid image file type. Allowed types: jpg, jpeg, png, JPEG, JPG, PNG.</div>');
+          }
+        }
+
+        //  Check then thumbnail image
+        var thumbnailImage = $('#thumbnailImage')[0].files[0];
+        if(!thumbnailImage){
+            e.preventDefault();
+            $('#thumbnailImage').after('<div class="alert alert-danger">Image-thumbnail is required.</div>');
+        }
+        else{
+            // Check the thumbnailImage size
+            if(thumbnailImage.size>2 * 1024 * 1024){    // 2MB in sise
+                e.preventDefault();
+                $('#thumbnailImage').after('<div class="alert alert-danger">Image-thumbnail size should not be greater than 2MB.</div>');
+            }
+            // Check the image extension
+            var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.JPEG|\.JPG|\.PNG)$/i;
+            if(!allowedExtensions.exec(thumbnailImage.name)){
+                e.preventDefault();
+                $('#thumbnailImage').after('<div class="alert alert-danger">Invalid image file type. Allowed types: jpg, jpeg, png, JPEG, JPG, PNG.</div>');
+            }
+        }
+  
+        // Check if the status is selected
+        var status = $("#status").val();
+        if (status === null || status === "") {
+          e.preventDefault();
+          $("#status").after('<div class="alert alert-danger">Status is required</div>');
+        }
+      });
+    });
+  </script>
+  
     @endsection

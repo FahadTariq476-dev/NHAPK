@@ -1,23 +1,25 @@
 @extends('admin.layouts.main')
 @section('main-container')
+
     <!-- BEGIN: Content-->
     <div class="app-content content ">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
-        <div class="content-wrapper container-xxl p-0">
+        <div class="content-wrapper">
             <div class="content-header row">
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Layout Empty</h2>
+                            <h2 class="content-header-title float-start mb-0">List Blogs</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                    <li class="breadcrumb-item"><a href="{{route('admin.ShowDashboard')}}">Home</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="#">Layouts</a>
+                                    <li class="breadcrumb-item"><a href="#">Menus</a>
                                     </li>
-                                    <li class="breadcrumb-item active">Layout Empty
+                                    <li class="breadcrumb-item"><a href="{{route('admin.post-blogs')}}">Blogs</a>
                                     </li>
+                                    <li class="breadcrumb-item active">List Blogs</li>
                                 </ol>
                             </div>
                         </div>
@@ -33,24 +35,32 @@
                 </div>
             </div>
             <div class="content-body">
-                <div class="row">
+
+                
+                <br>
+                <br>
+
                 <div class="row">
                     <div class="col-12">
                         <div class="alert alert-primary" role="alert">
                             <div class="alert-body">
-                                <strong>Info:</strong> This layout can be useful for getting started with empty content section. Please check
-                                the&nbsp;<a class="text-primary" href="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-layout-empty.html" target="_blank">Layout empty documentation</a>&nbsp; for more details.
+                                <strong>Info:</strong> Please check the&nbsp;<a class="text-primary" href="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-layout-full.html" target="_blank">Layout full documentation</a>&nbsp; for more details.
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
+    
     <!-- END: Content-->
 
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
 
+    @endsection
+    @section('js')
+
+      
+      
     @endsection

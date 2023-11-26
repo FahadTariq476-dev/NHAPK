@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('email');
             $table->string('room_no');
             $table->unsignedBigInteger('hostel_id');
+            $table->unsignedBigInteger('state_id');
+            $table->unsignedBigInteger('city_id');
             $table->string('complaint_type');
             $table->string('complaint_priority');
             $table->text('complaint_details');

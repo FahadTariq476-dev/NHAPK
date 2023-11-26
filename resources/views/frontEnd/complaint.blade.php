@@ -24,15 +24,6 @@
         
 <div class="container mt-5">
     <h2 class="text-center mb-4">Hostel Complaint Registration</h2>
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
     <div>
         @if(session('success'))
         <div class="alert alert-success">
@@ -47,76 +38,127 @@
         @endif
     </div>
 
-    <form action="{{route('frontEnd.saveComplaint')}}" method="POST">
+    <form action="{{route('frontEnd.saveComplaint')}}" method="POST" id="complaintForm">
         @csrf
         <div class="form-group">
             <label for="fullName">Full Name:</label>
-            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter your full name here:" >
+            <input type="text" class="form-control" id="fullName" name="fullName" value="{{old('fullName')}}" placeholder="Enter your full name here:" >
         </div>
+        @error('fullName')
+            <div class="alert alert-danger">{{$message}}</div>
+        @enderror
         <div class="form-group">
             <label for="fullName">Mobile Number:</label>
-            <input type="tel" class="form-control" id="MobNo" name="MobNo" pattern="[0-9]{9}" maxlength="9" minlength="9" placeholder="Enter your mobile number here:" >
+            <input type="tel" class="form-control" id="MobNo" name="MobNo" pattern="[0-9]{9}" maxlength="9" minlength="9" value="{{old('MobNo')}}" placeholder="Enter your mobile number here:" >
             <small class="form-text text-muted">Please enter a mobile number. Don't add +923</small>
         </div>
+        @error('MobNo')
+            <div class="alert alert-danger">{{$message}}</div>
+        @enderror
         <div class="form-group">
             <label for="fullName">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email here:" >
+            <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}" placeholder="Enter your email here:" >
         </div>
+        @error('email')
+            <div class="alert alert-danger">{{$message}}</div>
+        @enderror
         <div class="form-group">
             <label for="roomNumber">Room Number:</label>
-            <input type="text" class="form-control" id="roomNumber" name="roomNumber" placeholder="Enter your room number" >
+            <input type="text" class="form-control" id="roomNumber" name="roomNumber" value="{{old('roomNumber')}}" placeholder="Enter your room number" >
         </div>
+        @error('roomNumber')
+            <div class="alert alert-danger">{{$message}}</div>
+        @enderror
         <div class="form-group">
             <label for="countryId">Select Country</label>
             <select class="form-control" id="countryId" name="countryId" >
                 <option value="" selected disabled>Select Country</option>
+                @if(count($countries)>0)
                 @foreach ($countries as $country)
                 <option value="{{ $country->id }}">{{ $country->name}}</option>
                 @endforeach
+                @else
+                <option value=""  disabled>No Country found</option>
+                @endif
             </select>
         </div>
+        @error('countryId')
+            <div class="alert alert-danger">{{$message}}</div>
+        @enderror
         <div class="form-group">
             <label for="stateId">Select State</label>
             <select class="form-control" id="stateId" name="stateId">
                 <option value="" selected disabled>Select State</option>
             </select>
         </div>
+        @error('stateId')
+            <div class="alert alert-danger">{{$message}}</div>
+        @enderror
         <div class="form-group">
             <label for="cityId">Select City</label>
             <select class="form-control" id="cityId" name="cityId" >
                 <option value="" selected disabled>Select City</option>
             </select>
         </div>
+        @error('cityId')
+            <div class="alert alert-danger">{{$message}}</div>
+        @enderror
         <div class="form-group">
             <label for="hostelId">Select Hostel</label>
             <select class="form-control" id="hostelId" name="hostelId" >
                 <option value="" selected disabled>Select Hostel</option>
             </select>
         </div>
+        @error('hostelId')
+            <div class="alert alert-danger">{{$message}}</div>
+        @enderror
         <div class="form-group">
             <label for="complaintType">Complaint Type:</label>
             <select class="form-control" id="complaintType" name="complaintType" >
-                <option value="" selected disabled>Select complaint type</option>
-                <option value="cleanliness">Cleanliness</option>
-                <option value="maintenance">Maintenance</option>
-                <option value="security">Security</option>
+                <option value="" disabled @if(old('complaintType')=='') selected @endif>
+                    Select complaint type
+                </option>
+                <option value="cleanliness" @if(old('complaintType')=='cleanliness') selected @endif>
+                    Cleanliness</option>
+                <option value="maintenance" @if(old('complaintType')=='maintenance') selected @endif>
+                    Maintenance
+                </option>
+                <option value="security" @if(old('complaintType')=='security') selected @endif>
+                    Security
+                </option>
                 <!-- Add more complaint types as needed -->
             </select>
         </div>
+        @error('complaintType')
+            <div class="alert alert-danger">{{$message}}</div>
+        @enderror
         <div class="form-group">
             <label for="priority">Select Complaint Priority</label>
             <select class="form-control" id="priority" name="priority" >
-                <option value="" selected disabled>Select Priority</option>
-                <option value="high">High</option>
-                <option value="normal">Normal</option>
-                <option value="low">Low</option>
+                <option value="" disabled @if (old('priority')=='') selected @endif>
+                    Select Priority
+                </option>
+                <option value="high" @if (old('priority')=='high') selected @endif>
+                    High
+                </option>
+                <option value="normal" @if (old('priority')=='normal') selected @endif>
+                    Normal
+                </option>
+                <option value="low" @if(old('priority')=='low') selected @endif>
+                    Low
+                </option>
             </select>
         </div>
-
+        @error('priority')
+            <div class="alert alert-danger">{{$message}}</div>
+        @enderror
         <div class="form-group">
             <label for="complaintDetails">Complaint Details:</label>
-            <textarea class="form-control" id="complaintDetails" name="complaintDetails" rows="4" placeholder="Provide details about your complaint" ></textarea>
+            <textarea class="form-control" id="complaintDetails" name="complaintDetails" rows="4" placeholder="Provide details about your complaint" >{{old('complaintDetails')}}</textarea>
         </div>
+        @error('complaintDetails')
+            <div class="alert alert-danger">{{$message}}</div>
+        @enderror
 
         <button type="submit" class="btn btn-primary">Submit Complaint</button>
     </form>
@@ -138,10 +180,15 @@
                         // Clear existing options
                         $('#stateId').empty();
                         $('#stateId').append('<option value="" selected disabled>Select State</option>');
-                        // Populate the state dropdown with the fetched data
-                        $.each(response, function(key, value) {
-                            $('#stateId').append('<option value="' + value.id + '">' + value.name + '</option>');
-                        });
+                        // Check if response has states or if states are null
+                        if (response.length === 0 || response === null) {
+                            $('#stateId').append('<option value="" disabled>No states found</option>');
+                        } else {
+                            // Populate the state dropdown with the fetched data
+                            $.each(response, function(key, value) {
+                                $('#stateId').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            });
+                        }
                         $('#cityId').empty();
                         $('#cityId').append('<option value="" selected disabled>Select City</option>');
                         $('#hostelId').empty();
@@ -171,11 +218,17 @@
                     success: function(response) {
                         // Clear existing options
                         $('#cityId').empty();
-                        $('#cityId').append('<option value="" selected disabled>Select City</option>');
-                        // Populate the state dropdown with the fetched data
-                        $.each(response, function(key, value) {
-                            $('#cityId').append('<option value="' + value.id + '">' + value.name + '</option>');
-                        });
+                        $('#cityId').append('<option value="" disabled selected>Select City</option>');
+                        // Check if response has cities or if cities are null
+                        if(response.length === 0 || response === null){
+                            $('#cityId').append('<option value="" disabled>No city found</option>');
+                        }
+                        else{
+                            // Populate the state dropdown with the fetched data
+                            $.each(response, function(key, value) {
+                                $('#cityId').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            });
+                        }
                         $('#hostelId').empty();
                         $('#hostelId').append('<option value="" selected disabled>Select Hostel</option>')
                     },
@@ -201,9 +254,14 @@
                     success:function(response){
                         $('#hostelId').empty();
                         $('#hostelId').append('<option value="" selected disabled>Select Hostel</option>')
-                        $.each(response, function(key, value){
-                            $('#hostelId').append('<option value="'+value.id+'">'+value.name+'</option>')
-                        });
+                        if(response.length === 0 || response === null){
+                            $('#hostelId').append('<option value=""  disabled>No Hostel Found</option>')
+                        }
+                        else{
+                            $.each(response, function(key, value){
+                                $('#hostelId').append('<option value="'+value.id+'">'+value.name+'</option>')
+                            });
+                        }
                     },
                     error:function(error){
                         console.log(error);
@@ -213,7 +271,43 @@
         });
     });
 </script>
-{{-- Start: To Get The All Hostel Name and Id Using the City ID --}}
+{{-- End: To Get The All Hostel Name and Id Using the City ID --}}
+
+{{-- Begin: Form validation --}}
+<script>
+    $(document).ready(function(){
+        // complaintForm validation logic here
+        $("#complaintForm").submit(function(e){
+            // Reset the previous error message
+            $(".alert-danger").remove();
+
+            // Check if the Full name is empty
+            let fullName = $('#fullName').val();
+            if(fullName.trim() === ''){
+                e.preventDefault();
+                $("#fullName").after('<div class="alert alert-danger">Full Name should be provided.</div>');
+            }
+
+            // Check if the Mobile Number is empty or it's length is not equal to 9
+            let MobNo = $("#MobNo").val();
+            if(MobNo.trim() ==='' || MobNo.length !=9){
+                e.preventDefault();
+                $("#MobNo").after('<div class="alert alert-danger">Mobile Number Should be provided properly. Plzz Dont add +923 in the mobile no.</div>')
+            }
+
+            // Check if the email is empty
+            let email = $("#email").val();
+            if(email.trim() === ''){
+                e.preventDefault();
+                $("#email").ajax('<div class="alert alert-danger">Email should be provided properly.</div>')
+            }
+
+            // 
+
+        });
+    });
+</script>
+{{-- End: Form validation --}}
 
 
 
