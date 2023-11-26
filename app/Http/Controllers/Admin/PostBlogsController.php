@@ -6,6 +6,7 @@ use App\Models\Blog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 
 class PostBlogsController extends Controller
 {
@@ -57,5 +58,31 @@ class PostBlogsController extends Controller
 
     public function listBlogView(){
         return view('admin.list-blogs');
+    }
+
+    public function adminListingPostedBlogs(Request $request){
+        // 
+        // return $request
+        if($request->ajax()){
+            $blogs = Blog::latest()->get();
+            return DataTables::of($blogs)->addIndexColumn()->make(true);
+        }
+        return abort(403, 'Unathorized action');
+    }
+    public function updatePostStatus($status,$blogId){
+        // 
+        $validStatuses = ['pending', 'published'];
+
+        // Check if the given $status is in the array of valid statuses
+        if (!(in_array($status, $validStatuses))) {
+            return 'error';
+        }
+        $blog = Blog::find($blogId);
+        if(!$blog){
+            return "error";
+        }
+        $blog->status = $status;
+        $blog->save();
+        return 'success';
     }
 }

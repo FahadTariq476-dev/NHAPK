@@ -101,6 +101,10 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth']], function () {
     Route::post('/admin/saveBlogPost',[PostBlogsController::class, 'saveBlogPost'])->name('admin.saveBlogPost');
     // Route to show the list-blog page
     Route::get('/admin/list-blogs',[PostBlogsController::class,'listBlogView'])->name('admin.list-blogs');
+    // Rote display or list the all posted blogs
+    Route::get('/admin/get-blogList',[PostBlogsController::class,'adminListingPostedBlogs'])->name('admin.get-blogList');
+    // Route for admin to update the posted blog status
+    Route::get('/admin/blogs/update-status/{status}/{complaintId}',[PostBlogsController::class,'updatePostStatus'])->name('admin.updatePostStatus');
 });
 
 
