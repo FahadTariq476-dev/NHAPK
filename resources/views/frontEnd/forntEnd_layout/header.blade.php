@@ -119,7 +119,7 @@
                                     <a class="nav-link" href="{{route('forntEnd.showComplaintForm')}}">Complaint</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Blog (News Feed)<i class="fas fa-angle-right ml-1"></i></a>
+                                    <a class="nav-link" href="{{route('frontEnd.list-blogs')}}">Blog (News Feed)<i class="fas fa-angle-right ml-1"></i></a>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link" href="#">News and Media<i class="fas fa-angle-right ml-1"></i></a>

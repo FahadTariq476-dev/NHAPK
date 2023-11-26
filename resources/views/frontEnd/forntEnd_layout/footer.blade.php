@@ -152,6 +152,7 @@
 
 <!-- Active js -->
 <script src="{{asset('assets/js/active.js')}}"></script>
+
 </body>
 
 </html>

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\LogoutController;
 use App\Http\Controllers\Admin\PostBlogsController;
+use App\Http\Controllers\BlogFrontEndController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\ContactUsController;
@@ -119,3 +120,11 @@ Route::get('/about', [AboutController::class, 'showAbout'])->name('forntEnd.show
 Route::get('/complaint', [ComplaintController::class, 'showComplaintForm'])->name('forntEnd.showComplaintForm');
 Route::post('complaintPost', [ComplaintController::class, 'saveComplaint'])->name('frontEnd.saveComplaint');
 // End: Routes for Complaint
+
+// Begin: Route for Blogs
+// Route to DIsplay the Blogs Page
+Route::get('/blogs',[BlogFrontEndController::class,'index'])->name('frontEnd.list-blogs');
+// Route to Display the full blod using blog id
+Route::get('/blogDetails/{slug}',[BlogFrontEndController::class,'viewFullBlogById'])->name('frontEnd.viewFullBlogBySlug');
+
+// End: Route for Blogs

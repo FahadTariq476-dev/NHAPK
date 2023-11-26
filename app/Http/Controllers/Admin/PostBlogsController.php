@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Blog;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,8 @@ class PostBlogsController extends Controller
     public function index(){
         return view('admin.post-blogs');
     }
+
+    // 
     public function saveBlogPost(Request $request){
         // return "Yes";
         // Validate the form data
@@ -25,18 +28,27 @@ class PostBlogsController extends Controller
         'thumbnailImage' => 'required|mimes:jpeg,png,jpg,JPEG,JPG,PNG|image|max:2048',
         'status' => 'required|in:pending,published',
     ]);
+
+    // Generate the initial slug from the title
+    $slug = Str::slug($request->title);
+
+    // Make the slug unique
+    $uniqueSlug = $this->makeSlugUnique($slug);
+    // return "Slug: " . $uniqueSlug;
     
     $timestamp = now()->timestamp;
     // Save the images
-    $imageFileName = $timestamp . '_' . $request->file('image')->getClientOriginalName();
-    $thumbnailImageFileName = $timestamp . '_' . $request->file('thumbnailImage')->getClientOriginalName();
+    $imageFileName = $timestamp . '.' . $request->file('image')->getClientOriginalExtension();
+    $thumbnailImageFileName = $timestamp . '.' . $request->file('thumbnailImage')->getClientOriginalExtension();
     // Store the images in the 'public/blog-images/image' folder
-    $imagePath = $request->file('image')->storeAs('public/blog-images/image', $imageFileName);
-    $thumbnailImagePath = $request->file('thumbnailImage')->storeAs('public/blog-images/thumbnail', $thumbnailImageFileName);
-
+    $imagePath = "storage/blog-images/image/".$imageFileName;
+    $thumbnailImagePath = "storage/blog-images/thumbnail/".$thumbnailImageFileName;
+    $request->file('image')->storeAs('public/blog-images/image', $imageFileName);
+    $request->file('thumbnailImage')->storeAs('public/blog-images/thumbnail', $thumbnailImageFileName);
     // Save the blog entry to the database
     $blog = new Blog();
     $blog->title = $validatedData['title'];
+    $blog->slug = "slug_".$uniqueSlug; 
     $blog->short_description = $validatedData['shortDescription'];
     $blog->editor_content = $validatedData['editor'];
     $blog->image_path = $imagePath;
@@ -55,6 +67,24 @@ class PostBlogsController extends Controller
     }
     return redirect()->route('admin.post-blogs')->with('success', 'Blog entry created successfully!');
     }
+
+    private function makeSlugUnique($slug, $counter = 1)
+{
+    // Check if a record with the same slug already exists
+    $existingBlog = Blog::where('slug', $slug)->first();
+
+    // If a record with the same slug exists, modify the slug to make it unique
+    if ($existingBlog) {
+        $modifiedSlug = $slug . '-' . $counter;
+        // Recursive call to ensure the modified slug is also unique
+        return $this->makeSlugUnique($modifiedSlug, $counter + 1);
+    }
+
+    // If the slug is already unique, return it
+    return $slug;
+}
+
+
 
     public function listBlogView(){
         return view('admin.list-blogs');
