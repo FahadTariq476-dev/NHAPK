@@ -63,6 +63,9 @@ class ComplaintController extends Controller
             'MobNo' => 'required|numeric|digits:9',
             'email' => 'required|email',
             'roomNumber' => 'required',
+            'countryId' => 'required',
+            'stateId' => 'required|exists:states,id',
+            'cityId' => 'required|exists:cities,id',
             'hostelId' => 'required|exists:properties,id',
             'complaintType' => 'required|in:cleanliness,maintenance,security',
             'priority' => 'required|in:high,low,normal',
@@ -72,10 +75,15 @@ class ComplaintController extends Controller
         // Validation messages
         $messages = [
             'hostelId.exists' => 'Invalid hostel ID.',
+            'countryId.exsits' => 'Invalid Country ID.',
+            'stateId.exsits' => 'Invalid State ID.',
+            'cityId.exsits' => 'Invalid City ID.',
         ];
+        // dd($req->toArray());
 
         // Validate the request data
         $this->validate($req, $rules, $messages);
+        // return "Yes";
 
         // If validation passes, you can continue with processing the data
         $complaint = new Complaint();
@@ -84,6 +92,8 @@ class ComplaintController extends Controller
         $complaint->email = $req->email;
         $complaint->room_no = $req->roomNumber;
         $complaint->hostel_id = $req->hostelId;
+        $complaint->state_id = $req->stateId;
+        $complaint->city_id = $req->cityId;
         $complaint->complaint_type = $req->complaintType;
         $complaint->complaint_priority = $req->priority;
         $complaint->complaint_details = $req->complaintDetails;
@@ -95,9 +105,5 @@ class ComplaintController extends Controller
             return redirect()->route('forntEnd.showComplaintForm')->with('success','Complaint has been save now. Succesfully!');
         }
 
- 
-
-
-        // dd($req->toArray());
     }
 }

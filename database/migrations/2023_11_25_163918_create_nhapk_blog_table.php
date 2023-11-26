@@ -16,13 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('author_id');
             $table->string('title');
             $table->string('short_description');
-            $table->text('full_description');
             $table->text('editor_content'); // Assuming this is where you store the formatted text from the editor
             $table->string('image_path'); // Assuming you store the path to the image file
             $table->string('thumbnail_image_path'); // Assuming you store the path to the thumbnail image file
             $table->boolean('featured_post')->default(false);
-            $table->enum('status', ['draft', 'published'])->default('draft');
-            $table->string('post_category');
+            $table->enum('status', ['pending', 'published'])->default('pending');
+            $table->string('post_category')->nullable();
             $table->timestamps();
         });
     }

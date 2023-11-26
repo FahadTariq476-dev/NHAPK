@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\LogoutController;
 use App\Http\Controllers\Admin\PostBlogsController;
+use App\Http\Controllers\BlogFrontEndController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\ContactUsController;
@@ -99,6 +100,12 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth']], function () {
     Route::get('/admin/post-blogs',[PostBlogsController::class, 'index'])->name('admin.post-blogs');
     // Route to save the blog post
     Route::post('/admin/saveBlogPost',[PostBlogsController::class, 'saveBlogPost'])->name('admin.saveBlogPost');
+    // Route to show the list-blog page
+    Route::get('/admin/list-blogs',[PostBlogsController::class,'listBlogView'])->name('admin.list-blogs');
+    // Rote display or list the all posted blogs
+    Route::get('/admin/get-blogList',[PostBlogsController::class,'adminListingPostedBlogs'])->name('admin.get-blogList');
+    // Route for admin to update the posted blog status
+    Route::get('/admin/blogs/update-status/{status}/{complaintId}',[PostBlogsController::class,'updatePostStatus'])->name('admin.updatePostStatus');
 });
 
 
@@ -113,3 +120,11 @@ Route::get('/about', [AboutController::class, 'showAbout'])->name('forntEnd.show
 Route::get('/complaint', [ComplaintController::class, 'showComplaintForm'])->name('forntEnd.showComplaintForm');
 Route::post('complaintPost', [ComplaintController::class, 'saveComplaint'])->name('frontEnd.saveComplaint');
 // End: Routes for Complaint
+
+// Begin: Route for Blogs
+// Route to DIsplay the Blogs Page
+Route::get('/blogs',[BlogFrontEndController::class,'index'])->name('frontEnd.list-blogs');
+// Route to Display the full blod using blog id
+Route::get('/blogDetails/{slug}',[BlogFrontEndController::class,'viewFullBlogById'])->name('frontEnd.viewFullBlogBySlug');
+
+// End: Route for Blogs
