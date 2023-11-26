@@ -10,7 +10,7 @@ class BlogFrontEndController extends Controller
     //
     public function index(){
         // 
-        $blogs = Blog::where('status','published')->where('featured_post',1)->latest()->take(6)->get();
+        $blogs = Blog::where('status','published')->latest()->get();
         return view('frontEnd.blogs-view')->with(['blogs'=> $blogs]);
     }
     public function viewFullBlogById($slug){
