@@ -1,206 +1,5 @@
-<!doctype html>
-<html class="no-js" lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- SEO Meta Description -->
-    <meta name="description" content="">
-    <meta name="author" content="Themeland">
-
-    <!-- Title  -->
-    <title>Digimax - SEO & Digital Marketing Agency HTML Template | Portfolio Grid</title>
-
-    <!-- Favicon  -->
-    <link rel="icon" href="assets/img/favicon.png">
-
-    <!-- ***** All CSS Files ***** -->
-
-    <!-- Style css -->
-    <link rel="stylesheet" href="assets/css/style.css">
-
-    <!-- Responsive css -->
-    <link rel="stylesheet" href="assets/css/responsive.css">
-
-</head>
-
-<body>
-    <!--====== Preloader Area Start ======-->
-    <div id="preloader">
-        <!-- Digimax Preloader -->
-        <div id="digimax-preloader" class="digimax-preloader">
-            <!-- Preloader Animation -->
-            <div class="preloader-animation">
-                <!-- Spinner -->
-                <div class="spinner"></div>
-                <!-- Loader -->
-                <div class="loader">
-                    <span data-text-preloader="D" class="animated-letters">D</span>
-                    <span data-text-preloader="I" class="animated-letters">I</span>
-                    <span data-text-preloader="G" class="animated-letters">G</span>
-                    <span data-text-preloader="I" class="animated-letters">I</span>
-                    <span data-text-preloader="M" class="animated-letters">M</span>
-                    <span data-text-preloader="A" class="animated-letters">A</span>
-                    <span data-text-preloader="X" class="animated-letters">X</span>
-                </div>
-                <p class="fw-5 text-center text-uppercase">Loading</p>
-            </div>
-            <!-- Loader Animation -->
-            <div class="loader-animation">
-                <div class="row h-100">
-                    <!-- Single Loader -->
-                    <div class="col-3 single-loader p-0">
-                        <div class="loader-bg"></div>
-                    </div>
-                    <!-- Single Loader -->
-                    <div class="col-3 single-loader p-0">
-                        <div class="loader-bg"></div>
-                    </div>
-                    <!-- Single Loader -->
-                    <div class="col-3 single-loader p-0">
-                        <div class="loader-bg"></div>
-                    </div>
-                    <!-- Single Loader -->
-                    <div class="col-3 single-loader p-0">
-                        <div class="loader-bg"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--====== Preloader Area End ======-->
-
-    <!--====== Scroll To Top Area Start ======-->
-    <div id="scrollUp" title="Scroll To Top">
-        <i class="fas fa-arrow-up"></i>
-    </div>
-    <!--====== Scroll To Top Area End ======-->
-
-    <div class="main overflow-hidden">
-        <!-- ***** Header Start ***** -->
-        <header id="header">
-            <!-- Navbar -->
-            <nav data-aos="zoom-out" data-aos-delay="800" class="navbar navbar-expand">
-                <div class="container header">
-                    <!-- Navbar Brand-->
-                    <a class="navbar-brand" href="/">
-                        <img class="navbar-brand-regular" src="assets/img/logo/logo-white.png" alt="brand-logo">
-                        <img class="navbar-brand-sticky" src="assets/img/logo/logo.png" alt="sticky brand-logo">
-                    </a>
-                    <div class="ml-auto"></div>
-                    <!-- Navbar -->
-                    <ul class="navbar-nav items">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link" href="#">Home <i class="fas fa-angle-down ml-1"></i></a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link" href="#">Multi-Page <i class="fas fa-angle-right ml-1"></i></a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item"><a href="index.html" class="nav-link">Homepage 1</a></li>
-                                        <li class="nav-item"><a href="index-2.html" class="nav-link">Homepage 2</a></li>
-                                        <li class="nav-item"><a href="index-3.html" class="nav-link">Homepage 3</a></li>
-                                        <li class="nav-item"><a href="index-4.html" class="nav-link">Homepage 4</a></li>
-                                        <li class="nav-item"><a href="index-5.html" class="nav-link">Homepage 5</a></li>
-                                        <li class="nav-item"><a href="index-6.html" class="nav-link">Homepage 6</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link" href="#">One-Page <i class="fas fa-angle-right ml-1"></i></a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item"><a href="index-one-page.html" class="nav-link">Homepage 1</a></li>
-                                        <li class="nav-item"><a href="index-2-one-page.html" class="nav-link">Homepage 2</a></li>
-                                        <li class="nav-item"><a href="index-3-one-page.html" class="nav-link">Homepage 3</a></li>
-                                        <li class="nav-item"><a href="index-4-one-page.html" class="nav-link">Homepage 4</a></li>
-                                        <li class="nav-item"><a href="index-5-one-page.html" class="nav-link">Homepage 5</a></li>
-                                        <li class="nav-item"><a href="index-6-one-page.html" class="nav-link">Homepage 6</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="about.html" class="nav-link">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="services.html" class="nav-link">Services</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link" href="#">Pages <i class="fas fa-angle-down ml-1"></i></a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item"><a href="about.html" class="nav-link">About Us</a></li>
-                                <li class="nav-item"><a href="services.html" class="nav-link">Our Services</a></li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link" href="#">Our Portfolio <i class="fas fa-angle-right ml-1"></i></a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item"><a href="portfolio-grid.html" class="nav-link">Portfolio Grid</a></li>
-                                        <li class="nav-item"><a href="portfolio-minimal.html" class="nav-link">Portfolio Minimal</a></li>
-                                        <li class="nav-item"><a href="portfolio-no-gap.html" class="nav-link">Portfolio No Gap</a></li>
-                                        <li class="nav-item"><a href="portfolio-masonry.html" class="nav-link">Portfolio Masonry</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item"><a href="team.html" class="nav-link">Our Team</a></li>
-                                <li class="nav-item"><a href="pricing.html" class="nav-link">Pricing</a></li>
-                                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-                                <li class="nav-item"><a href="404.html" class="nav-link">404</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link" href="#">Blog Pages <i class="fas fa-angle-down ml-1"></i></a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link" href="#">Blog Grid <i class="fas fa-angle-right ml-1"></i></a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item"><a href="blog-two-column.html" class="nav-link">Grid 2 Column</a></li>
-                                        <li class="nav-item"><a href="blog-three-column.html" class="nav-link">Grid 3 Column</a></li>
-                                        <li class="nav-item"><a href="blog-left-sidebar.html" class="nav-link">Left Sidebar</a></li>
-                                        <li class="nav-item"><a href="blog-right-sidebar.html" class="nav-link">Right Sidebar</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link" href="#">Blog Single <i class="fas fa-angle-right ml-1"></i></a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item"><a href="blog-details-left-sidebar.html" class="nav-link">Single Left Sidebar</a></li>
-                                        <li class="nav-item"><a href="blog-details-right-sidebar.html" class="nav-link">Single Right Sidebar</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <!-- Navbar Icons -->
-                    <ul class="navbar-nav icons">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="modal" data-target="#search">
-                                <i class="fas fa-search"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item social">
-                            <a href="#" class="nav-link"><i class="fab fa-facebook-f"></i></a>
-                        </li>
-                        <li class="nav-item social">
-                            <a href="#" class="nav-link"><i class="fab fa-twitter"></i></a>
-                        </li>
-                    </ul>
-
-                    <!-- Navbar Toggler -->
-                    <ul class="navbar-nav toggle">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="modal" data-target="#menu">
-                                <i class="fas fa-bars toggle-icon m-0"></i>
-                            </a>
-                        </li>
-                    </ul>
-
-                    <!-- Navbar Action Button -->
-                    <ul class="navbar-nav action">
-                        <li class="nav-item ml-3">
-                            <a href="#" class="btn ml-lg-auto btn-bordered-white"><i class="fas fa-paper-plane contact-icon mr-md-2"></i>Contact Us</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <!-- ***** Header End ***** -->
+@extends('frontEnd.forntEnd_layout.main')
+@section('main-container')
 
         <!-- ***** Breadcrumb Area Start ***** -->
         <section class="section breadcrumb-area overlay-dark d-flex align-items-center">
@@ -209,11 +8,10 @@
                     <div class="col-12">
                         <!-- Breamcrumb Content -->
                         <div class="breadcrumb-content text-center">
-                            <h2 class="text-white text-uppercase mb-3">Our Portfolio</h2>
+                            <h2 class="text-white mb-3">Membership</h2>
                             <ol class="breadcrumb d-flex justify-content-center">
-                                <li class="breadcrumb-item"><a class="text-uppercase text-white" href="index.html">Home</a></li>
-                                <li class="breadcrumb-item"><a class="text-uppercase text-white" href="index.html">Pages</a></li>
-                                <li class="breadcrumb-item text-white active">Portfolio Grid</li>
+                                <li class="breadcrumb-item"><a class="text text-white" href="/">Home</a></li>
+                                <li class="breadcrumb-item text-white active">Membership</li>
                             </ol>
                         </div>
                     </div>
@@ -222,345 +20,188 @@
         </section>
         <!-- ***** Breadcrumb Area End ***** -->
 
-        <!-- ***** Portfolio Area Start ***** -->
-        <section id="portfolio" class="portfolio-area bg-gray overflow-hidden ptb_100">
+        <!-- ***** Membership Registration Area Start ***** -->
+        <section class="section membership-registration-area ptb_100">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <!-- Single Case Studies -->
-                        <div class="single-case-studies">
-                            <!-- Case Studies Thumb -->
-                            <a href="#">
-                                <img src="assets/img/case_studies/case_studies_1/thumb_1.jpg" alt="">
-                            </a>
-                            <!-- Case Studies Overlay -->
-                            <a href="#" class="case-studies-overlay">
-                                <!-- Overlay Text -->
-                                <span class="overlay-text text-center p-3">
-                                    <h3 class="text-white mb-3">Digital Marketing</h3>
-                                    <p class="text-white">Lorem ipsum dolor sit amet, consectet ur adipisicing elit.</p>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <!-- Single Case Studies -->
-                        <div class="single-case-studies">
-                            <!-- Case Studies Thumb -->
-                            <a href="#">
-                                <img src="assets/img/case_studies/case_studies_1/thumb_2.jpg" alt="">
-                            </a>
-                            <!-- Case Studies Overlay -->
-                            <a href="#" class="case-studies-overlay">
-                                <!-- Overlay Text -->
-                                <span class="overlay-text text-center p-3">
-                                    <h3 class="text-white mb-3">App Development</h3>
-                                    <p class="text-white">Lorem ipsum dolor sit amet, consectet ur adipisicing elit.</p>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <!-- Single Case Studies -->
-                        <div class="single-case-studies">
-                            <!-- Case Studies Thumb -->
-                            <a href="#">
-                                <img src="assets/img/case_studies/case_studies_1/thumb_3.jpg" alt="">
-                            </a>
-                            <!-- Case Studies Overlay -->
-                            <a href="#" class="case-studies-overlay">
-                                <!-- Overlay Text -->
-                                <span class="overlay-text text-center p-3">
-                                    <h3 class="text-white mb-3">Data Analysis</h3>
-                                    <p class="text-white">Lorem ipsum dolor sit amet, consectet ur adipisicing elit.</p>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <!-- Single Case Studies -->
-                        <div class="single-case-studies">
-                            <!-- Case Studies Thumb -->
-                            <a href="#">
-                                <img src="assets/img/case_studies/case_studies_1/thumb_4.jpg" alt="">
-                            </a>
-                            <!-- Case Studies Overlay -->
-                            <a href="#" class="case-studies-overlay">
-                                <!-- Overlay Text -->
-                                <span class="overlay-text text-center p-3">
-                                    <h3 class="text-white mb-3">Content Management</h3>
-                                    <p class="text-white">Lorem ipsum dolor sit amet, consectet ur adipisicing elit.</p>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <!-- Single Case Studies -->
-                        <div class="single-case-studies">
-                            <!-- Case Studies Thumb -->
-                            <a href="#">
-                                <img src="assets/img/case_studies/case_studies_1/thumb_5.jpg" alt="">
-                            </a>
-                            <!-- Case Studies Overlay -->
-                            <a href="#" class="case-studies-overlay">
-                                <!-- Overlay Text -->
-                                <span class="overlay-text text-center p-3">
-                                    <h3 class="text-white mb-3">SEO Marketing</h3>
-                                    <p class="text-white">Lorem ipsum dolor sit amet, consectet ur adipisicing elit.</p>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <!-- Single Case Studies -->
-                        <div class="single-case-studies">
-                            <!-- Case Studies Thumb -->
-                            <a href="#">
-                                <img src="assets/img/case_studies/case_studies_1/thumb_6.jpg" alt="">
-                            </a>
-                            <!-- Case Studies Overlay -->
-                            <a href="#" class="case-studies-overlay">
-                                <!-- Overlay Text -->
-                                <span class="overlay-text text-center p-3">
-                                    <h3 class="text-white mb-3">Marketing Strategy</h3>
-                                    <p class="text-white">Lorem ipsum dolor sit amet, consectet ur adipisicing elit.</p>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <!-- Single Case Studies -->
-                        <div class="single-case-studies">
-                            <!-- Case Studies Thumb -->
-                            <a href="#">
-                                <img src="assets/img/case_studies/case_studies_1/thumb_3.jpg" alt="">
-                            </a>
-                            <!-- Case Studies Overlay -->
-                            <a href="#" class="case-studies-overlay">
-                                <!-- Overlay Text -->
-                                <span class="overlay-text text-center p-3">
-                                    <h3 class="text-white mb-3">Data Analysis</h3>
-                                    <p class="text-white">Lorem ipsum dolor sit amet, consectet ur adipisicing elit.</p>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <!-- Single Case Studies -->
-                        <div class="single-case-studies">
-                            <!-- Case Studies Thumb -->
-                            <a href="#">
-                                <img src="assets/img/case_studies/case_studies_1/thumb_1.jpg" alt="">
-                            </a>
-                            <!-- Case Studies Overlay -->
-                            <a href="#" class="case-studies-overlay">
-                                <!-- Overlay Text -->
-                                <span class="overlay-text text-center p-3">
-                                    <h3 class="text-white mb-3">Digital Marketing</h3>
-                                    <p class="text-white">Lorem ipsum dolor sit amet, consectet ur adipisicing elit.</p>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <!-- Single Case Studies -->
-                        <div class="single-case-studies">
-                            <!-- Case Studies Thumb -->
-                            <a href="#">
-                                <img src="assets/img/case_studies/case_studies_1/thumb_4.jpg" alt="">
-                            </a>
-                            <!-- Case Studies Overlay -->
-                            <a href="#" class="case-studies-overlay">
-                                <!-- Overlay Text -->
-                                <span class="overlay-text text-center p-3">
-                                    <h3 class="text-white mb-3">Content Management</h3>
-                                    <p class="text-white">Lorem ipsum dolor sit amet, consectet ur adipisicing elit.</p>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <a href="#" class="btn btn-bordered mt-4">View More</a>
-                </div>
-            </div>
-        </section>
-        <!-- ***** Portfolio Area End ***** -->
-
-        <!-- ***** Review Area Start ***** -->
-        <section id="review" class="section review-area bg-overlay ptb_100">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-md-10 col-lg-7">
+                    <div class="col-lg-8">
                         <!-- Section Heading -->
-                        <div class="section-heading text-center">
-                            <h2 class="text-white">Our clients says</h2>
-                            <p class="text-white d-none d-sm-block mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati dignissimos quae quo ad iste ipsum officiis deleniti asperiores sit.</p>
-                            <p class="text-white d-block d-sm-none mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati.</p>
+                        <div class="text-center">
+                            <h2>Membership Registration</h2>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <!-- Client Reviews -->
-                    <div class="client-reviews owl-carousel">
-                        <!-- Single Review -->
-                        <div class="single-review p-5">
-                            <!-- Review Content -->
-                            <div class="review-content">
-                                <!-- Review Text -->
-                                <div class="review-text">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam est modi amet error earum aperiam, fuga labore facere rem ab nemo possimus cum excepturi expedita. Culpa rerum, quaerat qui non.</p>
+                        <div>
+                            @if(session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
                                 </div>
-                                <!-- Quotation Icon -->
-                                <div class="quot-icon">
-                                    <img class="avatar-sm" src="assets/img/quote.png" alt="">
+                            @endif
+
+                            @if(session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
                                 </div>
-                            </div>
-                            <!-- Reviewer -->
-                            <div class="reviewer media mt-3">
-                                <!-- Reviewer Thumb -->
-                                <div class="reviewer-thumb">
-                                    <img class="avatar-lg radius-100" src="assets/img/avatar/avatar-1.png" alt="">
-                                </div>
-                                <!-- Reviewer Media -->
-                                <div class="reviewer-meta media-body align-self-center ml-4">
-                                    <h5 class="reviewer-name color-primary mb-2">Junaid Hasan</h5>
-                                    <h6 class="text-secondary fw-6">CEO, Themeland</h6>
-                                </div>
-                            </div>
+                            @endif
                         </div>
-                        <!-- Single Review -->
-                        <div class="single-review p-5">
-                            <!-- Review Content -->
-                            <div class="review-content">
-                                <!-- Review Text -->
-                                <div class="review-text">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam est modi amet error earum aperiam, fuga labore facere rem ab nemo possimus cum excepturi expedita. Culpa rerum, quaerat qui non.</p>
-                                </div>
-                                <!-- Quotation Icon -->
-                                <div class="quot-icon">
-                                    <img class="avatar-sm" src="assets/img/quote.png" alt="">
+        
+                        <!-- Membership Registration Form -->
+                        <form method="POST" action="/addMembership" id="membership">
+                            @csrf
+                            <!-- Name -->
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name here:">
+                            </div>
+                            @error('name')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+        
+                            <!-- CNIC -->
+                            <div class="form-group">
+                                <label for="cnic">CNIC:</label>
+                                <input type="text" class="form-control" id="cnic" name="cnic" placeholder="Enter your cnic here:">
+                            </div>
+                            <div class="cnicverify">
+                                {{-- Here we show the error if cnic exsit on focusout --}}
+                            </div>
+                            @error('cnic')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+        
+                            <!-- Membership Type -->
+                            <div class="form-group">
+                                <label for="membershipType">Membership Type:</label>
+                                <select class="form-control" id="membershiptype_id" name="membershiptype_id">
+                                    <option value="" selected disabled>Select Membership</option>
+                                    @if (count($membershipTypes)>0)
+                                        @foreach($membershipTypes as $membershipType)
+                                            <option value="{{ $membershipType->id }}">{{ $membershipType->name }}</option>
+                                        @endforeach
+                                    @else
+                                        <option value="" disabled>No Membership Found</option>
+                                    @endif
+                                </select>
+                            </div>
+                            @error('membershiptype_id')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+
+                            <!-- Country -->
+                            <div class="form-group">
+                                <label for="country">Country:</label>
+                                <select class="form-control" id="country_id" name="country_id">
+                                    <option value="" selected disabled>Select Country</option>
+                                    @if (count($countries)>0)
+                                        @foreach($countries as $country)
+                                            <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                        @endforeach
+                                    @else
+                                        <option value="" disabled>No Country Found</option>
+                                    @endif
+                                </select>
+                            </div>
+                            @error('country_id')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+
+                            <!-- State -->
+                            <div class="form-group">
+                                <label for="state">State:</label>
+                                <select class="form-control" id="states_id" name="states_id">
+                                    <option value="" selected disabled>Select State</option>
+                                </select>
+                            </div>
+                            @error('states_id')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                            
+                            <!-- City -->
+                            <div class="form-group">
+                                <label for="city">City:</label>
+                                <select class="form-control" id="city_id" name="city_id">
+                                    <option value="" selected disabled>Select City</option>
+                                </select>
+                            </div>
+                            @error('city_id')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+        
+                            <!-- Hostel Registration Number -->
+                            <div class="form-group">
+                                <label for="hostelRegNo">Hostel:</label>
+                                <select class="form-control" id="hostelreg_no" name="hostelreg_no">
+                                    <option value="" selected disabled>Select Hostel</option>
+                                </select>
+                            </div>
+                            @error('hostelreg_no')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+
+                            <!-- Link to Add New Hostel If Hostel Not Found -->
+                            <div class="form-group">
+                                <div class="" >
+                                    <a href="{{route('saveHostelForm')}}" target="_blank">If not found Add Your Hostel</a>
                                 </div>
                             </div>
-                            <!-- Reviewer -->
-                            <div class="reviewer media mt-3">
-                                <!-- Reviewer Thumb -->
-                                <div class="reviewer-thumb">
-                                    <img class="avatar-lg radius-100" src="assets/img/avatar/avatar-2.png" alt="">
-                                </div>
-                                <!-- Reviewer Media -->
-                                <div class="reviewer-meta media-body align-self-center ml-4">
-                                    <h5 class="reviewer-name color-primary mb-2">Yasmin Akter</h5>
-                                    <h6 class="text-secondary fw-6">Founder, Themeland</h6>
-                                </div>
+        
+                            <!-- Referral CNIC -->
+                            <div class="form-group">
+                                <label for="referralCNIC">Referral CNIC:</label>
+                                <input type="text" class="form-control" id="referal_cnic" name="referal_cnic" placeholder="Enter referral cnic here:">
                             </div>
-                        </div>
-                        <!-- Single Review -->
-                        <div class="single-review p-5">
-                            <!-- Review Content -->
-                            <div class="review-content">
-                                <!-- Review Text -->
-                                <div class="review-text">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam est modi amet error earum aperiam, fuga labore facere rem ab nemo possimus cum excepturi expedita. Culpa rerum, quaerat qui non.</p>
-                                </div>
-                                <!-- Quotation Icon -->
-                                <div class="quot-icon">
-                                    <img class="avatar-sm" src="assets/img/quote.png" alt="">
-                                </div>
+        
+                            <!-- Transaction Number -->
+                            <div class="form-group">
+                                <label for="transactionNo">Transaction Number:</label>
+                                <input type="text" class="form-control" id="transaction_no" name="transaction_no" placeholder="Enter your transaction number here:">
                             </div>
-                            <!-- Reviewer -->
-                            <div class="reviewer media mt-3">
-                                <!-- Reviewer Thumb -->
-                                <div class="reviewer-thumb">
-                                    <img class="avatar-lg radius-100" src="assets/img/avatar/avatar-3.png" alt="">
-                                </div>
-                                <!-- Reviewer Media -->
-                                <div class="reviewer-meta media-body align-self-center ml-4">
-                                    <h5 class="reviewer-name color-primary mb-2">Md. Arham</h5>
-                                    <h6 class="text-secondary fw-6">CEO, Themeland</h6>
-                                </div>
+                            <div id="verify_transaction_no">
+                                {{-- Here we show the error if transaction id exsit on focusout --}}
                             </div>
-                        </div>
+                            @error('transaction_no')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+        
+                            <!-- Gender -->
+                            <div class="form-group">
+                                <label for="gender">Gender:</label>
+                                <select class="form-control" id="gender" name="gender">
+                                    <option value="" selected disabled>Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            @error('gender')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+        
+                            <!-- Since -->
+                            <div class="form-group">
+                                <label for="since">Since:</label>
+                                <input type="date" class="form-control" id="since" name="since">
+                                <small class="form-text text-muted">Living Since</small>
+                            </div>
+        
+                            <!-- Previous Hostel -->
+                            <div class="form-group">
+                                <label for="previousHostel">Previous Hostel:</label>
+                                <input type="text" class="form-control" id="previous_hostel" name="previous_hostel" placeholder="Enter your previous hostel registration number here: [Optional]">
+                            </div> 
+        
+                            <!-- Reset Button -->
+                            <button type="reset" class="btn btn-warning">Reset</button> 
+                            
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- ***** Review Area End ***** -->
+        <!-- ***** Membership Registration Area End ***** -->
 
-        <!--====== Contact Area Start ======-->
-        <section id="contact" class="contact-area ptb_100">
-            <div class="container">
-                <div class="row justify-content-between align-items-center">
-                    <div class="col-12 col-lg-5">
-                        <!-- Section Heading -->
-                        <div class="section-heading text-center mb-3">
-                            <h2>Let's connect!</h2>
-                            <p class="d-none d-sm-block mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati dignissimos quae quo ad iste ipsum officiis deleniti asperiores sit.</p>
-                            <p class="d-block d-sm-none mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati.</p>
-                        </div>
-                        <!-- Contact Us -->
-                        <div class="contact-us">
-                            <ul>
-                                <!-- Contact Info -->
-                                <li class="contact-info color-1 bg-hover active hover-bottom text-center p-5 m-3">
-                                    <span><i class="fas fa-mobile-alt fa-3x"></i></span>
-                                    <a class="d-block my-2" href="#">
-                                        <h3>+89 (0) 2354 5470091</h3>
-                                    </a>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                </li>
-                                <!-- Contact Info -->
-                                <li class="contact-info color-3 bg-hover active hover-bottom text-center p-5 m-3">
-                                    <span><i class="fas fa-envelope-open-text fa-3x"></i></span>
-                                    <a class="d-none d-sm-block my-2" href="#">
-                                        <h3>mail@company.com</h3>
-                                    </a>
-                                    <a class="d-block d-sm-none my-2" href="#">
-                                        <h3>mail@your company.com</h3>
-                                    </a>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6 pt-4 pt-lg-0">
-                        <!-- Contact Box -->
-                        <div class="contact-box text-center">
-                            <!-- Contact Form -->
-                            <form id="contact-form" method="POST" action="assets/php/mail.php">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="name" placeholder="Name" required="required">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="name" placeholder="Company Name" required="required">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="email" class="form-control" name="email" placeholder="Email" required="required">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="subject" placeholder="Phone" required="required">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <textarea class="form-control" name="message" placeholder="Message" required="required"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-bordered active btn-block mt-3"><span class="text-white pr-3"><i class="fas fa-paper-plane"></i></span>Send Message</button>
-                                    </div>
-                                </div>
-                            </form>
-                            <p class="form-message"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--====== Contact Area End ======-->
+        
 
+        
         <!--====== Call To Action Area Start ======-->
         <section class="section cta-area bg-overlay ptb_100">
             <div class="container">
@@ -579,159 +220,275 @@
         </section>
         <!--====== Call To Action Area End ======-->
 
-        <!--====== Footer Area Start ======-->
-        <footer class="section footer-area">
-            <!-- Footer Top -->
-            <div class="footer-top ptb_100">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 col-sm-6 col-lg-3">
-                            <!-- Footer Items -->
-                            <div class="footer-items">
-                                <!-- Footer Title -->
-                                <h3 class="footer-title text-uppercase mb-2">About Us</h3>
-                                <ul>
-                                    <li class="py-2"><a class="text-black-50" href="#">Company Profile</a></li>
-                                    <li class="py-2"><a class="text-black-50" href="#">Testimonials</a></li>
-                                    <li class="py-2"><a class="text-black-50" href="#">Careers</a></li>
-                                    <li class="py-2"><a class="text-black-50" href="#">Partners</a></li>
-                                    <li class="py-2"><a class="text-black-50" href="#">Affiliate Program</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-lg-3">
-                            <!-- Footer Items -->
-                            <div class="footer-items">
-                                <!-- Footer Title -->
-                                <h3 class="footer-title text-uppercase mb-2">Services</h3>
-                                <ul>
-                                    <li class="py-2"><a class="text-black-50" href="#">Web Application</a></li>
-                                    <li class="py-2"><a class="text-black-50" href="#">Product Management</a></li>
-                                    <li class="py-2"><a class="text-black-50" href="#">User Interaction Design</a></li>
-                                    <li class="py-2"><a class="text-black-50" href="#">UX Consultant</a></li>
-                                    <li class="py-2"><a class="text-black-50" href="#">Social Media Marketing</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-lg-3">
-                            <!-- Footer Items -->
-                            <div class="footer-items">
-                                <!-- Footer Title -->
-                                <h3 class="footer-title text-uppercase mb-2">Support</h3>
-                                <ul>
-                                    <li class="py-2"><a class="text-black-50" href="#">Frequently Asked</a></li>
-                                    <li class="py-2"><a class="text-black-50" href="#">Terms &amp; Conditions</a></li>
-                                    <li class="py-2"><a class="text-black-50" href="#">Privacy Policy</a></li>
-                                    <li class="py-2"><a class="text-black-50" href="#">Help Center</a></li>
-                                    <li class="py-2"><a class="text-black-50" href="#">Contact Us</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-lg-3">
-                            <!-- Footer Items -->
-                            <div class="footer-items">
-                                <!-- Footer Title -->
-                                <h3 class="footer-title text-uppercase mb-2">Follow Us</h3>
-                                <p class="mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur, quae.</p>
-                                <!-- Social Icons -->
-                                <ul class="social-icons list-inline pt-2">
-                                    <li class="list-inline-item px-1"><a href="#"><i class="fab fa-facebook"></i></a></li>
-                                    <li class="list-inline-item px-1"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li class="list-inline-item px-1"><a href="#"><i class="fab fa-google-plus"></i></a></li>
-                                    <li class="list-inline-item px-1"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                    <li class="list-inline-item px-1"><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Footer Bottom -->
-            <div class="footer-bottom bg-grey">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <!-- Copyright Area -->
-                            <div class="copyright-area d-flex flex-wrap justify-content-center justify-content-sm-between text-center py-4">
-                                <!-- Copyright Left -->
-                                <div class="copyright-left">&copy; Copyrights 2020 Digimax All rights reserved.</div>
-                                <!-- Copyright Right -->
-                                <div class="copyright-right">Made with <i class="fas fa-heart"></i> By <a href="#">Themeland</a></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!--====== Footer Area End ======-->
-
-        <!--====== Modal Search Area Start ======-->
-        <div id="search" class="modal fade p-0">
-            <div class="modal-dialog dialog-animated">
-                <div class="modal-content h-100">
-                    <div class="modal-header" data-dismiss="modal">
-                        Search <i class="far fa-times-circle icon-close"></i>
-                    </div>
-                    <div class="modal-body">
-                        <form class="row">
-                            <div class="col-12 align-self-center">
-                                <div class="row">
-                                    <div class="col-12 pb-3">
-                                        <h2 class="search-title mb-3">What are you looking for?</h2>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent diam lacus, dapibus sed imperdiet consectetur.</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12 input-group">
-                                        <input type="text" class="form-control" placeholder="Enter your keywords">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12 input-group align-self-center">
-                                        <button class="btn btn-bordered mt-3">Search</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--====== Modal Search Area End ======-->
-
-        <!--====== Modal Responsive Menu Area Start ======-->
-        <div id="menu" class="modal fade p-0">
-            <div class="modal-dialog dialog-animated">
-                <div class="modal-content h-100">
-                    <div class="modal-header" data-dismiss="modal">
-                        Menu <i class="far fa-times-circle icon-close"></i>
-                    </div>
-                    <div class="menu modal-body">
-                        <div class="row w-100">
-                            <div class="items p-0 col-12 text-center"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--====== Modal Responsive Menu Area End ======-->
-    </div>
+@endsection
+@section('frontEnd-js')
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
 
-    <!-- ***** All jQuery Plugins ***** -->
+    {{-- Start of Script to Get States Using Country Id --}}
+<script>
+    $(document).ready(function() {
+        $('#country_id').change(function() {
+            if($('#country_id').val() != null){
+                var country_id = $(this).val();
+            // Make an Ajax request to get the states for the selected country
+            $.ajax({
+                url: '/get-states/' + country_id,
+                type: 'GET',
+                success: function(response) {
+                    // Clear existing options
+                    $('#states_id').empty();
+                    $('#states_id').append('<option value="" disabled selected>Select State</option>');
+                    // Populate the state dropdown with the fetched data
+                    if(response.length === 0 || response === null){
+                        $('#states_id').append('<option value="" disabled>No State Found</option>');
+                    }
+                    else{
+                        $.each(response, function(key, value) {
+                            $('#states_id').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                    $('#city_id').empty();
+                    $('#city_id').append('<option value="" disabled selected>Select City</option>');
+                    $('#hostelreg_no').empty();
+                    $('#hostelreg_no').append('<option value="" disabled selected>Select Hostel</option>');
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+            }
+        });
+    });
+</script>
+{{-- Close of Script to Get States Using Country Id --}}
 
-    <!-- jQuery(necessary for all JavaScript plugins) -->
-    <script src="assets/js/jquery/jquery-3.5.1.min.js"></script>
 
-    <!-- Bootstrap js -->
-    <script src="assets/js/bootstrap/popper.min.js"></script>
-    <script src="assets/js/bootstrap/bootstrap.min.js"></script>
+{{-- Start of Script to Get Cities Using State Id --}}
+<script>
+    $(document).ready(function() {
+        $('#states_id').change(function() {
+            if($('#states_id').val() != null){
+                var states_id = $(this).val();
+            // Make an Ajax request to get the states for the selected country
+            $.ajax({
+                url: '/get-cities/' + states_id,
+                type: 'GET',
+                success: function(response) {
+                    // Clear existing options
+                    $('#city_id').empty();
+                    $('#city_id').append('<option value="" disabled selected>Select City</option>');
+                    // Populate the state dropdown with the fetched data
+                    if(response.length === 0 || response === null){
+                        $('#city_id').append('<option value="" disabled>No City Found</option>');
+                    }else{
+                        $.each(response, function(key, value) {
+                            $('#city_id').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                    
+                    $('#hostelreg_no').empty();
+                    $('#hostelreg_no').append('<option value="" disabled selected>Select Hostel</option>');
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+            }
 
-    <!-- Plugins js -->
-    <script src="assets/js/plugins/plugins.min.js"></script>
+            
+        });
+    });
+</script>
+{{-- Close of Script to Get Cities Using State Id --}}
 
-    <!-- Active js -->
-    <script src="assets/js/active.js"></script>
-</body>
 
-</html>
+{{-- Start of Script to Get Hostels Using Cities Id --}}
+<script>
+    $(document).ready(function() {
+        $('#city_id').change(function() {
+            if($('#city_id').val() != null){
+                var city_id = $(this).val();
+            // Make an Ajax request to get the states for the selected country
+            $.ajax({
+                url: '/get-properties/' + city_id,
+                type: 'GET',
+                success: function(response) {
+                    // Clear existing options
+                    $('#hostelreg_no').empty();
+                    $('#hostelreg_no').append('<option value="" disabled selected>Select Hostel</option>');
+                    // Populate the state dropdown with the fetched data
+                    if(response ==="" || response === null){
+                        $('#hostelreg_no').append('<option value="" disabled>SNo Hostel Found</option>');
+                    }
+                    else{
+                        $.each(response, function(key, value) {
+                            $('#hostelreg_no').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                    
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+            }            
+        });
+    });
+</script>
+{{-- Close of Script to Get Hostels Using City Id --}}
+
+
+    {{-- Start of the Script to Verufy CNIC Which is going to be registered for Membership --}}
+    <script>
+        $(document).ready(function(){
+            $('#cnic').focusout(function(){
+                let cnic = $('#cnic').val();
+                if(cnic.length==0){
+                    $(".cnicverify").hide();
+                    $(".cnicverify").html("");
+                    return;
+                }
+                if(cnic.length!==15){
+                    // alert("Kindly Provide the cnic correctly");
+                    $(".cnicverify").css({"border":"2px solid red"});
+                    $(".cnicverify").show();
+                    $(".cnicverify").html("Kindly Provide the cnic correctly");
+                    $('#cnic').focus();
+                    // $('#cnic').val("");
+                    return;
+                }
+                else{
+                    $.ajax({
+                        url:'/checkCNIC_Membership/'+cnic,
+                        type:"GET",
+                        success:function(response){
+                            if(response==1){
+                                // it means cnic exist.
+                                $(".cnicverify").css({"border":"2px solid red"});
+                                $(".cnicverify").show();
+                                $(".cnicverify").html("Membership is already registered with this CNIC. Kindly Register the Memebership with new CNIC.");
+                                $('#gender').val('');
+                                $('#cnic').focus();
+                                return;
+                            }
+                            else{
+                                $('#gender').val('');
+                                $(".cnicverify").hide();
+                                $(".cnicverify").html("");
+                            }
+                        },
+                    });
+                }
+            });
+        });
+    </script>
+    {{-- End of the Script to Verufy CNIC Which is going to be registered for Membership --}}
+
+    {{-- Start of the Script to Verify that Transaction id is uniqe or not --}}
+    <script>
+        $(document).ready(function(){
+            $('#transaction_no').focusout(function(){
+                let transaction_no = $('#transaction_no').val();
+                if(transaction_no.length>0){
+                    $.ajax({
+                        url:'/checkTransaction_no/'+transaction_no,
+                        type:"GET",
+                        success:function(response){
+                            if(response==1){    // 1 means true transsction id exist
+                                $("#verify_transaction_no").css({"border":"2px solid red"});
+                                $("#verify_transaction_no").show();
+                                $("#verify_transaction_no").html("Transaction Id is already used. Kindly use the new and unique transaction id");
+                                $('#transaction_no').focus();
+                                return;
+                            }
+                            else{
+                                $("#verify_transaction_no").hide();
+                                $("#verify_transaction_no").html("");
+                            }
+                        },
+                    });
+                }else{
+                    $("#verify_transaction_no").hide();
+                    $("#verify_transaction_no").html("");
+                }
+            });
+        });
+    </script>
+    {{-- End of the Script to Verify that Transaction id is uniqe or not --}}
+
+     {{-- Begin: Jquery Form Validation --}}
+     <script>
+        // $(document).ready(function(){
+        //     // 
+        //     $("#membership").submit(function(e){
+        //         // Check the Full Name is empty or not
+        //         let name = $("#name").val();
+        //         if(name.trim() === ""){
+        //             e.preventDefault();
+        //             $("#name").after('<div class="alert alert-danger">Full name should be provided.</div>');
+        //         }
+
+        //         // Check the cnic is empty or not and also check the length
+        //         let cnic = $("#cnic").val();
+        //         if(cnic.length != 15){
+        //             e.preventDefault();
+        //             $("#cnic").after('<div class="alert alert-danger">Cnic should provided properly.</div>');
+        //         }
+
+        //         // Check the memebership type is selected or not
+        //         let membershiptype_id = $('#membershiptype_id').val();
+        //         if(membershiptype_id === "" || membershiptype_id === null){
+        //             e.preventDefault();
+        //             $("#membershiptype_id").after('<div class="alert alert-danger">Membership should be selected.</div>');
+        //         }
+
+        //         // Check the country is selected or not
+        //         let country_id = $('#country_id').val();
+        //         if(country_id === "" || country_id === null){
+        //             e.preventDefault();
+        //             $("#country_id").after('<div class="alert alert-danger">Country should be selected.</div>');
+        //         }
+
+        //         // Check the state is selected or not
+        //         let states_id = $('#states_id').val();
+        //         if(states_id === "" || states_id === null){
+        //             e.preventDefault();
+        //             $("#states_id").after('<div class="alert alert-danger">State should be selected.</div>');
+        //         }
+
+        //         // Check the city is selected or not
+        //         let city_id = $('#city_id').val();
+        //         if(city_id === "" || city_id === null){
+        //             e.preventDefault();
+        //             $("#city_id").after('<div class="alert alert-danger">City should be selected.</div>');
+        //         }
+
+        //         // Check the Hostel is selected or not
+        //         let hostelreg_no = $('#hostelreg_no').val();
+        //         if(hostelreg_no === "" || hostelreg_no === null){
+        //             e.preventDefault();
+        //             $("#hostelreg_no").after('<div class="alert alert-danger">Hostel should be selected.</div>');
+        //         }
+
+        //         // Check the transaction is empty or not
+        //         let transaction_no = $("#transaction_no").val();
+        //         if(transaction_no.trim() === ""){
+        //             e.preventDefault();
+        //             $("#transaction_no").after('<div class="alert alert-danger">Transaction id should be provided.</div>');
+        //         }
+
+        //         // Check the gender is selected or not
+        //         let gender = $('#gender').val();
+        //         if(gender === "" || gender === null){
+        //             e.preventDefault();
+        //             $("#gender").after('<div class="alert alert-danger">Gender should be selected.</div>');
+        //         }
+
+        //     });
+        // });
+    </script>
+    {{-- End: Jquery Form Validation --}}
+
+@endsection

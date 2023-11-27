@@ -53,35 +53,39 @@
         </section>
         <!-- ***** Welcome Area End ***** -->
 
-        <!-- ***** Promo Area Start ***** -->
-        <section class="section promo-area ptb_100">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 col-md-6 col-lg-4 res-margin">
-                        <!-- Single Promo -->
-                        <div class="single-promo color-1 bg-hover hover-bottom text-center p-5">
-                            <h3 class="mb-3">trend design</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. <strong>Aspernatur provident unde</strong> ex eligendi magni sit impedit iusto, sed ad fuga minima, dignissimos ducimus autem molestias, nostrum nesciunt enim? Ea, non hic voluptates dolorum impedit eveniet dolorem temporibus illo incidunt quis minima facere doloribus sit maiores, blanditiis labore quasi, accusantium quaerat!</p>
+        {{-- Begin: View Blogs Area --}}
+        <div class="container mt-5">
+            <div class="row">
+                @foreach ($blogs as $blog)
+                    <!-- Replace this with a loop through your blog data -->
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img
+                                src="{{ asset($blog->thumbnail_image_path) }}"
+                                class="card-img-top img-fluid" style=" height: 300px;  "
+                                alt="Thumbnail Image" 
+                                onerror="this.onerror=null; this.src='{{ asset('no-image-icon.png') }}';"
+                            >
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {{$blog->title}}
+                                </h5>
+                                <p class="card-text text-justify">
+                                    {{$blog->short_description}}
+                                </p>
+                                <p class="card-text text-muted text-right">
+                                    {{ \Carbon\Carbon::parse($blog->created_at)->format('d-M-Y \a\t h:i A') }}
+                                </p>
+                                <a href="{{ route('frontEnd.viewFullBlogBySlug', ['slug' => $blog->slug]) }}" class="btn btn-primary">View Details</a>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 col-lg-4 res-margin">
-                        <!-- Single Promo -->
-                        <div class="single-promo color-2 bg-hover active hover-bottom text-center p-5">
-                            <h3 class="mb-3">Keyword ranking</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur provident unde ex eligendi magni sit impedit iusto, sed ad fuga minima, <strong>dignissimos ducimus autem</strong> molestias, nostrum nesciunt enim? Ea, non hic voluptates dolorum impedit eveniet dolorem temporibus illo incidunt quis minima facere doloribus sit maiores, blanditiis labore quasi, accusantium quaerat!</p>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-4">
-                        <!-- Single Promo -->
-                        <div class="single-promo color-3 bg-hover hover-bottom text-center p-5">
-                            <h3 class="mb-3">Social media</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur provident unde ex eligendi magni sit impedit iusto, sed ad fuga minima, dignissimos ducimus autem molestias, nostrum nesciunt enim? Ea, non hic voluptates <strong>dolorum impedit eveniet dolorem temporibus</strong> illo incidunt quis minima facere doloribus sit maiores, blanditiis labore quasi, accusantium quaerat!</p>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+                <!-- End loop -->
             </div>
-        </section>
-        <!-- ***** Promo Area End ***** -->
+        </div>
+        {{-- End: View Blogs Area --}}
+
 
         <!-- ***** Content Area Start ***** -->
         <section class="section content-area bg-grey ptb_150">
@@ -342,6 +346,7 @@
             </div>
         </section>
         <!-- ***** Service Area End ***** -->
+
 
         <!-- ***** Portfolio Area Start ***** -->
         <section id="portfolio" class="portfolio-area overflow-hidden ptb_100">

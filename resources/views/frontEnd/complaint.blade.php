@@ -299,10 +299,64 @@
             let email = $("#email").val();
             if(email.trim() === ''){
                 e.preventDefault();
-                $("#email").ajax('<div class="alert alert-danger">Email should be provided properly.</div>')
+                $("#email").after('<div class="alert alert-danger">Email should be provided properly.</div>')
             }
 
-            // 
+            // Check if the room number is empty
+            let roomNumber = $("#roomNumber").val();
+            if(roomNumber.trim() === ""){
+                e.preventDefault();
+                $("#roomNumber").after('<div class="alert alert-danger">Room Number should be provided.</div>');
+            }
+
+            // Check if the contry is empty
+            let countryId = $("#countryId").val();
+            if(countryId === "" || countryId === null){
+                e.preventDefault();
+                $("#countryId").after('<div class="alert alert-danger">Country Should be selected.</div>')
+            }
+
+            // Check if the state is empty
+            let stateId = $("#stateId").val();
+            if(stateId === "" || stateId === null){
+                e.preventDefault();
+                $("#stateId").after('<div class="alert alert-danger">State should be selected</div>')
+            }
+
+            //  Check if the city is empty
+            let cityId = $("#cityId").val();
+            if(cityId === "" || cityId === null){
+                e.preventDefault();
+                $("#cityId").after('<div class="alert alert-danger">City should be provided</div>');
+            }
+
+            // Check if the hostel is empty
+            let hostelId = $("#hostelId").val();
+            if(hostelId === "" || hostelId === null){
+                e.preventDefault();
+                $("#hostelId").after('<div class="alert alert-danger">Hostel should be selected</div>')
+            }
+
+            // Chect if the Complaint Type is empty
+            let complaintType = $("#complaintType").val();
+            if(complaintType === "" || complaintType === null){
+                e.preventDefault();
+                $("#complaintType").after('<div class="alert alert-danger">Complaint Type should be selected</div>');
+            }
+
+            // Check if the priority is empty
+            let priority = $("#priority").val();
+            if(priority === "" || priority === null){
+                e.preventDefault();
+                $("#priority").after('<div class="alert alert-danger">Complaint Priority should be selected</div>');
+            }
+
+            // Check if the complaintDetails are empty
+            let complaintDetails = $("#complaintDetails").html();
+            if(complaintDetails.trim() ===""){
+                e.preventDefault();
+                $("#complaintDetails").after('<div class="alert alert-danger">Complaint details should be provided.</div>')
+            }
 
         });
     });

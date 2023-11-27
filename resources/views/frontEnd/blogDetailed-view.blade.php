@@ -1,14 +1,15 @@
 @extends('frontEnd.forntEnd_layout.main')
 @section('main-container')
 
+
         <!-- ***** Breadcrumb Area Start ***** -->
-        <section class="section breadcrumb-area overlay-dark d-flex align-items-center">
+        <section class="section breadcrumb-area d-flex align-items-center" style="background-image: url('{{ asset($blogs[0]->image_path) }}'); background-size: cover; background-position: center;">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <!-- Breamcrumb Content -->
-                        <div class="breadcrumb-content text-center">
-                            <h2 class="text-white text-uppercase mb-3">Blogs (News Feed)</h2>
+                        <div class="breadcrumb- text-center">
+                            <h2 class="text-white mb-3">Blogs (News Feed)</h2>
                             <ol class="breadcrumb d-flex justify-content-center">
                                 <li class="breadcrumb-item"><a class="text-white" href="/">Home</a></li>
                                 <li class="breadcrumb-item"><a class="text-white" href="#">More</a></li>
@@ -28,12 +29,12 @@
         <!-- Display only the first blog -->
         <div class="col-md-12 mb-4">
             <div class="card">
-                <img
+                {{-- <img
                     src="{{ asset($blogs[0]->image_path) }}"
                     class="card-img-top img-fluid" 
                     alt="Thumbnail Image" 
                     onerror="this.onerror=null; this.src='{{ asset('no-image-icon.png') }}';"
-                >
+                > --}}
                 <div class="card-body">
                     <h5 class="card-title">
                         <span class="">Title:</span><br>
@@ -73,7 +74,7 @@
                             <h2 class="text-white">Looking for the best digital agency &amp; marketing solution?</h2>
                             <p class="text-white d-none d-sm-block mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati dignissimos quae quo ad iste ipsum officiis deleniti asperiores sit.</p>
                             <p class="text-white d-block d-sm-none mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati.</p>
-                            <a href="#" class="btn btn-bordered-white mt-4">Contact Us</a>
+                            <a href="{{route('ContactUsForm')}}" class="btn btn-bordered-white mt-4">Contact Us</a>
                         </div>
                     </div>
                 </div>
