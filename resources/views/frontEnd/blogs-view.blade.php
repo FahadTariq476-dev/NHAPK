@@ -44,15 +44,20 @@
                                 <p class="card-text text-muted text-right">
                                     {{ \Carbon\Carbon::parse($blog->created_at)->format('d-M-Y \a\t h:i A') }}
                                 </p>
-                                {{-- @dd($blog->toArray()) --}}
-                                {{-- {{$blog->slug}} --}}
-                                {{-- {{$blog->slug}} --}}
                                 <a href="{{ route('frontEnd.viewFullBlogBySlug', ['slug' => $blog->slug]) }}" class="btn btn-primary">View Details</a>
                             </div>
                         </div>
                     </div>
                 @endforeach
                 <!-- End loop -->
+            </div>
+            <!-- Pagination Links -->
+            <div class="row justify-content-center mt-4">
+                <div class="col-12">
+                    {{-- {{ $blogs->links() }} --}}
+                    {{ $blogs->links('pagination::bootstrap-5') }}
+                    {{-- {{ $blogs->links('pagination::bootstrap-4') }} --}}
+                </div>
             </div>
         </div>
         {{-- End: View Blogs Area --}}
@@ -68,7 +73,7 @@
                             <h2 class="text-white">Looking for the best digital agency &amp; marketing solution?</h2>
                             <p class="text-white d-none d-sm-block mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati dignissimos quae quo ad iste ipsum officiis deleniti asperiores sit.</p>
                             <p class="text-white d-block d-sm-none mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati.</p>
-                            <a href="#" class="btn btn-bordered-white mt-4">Contact Us</a>
+                            <a href="{{route('ContactUsForm')}}" class="btn btn-bordered-white mt-4">Contact Us</a>
                         </div>
                     </div>
                 </div>

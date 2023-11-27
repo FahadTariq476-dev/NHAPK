@@ -1,22 +1,23 @@
 <?php
 
-use App\Http\Controllers\AboutController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\LoginController;
-use App\Http\Controllers\Admin\LogoutController;
-use App\Http\Controllers\Admin\PostBlogsController;
-use App\Http\Controllers\BlogFrontEndController;
+use App\Models\Membership;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\StatesController;
+use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\ContactUsController;
-use App\Http\Controllers\HostelRegistrationController;
 use App\Http\Controllers\MembershipController;
-use App\Http\Controllers\PropertyController;
-use App\Http\Controllers\StatesController;
-use App\Http\Controllers\UserController;
-use App\Models\Membership;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\LogoutController;
+use App\Http\Controllers\BlogFrontEndController;
+use App\Http\Controllers\HomeDashboardController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PostBlogsController;
+use App\Http\Controllers\HostelRegistrationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +33,10 @@ use Illuminate\Support\Facades\Auth;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', function () {
-    return view('frontEnd.index');
-})->name('Home');
+// Route::get('/', function () {
+//     return view('frontEnd.index');
+// })->name('Home');
+Route::get('/',[HomeDashboardController::class,'index'])->name('Home');
 // Auth::routes(['register' => false,'reset' => false, 'login'=>false]);
 // Auth::routes();
 
@@ -128,3 +130,8 @@ Route::get('/blogs',[BlogFrontEndController::class,'index'])->name('frontEnd.lis
 Route::get('/blogDetails/{slug}',[BlogFrontEndController::class,'viewFullBlogById'])->name('frontEnd.viewFullBlogBySlug');
 
 // End: Route for Blogs
+
+
+
+// Test Membership ROute
+Route::get('/testMembership',[MembershipController::class, 'testMembership']);

@@ -48,7 +48,7 @@ class PostBlogsController extends Controller
     // Save the blog entry to the database
     $blog = new Blog();
     $blog->title = $validatedData['title'];
-    $blog->slug = "slug_".$uniqueSlug; 
+    $blog->slug = $uniqueSlug; 
     $blog->short_description = $validatedData['shortDescription'];
     $blog->editor_content = $validatedData['editor'];
     $blog->image_path = $imagePath;
@@ -69,20 +69,20 @@ class PostBlogsController extends Controller
     }
 
     private function makeSlugUnique($slug, $counter = 1)
-{
-    // Check if a record with the same slug already exists
-    $existingBlog = Blog::where('slug', $slug)->first();
+    {
+        // Check if a record with the same slug already exists
+        $existingBlog = Blog::where('slug', $slug)->first();
 
-    // If a record with the same slug exists, modify the slug to make it unique
-    if ($existingBlog) {
-        $modifiedSlug = $slug . '-' . $counter;
-        // Recursive call to ensure the modified slug is also unique
-        return $this->makeSlugUnique($modifiedSlug, $counter + 1);
+        // If a record with the same slug exists, modify the slug to make it unique
+        if ($existingBlog) {
+            $modifiedSlug = $slug . '-' . $counter;
+            // Recursive call to ensure the modified slug is also unique
+            return $this->makeSlugUnique($modifiedSlug, $counter + 1);
+        }
+
+        // If the slug is already unique, return it
+        return $slug;
     }
-
-    // If the slug is already unique, return it
-    return $slug;
-}
 
 
 
