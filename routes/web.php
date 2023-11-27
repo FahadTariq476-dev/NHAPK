@@ -108,6 +108,12 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth']], function () {
     Route::get('/admin/get-blogList',[PostBlogsController::class,'adminListingPostedBlogs'])->name('admin.get-blogList');
     // Route for admin to update the posted blog status
     Route::get('/admin/blogs/update-status/{status}/{complaintId}',[PostBlogsController::class,'updatePostStatus'])->name('admin.updatePostStatus');
+    // Route for admin to delete the posted blog
+    Route::get('/admin/deleteBlog/{id}',[PostBlogsController::class,'deleteBlog'])->name('admin.deleteBlog');
+    // Route for admin to load the edit blog from lis-blog page
+    Route::get('/admin/editBlog/{id}',[PostBlogsController::class,'editBlogView'])->name('admin.editBlogView');
+    // Route for admin to update the full blog from edit blog page
+    Route::post('/admin/updateBlog',[PostBlogsController::class,'updateFullBlog'])->name('admin.updateFullBlog');
 });
 
 

@@ -39,6 +39,16 @@
                     <div class="col-12">
                         <div class="table-responsive">
                             <h2>Posted Blogs</h2>
+                            @if(session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                            @endif
+                            @if(session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                            @endif
                             <table class="table mb-0 dataTable" id="nhapkBlogTable">
                                 <thead>
                                     <tr>
@@ -51,6 +61,8 @@
                                         <th>Status</th>
                                         <th>Created At</th>
                                         <th>Action</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,6 +79,8 @@
                                         <th>Status</th>
                                         <th>Created At</th>
                                         <th>Action</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -153,6 +167,20 @@
                                     '<option value="published" ' + (row.status === 'published' ? 'selected' : '') + '>Published</option>' +
                                 '</select>';
                         }
+                    },
+                    // Edit button
+                    {
+                        data: null,
+                        render: function(data, type, row) {
+                            return '<button class="btn btn-primary btn-sm edit-btn" data-id="' + row.id + '">Edit</button>';
+                        }
+                    },
+                    // Delete button
+                    {
+                        data: null,
+                        render: function(data, type, row) {
+                            return '<button class="btn btn-danger btn-sm delete-btn" data-id="' + row.id + '">Delete</button>';
+                        }
                     }
                 ],
                 serverSide: true,
@@ -185,9 +213,11 @@
                     console.log(json);
                 },
             });
-    
+
             // Event delegation for dynamically generated elements
-            jq('#nhapkBlogTable').on('change', '.status-select', function() {
+        jq('#nhapkBlogTable')
+            .on('change', '.status-select', function() {
+                //  code for handling status change
                 // 
                 var selectedValue = jq(this).val();
                 var dataId = jq(this).data('id');
@@ -219,10 +249,38 @@
                     alert("You pressed Cancel!");
                     dataTable.ajax.reload();
                 }
+            })
+            .on('click', '.edit-btn', function() {
+                var dataId = jq(this).data('id');
+                // Navigate to the editBlogView route
+                window.location.href = '/admin/editBlog/' + dataId;
+            })
+            .on('click', '.delete-btn', function() {
+                var dataId = jq(this).data('id');
+                // Implement your delete logic using the 'dataId'
+                var isConfirmed = confirm('Are you sure you want to delete the item with ID ' + dataId + '?');
+                if (isConfirmed) {
+                    // Proceed with delete action
+                    jq.ajax({
+                        url: '/admin/deleteBlog/' + dataId,
+                        type: 'get',
+                        success: function(response) {
+                            if (response == 'success') {
+                                alert('Item deleted successfully');
+                                dataTable.ajax.reload();
+                            } else {
+                                alert('Error deleting item');
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                }
             });
+    });
+    
 
-
-        });
     </script>
     
       
