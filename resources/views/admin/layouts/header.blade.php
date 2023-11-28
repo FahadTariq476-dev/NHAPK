@@ -35,6 +35,12 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
     <!-- END: Custom CSS-->
 
+   <!-- Include SweetAlert CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+
+<!-- Include SweetAlert JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
+
     <!-- jQuery(necessary for all JavaScript plugins) -->
     {{-- <script src="{{asset('assets/js/jquery/jquery-3.5.1.min.js')}}"></script> --}}
 
@@ -134,7 +140,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="d-flex align-items-center" href="#">
-                        <i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Menus</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">5</span>
+                        <i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Menus</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">6</span>
                     </a>
                     <ul class="menu-content">
                         <li>
@@ -151,6 +157,16 @@
                                 </li>
                             </ul>
                         </li>
+                        {{-- Begin: Membership --}}
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Membership</span></a>
+                            <ul class="menu-content">
+                                <li>
+                                    <a class="d-flex align-items-center" href="{{route('admin.list-memebership')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Membership</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        {{-- End: Membership --}}
                         <li>
                             <a class="d-flex align-items-center" href="layout-without-menu.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Without Menu">Without Menu</span></a>
                         </li>
