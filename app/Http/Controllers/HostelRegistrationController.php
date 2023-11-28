@@ -122,14 +122,16 @@ class HostelRegistrationController extends Controller
         $queryChechk_Partner='';
         $queryChechk_Warden='';
 
-        dd($req->toArray());
+        // dd($req->toArray());
 
         // Secondly we check the Hostel Name
         $resultChkHostelName = HostelRegistrationController::hostelNameCheck($hostelName);
-        if($resultChkHostelName==0){
+        // dd($resultChkHostelName);
+        if($resultChkHostelName ===1){
             echo "Hostel Name already exist Kindly use the Different Name";
             return;
         }
+        // return "yes";
         // Secondly we check the Hostel Name
         // First of all we check that if Hostel Owner CNIC does not Exist then we ask them to login first
         // /*
@@ -143,16 +145,19 @@ class HostelRegistrationController extends Controller
             }
         } else {
             // Handle the case where no user is found with the specified CNIC
-            $user = new User();
-            $user->name = $hostelOwnerName;
-            $user->email = $hostelOwnerEmail;
-            $user->cnic_no = $hostelOwnerCnic;
-            $user->phone_number = $hostelOwnerContact;
-            $user->password = Hash::make('123456');
-            if(!($user->save())){
+            $HostelOwneruser = new User();
+            $HostelOwneruser->name = $hostelOwnerName;
+            $HostelOwneruser->email = $hostelOwnerEmail;
+            $HostelOwneruser->cnic_no = $hostelOwnerCnic;
+            $HostelOwneruser->phone_number = $hostelOwnerContact;
+            $HostelOwneruser->nhapk_register = 1;
+            $HostelOwneruser->password = Hash::make('123456');
+            if(!($HostelOwneruser->save())){
                 return "User Not Saved";
             }
-            $author_id = $user->id;
+            $HostelOwneruser->assignRole("hostel_owner");
+            $author_id = $HostelOwneruser->id;
+            
         }
         // */
         // First of all we check that if Hostel Owner CNIC does not Exist then we ask them to login first (Close Now)
@@ -169,16 +174,18 @@ class HostelRegistrationController extends Controller
             }
         } else {
             // Handle the case where no user is found with the specified CNIC
-            $user = new User();
-            $user->name = $hostelPartnerName;
-            $user->email = $hostelPartnerEmail;
-            $user->cnic_no = $partnerCnic;
-            $user->phone_number = $partnerContact;
-            $user->password = Hash::make('123456');
-            if(!($user->save())){
+            $HostelPartneruser = new User();
+            $HostelPartneruser->name = $hostelPartnerName;
+            $HostelPartneruser->email = $hostelPartnerEmail;
+            $HostelPartneruser->cnic_no = $partnerCnic;
+            $HostelPartneruser->phone_number = $partnerContact;
+            $HostelPartneruser->nhapk_register = 1;
+            $HostelPartneruser->password = Hash::make('123456');
+            if(!($HostelPartneruser->save())){
                 return "User Not Saved";
             }
-            $Partner_author_id = $user->id;
+            $Partner_author_id = $HostelPartneruser->id;
+            $HostelPartneruser->assignRole("user");
         }
         }
         else{
@@ -201,11 +208,13 @@ class HostelRegistrationController extends Controller
             $user->email = $hostelWardenEmail;
             $user->cnic_no = $hostelWardenCnic;
             $user->phone_number = $hostelWardenContact;
+            $user->nhapk_register = 1;
             $user->password = Hash::make('123456');
             if(!($user->save())){
                 return "User Not Saved";
             }
             $Warden_author_id = $user->id;
+            $user->assignRole("staff");
         }
         }
         else{

@@ -48,7 +48,7 @@
                             @endif
                           <!-- Your form fields here -->
                           @csrf
-                          <input type="text" name="id" value="{{ $blogs->id }}">
+                          <input type="hidden" name="id" value="{{ $blogs->id }}" readonly>
                       
                           <div class="form-group">
                             <label for="title">Blog Title:</label>

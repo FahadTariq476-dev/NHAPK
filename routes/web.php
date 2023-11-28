@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\LogoutController;
 use App\Http\Controllers\BlogFrontEndController;
 use App\Http\Controllers\HomeDashboardController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MembershipAdminController;
 use App\Http\Controllers\Admin\PostBlogsController;
 use App\Http\Controllers\HostelRegistrationController;
 
@@ -114,6 +115,17 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth']], function () {
     Route::get('/admin/editBlog/{id}',[PostBlogsController::class,'editBlogView'])->name('admin.editBlogView');
     // Route for admin to update the full blog from edit blog page
     Route::post('/admin/updateBlog',[PostBlogsController::class,'updateFullBlog'])->name('admin.updateFullBlog');
+
+
+    // Begin: Routes for Membership
+    // Route for admin to show the lis-mmebrship blade
+    Route::get('/admin/list-memebership',[MembershipAdminController::class,'indexMembership'])->name('admin.list-memebership');
+    // Route to dislpay the membership on listMembership page using datable
+    Route::get('/admin/get-membershipList',[MembershipAdminController::class,'adminListingMemebership'])->name('admin.get-membershipList');
+    // Rute for admin to display the edit membership view from list-memebrship page having id of membership
+    Route::get('/admin/editMembership/{id}',[MembershipAdminController::class,'editMemebershipView'])->name('admin.editMemebershipView');
+
+    // End: Routes for Membership
 });
 
 

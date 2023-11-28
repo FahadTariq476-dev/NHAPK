@@ -10,16 +10,16 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">List Blogs</h2>
+                            <h2 class="content-header-title float-start mb-0">List Memebership</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{route('admin.ShowDashboard')}}">Home</a>
                                     </li>
                                     <li class="breadcrumb-item"><a href="#">Menus</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="{{route('admin.post-blogs')}}">Blogs</a>
+                                    <li class="breadcrumb-item"><a href="{{route('admin.list-memebership')}}">Membership</a>
                                     </li>
-                                    <li class="breadcrumb-item active">List Blogs</li>
+                                    <li class="breadcrumb-item active">List Membership</li>
                                 </ol>
                             </div>
                         </div>
@@ -38,7 +38,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="table-responsive">
-                            <h2>Posted Blogs</h2>
+                            <h2>Membership Record</h2>
                             @if(session('success'))
                             <div class="alert alert-success">
                                 {{ session('success') }}
@@ -49,18 +49,23 @@
                                 {{ session('error') }}
                             </div>
                             @endif
-                            <table class="table mb-0 dataTable" id="nhapkBlogTable">
+                            <table class="table mb-0 dataTable" id="memberhsipTable">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Title</th>
-                                        <th>Short Description</th>
-                                        <th>Image Path</th>
-                                        <th>Thumbnail Image Path</th>
-                                        <th>Featured Post</th>
-                                        <th>Status</th>
-                                        <th>Created At</th>
-                                        <th>Action</th>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Cnic</th>
+                                        <th>Membership Type</th>
+                                        <th>Hostel Registration Number</th>
+                                        <th>Hostel Name</th>
+                                        <th>Referal CNIC</th>
+                                        <th>Transaction Id</th>
+                                        <th>Gender</th>
+                                        <th>Living Since</th>
+                                        <th>Previous Hostel</th>
+                                        <th>Country</th>
+                                        <th>State</th>
+                                        <th>City</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
@@ -70,15 +75,20 @@
                                     <!-- Your data will be populated here dynamically -->
                                 <tfoot>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Title</th>
-                                        <th>Short Description</th>
-                                        <th>Image Path</th>
-                                        <th>Thumbnail Image Path</th>
-                                        <th>Featured Post</th>
-                                        <th>Status</th>
-                                        <th>Created At</th>
-                                        <th>Action</th>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Cnic</th>
+                                        <th>Membership Type</th>
+                                        <th>Hostel Registration Number</th>
+                                        <th>Hostel Name</th>
+                                        <th>Referal CNIC</th>
+                                        <th>Transaction Id</th>
+                                        <th>Gender</th>
+                                        <th>Living Since</th>
+                                        <th>Previous Hostel</th>
+                                        <th>Country</th>
+                                        <th>State</th>
+                                        <th>City</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
@@ -122,57 +132,22 @@
                 text: 'This is listing the posted blogs here.',
                 icon: 'success'
             });
-            var dataTable = jq('#nhapkBlogTable').DataTable({
+            var dataTable = jq('#memberhsipTable').DataTable({
                 columns: [
                     { data: 'id' },
-                    { data: 'title' },
-                    {
-                        data: 'short_description',
-                        render: function(data, type, row) {
-                            // Show only the first 100 characters with an ellipsis at the end
-                            var truncatedDescription = data.length > 100 ? data.substring(0, 100) + '  __...' : data;
-                            return truncatedDescription;
-                        }
-                    },
-                    { data: 'image_path' },
-                    { data: 'thumbnail_image_path' },
-                    { 
-                        data: 'featured_post', 
-                        render: function(data, type, row) {
-                            // Render a checkbox based on the "featured_post" value
-                            return '<input type="checkbox" ' + (data ? 'checked' : '') + ' disabled>';
-                        }
-                    },
-                    { 
-                        data: 'status',
-                        render: function(data, type, row) {
-                            // Display the status in a span with Bootstrap styles
-                            var statusClass = data === 'pending' ? 'badge bg-warning' : 'badge bg-success';
-                            return '<span class="' + statusClass + '">' + data + '</span>';
-                        }
-                    },
-                    { 
-                        data: 'created_at', 
-                        render: function(data, type, row) {
-                            // Format the date in the desired format
-                            if (type === 'display' || type === 'filter') {
-                                return moment(data).format('DD-MM-yyyy');
-                            }
-                            return data;
-                        }
-                    },
-                    { 
-                        data: null, // Placeholder for the action column
-                        render: function(data, type, row) {
-                            // Render the select button for the action column
-                            // form-select
-                            return '<select class="status-select form-select" data-id="' + row.id + '">' +
-                                    '<option value="" disabled>Select</option>'+
-                                    '<option value="pending" ' + (row.status === 'pending' ? 'selected' : '') + '>Pending</option>' +
-                                    '<option value="published" ' + (row.status === 'published' ? 'selected' : '') + '>Published</option>' +
-                                '</select>';
-                        }
-                    },
+                    { data: 'name' },
+                    { data: 'cnic' },
+                    { data: 'membership_type_name' },
+                    { data: 'hostelreg_no' },
+                    { data: 'hostel_name' },
+                    { data: 'referal_cnic' },
+                    { data: 'transaction_no' },
+                    { data: 'gender' },
+                    { data: 'since' },
+                    { data: 'previous_hostel' },
+                    { data: 'country_name' },
+                    { data: 'state_name' },
+                    { data: 'city_name' },
                     // Edit button
                     {
                         data: null,
@@ -184,7 +159,7 @@
                     {
                         data: null,
                         render: function(data, type, row) {
-                            return '<button class="btn btn-danger btn-sm delete-btn" data-id="' + row.id + '">Delete</button>';
+                            return '<button class="btn btn-warning btn-sm delete-btn" data-id="' + row.id + '">Status</button>';
                         }
                     }
                 ],
@@ -207,7 +182,7 @@
                     [10, 25, 50, 100, 200, "All"]
                 ],
                 ajax: {
-                    url: "/admin/get-blogList",
+                    url: "/admin/get-membershipList",
                     type: "GET",
                     data: function(d) {
                         // Add any additional parameters you need
@@ -220,78 +195,25 @@
             });
 
             // Event delegation for dynamically generated elements
-        jq('#nhapkBlogTable')
-            .on('change', '.status-select', function() {
-                //  code for handling status change
-                // 
-                var selectedValue = jq(this).val();
-                var dataId = jq(this).data('id');
-                
-                // Show a confirmation alert
-                var isConfirmed = confirm("Are you sure you want to change the status to " + selectedValue + "?");
-
-                // Check user's choice
-                if (isConfirmed) {
-                    // Proceed with your action here
-                    jq.ajax({
-                        url:'/admin/blogs/update-status/'+selectedValue+'/'+dataId,
-                        type:'get',
-                        success:function(response){
-                            if(response=='error'){
-                                alert("Stats didn't updated.");
-                                dataTable.ajax.reload();
-                            }
-                            if(response=='success'){
-                                alert("Status updated succesfully");
-                                dataTable.ajax.reload();
-                            }
-                        },
-                        error: function(error) {
-                            console.log(error);
-                        }
-                    });
-                } else {
-                    alert("You pressed Cancel!");
-                    dataTable.ajax.reload();
-                }
-            })
+        jq('#memberhsipTable')
             .on('click', '.edit-btn', function() {
                 var dataId = jq(this).data('id');
                 // Navigate to the editBlogView route
-                window.location.href = '/admin/editBlog/' + dataId;
+                window.location.href = '/admin/editMembership/' + dataId;
             })
             .on('click', '.delete-btn', function() {
                 var dataId = jq(this).data('id');
 
                 // Show SweetAlert confirmation dialog
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'You won\'t be able to revert this!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                        // Proceed with delete action
-                            jq.ajax({
-                                url: '/admin/deleteBlog/' + dataId,
-                                type: 'get',
-                                success: function(response) {
-                                    if (response == 'success') {
-                                        Swal.fire('Deleted!', 'Item deleted successfully', 'success');
-                                        dataTable.ajax.reload();
-                                    } else {
-                                        Swal.fire('Error!', 'Error deleting item', 'error');
-                                    }
-                                },
-                                error: function(error) {
-                                console.log(error);
-                            }
-                        });
-                    }
-                });
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            })
             });
     });
     
@@ -301,3 +223,4 @@
     
       
     @endsection
+
