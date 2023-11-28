@@ -46,6 +46,7 @@ class RoleSeeder extends Seeder
         $cleint = \App\Models\User::factory()->create([
             'name' => 'NHAPK_Client',
             'email' => 'nhapk_client@hostel.com',
+            'nhapk_register' => 1,
             'password' => Hash::make("12345678")
         ]);
         $cleint->assignRole("nhapk_client");
