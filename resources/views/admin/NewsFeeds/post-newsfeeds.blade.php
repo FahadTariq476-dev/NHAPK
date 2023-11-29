@@ -10,12 +10,16 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Edits Blogs</h2>
+                            <h2 class="content-header-title float-start mb-0">Post News & Media</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{route('admin.ShowDashboard')}}">Home</a>
                                     </li>
-                                    <li class="breadcrumb-item active">Edit Blogs</li>
+                                    <li class="breadcrumb-item"><a href="{{route('admin.ShowDashboard')}}">Menus</a>
+                                    </li> 
+                                    <li class="breadcrumb-item"><a href="{{route('admin.newsfeeds.post-newsfeeds')}}">News & Media</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Post News & Media</li>
                                 </ol>
                             </div>
                         </div>
@@ -34,79 +38,74 @@
 
                 <div class="row">
                     <div class="container">
-                        <form class="blog-form" id="blogForm" action="{{route('admin.updateFullBlog')}}" method="POST" enctype="multipart/form-data">
-                          <h2 class="text-center mb-4">Edit Blog</h2>
+                        <form class="newsfeed-form" id="newsfeedForm" action="{{route('admin.saveNewsfeeds')}}" method="POST" enctype="multipart/form-data">
+                          <h2 class="text-center mb-4">News & Media</h2>                          
                           @if(session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                            @endif
-                            @if(session('error'))
-                            <div class="alert alert-danger">
-                                {{ session('error') }}
-                            </div>
-                            @endif
+                            <script>
+                              swal.fire({
+                                title: "Success!",
+                                text: "{{ session('success') }}",
+                                icon: "success",
+                                button: "OK",
+                              });
+                            </script>
+                          @endif
+
+                          @if(session('error'))
+                            <script>
+                              swal.fire({
+                                title: "Error!",
+                                text: "{{ session('error') }}",
+                                icon: "error",
+                                button: "OK",
+                              });
+                            </script>
+                          @endif
                           <!-- Your form fields here -->
                           @csrf
-                          <input type="hidden" name="id" value="{{ $blogs->id }}" readonly>
                       
                           <div class="form-group">
-                            <label for="title">Blog Title:</label>
-                            <input type="text" class="form-control" id="title" name="title" value="{{ $blogs->title }}" placeholder="Enter the title">
+                            <label for="title">News Title:</label>
+                            <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" placeholder="Enter the title">
                           </div>
                             @error('title')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                       
                           <div class="form-group">
-                            <label for="shortDescription">Short Description:</label>
-                            <input type="text" class="form-control" id="shortDescription" name="shortDescription" value="{{ $blogs->short_description }}" maxlength="255" placeholder="Enter a short description">
+                            <label for="shortDescription">News Short Description:</label>
+                            <input type="text" class="form-control" id="shortDescription" name="shortDescription" value="{{old('shortDescription')}}" maxlength="255" placeholder="Enter a short description">
                           </div>
                           @error('shortDescription')
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
                           <div class="form-group">
-                            <label for="editor">Editor:</label>
-                            <textarea id="editor" name="editor" class="form-control">{{ $blogs->editor_content }}</textarea>
+                            <label for="editor">News Editor Content:</label>
+                            <textarea id="editor" name="editor" class="form-control">{{ old('editor') }}</textarea>
                           </div>
                           @error('editor')
                             <div class="alert alert-danger">{{$message}}</div>
                           @enderror
-
+                      
                           <div class="form-group">
-                            <label for="image">Blog Image:</label>
-                            <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
-                            @if ($blogs->image_path)
-                            <img src="{{ asset($blogs->image_path) }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;">
-                            <span id="image-name">{{ $blogs->image_path }}</span>
-                            @else
-                            <img src="{{ asset('no-image-icon.png') }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px; display: none;">
-                            <span id="image-name">Image is not saved.</span>
-                            @endif
+                            <label for="image">News Image:</label>
+                            <input type="file" class="form-control-file" id="image" name="image" value="{{old('image')}}" accept="image/*">
                           </div>
                           @error('image')
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
-                          
-
+                      
                           <div class="form-group">
-                            <label for="thumbnailImage">Thumbnail Image:</label>
-                            <input type="file" class="form-control-file" id="thumbnailImage" name="thumbnailImage" accept="image/*">
-                            @if ($blogs->image_path)
-                            <img src="{{ asset($blogs->thumbnail_image_path) }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;">
-                            <span id="image-name">{{ $blogs->thumbnail_image_path }}</span>
-                            @else
-                            <img src="{{ asset('no-image-icon.png') }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px; display: none;">
-                            <span id="image-name">Image is not saved.</span>
-                            @endif
+                            <label for="thumbnailImage">News Thumbnail Image:</label>
+                            <input type="file" class="form-control-file" id="thumbnailImage" name="thumbnailImage" value="{{old('thumbnailImage')}}" accept="image/*">
                           </div>
                           @error('thumbnailImage')
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
                           <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="featuredPost" name="featuredPost" @if($blogs->featured_post) checked @endif>
+                            <input type="checkbox" class="form-check-input" id="featuredPost" name="featuredPost" @if(old('featuredPost')) checked @endif>
                             <label class="form-check-label" for="featuredPost">Mark as Featured Post</label>
                           </div>
                           @error('featuredPost')
@@ -116,26 +115,17 @@
                           <div class="form-group">
                             <label for="status">Status:</label>
                             <select class="form-control" id="status" name="status">
-                                <option value="" disabled @if($blogs->status) selected @endif>Select Status</option>
-                              <option value="pending" @if($blogs->status) selected @endif>Pending</option>
-                              <option value="published" @if($blogs->status) selected @endif>Published</option>
+                                <option value="" disabled @if(old('status') == '') selected @endif>Select Status</option>
+                              <option value="pending" @if(old('status') == 'pending') selected @endif>Pending</option>
+                              <option value="published" @if(old('status') == 'published') selected @endif>Published</option>
                             </select>
                           </div>
                           @error('status')
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          {{-- <div class="form-group">
-                            <label for="postCategory">Post Category:</label>
-                            <select class="form-control" id="postCategory" name="postCategory" required>
-                              <option value="" disabled selected>Select a category</option>
-                              <option value="travel">Travel</option>
-                              <option value="food">Food</option>
-                              <option value="lifestyle">Lifestyle</option>
-                              <!-- Add more categories as needed -->
-                            </select>
-                          </div> --}}
-                          <button type="submit" class="btn btn-primary btn-block">Update Blog</button>
+                          <button type="reset" class="btn btn-info btn-block">Reset</button>
+                          <button type="submit" class="btn btn-primary btn-block">Submit News</button>
                         </form>
                       </div>
                 </div>
@@ -175,7 +165,7 @@
 <script>
     $(document).ready(function () {
       // Form validation logic
-      $("#blogForm").submit(function (e) {
+      $("#newsfeedForm").submit(function (e) {
         // Reset previous error messages
         $(".alert-danger").remove();
   
@@ -203,7 +193,10 @@
         
         // Check if an image is selected
         var image = $("#image")[0].files[0];
-        if (image) {
+        if (!image) {
+          e.preventDefault();
+          $("#image").after('<div class="alert alert-danger">Image is required.</div>');
+        } else {
           // Check image size
           if (image.size > 2 * 1024 * 1024) { // 2MB in bytes
             e.preventDefault();
@@ -216,11 +209,15 @@
             e.preventDefault();
             $("#image").after('<div class="alert alert-danger">Invalid image file type. Allowed types: jpg, jpeg, png, JPEG, JPG, PNG.</div>');
           }
-        } 
+        }
 
         //  Check then thumbnail image
         var thumbnailImage = $('#thumbnailImage')[0].files[0];
-        if(thumbnailImage){
+        if(!thumbnailImage){
+            e.preventDefault();
+            $('#thumbnailImage').after('<div class="alert alert-danger">Image-thumbnail is required.</div>');
+        }
+        else{
             // Check the thumbnailImage size
             if(thumbnailImage.size>2 * 1024 * 1024){    // 2MB in sise
                 e.preventDefault();

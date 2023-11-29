@@ -7,11 +7,11 @@
                 <div class="row">
                     <div class="col-12">
                         <!-- Breamcrumb Content -->
-                        <div class="breadcrumb-content text-center">
+                        <div class="breadcrumb- text-center">
                             <h2 class="text-white mb-3">Membership</h2>
                             <ol class="breadcrumb d-flex justify-content-center">
                                 <li class="breadcrumb-item"><a class="text text-white" href="/">Home</a></li>
-                                <li class="breadcrumb-item text-white active">Membership</li>
+                                <li class="breadcrumb-item text-white active">Membership Register</li>
                             </ol>
                         </div>
                     </div>
@@ -24,22 +24,30 @@
         <section class="section membership-registration-area ptb_100">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-8">
+                    <div class="col-lg-12">
                         <!-- Section Heading -->
                         <div class="text-center">
                             <h2>Membership Registration</h2>
                         </div>
                         <div>
                             @if(session('success'))
-                                <div class="alert alert-success">
-                                    {{ session('success') }}
-                                </div>
+                                <script>
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Success!',
+                                        text: '{{ session('success') }}',
+                                    });
+                                </script>
                             @endif
-
+                        
                             @if(session('error'))
-                                <div class="alert alert-danger">
-                                    {{ session('error') }}
-                                </div>
+                                <script>
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error!',
+                                        text: '{{ session('error') }}',
+                                    });
+                                </script>
                             @endif
                         </div>
         
@@ -49,7 +57,7 @@
                             <!-- Name -->
                             <div class="form-group">
                                 <label for="name">Name:</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name here:">
+                                <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}" placeholder="Enter your name here:">
                             </div>
                             @error('name')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -58,7 +66,7 @@
                             <!-- CNIC -->
                             <div class="form-group">
                                 <label for="cnic">CNIC:</label>
-                                <input type="text" class="form-control" id="cnic" name="cnic" placeholder="Enter your cnic here:">
+                                <input type="text" class="form-control" id="cnic" name="cnic" value="{{old('cnic')}}" placeholder="Enter your cnic here:">
                             </div>
                             <div class="cnicverify">
                                 {{-- Here we show the error if cnic exsit on focusout --}}
@@ -74,7 +82,9 @@
                                     <option value="" selected disabled>Select Membership</option>
                                     @if (count($membershipTypes)>0)
                                         @foreach($membershipTypes as $membershipType)
-                                            <option value="{{ $membershipType->id }}">{{ $membershipType->name }}</option>
+                                            <option value="{{ $membershipType->id }}" @if (old('membershiptype_id')==$membershipType->id) selected @endif >
+                                                {{ $membershipType->name }}
+                                            </option>
                                         @endforeach
                                     @else
                                         <option value="" disabled>No Membership Found</option>
@@ -92,7 +102,10 @@
                                     <option value="" selected disabled>Select Country</option>
                                     @if (count($countries)>0)
                                         @foreach($countries as $country)
-                                            <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                        {{-- {{ old('country_id') == $country->id ? 'selected' : '' }} --}}
+                                            <option value="{{ $country->id }}" @if (old('country_id')==$country->id) selected @endif >
+                                                {{ $country->name }}
+                                            </option>
                                         @endforeach
                                     @else
                                         <option value="" disabled>No Country Found</option>
@@ -146,13 +159,16 @@
                             <!-- Referral CNIC -->
                             <div class="form-group">
                                 <label for="referralCNIC">Referral CNIC:</label>
-                                <input type="text" class="form-control" id="referal_cnic" name="referal_cnic" placeholder="Enter referral cnic here:">
+                                <input type="text" class="form-control" id="referal_cnic" name="referal_cnic" value="{{old('referal_cnic')}}" placeholder="Enter referral cnic here:">
                             </div>
+                            @error('referal_cnic')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
         
                             <!-- Transaction Number -->
                             <div class="form-group">
                                 <label for="transactionNo">Transaction Number:</label>
-                                <input type="text" class="form-control" id="transaction_no" name="transaction_no" placeholder="Enter your transaction number here:">
+                                <input type="text" class="form-control" id="transaction_no" name="transaction_no" value="{{old('transaction_no')}}" placeholder="Enter your transaction number here:">
                             </div>
                             <div id="verify_transaction_no">
                                 {{-- Here we show the error if transaction id exsit on focusout --}}
@@ -165,9 +181,9 @@
                             <div class="form-group">
                                 <label for="gender">Gender:</label>
                                 <select class="form-control" id="gender" name="gender">
-                                    <option value="" selected disabled>Select Gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                    <option value="" disabled @if (old('gender')=="") selected @endif>Select Gender</option>
+                                    <option value="male" @if (old('gender')=="male") selected @endif>Male</option>
+                                    <option value="female" @if (old('gender')=="female") selected @endif>Female</option>
                                 </select>
                             </div>
                             @error('gender')
@@ -177,15 +193,26 @@
                             <!-- Since -->
                             <div class="form-group">
                                 <label for="since">Since:</label>
-                                <input type="date" class="form-control" id="since" name="since">
+                                <input type="date" class="form-control" id="since" value="{{old('since')}}" name="since">
                                 <small class="form-text text-muted">Living Since</small>
                             </div>
         
                             <!-- Previous Hostel -->
                             <div class="form-group">
                                 <label for="previousHostel">Previous Hostel:</label>
-                                <input type="text" class="form-control" id="previous_hostel" name="previous_hostel" placeholder="Enter your previous hostel registration number here: [Optional]">
+                                <input type="text" class="form-control" id="previous_hostel" name="previous_hostel" value="{{old('previous_hostel')}}" placeholder="Enter your previous hostel registration number here: [Optional]">
                             </div> 
+                            
+                             <!-- Agree Terms & COndition -->
+                            <div class="form-group">
+                                <input type="checkbox" id="terms" name="terms" @if (old('terms')) checked @endif >
+                                <a href="https://www.termsfeed.com/terms-conditions/f18d6159c88d21b6c392878b73562e24" target="_blank()">
+                                    Are You Agree with Terms & Conditions
+                                </a>
+                            </div> 
+                            @error('terms')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
         
                             <!-- Reset Button -->
                             <button type="reset" class="btn btn-warning">Reset</button> 
@@ -287,7 +314,6 @@
                             $('#city_id').append('<option value="' + value.id + '">' + value.name + '</option>');
                         });
                     }
-                    
                     $('#hostelreg_no').empty();
                     $('#hostelreg_no').append('<option value="" disabled selected>Select Hostel</option>');
                 },
@@ -319,15 +345,14 @@
                     $('#hostelreg_no').empty();
                     $('#hostelreg_no').append('<option value="" disabled selected>Select Hostel</option>');
                     // Populate the state dropdown with the fetched data
-                    if(response ==="" || response === null){
-                        $('#hostelreg_no').append('<option value="" disabled>SNo Hostel Found</option>');
+                    if(response === 0 || response === null){
+                        $('#hostelreg_no').append('<option value="" disabled>No Hostel Found</option>');
                     }
                     else{
                         $.each(response, function(key, value) {
                             $('#hostelreg_no').append('<option value="' + value.id + '">' + value.name + '</option>');
                         });
                     }
-                    
                 },
                 error: function(error) {
                     console.log(error);
@@ -418,76 +443,155 @@
     </script>
     {{-- End of the Script to Verify that Transaction id is uniqe or not --}}
 
+    {{-- Start of the script to check that id card on selecting the gender --}}
+    <script>
+        $(document).ready(function(){
+            // Function to check gender on CNIC change
+            function checkGender() {
+                let cnic = $('#cnic').val(), gender = $('#gender').val();
+                if (gender && cnic.length === 15) {
+                    var lastDigit = parseInt(cnic.slice(-1));
+                    if (!(lastDigit % 2 === 0 && gender === 'female') && !(lastDigit % 2 !== 0 && gender === 'male')) {
+                        alert("Kindly Select Your Gender According to your CNIC. Gender does not match with your CNIC.");
+                        $('#gender').val('').focus();
+                        $('#cnic').focus();
+                    }
+                } else {
+                    alert("Kindly Provide the CNIC First");
+                    $('#cnic').focus();
+                    $('#gender').val('');
+                }
+            }
+
+            // Check gender on gender change
+            $('#gender').change(function(){
+                checkGender();
+            });
+
+            // Clear gender on cnic focusout if length is 0
+            $('#cnic').focusout(function(){
+                if ($(this).val().length === 0) {
+                    $('#gender').val('');
+                }
+            });
+        });
+    </script>
+    {{-- End of the script to check that id card on selecting the gender --}}
+
+    <!-- Your script for CNIC and referal_cnic formatting -->
+<script>
+    $(document).ready(function() {
+        // Function to format CNIC and referal_cnic dynamically
+        function formatField(field) {
+            var value = field.val().replace(/[^0-9]/g, ''); // Remove non-numeric characters
+            var formattedValue = formatCnic(value);
+            field.val(formattedValue);
+        }
+
+        // Function to format CNIC dynamically (323226161887 => 32322-616188-7)
+        function formatCnic(value) {
+            if (value.length >= 5 && value.length < 12) {
+                return value.slice(0, 5) + '-' + value.slice(5);
+            } else if (value.length >= 12) {
+                return value.slice(0, 5) + '-' + value.slice(5, 12) + '-' + value.slice(12, 15);
+            } else {
+                return value;
+            }
+        }
+
+        // Format CNIC on input
+        $('#cnic').on('input', function() {
+            formatField($(this));
+        });
+
+        // Format referal_cnic on input
+        $('#referal_cnic').on('input', function() {
+            formatField($(this));
+        });
+
+        // Set maximum and minimum values for both fields
+        $('#cnic, #referal_cnic').attr('maxlength', '15');
+        $('#cnic, #referal_cnic').attr('minlength', '15');
+    });
+</script>
+
      {{-- Begin: Jquery Form Validation --}}
      <script>
-        // $(document).ready(function(){
-        //     // 
-        //     $("#membership").submit(function(e){
-        //         // Check the Full Name is empty or not
-        //         let name = $("#name").val();
-        //         if(name.trim() === ""){
-        //             e.preventDefault();
-        //             $("#name").after('<div class="alert alert-danger">Full name should be provided.</div>');
-        //         }
+        $(document).ready(function(){
+            // 
+            $("#membership").submit(function(e){
+                $(".alert-danger").remove();
+                // Check the Full Name is empty or not
+                let name = $("#name").val();
+                if(name.trim() === ""){
+                    e.preventDefault();
+                    $("#name").after('<div class="alert alert-danger">Full name should be provided.</div>');
+                }
 
-        //         // Check the cnic is empty or not and also check the length
-        //         let cnic = $("#cnic").val();
-        //         if(cnic.length != 15){
-        //             e.preventDefault();
-        //             $("#cnic").after('<div class="alert alert-danger">Cnic should provided properly.</div>');
-        //         }
+                // Check the cnic is empty or not and also check the length
+                let cnic = $("#cnic").val();
+                if(cnic.length != 15){
+                    e.preventDefault();
+                    $("#cnic").after('<div class="alert alert-danger">Cnic should provided properly.</div>');
+                }
 
-        //         // Check the memebership type is selected or not
-        //         let membershiptype_id = $('#membershiptype_id').val();
-        //         if(membershiptype_id === "" || membershiptype_id === null){
-        //             e.preventDefault();
-        //             $("#membershiptype_id").after('<div class="alert alert-danger">Membership should be selected.</div>');
-        //         }
+                // Check the memebership type is selected or not
+                let membershiptype_id = $('#membershiptype_id').val();
+                if(membershiptype_id === "" || membershiptype_id === null){
+                    e.preventDefault();
+                    $("#membershiptype_id").after('<div class="alert alert-danger">Membership should be selected.</div>');
+                }
 
-        //         // Check the country is selected or not
-        //         let country_id = $('#country_id').val();
-        //         if(country_id === "" || country_id === null){
-        //             e.preventDefault();
-        //             $("#country_id").after('<div class="alert alert-danger">Country should be selected.</div>');
-        //         }
+                // Check the country is selected or not
+                let country_id = $('#country_id').val();
+                if(country_id === "" || country_id === null){
+                    e.preventDefault();
+                    $("#country_id").after('<div class="alert alert-danger">Country should be selected.</div>');
+                }
 
-        //         // Check the state is selected or not
-        //         let states_id = $('#states_id').val();
-        //         if(states_id === "" || states_id === null){
-        //             e.preventDefault();
-        //             $("#states_id").after('<div class="alert alert-danger">State should be selected.</div>');
-        //         }
+                // Check the state is selected or not
+                let states_id = $('#states_id').val();
+                if(states_id === "" || states_id === null){
+                    e.preventDefault();
+                    $("#states_id").after('<div class="alert alert-danger">State should be selected.</div>');
+                }
 
-        //         // Check the city is selected or not
-        //         let city_id = $('#city_id').val();
-        //         if(city_id === "" || city_id === null){
-        //             e.preventDefault();
-        //             $("#city_id").after('<div class="alert alert-danger">City should be selected.</div>');
-        //         }
+                // Check the city is selected or not
+                let city_id = $('#city_id').val();
+                if(city_id === "" || city_id === null){
+                    e.preventDefault();
+                    $("#city_id").after('<div class="alert alert-danger">City should be selected.</div>');
+                }
 
-        //         // Check the Hostel is selected or not
-        //         let hostelreg_no = $('#hostelreg_no').val();
-        //         if(hostelreg_no === "" || hostelreg_no === null){
-        //             e.preventDefault();
-        //             $("#hostelreg_no").after('<div class="alert alert-danger">Hostel should be selected.</div>');
-        //         }
+                // Check the Hostel is selected or not
+                let hostelreg_no = $('#hostelreg_no').val();
+                if(hostelreg_no === "" || hostelreg_no === null){
+                    e.preventDefault();
+                    $("#hostelreg_no").after('<div class="alert alert-danger">Hostel should be selected.</div>');
+                }
 
-        //         // Check the transaction is empty or not
-        //         let transaction_no = $("#transaction_no").val();
-        //         if(transaction_no.trim() === ""){
-        //             e.preventDefault();
-        //             $("#transaction_no").after('<div class="alert alert-danger">Transaction id should be provided.</div>');
-        //         }
+                // Check the transaction is empty or not
+                let transaction_no = $("#transaction_no").val();
+                if(transaction_no.trim() === ""){
+                    e.preventDefault();
+                    $("#transaction_no").after('<div class="alert alert-danger">Transaction id should be provided.</div>');
+                }
 
-        //         // Check the gender is selected or not
-        //         let gender = $('#gender').val();
-        //         if(gender === "" || gender === null){
-        //             e.preventDefault();
-        //             $("#gender").after('<div class="alert alert-danger">Gender should be selected.</div>');
-        //         }
+                // Check the gender is selected or not
+                let gender = $('#gender').val();
+                if(gender === "" || gender === null){
+                    e.preventDefault();
+                    $("#gender").after('<div class="alert alert-danger">Gender should be selected.</div>');
+                }
 
-        //     });
-        // });
+                // Check the terms checkbox is checked or not
+                let terms = $("#terms").prop("checked");
+                if(!(terms)){
+                    e.preventDefault();
+                    $("#terms").after('<div class="alert alert-danger">You must agree the terms and condition.</div>');
+                }
+            });
+        });
     </script>
     {{-- End: Jquery Form Validation --}}
 

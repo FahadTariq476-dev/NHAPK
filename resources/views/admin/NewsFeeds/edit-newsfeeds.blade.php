@@ -10,13 +10,19 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Edits Blogs</h2>
-                            <div class="breadcrumb-wrapper">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="{{route('admin.ShowDashboard')}}">Home</a>
-                                    </li>
-                                    <li class="breadcrumb-item active">Edit Blogs</li>
-                                </ol>
+                          <h2 class="content-header-title float-start mb-0">Post News & Media</h2>
+                          <div class="breadcrumb-wrapper">
+                              <ol class="breadcrumb">
+                                  <li class="breadcrumb-item"><a href="{{route('admin.ShowDashboard')}}">Home</a>
+                                  </li>
+                                  <li class="breadcrumb-item"><a href="{{route('admin.ShowDashboard')}}">Menus</a>
+                                  </li> 
+                                  <li class="breadcrumb-item"><a href="{{route('admin.newsfeeds.post-newsfeeds')}}">News & Media</a>
+                                  </li>
+                                  <li class="breadcrumb-item"><a href="{{route('admin.newsfeeds.list-newsfeeds')}}">List News & Media</a>
+                                  </li>
+                                  <li class="breadcrumb-item active">Edit News & Media</li>
+                              </ol>
                             </div>
                         </div>
                     </div>
@@ -34,8 +40,8 @@
 
                 <div class="row">
                     <div class="container">
-                        <form class="blog-form" id="blogForm" action="{{route('admin.updateFullBlog')}}" method="POST" enctype="multipart/form-data">
-                          <h2 class="text-center mb-4">Edit Blog</h2>
+                        <form class="blog-form" id="blogForm" action="{{route('admin.newsfeeds.updateFullNewsfeed')}}" method="POST" enctype="multipart/form-data">
+                          <h2 class="text-center mb-4">Edit News & Media</h2>
                           @if(session('success'))
                             <div class="alert alert-success">
                                 {{ session('success') }}
@@ -48,11 +54,11 @@
                             @endif
                           <!-- Your form fields here -->
                           @csrf
-                          <input type="hidden" name="id" value="{{ $blogs->id }}" readonly>
+                          <input type="hidden" name="id" value="{{ $news->id }}" readonly>
                       
                           <div class="form-group">
                             <label for="title">Blog Title:</label>
-                            <input type="text" class="form-control" id="title" name="title" value="{{ $blogs->title }}" placeholder="Enter the title">
+                            <input type="text" class="form-control" id="title" name="title" value="{{ $news->title }}" placeholder="Enter the title">
                           </div>
                             @error('title')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -60,7 +66,7 @@
                       
                           <div class="form-group">
                             <label for="shortDescription">Short Description:</label>
-                            <input type="text" class="form-control" id="shortDescription" name="shortDescription" value="{{ $blogs->short_description }}" maxlength="255" placeholder="Enter a short description">
+                            <input type="text" class="form-control" id="shortDescription" name="shortDescription" value="{{ $news->short_description }}" maxlength="255" placeholder="Enter a short description">
                           </div>
                           @error('shortDescription')
                               <div class="alert alert-danger">{{$message}}</div>
@@ -68,7 +74,7 @@
                       
                           <div class="form-group">
                             <label for="editor">Editor:</label>
-                            <textarea id="editor" name="editor" class="form-control">{{ $blogs->editor_content }}</textarea>
+                            <textarea id="editor" name="editor" class="form-control">{{ $news->editor_content }}</textarea>
                           </div>
                           @error('editor')
                             <div class="alert alert-danger">{{$message}}</div>
@@ -77,9 +83,9 @@
                           <div class="form-group">
                             <label for="image">Blog Image:</label>
                             <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
-                            @if ($blogs->image_path)
-                            <img src="{{ asset($blogs->image_path) }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;">
-                            <span id="image-name">{{ $blogs->image_path }}</span>
+                            @if ($news->image_path)
+                            <img src="{{ asset($news->image_path) }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;">
+                            <span id="image-name">{{ $news->image_path }}</span>
                             @else
                             <img src="{{ asset('no-image-icon.png') }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px; display: none;">
                             <span id="image-name">Image is not saved.</span>
@@ -93,9 +99,9 @@
                           <div class="form-group">
                             <label for="thumbnailImage">Thumbnail Image:</label>
                             <input type="file" class="form-control-file" id="thumbnailImage" name="thumbnailImage" accept="image/*">
-                            @if ($blogs->image_path)
-                            <img src="{{ asset($blogs->thumbnail_image_path) }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;">
-                            <span id="image-name">{{ $blogs->thumbnail_image_path }}</span>
+                            @if ($news->image_path)
+                            <img src="{{ asset($news->thumbnail_image_path) }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;">
+                            <span id="image-name">{{ $news->thumbnail_image_path }}</span>
                             @else
                             <img src="{{ asset('no-image-icon.png') }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px; display: none;">
                             <span id="image-name">Image is not saved.</span>
@@ -106,7 +112,7 @@
                           @enderror
                       
                           <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="featuredPost" name="featuredPost" @if($blogs->featured_post) checked @endif>
+                            <input type="checkbox" class="form-check-input" id="featuredPost" name="featuredPost" @if($news->featured_post) checked @endif>
                             <label class="form-check-label" for="featuredPost">Mark as Featured Post</label>
                           </div>
                           @error('featuredPost')
@@ -116,26 +122,16 @@
                           <div class="form-group">
                             <label for="status">Status:</label>
                             <select class="form-control" id="status" name="status">
-                                <option value="" disabled @if($blogs->status) selected @endif>Select Status</option>
-                              <option value="pending" @if($blogs->status) selected @endif>Pending</option>
-                              <option value="published" @if($blogs->status) selected @endif>Published</option>
+                                <option value="" disabled @if($news->status) selected @endif>Select Status</option>
+                              <option value="pending" @if($news->status) selected @endif>Pending</option>
+                              <option value="published" @if($news->status) selected @endif>Published</option>
                             </select>
                           </div>
                           @error('status')
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          {{-- <div class="form-group">
-                            <label for="postCategory">Post Category:</label>
-                            <select class="form-control" id="postCategory" name="postCategory" required>
-                              <option value="" disabled selected>Select a category</option>
-                              <option value="travel">Travel</option>
-                              <option value="food">Food</option>
-                              <option value="lifestyle">Lifestyle</option>
-                              <!-- Add more categories as needed -->
-                            </select>
-                          </div> --}}
-                          <button type="submit" class="btn btn-primary btn-block">Update Blog</button>
+                          <button type="submit" class="btn btn-primary btn-block">Update News</button>
                         </form>
                       </div>
                 </div>

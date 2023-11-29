@@ -35,11 +35,11 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
     <!-- END: Custom CSS-->
 
-   <!-- Include SweetAlert CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <!-- Include SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
 
-<!-- Include SweetAlert JS -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
+    <!-- Include SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
 
     <!-- jQuery(necessary for all JavaScript plugins) -->
     {{-- <script src="{{asset('assets/js/jquery/jquery-3.5.1.min.js')}}"></script> --}}
@@ -146,8 +146,9 @@
                         <li>
                             <a class="d-flex align-items-center" href="{{route('admin.ListComplaintView')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Complaint List</span></a>
                         </li>
+                        {{-- Begin:Blogs --}}
                         <li class="nav-item">
-                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Blogs (News Feed)</span></a>
+                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Blogs</span></a>
                             <ul class="menu-content">
                                 <li>
                                     <a class="d-flex align-items-center" href="{{route('admin.post-blogs')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post Blogs</span></a>
@@ -157,6 +158,22 @@
                                 </li>
                             </ul>
                         </li>
+                        {{-- End:Blogs --}}
+
+                        {{-- Begin: NewsFeeds --}}
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">News & Media</span></a>
+                            <ul class="menu-content">
+                                <li>
+                                    <a class="d-flex align-items-center" href="{{route('admin.newsfeeds.post-newsfeeds')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post News & Media</span></a>
+                                </li>
+                                <li>
+                                    <a class="d-flex align-items-center" href="{{route('admin.newsfeeds.list-newsfeeds')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List News & Media</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        {{-- End: NewsFeeds --}}
+
                         {{-- Begin: Membership --}}
                         <li class="nav-item">
                             <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Membership</span></a>

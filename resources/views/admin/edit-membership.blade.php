@@ -41,12 +41,13 @@
                 <div class="row">
                     <div class="container">
                       <!-- Membership Registration Form -->
-                      <form method="POST" action="/addMembership" id="membership">
+                      <form method="POST" action="/admin/updateMembership" id="membership">
                         @csrf
+                        <input type="text" class="form-control" id="membership-id" name="membership" value="{{$memberships->id}}" placeholder="Enter your name here:" readonly>
                         <!-- Name -->
                         <div class="form-group">
                             <label for="name">Name:</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}" placeholder="Enter your name here:">
+                            <input type="text" class="form-control" id="name" name="name" value="{{$memberships->name}}" placeholder="Enter your name here:">
                         </div>
                         @error('name')
                             <div class="alert alert-danger">{{ $message }}</div>
@@ -55,7 +56,7 @@
                         <!-- CNIC -->
                         <div class="form-group">
                             <label for="cnic">CNIC:</label>
-                            <input type="text" class="form-control" id="cnic" name="cnic" value="{{old('cnic')}}" placeholder="Enter your cnic here:">
+                            <input type="text" class="form-control" id="cnic" name="cnic" value="{{$memberships->cnic}}" placeholder="Enter your cnic here:">
                         </div>
                         <div class="cnicverify">
                             {{-- Here we show the error if cnic exsit on focusout --}}
@@ -69,15 +70,15 @@
                             <label for="membershipType">Membership Type:</label>
                             <select class="form-control" id="membershiptype_id" name="membershiptype_id">
                                 <option value="" selected disabled>Select Membership</option>
-                                {{-- @if (count($membershipTypes)>0)
+                                @if (count($membershipTypes)>0)
                                     @foreach($membershipTypes as $membershipType)
-                                        <option value="{{ $membershipType->id }}" @if (old('membershiptype_id')==$membershipType->id) selected @endif >
+                                        <option value="{{ $membershipType->id }}" @if ($memberships->membershiptype_id==$membershipType->id) selected @endif >
                                             {{ $membershipType->name }}
                                         </option>
                                     @endforeach
                                 @else
                                     <option value="" disabled>No Membership Found</option>
-                                @endif --}}
+                                @endif
                             </select>
                         </div>
                         @error('membershiptype_id')
@@ -89,15 +90,15 @@
                             <label for="country">Country:</label>
                             <select class="form-control" id="country_id" name="country_id">
                                 <option value="" selected disabled>Select Country</option>
-                                {{-- @if (count($countries)>0)
+                                @if (count($countries)>0)
                                     @foreach($countries as $country)
-                                        <option value="{{ $country->id }}" @if (old('country_id')==$country->id) selected @endif >
+                                        <option value="{{ $country->id }}" @if ($memberships->country_id==$country->id) selected @endif >
                                             {{ $country->name }}
                                         </option>
                                     @endforeach
                                 @else
                                     <option value="" disabled>No Country Found</option>
-                                @endif --}}
+                                @endif
                             </select>
                         </div>
                         @error('country_id')
@@ -109,6 +110,15 @@
                             <label for="state">State:</label>
                             <select class="form-control" id="states_id" name="states_id">
                                 <option value="" selected disabled>Select State</option>
+                                @if (count($states)>0)
+                                @foreach($states as $state)
+                                    <option value="{{ $state->id }}" @if ($memberships->states_id==$state->id) selected @endif >
+                                        {{ $state->name }}
+                                    </option>
+                                @endforeach
+                            @else
+                                <option value="" disabled>No State Found</option>
+                            @endif
                             </select>
                         </div>
                         @error('states_id')
@@ -120,6 +130,15 @@
                             <label for="city">City:</label>
                             <select class="form-control" id="city_id" name="city_id">
                                 <option value="" selected disabled>Select City</option>
+                                @if (count($cities)>0)
+                                @foreach($cities as $city)
+                                    <option value="{{ $city->id }}" @if ($memberships->city_id==$city->id) selected @endif >
+                                        {{ $city->name }}
+                                    </option>
+                                @endforeach
+                            @else
+                                <option value="" disabled>No City Found</option>
+                            @endif
                             </select>
                         </div>
                         @error('city_id')
@@ -131,6 +150,15 @@
                             <label for="hostelRegNo">Hostel:</label>
                             <select class="form-control" id="hostelreg_no" name="hostelreg_no">
                                 <option value="" selected disabled>Select Hostel</option>
+                                @if (count($properties)>0)
+                                @foreach($properties as $property)
+                                    <option value="{{ $property->id }}" @if ($memberships->hostelreg_no==$property->id) selected @endif >
+                                        {{ $property->name }}
+                                    </option>
+                                @endforeach
+                            @else
+                                <option value="" disabled>No Hostel Found</option>
+                            @endif
                             </select>
                         </div>
                         @error('hostelreg_no')
@@ -147,7 +175,7 @@
                         <!-- Referral CNIC -->
                         <div class="form-group">
                             <label for="referralCNIC">Referral CNIC:</label>
-                            <input type="text" class="form-control" id="referal_cnic" name="referal_cnic" value="{{old('referal_cnic')}}" placeholder="Enter referral cnic here:">
+                            <input type="text" class="form-control" id="referal_cnic" name="referal_cnic" value="{{$memberships->referal_cnic}}" placeholder="Enter referral cnic here:">
                         </div>
                         @error('referal_cnic')
                             <div class="alert alert-danger">{{ $message }}</div>
@@ -156,7 +184,7 @@
                         <!-- Transaction Number -->
                         <div class="form-group">
                             <label for="transactionNo">Transaction Number:</label>
-                            <input type="text" class="form-control" id="transaction_no" name="transaction_no" value="{{old('transaction_no')}}" placeholder="Enter your transaction number here:">
+                            <input type="text" class="form-control" id="transaction_no" name="transaction_no" value="{{$memberships->transaction_no}}" placeholder="Enter your transaction number here:">
                         </div>
                         <div id="verify_transaction_no">
                             {{-- Here we show the error if transaction id exsit on focusout --}}
@@ -169,9 +197,9 @@
                         <div class="form-group">
                             <label for="gender">Gender:</label>
                             <select class="form-control" id="gender" name="gender">
-                                <option value="" disabled @if (old('gender')=="") selected @endif>Select Gender</option>
-                                <option value="male" @if (old('gender')=="male") selected @endif>Male</option>
-                                <option value="female" @if (old('gender')=="female") selected @endif>Female</option>
+                                <option value="" disabled @if (($memberships->gender)=="") selected @endif>Select Gender</option>
+                                <option value="male" @if (($memberships->gender)=="male") selected @endif>Male</option>
+                                <option value="female" @if (($memberships->gender)=="female") selected @endif>Female</option>
                             </select>
                         </div>
                         @error('gender')
@@ -181,126 +209,23 @@
                         <!-- Since -->
                         <div class="form-group">
                             <label for="since">Since:</label>
-                            <input type="date" class="form-control" id="since" value="{{old('since')}}" name="since">
+                            <input type="date" class="form-control" id="since" value="{{ \Carbon\Carbon::parse($memberships->since)->format('Y-m-d') }}" name="since">
                             <small class="form-text text-muted">Living Since</small>
                         </div>
     
                         <!-- Previous Hostel -->
                         <div class="form-group">
                             <label for="previousHostel">Previous Hostel:</label>
-                            <input type="text" class="form-control" id="previous_hostel" name="previous_hostel" value="{{old('previous_hostel')}}" placeholder="Enter your previous hostel registration number here: [Optional]">
+                            <input type="text" class="form-control" id="previous_hostel" name="previous_hostel" value="{{$memberships->previous_hostel}}" placeholder="Enter your previous hostel registration number here: [Optional]">
                         </div> 
                         
-                         <!-- Agree Terms & COndition -->
-                        <div class="form-group">
-                            <input type="checkbox" id="terms" name="terms" @if (old('terms')) checked @endif >
-                            <a href="https://www.termsfeed.com/terms-conditions/f18d6159c88d21b6c392878b73562e24" target="_blank()">
-                                Are You Agree with Terms & Conditions
-                            </a>
-                        </div> 
-                        @error('terms')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
     
                         <!-- Reset Button -->
                         <button type="reset" class="btn btn-warning">Reset</button> 
                         
                         <!-- Submit Button -->
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </form>
-                        {{-- <form class="blog-form" id="blogForm" action="#" method="POST" enctype="multipart/form-data">
-                          <h2 class="text-center mb-4">Edit Blog</h2>
-                          @if(session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                            @endif
-                            @if(session('error'))
-                            <div class="alert alert-danger">
-                                {{ session('error') }}
-                            </div>
-                            @endif
-                          <!-- Your form fields here -->
-                          @csrf
-                          <input type="text" name="id" value="{{ $memberships->id }}">
-                      
-                          <div class="form-group">
-                            <label for="title">Blog Title:</label>
-                            <input type="text" class="form-control" id="title" name="title" value="{{ $memberships->title }}" placeholder="Enter the title">
-                          </div>
-                            @error('title')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                      
-                          <div class="form-group">
-                            <label for="shortDescription">Short Description:</label>
-                            <input type="text" class="form-control" id="shortDescription" name="shortDescription" value="{{ $memberships->short_description }}" maxlength="255" placeholder="Enter a short description">
-                          </div>
-                          @error('shortDescription')
-                              <div class="alert alert-danger">{{$message}}</div>
-                          @enderror
-                      
-                          <div class="form-group">
-                            <label for="editor">Editor:</label>
-                            <textarea id="editor" name="editor" class="form-control">{{ $memberships->editor_content }}</textarea>
-                          </div>
-                          @error('editor')
-                            <div class="alert alert-danger">{{$message}}</div>
-                          @enderror
-
-                          <div class="form-group">
-                            <label for="image">Blog Image:</label>
-                            <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
-                            @if ($memberships->image_path)
-                            <img src="{{ asset($memberships->image_path) }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;">
-                            <span id="image-name">{{ $memberships->image_path }}</span>
-                            @else
-                            <img src="{{ asset('no-image-icon.png') }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px; display: none;">
-                            <span id="image-name">Image is not saved.</span>
-                            @endif
-                          </div>
-                          @error('image')
-                              <div class="alert alert-danger">{{$message}}</div>
-                          @enderror
-                          
-
-                          <div class="form-group">
-                            <label for="thumbnailImage">Thumbnail Image:</label>
-                            <input type="file" class="form-control-file" id="thumbnailImage" name="thumbnailImage" accept="image/*">
-                            @if ($memberships->image_path)
-                            <img src="{{ asset($memberships->thumbnail_image_path) }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;">
-                            <span id="image-name">{{ $memberships->thumbnail_image_path }}</span>
-                            @else
-                            <img src="{{ asset('no-image-icon.png') }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px; display: none;">
-                            <span id="image-name">Image is not saved.</span>
-                            @endif
-                          </div>
-                          @error('thumbnailImage')
-                              <div class="alert alert-danger">{{$message}}</div>
-                          @enderror
-                      
-                          <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="featuredPost" name="featuredPost" @if($memberships->featured_post) checked @endif>
-                            <label class="form-check-label" for="featuredPost">Mark as Featured Post</label>
-                          </div>
-                          @error('featuredPost')
-                              <div class="alert alert-danger">{{$message}}</div>
-                          @enderror
-                      
-                          <div class="form-group">
-                            <label for="status">Status:</label>
-                            <select class="form-control" id="status" name="status">
-                                <option value="" disabled @if($memberships->status) selected @endif>Select Status</option>
-                              <option value="pending" @if($memberships->status) selected @endif>Pending</option>
-                              <option value="published" @if($memberships->status) selected @endif>Published</option>
-                            </select>
-                          </div>
-                          @error('status')
-                              <div class="alert alert-danger">{{$message}}</div>
-                          @enderror
-                      
-                          <button type="submit" class="btn btn-primary btn-block">Update Blog</button>
-                        </form> --}}
                       </div>
                 </div>
                 <br>
@@ -326,86 +251,358 @@
 
     @endsection
     @section('js')
-    <!-- Include a rich text editor library, for example, TinyMCE -->
-    <script src="https://cdn.tiny.cloud/1/YOUR-TINYMCE-API-KEY/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        tinymce.init({
-          selector: '#editor'
-          // Add any additional configuration for the editor if needed
-        });
-      </script>
 
-    <!-- Add this at the end of your file, after including jQuery -->
+    {{-- Start of Script to Get States Using Country Id --}}
 <script>
-    $(document).ready(function () {
-      // Form validation logic
-      $("#blogForm").submit(function (e) {
-        // Reset previous error messages
-        $(".alert-danger").remove();
-  
-        // Check if the title is empty
-        var title = $("#title").val();
-        if (title.trim() === "") {
-          e.preventDefault();
-          $("#title").after('<div class="alert alert-danger">Title is required.</div>');
-        }
-  
-        // Check if the short description is empty
-        var shortDescription = $("#shortDescription").val();
-        if (shortDescription.trim() === "" || shortDescription.length > 255) {
-          e.preventDefault();
-          $("#shortDescription").after('<div class="alert alert-danger">Short Description is required and Short description Length should not be greater than 255 chraceters.</div>');
-        }
-  
-        // Check if the editor content is empty (assuming you want it to be required)
-        var editorContent = tinymce.get('editor').getContent();
-        if (editorContent.trim() === "") {
-          e.preventDefault();
-          $("#editor").after('<div class="alert alert-danger">Editor content is required.</div>');
-        }
-
-        
-        // Check if an image is selected
-        var image = $("#image")[0].files[0];
-        if (!image) {
-          // Check image size
-          if (image.size > 2 * 1024 * 1024) { // 2MB in bytes
-            e.preventDefault();
-            $("#image").after('<div class="alert alert-danger">Image size should not be greater than 2MB.</div>');
-          }
-  
-          // Check image extension
-          var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.JPEG|\.JPG|\.PNG)$/i;
-          if (!allowedExtensions.exec(image.name)) {
-            e.preventDefault();
-            $("#image").after('<div class="alert alert-danger">Invalid image file type. Allowed types: jpg, jpeg, png, JPEG, JPG, PNG.</div>');
-          }
-        } 
-
-        //  Check then thumbnail image
-        var thumbnailImage = $('#thumbnailImage')[0].files[0];
-        if(!thumbnailImage){
-            // Check the thumbnailImage size
-            if(thumbnailImage.size>2 * 1024 * 1024){    // 2MB in sise
-                e.preventDefault();
-                $('#thumbnailImage').after('<div class="alert alert-danger">Image-thumbnail size should not be greater than 2MB.</div>');
+    $(document).ready(function() {
+        $('#country_id').change(function() {
+            if($('#country_id').val() != null){
+                var country_id = $(this).val();
+            // Make an Ajax request to get the states for the selected country
+            $.ajax({
+                url: '/get-states/' + country_id,
+                type: 'GET',
+                success: function(response) {
+                    // Clear existing options
+                    $('#states_id').empty();
+                    $('#states_id').append('<option value="" disabled selected>Select State</option>');
+                    // Populate the state dropdown with the fetched data
+                    if(response.length === 0 || response === null){
+                        $('#states_id').append('<option value="" disabled>No State Found</option>');
+                    }
+                    else{
+                        $.each(response, function(key, value) {
+                            $('#states_id').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                    $('#city_id').empty();
+                    $('#city_id').append('<option value="" disabled selected>Select City</option>');
+                    $('#hostelreg_no').empty();
+                    $('#hostelreg_no').append('<option value="" disabled selected>Select Hostel</option>');
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
             }
-            // Check the image extension
-            var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.JPEG|\.JPG|\.PNG)$/i;
-            if(!allowedExtensions.exec(thumbnailImage.name)){
-                e.preventDefault();
-                $('#thumbnailImage').after('<div class="alert alert-danger">Invalid image file type. Allowed types: jpg, jpeg, png, JPEG, JPG, PNG.</div>');
-            }
-        }
-  
-        // Check if the status is selected
-        var status = $("#status").val();
-        if (status === null || status === "") {
-          e.preventDefault();
-          $("#status").after('<div class="alert alert-danger">Status is required</div>');
-        }
-      });
+        });
     });
-  </script>
+</script>
+{{-- Close of Script to Get States Using Country Id --}}
+
+
+{{-- Start of Script to Get Cities Using State Id --}}
+<script>
+    $(document).ready(function() {
+        $('#states_id').change(function() {
+            if($('#states_id').val() != null){
+                var states_id = $(this).val();
+            // Make an Ajax request to get the states for the selected country
+            $.ajax({
+                url: '/get-cities/' + states_id,
+                type: 'GET',
+                success: function(response) {
+                    // Clear existing options
+                    $('#city_id').empty();
+                    $('#city_id').append('<option value="" disabled selected>Select City</option>');
+                    // Populate the state dropdown with the fetched data
+                    if(response.length === 0 || response === null){
+                        $('#city_id').append('<option value="" disabled>No City Found</option>');
+                    }else{
+                        $.each(response, function(key, value) {
+                            $('#city_id').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                    $('#hostelreg_no').empty();
+                    $('#hostelreg_no').append('<option value="" disabled selected>Select Hostel</option>');
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+            }
+
+            
+        });
+    });
+</script>
+{{-- Close of Script to Get Cities Using State Id --}}
+
+
+{{-- Start of Script to Get Hostels Using Cities Id --}}
+<script>
+    $(document).ready(function() {
+        $('#city_id').change(function() {
+            if($('#city_id').val() != null){
+                var city_id = $(this).val();
+            // Make an Ajax request to get the states for the selected country
+            $.ajax({
+                url: '/get-properties/' + city_id,
+                type: 'GET',
+                success: function(response) {
+                    // Clear existing options
+                    $('#hostelreg_no').empty();
+                    $('#hostelreg_no').append('<option value="" disabled selected>Select Hostel</option>');
+                    // Populate the state dropdown with the fetched data
+                    if(response === 0 || response === null){
+                        $('#hostelreg_no').append('<option value="" disabled>No Hostel Found</option>');
+                    }
+                    else{
+                        $.each(response, function(key, value) {
+                            $('#hostelreg_no').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+            }            
+        });
+    });
+</script>
+{{-- Close of Script to Get Hostels Using City Id --}}
+
+
+    {{-- Start of the Script to Verufy CNIC Which is going to be registered for Membership --}}
+    <script>
+        $(document).ready(function(){
+            $('#cnic').focusout(function(){
+                let cnic = $('#cnic').val();
+                if(cnic.length==0){
+                    $(".cnicverify").hide();
+                    $(".cnicverify").html("");
+                    return;
+                }
+                if(cnic.length!==15){
+                    $(".cnicverify").css({"border":"2px solid red"});
+                    $(".cnicverify").show();
+                    $(".cnicverify").html("Kindly Provide the cnic correctly");
+                    $('#cnic').focus();
+                    // $('#cnic').val("");
+                    return;
+                }
+                else{
+                    var memberships_cnic = {!! json_encode($memberships->cnic) !!};
+                    if(cnic== memberships_cnic){
+                        return;
+                    }
+                    $.ajax({
+                        url:'/checkCNIC_Membership/'+cnic,
+                        type:"GET",
+                        success:function(response){
+                            if(response==1){
+                                // it means cnic exist.
+                                $(".cnicverify").css({"border":"2px solid red"});
+                                $(".cnicverify").show();
+                                $(".cnicverify").html("Membership is already registered with this CNIC. Kindly Register the Memebership with new CNIC.");
+                                $('#gender').val('');
+                                $('#cnic').focus();
+                                return;
+                            }
+                            else{
+                                $('#gender').val('');
+                                $(".cnicverify").hide();
+                                $(".cnicverify").html("");
+                            }
+                        },
+                    });
+                }
+            });
+        });
+    </script>
+    {{-- End of the Script to Verufy CNIC Which is going to be registered for Membership --}}
+
+    {{-- Start of the Script to Verify that Transaction id is uniqe or not --}}
+    <script>
+        $(document).ready(function(){
+            $('#transaction_no').focusout(function(){
+                let transaction_no = $('#transaction_no').val();
+                if(transaction_no.length>0){
+                    var memberships_transaction_no = {!! json_encode($memberships->transaction_no) !!};
+                    if(transaction_no== memberships_transaction_no){
+                        return;
+                    }
+                    $.ajax({
+                        url:'/checkTransaction_no/'+transaction_no,
+                        type:"GET",
+                        success:function(response){
+                            if(response==1){    // 1 means true transsction id exist
+                                $("#verify_transaction_no").css({"border":"2px solid red"});
+                                $("#verify_transaction_no").show();
+                                $("#verify_transaction_no").html("Transaction Id is already used. Kindly use the new and unique transaction id");
+                                $('#transaction_no').focus();
+                                return;
+                            }
+                            else{
+                                $("#verify_transaction_no").hide();
+                                $("#verify_transaction_no").html("");
+                            }
+                        },
+                    });
+                }else{
+                    $("#verify_transaction_no").hide();
+                    $("#verify_transaction_no").html("");
+                }
+            });
+        });
+    </script>
+    {{-- End of the Script to Verify that Transaction id is uniqe or not --}}
+
+    {{-- Start of the script to check that id card on selecting the gender --}}
+    <script>
+        $(document).ready(function(){
+            // Function to check gender on CNIC change
+            function checkGender() {
+                let cnic = $('#cnic').val(), gender = $('#gender').val();
+                if (gender && cnic.length === 15) {
+                    var lastDigit = parseInt(cnic.slice(-1));
+                    if (!(lastDigit % 2 === 0 && gender === 'female') && !(lastDigit % 2 !== 0 && gender === 'male')) {
+                        alert("Kindly Select Your Gender According to your CNIC. Gender does not match with your CNIC.");
+                        $('#gender').val('').focus();
+                        $('#cnic').focus();
+                    }
+                } else {
+                    alert("Kindly Provide the CNIC First");
+                    $('#cnic').focus();
+                    $('#gender').val('');
+                }
+            }
+
+            // Check gender on gender change
+            $('#gender').change(function(){
+                checkGender();
+            });
+
+            // Clear gender on cnic focusout if length is 0
+            $('#cnic').focusout(function(){
+                if ($(this).val().length === 0) {
+                    $('#gender').val('');
+                }
+            });
+        });
+    </script>
+    {{-- End of the script to check that id card on selecting the gender --}}
+
+    <!-- Your script for CNIC and referal_cnic formatting -->
+<script>
+    $(document).ready(function() {
+        // Function to format CNIC and referal_cnic dynamically
+        function formatField(field) {
+            var value = field.val().replace(/[^0-9]/g, ''); // Remove non-numeric characters
+            var formattedValue = formatCnic(value);
+            field.val(formattedValue);
+        }
+
+        // Function to format CNIC dynamically (323226161887 => 32322-616188-7)
+        function formatCnic(value) {
+            if (value.length >= 5 && value.length < 12) {
+                return value.slice(0, 5) + '-' + value.slice(5);
+            } else if (value.length >= 12) {
+                return value.slice(0, 5) + '-' + value.slice(5, 12) + '-' + value.slice(12, 15);
+            } else {
+                return value;
+            }
+        }
+
+        // Format CNIC on input
+        $('#cnic').on('input', function() {
+            formatField($(this));
+        });
+
+        // Format referal_cnic on input
+        $('#referal_cnic').on('input', function() {
+            formatField($(this));
+        });
+
+        // Set maximum and minimum values for both fields
+        $('#cnic, #referal_cnic').attr('maxlength', '15');
+        $('#cnic, #referal_cnic').attr('minlength', '15');
+    });
+</script>
+
+     {{-- Begin: Jquery Form Validation --}}
+     <script>
+        $(document).ready(function(){
+            // 
+            $("#membership").submit(function(e){
+                $(".alert-danger").remove();
+                // Check the Full Name is empty or not
+                let name = $("#name").val();
+                if(name.trim() === ""){
+                    e.preventDefault();
+                    $("#name").after('<div class="alert alert-danger">Full name should be provided.</div>');
+                    $("#name").focus();
+                }
+
+                // Check the cnic is empty or not and also check the length
+                let cnic = $("#cnic").val();
+                if(cnic.length != 15){
+                    e.preventDefault();
+                    $("#cnic").after('<div class="alert alert-danger">Cnic should provided properly.</div>');
+                    $("#cnic").focus();
+                }
+
+                // Check the memebership type is selected or not
+                let membershiptype_id = $('#membershiptype_id').val();
+                if(membershiptype_id === "" || membershiptype_id === null){
+                    e.preventDefault();
+                    $("#membershiptype_id").after('<div class="alert alert-danger">Membership should be selected.</div>');
+                    $("#membershiptype_id").focus();
+                }
+
+                // Check the country is selected or not
+                let country_id = $('#country_id').val();
+                if(country_id === "" || country_id === null){
+                    e.preventDefault();
+                    $("#country_id").after('<div class="alert alert-danger">Country should be selected.</div>');
+                    $("#country_id").focus();
+                }
+
+                // Check the state is selected or not
+                let states_id = $('#states_id').val();
+                if(states_id === "" || states_id === null){
+                    e.preventDefault();
+                    $("#states_id").after('<div class="alert alert-danger">State should be selected.</div>');
+                    $("#states_id").focus();
+                }
+
+                // Check the city is selected or not
+                let city_id = $('#city_id').val();
+                if(city_id === "" || city_id === null){
+                    e.preventDefault();
+                    $("#city_id").after('<div class="alert alert-danger">City should be selected.</div>');
+                    $("#city_id").focus();
+                }
+
+                // Check the Hostel is selected or not
+                let hostelreg_no = $('#hostelreg_no').val();
+                if(hostelreg_no === "" || hostelreg_no === null){
+                    e.preventDefault();
+                    $("#hostelreg_no").after('<div class="alert alert-danger">Hostel should be selected.</div>');
+                    $("#hostelreg_no").focus();
+                }
+
+                // Check the transaction is empty or not
+                let transaction_no = $("#transaction_no").val();
+                if(transaction_no.trim() === ""){
+                    e.preventDefault();
+                    $("#transaction_no").after('<div class="alert alert-danger">Transaction id should be provided.</div>');
+                    $("#transaction_no").focus();
+                }
+
+                // Check the gender is selected or not
+                let gender = $('#gender').val();
+                if(gender === "" || gender === null){
+                    e.preventDefault();
+                    $("#gender").after('<div class="alert alert-danger">Gender should be selected.</div>');
+                    $("#gender").focus();
+                }
+            });
+        });
+    </script>
+    {{-- End: Jquery Form Validation --}}
+
+    
   
     @endsection
