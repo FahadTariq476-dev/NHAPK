@@ -44,14 +44,15 @@
                         </div>
                         @endif
                     </div>
-                    <form method="POST" action="/addMembership" id="#membership" onsubmit="return confirmSubmit()">
+                    {{-- onsubmit="return confirmSubmit()" --}}
+                    <form method="POST" action="/addMembership" id="membership">       
                         @csrf
                         <div class="modal-body">
                             <div class="mb-1 mt-3">
-                                <input type="text" placeholder="Enter Your Full Name:" id="name" name="name" class="form-control" required/>
+                                <input type="text" placeholder="Enter Your Full Name:" id="name" name="name" class="form-control"/>
                             </div>
                             <div class="mb-1 mt-3">
-                                <input type="text" name="cnic"  id="cnic" placeholder="Enter Your CNIC #" class="form-control" required/>
+                                <input type="text" name="cnic"  id="cnic" placeholder="Enter Your CNIC #" class="form-control"/>
                             </div>
                             <div class="cnicverify"></div>
                             <div class="mb-1 mt-3">                                
@@ -63,19 +64,20 @@
                                 </select>
                             </div>
                             <div class="mb-1 mt-3">
-                                <input id="hostelreg_no" type="text" placeholder="Enter Your Hostel Registration No." name="hostelreg_no"  class="form-control mb-2" value="" required/>
+                                <input id="hostelreg_no" type="text" placeholder="Enter Your Hostel Registration No." name="hostelreg_no"  class="form-control mb-2" value="" />
                             </div>
                             <div class="mb-1 mt-3" id="verify_hostelreg_no"></div>
                             <div class="mb-1 mt-3">
-                                <button class="btn btn-link" id="btn_search_hostel" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
+                                {{-- <button class="btn btn-link" id="btn_search_hostel" data-bs-target="#exampleModalToggle" data-bs-toggle="modal"> --}}
+                                <button class="btn btn-link" id="btn_search_hostel" data-target="#exampleModalToggle" data-toggle="modal">
                                     If don't know Search your hostel Registration Number by clickinghere
                                 </button>
                             </div>
                             <div class="mb-1 mt-3">
-                                <input type="cnic" name="referal_cnic" id="referal_cnic" placeholder="Enter Referal  CNIC #" value="" class="form-control"  required/>
+                                <input type="cnic" name="referal_cnic" id="referal_cnic" placeholder="Enter Referal  CNIC #" value="" class="form-control"  />
                             </div>
                             <div class="mb-1 mt-3">
-                                <input type="text" name="transaction_no" id="transaction_no" class="form-control" placeholder="Enter You Transaction Number..." value="" required/>
+                                <input type="text" name="transaction_no" id="transaction_no" class="form-control" placeholder="Enter You Transaction Number..." value="" />
                             </div>
                             <div class="mb-1 mt-3" id="verify_transaction_no"></div>
                             <div class="mb-1 mt-3">
@@ -86,7 +88,7 @@
                                 </select>
                             </div>
                             <div class="mb-1 mt-3">
-                                <input type="date" id="livingSince" placeholder="Living Since" class="form-control" name="livingSince" value="" required/>
+                                <input type="date" id="livingSince" placeholder="Living Since" class="form-control" name="livingSince" value="" />
                                 <small class="form-text text-muted">Livin Since</small>
                             </div>
                             <div class="mb-1 mt-3">
@@ -107,7 +109,7 @@
                 </div>
             </div>
         </div>
-        <script>
+        {{-- <script>
             function confirmSubmit() {
                 function validateAndFocus(element, errorMessage) {
                     var value = element.value.trim();
@@ -136,7 +138,7 @@
                 // Show a confirmation alert
                 return confirm("Are you sure you want to submit the form?");
             }
-        </script>
+        </script> --}}
 
         <!-- Modal to Search Hostel Registration Number -->
         <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
@@ -144,20 +146,16 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 style="text-align:center;" class="modal-title center" id="Label">Search
-                            Hostel</h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <h3 style="text-align:center;" class="modal-title center" id="Label">Search Hostel</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <form method="POST" action="https://itispakistan.com/membership/save" id="m_form_modal">
-                                        <input type="hidden" name="_token" value="vYILArErMJ5TzfnudsOtSggPqeroJcp8bMjJrBK2">
+                                    <form id="m_form_modal">
                                         <div class="form-group">
-                                            <select name="country_id" class="countries form-control" id="country_id"
-                                                required>
+                                            <select name="country_id" class="countries form-control" id="country_id">
                                                 <option value="">Select Country</option>
                                                 @foreach ($countries as $country)
                                                 <option value="{{$country->id}}">{{ $country->name }}</option>
@@ -166,14 +164,12 @@
                                             </select>
                                         </div>
                                         <div class="form-group mt-3">
-                                            <select name="states_id" class="states form-control" id="states_id"
-                                                required>
+                                            <select name="states_id" class="states form-control" id="states_id">
                                                 <option value="">Select State</option>
                                             </select>
                                         </div>
                                         <div class="form-group mt-3">
-                                            <select name="city_id" class="cities form-control" id="city_id"
-                                                required>
+                                            <select name="city_id" class="cities form-control" id="city_id">
                                                 <option value=""> Select City </option>
                                             </select>
                                         </div>
@@ -192,7 +188,7 @@
                                         <div class="modal-footer">
                                             <div class="btn btn-link ml-3" >
                                                 <a href="{{route('saveHostelForm')}}" target="_blank">If not found Add Your Hostel</a></div>
-                                            <button class="btn btn-primary" data-bs-toggle="modal">close</button>
+                                            <button class="btn btn-primary" data-toggle="modal">close</button>
                                         </div>
                                     </form>
                                 </div>
@@ -220,6 +216,23 @@
         });
     </script>
     {{-- End of the script to input masking the id card --}}
+
+    {{-- Begin: Jquery Form Validation --}}
+    <script>
+        $(document).ready(function(){
+            // 
+            $("#membership").submit(function(e){
+                // alert("Yes");
+                // e.preventDefault();
+                let name = $("#name").val();
+                if(name.trim() === ""){
+                    e.preventDefault();
+                    $("#name").after('<div class="alert alert-danger">Full name should be provided.</div>');
+                }
+            });
+        });
+    </script>
+    {{-- End: Jquery Form Validation --}}
 
     {{-- Start of the script to check that id card on selecting the gender --}}
     <script>

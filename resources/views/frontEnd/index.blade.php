@@ -55,6 +55,7 @@
 
         {{-- Begin: View Blogs Area --}}
         <div class="container mt-5">
+            <h2>Blogs</h2>
             <div class="row">
                 @foreach ($blogs as $blog)
                     <!-- Replace this with a loop through your blog data -->
@@ -97,58 +98,39 @@
                 c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"></path>
                 </svg>
             </div>
-            <div class="container">
-                <div class="row justify-content-between">
-                    <div class="col-12 col-lg-6">
-                        <!-- Content Inner -->
-                        <div class="content-inner text-center">
-                            <!-- Section Heading -->
-                            <div class="section-heading text-center mb-3">
-                                <h2>We help to grow your business.</h2>
-                                <p class="d-none d-sm-block mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati dignissimos quae quo ad iste ipsum officiis deleniti asperiores sit.</p>
-                                <p class="d-block d-sm-none mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati.</p>
+            {{-- Begin: View News & Feed Area --}}
+        <div class="container mt-5">
+            <h2>News & Feed</h2>
+            <div class="row">
+                @foreach ($news as $item)
+                    <!-- Replace this with a loop through your blog data -->
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img
+                                src="{{ asset($item->thumbnail_image_path) }}"
+                                class="card-img-top img-fluid" style=" height: 300px;  "
+                                alt="Thumbnail Image" 
+                                onerror="this.onerror=null; this.src='{{ asset('no-image-icon.png') }}';"
+                            >
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {{$item->title}}
+                                </h5>
+                                <p class="card-text text-justify">
+                                    {{$item->short_description}}
+                                </p>
+                                <p class="card-text text-muted text-right">
+                                    {{ \Carbon\Carbon::parse($item->created_at)->format('d-M-Y \a\t h:i A') }}
+                                </p>
+                                <a href="{{ route('frontEnd.newsfeed.viewFullNewsfeedBySlug', ['slug' => $item->slug]) }}" class="btn btn-primary">View Details</a>
                             </div>
-                            <!-- Content List -->
-                            <ul class="content-list text-left">
-                                <!-- Single Content List -->
-                                <li class="single-content-list media py-2">
-                                    <div class="content-icon pr-4">
-                                        <span class="color-1"><i class="fas fa-angle-double-right"></i></span>
-                                    </div>
-                                    <div class="content-text media-body">
-                                        <span><b>Online Presence</b><br>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis, distinctio.</span>
-                                    </div>
-                                </li>
-                                <!-- Single Content List -->
-                                <li class="single-content-list media py-2">
-                                    <div class="content-icon pr-4">
-                                        <span class="color-1"><i class="fas fa-angle-double-right"></i></span>
-                                    </div>
-                                    <div class="content-text media-body">
-                                        <span><b>Marketing Stretagy</b><br>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis, distinctio.</span>
-                                    </div>
-                                </li>
-                                <!-- Single Content List -->
-                                <li class="single-content-list media py-2">
-                                    <div class="content-icon pr-4">
-                                        <span class="color-1"><i class="fas fa-angle-double-right"></i></span>
-                                    </div>
-                                    <div class="content-text media-body">
-                                        <span><b>Promote Local Sales</b><br>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis, distinctio.</span>
-                                    </div>
-                                </li>
-                            </ul>
-                            <a href="#" class="btn btn-bordered mt-4">Learn More</a>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6">
-                        <!-- Service Thumb -->
-                        <div class="service-thumb mx-auto pt-4 pt-lg-0">
-                            <img src="assets/img/content/content_thumb.png" alt="">
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+                <!-- End loop -->
             </div>
+        </div>
+        {{-- End: View News & Feed Area --}}
             <!-- Shape Bottom -->
             <div class="shape shape-bottom">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none" fill="#FFFFFF">

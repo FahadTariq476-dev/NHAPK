@@ -17,8 +17,10 @@ use App\Http\Controllers\BlogFrontEndController;
 use App\Http\Controllers\HomeDashboardController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MembershipAdminController;
+use App\Http\Controllers\Admin\NewsFeedsAdminController;
 use App\Http\Controllers\Admin\PostBlogsController;
 use App\Http\Controllers\HostelRegistrationController;
+use App\Http\Controllers\NewsFeedController;
 
 /*
 |--------------------------------------------------------------------------
@@ -124,8 +126,32 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth']], function () {
     Route::get('/admin/get-membershipList',[MembershipAdminController::class,'adminListingMemebership'])->name('admin.get-membershipList');
     // Rute for admin to display the edit membership view from list-memebrship page having id of membership
     Route::get('/admin/editMembership/{id}',[MembershipAdminController::class,'editMemebershipView'])->name('admin.editMemebershipView');
-
+    // Route for admin to update the membership in controller 
+    Route::post('/admin/updateMembership',[MembershipAdminController::class,'updateMembership'])->name('admin.updateMembership');
     // End: Routes for Membership
+
+
+    // Begin: Route for News & Feeds
+    // Route for admin to show the post news and feed page
+    Route::get('/admin/post-newsfeeds',[NewsFeedsAdminController::class,'index'])->name('admin.newsfeeds.post-newsfeeds');
+    // Route for admin to save the news and feed
+    Route::post('/admin/saveNewsfeeds',[NewsFeedsAdminController::class,'saveNewsfeeds'])->name('admin.saveNewsfeeds');
+
+    // Route for admin to show the news & feeeds listing page
+    Route::get('/admin/list-newsfeeds',[NewsFeedsAdminController::class, 'listNewsfeedsView'])->name('admin.newsfeeds.list-newsfeeds');
+    // Route for admin to get the list of newsfeeds to show them in the data table
+    Route::get('/admin/get-newfeedList',[NewsFeedsAdminController::class,'adminListingNewsfeeds'])->name('admin.newsfeeds.get-newsfeedList');
+    // Route for admin to update the status of new feed from the listing page using ajax request
+    Route::get('/admin/newsfeeds/update-status/{status}/{newsId}',[NewsFeedsAdminController::class,'updateNewsfeedStatus'])->name('admin.newsfeeds.updateNewsfeedStatus');
+    // Route for admin to delete the newsfeed at listin page using newsId
+    Route::get('/admin/delete-newsfeeds/{newsId}',[NewsFeedsAdminController::class,'deleteNewsfeed'])->name(('admin.newsfeeds.deleteNewsfeed'));
+    // Route for admin to show the edit-news veiw page with news
+    Route::get('/admin/editNewsfeeds/{newsId}',[NewsFeedsAdminController::class,'editNewsfeedView'])->name('admin.newsfeed.editNewsfeedView');
+    // Route for admin to update the full news from edi-newsfeeds page
+    Route::post('/admin/updateNewsfeeeds',[NewsFeedsAdminController::class,'updateFullNewsfeed'])->name('admin.newsfeeds.updateFullNewsfeed');
+    // End: Route for News & Feeds
+
+
 });
 
 
@@ -149,7 +175,13 @@ Route::get('/blogDetails/{slug}',[BlogFrontEndController::class,'viewFullBlogByI
 
 // End: Route for Blogs
 
+// Begin: Route for Newsfeed
+// Route to Display the Newsfeed Page
+Route::get('/newsfeeds',[NewsFeedController::class,'index'])->name('frontEnd.newsfeed.list-newsfeeds');
+// Route to Display the full Newsfeed using slug
+Route::get('/newsfeedsDetails/{slug}',[NewsFeedController::class,'viewFullNewsfeedBySlug'])->name('frontEnd.newsfeed.viewFullNewsfeedBySlug');
+
+// End: Route for Newsfeed
 
 
-// Test Membership ROute
-Route::get('/testMembership',[MembershipController::class, 'testMembership']);
+

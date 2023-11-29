@@ -129,7 +129,7 @@
         jq(document).ready(function() {
             Swal.fire({
                 title: 'Welcome!',
-                text: 'This is listing the posted blogs here.',
+                text: 'List Memebership.',
                 icon: 'success'
             });
             var dataTable = jq('#memberhsipTable').DataTable({

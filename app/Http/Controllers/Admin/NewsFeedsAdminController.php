@@ -3,22 +3,30 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Blog;
+use App\Models\NewsFeed;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
-class PostBlogsController extends Controller
+class NewsFeedsAdminController extends Controller
 {
     //
+    // Begin: Function to show the page to add news & feed
     public function index(){
-        return view('admin.post-blogs');
+        return view('admin.NewsFeeds.post-newsfeeds');
     }
+    // End: Function to show the page to add news & feed
 
-    // 
-    public function saveBlogPost(Request $request){
+    // Begin: Function to show the list of news & feed
+    public function listNewsfeedsView(){
+        return view('admin.NewsFeeds.list-newsfeeds');
+    }
+    // End: Function to show the list of news & feed
+
+    // Begin: Function save the news feeds 
+    public function saveNewsfeeds(Request $request){
         // return "Yes";
         // Validate the form data
     $validatedData = $request->validate([
@@ -29,6 +37,7 @@ class PostBlogsController extends Controller
         'thumbnailImage' => 'required|mimes:jpeg,png,jpg,JPEG,JPG,PNG|image|max:2048',
         'status' => 'required|in:pending,published',
     ]);
+    // return "yesss";
 
     // Generate the initial slug from the title
     $slug = Str::slug($request->title);
@@ -41,41 +50,41 @@ class PostBlogsController extends Controller
     // Save the images
     $imageFileName = $timestamp . '.' . $request->file('image')->getClientOriginalExtension();
     $thumbnailImageFileName = $timestamp . '.' . $request->file('thumbnailImage')->getClientOriginalExtension();
-    // Store the images in the 'public/blog-images/image' folder
-    $imagePath = "storage/blog-images/image/".$imageFileName;
-    $thumbnailImagePath = "storage/blog-images/thumbnail/".$thumbnailImageFileName;
-    $request->file('image')->storeAs('public/blog-images/image', $imageFileName);
-    $request->file('thumbnailImage')->storeAs('public/blog-images/thumbnail', $thumbnailImageFileName);
-    // Save the blog entry to the database
-    $blog = new Blog();
-    $blog->title = $validatedData['title'];
-    $blog->slug = $uniqueSlug; 
-    $blog->short_description = $validatedData['shortDescription'];
-    $blog->editor_content = $validatedData['editor'];
-    $blog->image_path = $imagePath;
-    $blog->thumbnail_image_path = $thumbnailImagePath;
-    $blog->featured_post = $request->has('featuredPost');
-    $blog->status = $validatedData['status'];
-    // Associate the blog with the authenticated user
-    $blog->author_id = Auth::id();
+    // Store the images in the 'public/newsfeed-images/image' folder
+    $imagePath = "storage/newsfeed-images/image/".$imageFileName;
+    $thumbnailImagePath = "storage/newsfeed-images/thumbnail/".$thumbnailImageFileName;
+    $request->file('image')->storeAs('public/newsfeed-images/image', $imageFileName);
+    $request->file('thumbnailImage')->storeAs('public/newsfeed-images/thumbnail', $thumbnailImageFileName);
+    // Save the news entry to the database
+    $news = new NewsFeed();
+    $news->title = $validatedData['title'];
+    $news->slug = $uniqueSlug; 
+    $news->short_description = $validatedData['shortDescription'];
+    $news->editor_content = $validatedData['editor'];
+    $news->image_path = $imagePath;
+    $news->thumbnail_image_path = $thumbnailImagePath;
+    $news->featured_post = $request->has('featuredPost');
+    $news->status = $validatedData['status'];
+    // Associate the news with the authenticated user
+    $news->author_id = Auth::id();
 
-    $blog->save();
+    $news->save();
 
     // return redirect()->route('admin.post-blogs')->with('success', 'Blog entry created successfully!');
     
-    if(!$blog){
-        return redirect()->back()->withInput()->withErrors(['error' => 'An error occurred while saving the blog entry.']);
+    if(!$news){
+        return redirect()->back()->withInput()->withErrors(['error' => 'An error occurred while saving the news. Try again']);
     }
-    return redirect()->route('admin.post-blogs')->with('success', 'Blog entry created successfully!');
+    return redirect()->route('admin.newsfeeds.post-newsfeeds')->with('success', 'News created successfully!');
     }
 
     private function makeSlugUnique($slug, $counter = 1)
     {
         // Check if a record with the same slug already exists
-        $existingBlog = Blog::where('slug', $slug)->first();
+        $existingNews = NewsFeed::where('slug', $slug)->first();
 
         // If a record with the same slug exists, modify the slug to make it unique
-        if ($existingBlog) {
+        if ($existingNews) {
             $modifiedSlug = $slug . '-' . $counter;
             // Recursive call to ensure the modified slug is also unique
             return $this->makeSlugUnique($modifiedSlug, $counter + 1);
@@ -84,25 +93,22 @@ class PostBlogsController extends Controller
         // If the slug is already unique, return it
         return $slug;
     }
+    // End: Function save the news feeds 
 
-
-
-    public function listBlogView(){
-        return view('admin.list-blogs');
-    }
-
-    public function adminListingPostedBlogs(Request $request){
+    // Begin: Listing the NewsFeed Using Data table
+    public function adminListingNewsfeeds(Request $request){
         // 
         // return $request
         if($request->ajax()){
-            $blogs = Blog::latest()->get();
-            return DataTables::of($blogs)->addIndexColumn()->make(true);
+            $news = NewsFeed::latest()->get();
+            return DataTables::of($news)->addIndexColumn()->make(true);
         }
         return abort(403, 'Unathorized action');
     }
+    // End: Listing the NewsFeed Using Data table
 
-    
-    public function updatePostStatus($status,$blogId){
+    // Begin: To Update the status of newsfeeds
+    public function updateNewsfeedStatus($status,$newsId){
         // 
         $validStatuses = ['pending', 'published'];
 
@@ -110,34 +116,36 @@ class PostBlogsController extends Controller
         if (!(in_array($status, $validStatuses))) {
             return 'error';
         }
-        $blog = Blog::find($blogId);
-        if(!$blog){
+        $news = NewsFeed::find($newsId);
+        if(!$news){
             return "error";
         }
-        $blog->status = $status;
-        $blog->save();
+        $news->status = $status;
+        $news->save();
         return 'success';
     }
+    // End: To Update the status of newsfeeds
 
-    public function deleteBlog($id){
+    // Begin: To Delete the newsfeed using newsId
+    public function deleteNewsfeed($newsId){
         // Find the blog by ID
-        $blog = Blog::find($id);
+        $news = NewsFeed::find($newsId);
 
         // Check if the blog exists
-        if (!$blog) {
+        if (!$news) {
             return "error";
         }
 
         // Get the paths for image deletion
-        $imagePath = $blog->image_path;
-        $thumbnailImagePath = $blog->thumbnail_image_path;
+        $imagePath = $news->image_path;
+        $thumbnailImagePath = $news->thumbnail_image_path;
 
         // Replace "storage" with "app/public"
         $newPath_a = str_replace("storage", "app/public", $imagePath);
         $newPath_b = str_replace("storage", "app/public", $thumbnailImagePath);
 
         // Attempt to delete the blog
-        $deleted = $blog->delete();
+        $deleted = $news->delete();
 
         if ($deleted) {
             // Delete the associated images from storage
@@ -160,54 +168,23 @@ class PostBlogsController extends Controller
             return "error";
         }
     }
+    // End: To Delete the newsfeed using newsId
 
-    // 
-    public function editBlogView($id){
+    // Begin: To show the edit newsfeed page using news id from listing newsfeed page
+    public function editNewsfeedView($newsId){
         // return $id;
-        $blogs = Blog::find($id);
-        if(!$blogs){
-            return redirect()->route('admin.list-blogs');
+        $news = NewsFeed::find($newsId);
+        if(!$news){
+            return redirect()->route('admin.newsfeeds.list-newsfeeds')->with('error','Invalid news you are trying to access');
         }
-        return view('admin.edit-blogs')->with(['blogs'=>$blogs]);
+        return view('admin.NewsFeeds.edit-newsfeeds')->with(['news'=>$news]);
     }
+    // End: To show the edit newsfeed page using news id from listing newsfeed page
 
-    public function updateFullBlog(Request $request){
+    // Begin: To Update the whole newsfeed geetting post request from edit-newsfeed
+    public function updateFullNewsfeed(Request $request){
         // Validate the form data
-        // if ($request->hasFile('image') && $request->hasFile('thumbnailImage')) {
-        //     $validatedData = $request->validate([
-        //         'title' => 'required|max:255',
-        //         'shortDescription' => 'required|max:255',
-        //         'editor' => 'required',
-        //         'image' => 'required|image|mimes:jpeg,png,jpg,JPEG,JPG,PNG|max:2048', // Maximum 2MB for image
-        //         'thumbnailImage' => 'required|mimes:jpeg,png,jpg,JPEG,JPG,PNG|image|max:2048',
-        //         'status' => 'required|in:pending,published',
-        //     ]);
-        // } elseif ($request->hasFile('image')) {
-        //     $validatedData = $request->validate([
-        //         'title' => 'required|max:255',
-        //         'shortDescription' => 'required|max:255',
-        //         'editor' => 'required',
-        //         'image' => 'required|image|mimes:jpeg,png,jpg,JPEG,JPG,PNG|max:2048', // Maximum 2MB for image
-        //         'status' => 'required|in:pending,published',
-        //     ]);
-        // } elseif ($request->hasFile('thumbnailImage')) {
-        //     $validatedData = $request->validate([
-        //         'title' => 'required|max:255',
-        //         'shortDescription' => 'required|max:255',
-        //         'editor' => 'required',
-        //         'thumbnailImage' => 'required|mimes:jpeg,png,jpg,JPEG,JPG,PNG|image|max:2048',
-        //         'status' => 'required|in:pending,published',
-        //     ]);
-        // } else {
-        //     $validatedData = $request->validate([
-        //         'title' => 'required|max:255',
-        //         'shortDescription' => 'required|max:255',
-        //         'editor' => 'required',
-        //         'status' => 'required|in:pending,published',
-        //     ]);
-        // }
-        
-
+        // Setting common rules
         $commonRules = [
             'title' => 'required|max:255',
             'shortDescription' => 'required|max:255',
@@ -232,13 +209,13 @@ class PostBlogsController extends Controller
             $validatedData = $request->validate($commonRules);
         }
 
-
-        $blog = Blog::find($request->id);
-        if(!$blog){
-            return redirect()->route('admin.list-blogs');
+        // 
+        $news = NewsFeed::find($request->id);
+        if(!$news){
+            return redirect()->route('admin.newsfeeds.list-newsfeeds')->with('error','You are accesing invalid news. Kindly acces the valid news to update');
         }
-        if($blog->title == $validatedData['title'] ){
-            $uniqueSlug = $blog->slug;
+        if($news->title == $validatedData['title'] ){
+            $uniqueSlug = $news->slug;
         }
         else{
             // Generate the initial slug from the title
@@ -253,16 +230,16 @@ class PostBlogsController extends Controller
             // Save the images
             $imageFileName = $timestamp . '.' . $request->file('image')->getClientOriginalExtension();
             $thumbnailImageFileName = $timestamp . '.' . $request->file('thumbnailImage')->getClientOriginalExtension();
-            // Store the images in the 'public/blog-images/image' folder
-            $imagePath = "storage/blog-images/image/".$imageFileName;
-            $thumbnailImagePath = "storage/blog-images/thumbnail/".$thumbnailImageFileName;
-            $request->file('image')->storeAs('public/blog-images/image', $imageFileName);
-            $request->file('thumbnailImage')->storeAs('public/blog-images/thumbnail', $thumbnailImageFileName);
+            // Store the images in the 'public/newsfeed-images/image' folder
+            $imagePath = "storage/newsfeed-images/image/".$imageFileName;
+            $thumbnailImagePath = "storage/newsfeed-images/thumbnail/".$thumbnailImageFileName;
+            $request->file('image')->storeAs('public/newsfeed-images/image', $imageFileName);
+            $request->file('thumbnailImage')->storeAs('public/newsfeed-images/thumbnail', $thumbnailImageFileName);
             // 
 
             // Get the paths for image deletion
-            $imagePath_Old = $blog->image_path;
-            $thumbnailImagePath_Old = $blog->thumbnail_image_path;
+            $imagePath_Old = $news->image_path;
+            $thumbnailImagePath_Old = $news->thumbnail_image_path;
 
             // Replace "storage" with "app/public"
             $newPath_a_Old = str_replace("storage", "app/public", $imagePath_Old);
@@ -283,31 +260,31 @@ class PostBlogsController extends Controller
             }
 
             // Update the blog entry to the database
-            $blog->title = $validatedData['title'];
-            $blog->slug = $uniqueSlug; 
-            $blog->short_description = $validatedData['shortDescription'];
-            $blog->editor_content = $validatedData['editor'];
-            $blog->image_path = $imagePath;
-            $blog->thumbnail_image_path = $thumbnailImagePath;
-            $blog->featured_post = $request->has('featuredPost');
-            $blog->status = $validatedData['status'];
+            $news->title = $validatedData['title'];
+            $news->slug = $uniqueSlug; 
+            $news->short_description = $validatedData['shortDescription'];
+            $news->editor_content = $validatedData['editor'];
+            $news->image_path = $imagePath;
+            $news->thumbnail_image_path = $thumbnailImagePath;
+            $news->featured_post = $request->has('featuredPost');
+            $news->status = $validatedData['status'];
             // Associate the blog with the authenticated user
-            $blog->author_id = Auth::id();
-            $blog->updated_at = $timestamp;
-            $blog->save();
+            $news->author_id = Auth::id();
+            $news->updated_at = $timestamp;
+            $news->save();
 
 
         } elseif ($request->hasFile('image')) {
             // Here we save the image file and unlink the old image file
             // Save the images
             $imageFileName = $timestamp . '.' . $request->file('image')->getClientOriginalExtension();
-            // Store the images in the 'public/blog-images/image' folder
-            $imagePath = "storage/blog-images/image/".$imageFileName;
-            $request->file('image')->storeAs('public/blog-images/image', $imageFileName);
+            // Store the images in the 'public/newsfeed-images/image' folder
+            $imagePath = "storage/newsfeed-images/image/".$imageFileName;
+            $request->file('image')->storeAs('public/newsfeed-images/image', $imageFileName);
             // 
 
             // Get the paths for image deletion
-            $imagePath_Old = $blog->image_path;
+            $imagePath_Old = $news->image_path;
 
             // Replace "storage" with "app/public"
             $newPath_a_Old = str_replace("storage", "app/public", $imagePath_Old);
@@ -320,31 +297,29 @@ class PostBlogsController extends Controller
                 }
             }
             // Update the blog entry to the database
-            $blog->title = $validatedData['title'];
-            $blog->slug = $uniqueSlug; 
-            $blog->short_description = $validatedData['shortDescription'];
-            $blog->editor_content = $validatedData['editor'];
-            $blog->image_path = $imagePath;
-            $blog->featured_post = $request->has('featuredPost');
-            $blog->status = $validatedData['status'];
+            $news->title = $validatedData['title'];
+            $news->slug = $uniqueSlug; 
+            $news->short_description = $validatedData['shortDescription'];
+            $news->editor_content = $validatedData['editor'];
+            $news->image_path = $imagePath;
+            $news->featured_post = $request->has('featuredPost');
+            $news->status = $validatedData['status'];
             // Associate the blog with the authenticated user
-            $blog->author_id = Auth::id();
-            $blog->updated_at = $timestamp;
-            $blog->save();
-
-
+            $news->author_id = Auth::id();
+            $news->updated_at = $timestamp;
+            $news->save();
 
         } elseif ($request->hasFile('thumbnailImage')) {
             // Here we save the thumbnail image file and unlink the old thumbnail image file
             // Save the images
             $thumbnailImageFileName = $timestamp . '.' . $request->file('thumbnailImage')->getClientOriginalExtension();
-            // Store the images in the 'public/blog-images/image' folder
-            $thumbnailImagePath = "storage/blog-images/thumbnail/".$thumbnailImageFileName;
-            $request->file('thumbnailImage')->storeAs('public/blog-images/thumbnail', $thumbnailImageFileName);
+            // Store the images in the 'public/newsfeed-images/image' folder
+            $thumbnailImagePath = "storage/newsfeed-images/thumbnail/".$thumbnailImageFileName;
+            $request->file('thumbnailImage')->storeAs('public/newsfeed-images/thumbnail', $thumbnailImageFileName);
             // 
 
             // Get the paths for image deletion
-            $thumbnailImagePath_Old = $blog->thumbnail_image_path;
+            $thumbnailImagePath_Old = $news->thumbnail_image_path;
 
             // Replace "storage" with "app/public"
             $newPath_b_Old = str_replace("storage", "app/public", $thumbnailImagePath_Old);
@@ -358,37 +333,38 @@ class PostBlogsController extends Controller
             }
 
             // Update the blog entry to the database
-            $blog->title = $validatedData['title'];
-            $blog->slug = $uniqueSlug; 
-            $blog->short_description = $validatedData['shortDescription'];
-            $blog->editor_content = $validatedData['editor'];
-            $blog->thumbnail_image_path = $thumbnailImagePath;
-            $blog->featured_post = $request->has('featuredPost');
-            $blog->status = $validatedData['status'];
+            $news->title = $validatedData['title'];
+            $news->slug = $uniqueSlug; 
+            $news->short_description = $validatedData['shortDescription'];
+            $news->editor_content = $validatedData['editor'];
+            $news->thumbnail_image_path = $thumbnailImagePath;
+            $news->featured_post = $request->has('featuredPost');
+            $news->status = $validatedData['status'];
             // Associate the blog with the authenticated user
-            $blog->author_id = Auth::id();
-            $blog->updated_at = $timestamp;
-            $blog->save();
-
+            $news->author_id = Auth::id();
+            $news->updated_at = $timestamp;
+            $news->save();
 
         } else {
             // Here updating the code we didn't add these two attributes
             // Update the blog entry to the database
-            $blog->title = $validatedData['title'];
-            $blog->slug = $uniqueSlug; 
-            $blog->short_description = $validatedData['shortDescription'];
-            $blog->editor_content = $validatedData['editor'];
-            $blog->featured_post = $request->has('featuredPost');
-            $blog->status = $validatedData['status'];
+            $news->title = $validatedData['title'];
+            $news->slug = $uniqueSlug; 
+            $news->short_description = $validatedData['shortDescription'];
+            $news->editor_content = $validatedData['editor'];
+            $news->featured_post = $request->has('featuredPost');
+            $news->status = $validatedData['status'];
             // Associate the blog with the authenticated user
-            $blog->author_id = Auth::id();
-            $blog->updated_at = $timestamp;
-            $blog->save();
+            $news->author_id = Auth::id();
+            $news->updated_at = $timestamp;
+            $news->save();
         }
         
-        if(!$blog){
-            return redirect()->back()->withInput()->withErrors(['error' => 'An error occurred while updating the blog entry.']);
+        if(!$news){
+            return redirect()->back()->withInput()->withErrors(['error' => 'An error occurred while updating the news.Kindly try again']);
         }
-        return redirect()->route('admin.list-blogs')->with('success', 'Blog updated successfully!');
+        return redirect()->route('admin.newsfeeds.list-newsfeeds')->with('success', 'Newsfeed updated successfully!');
     }
+    // End: To Update the whole newsfeed geetting post request from edit-newsfeed
+
 }

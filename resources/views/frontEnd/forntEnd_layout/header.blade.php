@@ -24,6 +24,12 @@
 
     <!-- Responsive css -->
     <link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
+
+    <!-- Include SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+
+    <!-- Include SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
     
     <!-- jQuery(necessary for all JavaScript plugins) -->
     <script src="{{asset('assets/js/jquery/jquery-3.5.1.min.js')}}"></script>
@@ -119,10 +125,10 @@
                                     <a class="nav-link" href="{{route('forntEnd.showComplaintForm')}}">Complaint</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{route('frontEnd.list-blogs')}}">Blog (News Feed)<i class="fas fa-angle-right ml-1"></i></a>
+                                    <a class="nav-link" href="{{route('frontEnd.list-blogs')}}">Blogs<i class="fas fa-angle-right ml-1"></i></a>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link" href="#">News and Media<i class="fas fa-angle-right ml-1"></i></a>
+                                    <a class="nav-link" href="{{route('frontEnd.newsfeed.list-newsfeeds')}}">News & Media<i class="fas fa-angle-right ml-1"></i></a>
                                 </li>
                             </ul>
                         </li>
