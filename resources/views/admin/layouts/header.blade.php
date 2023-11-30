@@ -43,6 +43,8 @@
 
     <!-- jQuery(necessary for all JavaScript plugins) -->
     {{-- <script src="{{asset('assets/js/jquery/jquery-3.5.1.min.js')}}"></script> --}}
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <!-- ✅ Load CSS file for DataTables  -->
     <link
@@ -184,6 +186,7 @@
                             </ul>
                         </li>
                         {{-- End: Membership --}}
+
                         <li>
                             <a class="d-flex align-items-center" href="layout-without-menu.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Without Menu">Without Menu</span></a>
                         </li>
@@ -193,6 +196,16 @@
                         <li>
                             <a class="d-flex align-items-center" href="layout-blank.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Blank">Layout Blank</span></a>
                         </li>
+                        {{-- Begin: Contact Us --}}
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Contact Us</span></a>
+                            <ul class="menu-content">
+                                <li>
+                                    <a class="d-flex align-items-center" href="{{route('admin.contactUs.list-contactus')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Contact Us</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        {{-- End: Contact Us --}}
                     </ul>
                 </li>
             </ul>
