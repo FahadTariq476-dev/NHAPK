@@ -15,68 +15,84 @@ class MembershipController extends Controller
     
     public function show(){
         // 
-        $countries = Country::all();
+        $countries = Country::select('name','id')->get();
         $membershipTypes = MembershipTypes::all();
-        // dd($membershipTypes);
-        return view('membership')->with([
+        return view('frontEnd.membership')->with([
             'membershipTypes' => $membershipTypes,
             'countries' => $countries,
         ]);
     }
-    public function addMembership(Request $req){
-        $name = $req->name;
-        $cnic = $req->cnic;
-        $membership_typeId = $req->membershiptype_id;
-        $hostelreg_no = $req->hostelreg_no;
-        $referal_cnic = $req->referal_cnic;
-        $transaction_no = $req->transaction_no;
-        $gender = $req->gender;
-        $livingSince = $req->livingSince;
-        $previous_hostel = $req->previous_hostel;
-        
-        $membershipCnic = Membership::where('cnic',$cnic)->get();
-        // dd($membershipCnic);
-        if(count($membershipCnic)>0){
-            echo "CNIC Number already exist";
-            return;
+
+    // Function verfiy the unique transactio
+    public function checkTransaction_No($transaction_no){
+        $result = Membership::where('transaction_no', $transaction_no)->get();
+        if(count($result)>0){
+            return 1;   // 1 Means true. Transaction No exist
         }
         else{
-            $result = MembershipTypes::find($membership_typeId);
-            // return $result;
-            // dd($result);
-            if($result){
-                $checkHotelreg_no = Properties::find($hostelreg_no);
-                if($checkHotelreg_no){
-                    echo "Yes hostel registration number is corret";
-                    $data = [
-                        'name' => $name,
-                        'cnic' => $cnic,
-                        'membershiptype_id' => $membership_typeId,
-                        'hostelreg_no' => $hostelreg_no,
-                        'referal_cnic' => $referal_cnic,
-                        'transaction_no' => $transaction_no, 
-                        'gender' => $gender,
-                        'since' => $livingSince,
-                        'previous_hostel' => $previous_hostel
-                    ];
-                    $membership = Membership::create($data);
-                    return redirect()->route('membershipRegister')->with('success', 'Membership created successfully!');
-                    // return response()->json($membership, 201);
-                }
-                else{
-                    echo "Given Hostel Registration Number is Not Correct. Kindly! Provide The Correct Number";
-                    return;
-                }
-            }
-            else{
-                echo "Select the Correct Membership Types";
-                return;
-            }
-            // dd($req->toArray());
-            // return "hy";
+            return 0;   // 0 means false. Transaction No doesn't exist
         }
-        
     }
+
+    // Function to save membership from the frontEnd
+    public function addMembership(Request $req) {
+        // Validation rules
+        // Common rules
+        $commonRules = [
+            'name' => 'required|string|max:255',
+            'cnic' => 'required|string|size:15|unique:member_ships,cnic', // Added 'unique' rule
+            'membershiptype_id' => 'required|exists:membership_types,id',
+            'country_id' => 'required|exists:countries,id',
+            'states_id' => 'required|exists:states,id',
+            'city_id' => 'required|exists:cities,id',
+            'hostelreg_no' => 'required|exists:properties,id',
+            'transaction_no' => 'required|unique:member_ships,transaction_no',
+            'gender' => 'required|in:male,female',
+            'terms' => 'required|accepted', // Added rule for 'terms' checkbox
+        ];
+        // Add referal_cnic rule conditionally
+        if (!empty($req->referal_cnic)) {
+            $commonRules['referal_cnic'] = 'required|string|size:15';
+        }
+        // Validation messages
+        $messages = [
+            'cnic.unique' => 'This CNIC is already registered. Kindly provide the new CNIC.',
+            'membershiptype_id.exists' => 'Invalid Membership Type is Selected. Kindly select the valid membership type.',
+            'country_id.exists' => 'Invalid Country is Selected. Kindly select the valid country.',
+            'states_id.exists' => 'Invalid state is Selected. Kindly select the valid state.',
+            'city_id.exists' => 'Invalid City is Selected. Kindly select the valid city.',
+            'hostelreg_no.unique' => 'Invalid Hostel is Selected. Kindly select the valid hostel.',
+            'transaction_no.exists' => 'Invalid Transaction No. Kindly Provide a unique transaction id.',
+        ];
+        // Validate the request data
+        $this->validate($req, $commonRules, $messages);
+        // Save the data here
+        $membership = new Membership();
+        $membership->name = $req->name;
+        $membership->cnic = $req->cnic;
+        $membership->membershiptype_id = $req->membershiptype_id;
+        $membership->hostelreg_no = $req->hostelreg_no;
+        if(!empty($req->referal_cnic)){
+            $membership->referal_cnic = $req->referal_cnic;
+        }
+        $membership->transaction_no = $req->transaction_no;
+        $membership->gender = $req->gender;
+        if(!empty($req->since)){
+            $membership->since = $req->since;
+        }
+        if(!empty($req->previous_hostel)){
+            $membership->previous_hostel = $req->previous_hostel;
+        }
+        $membership->country_id = $req->country_id;
+        $membership->states_id = $req->states_id;
+        $membership->city_id = $req->city_id;
+        $membership->save();
+        if (!$membership) {
+            return redirect()->route('membershipRegister')->with('error', 'Membership is not created successfully! Kindly try another request.');
+        }
+        return redirect()->route('membershipRegister')->with('success', 'Membership created successfully!');
+    }
+    
     public function saveHostel(Request $req){  
         $countries = Country::all();
         $categories = Category::all();  // Hostel Categories
@@ -87,4 +103,16 @@ class MembershipController extends Controller
                 'property_types' => $property_types
             ]);
     }
+
+    // Function to verify the unqiue CNIC number for memebrship
+    public function chkMembershipCNIC($cnic){
+        $result = Membership::where('cnic',$cnic)->get();
+        if(count($result)>0){
+            return 1;       // It means CNIC exist   
+        }
+        else{
+            return 0;       // It means CNIC doesn't exist
+        }
+    }
+    
 }
