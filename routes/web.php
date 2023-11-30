@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Admin\ContactUsAdminController;
 use App\Http\Controllers\StatesController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\ComplaintController;
@@ -130,13 +131,21 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth']], function () {
     Route::post('/admin/updateMembership',[MembershipAdminController::class,'updateMembership'])->name('admin.updateMembership');
     // End: Routes for Membership
 
+    // Begin: Route for Contact Us 
+    // Route for Contact Us to show the list of  list-contactus blade file
+    Route::get('/admin/list-contctUs',[ContactUsAdminController::class,'index'])->name('admin.contactUs.list-contactus');
+    // Route for admin to get the list of cantact us using ajax request
+    Route::get('/admin/get-contactus',[ContactUsAdminController::class,'adminListContactUs'])->name('admin.contactUs.get-contactUs');
+    // Route for the the admin to get message of contct us using the id
+    Route::get('/admin/contactus/get-message/{id}',[ContactUsAdminController::class,'get_message'])->name('admin.contactus.get-message');
+    // End: Route for Contact Us 
+    
 
     // Begin: Route for News & Feeds
     // Route for admin to show the post news and feed page
     Route::get('/admin/post-newsfeeds',[NewsFeedsAdminController::class,'index'])->name('admin.newsfeeds.post-newsfeeds');
     // Route for admin to save the news and feed
     Route::post('/admin/saveNewsfeeds',[NewsFeedsAdminController::class,'saveNewsfeeds'])->name('admin.saveNewsfeeds');
-
     // Route for admin to show the news & feeeds listing page
     Route::get('/admin/list-newsfeeds',[NewsFeedsAdminController::class, 'listNewsfeedsView'])->name('admin.newsfeeds.list-newsfeeds');
     // Route for admin to get the list of newsfeeds to show them in the data table

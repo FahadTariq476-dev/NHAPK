@@ -6,7 +6,7 @@
 <!-- END: Footer-->
 
 
-<!-- BEGIN: Vendor JS-->
+{{-- <!-- BEGIN: Vendor JS-->
 <script src="{{asset('app-assets/vendors/js/vendors.min.js')}}"></script>
 <!-- BEGIN Vendor JS-->
 
@@ -19,6 +19,7 @@
 <!-- END: Theme JS-->
 
 <!-- BEGIN: Page JS-->
+
 <!-- END: Page JS-->
 
 <script>
@@ -30,7 +31,7 @@
             });
         }
     })
-</script>
+</script> --}}
 </body>
 <!-- END: Body-->
 
