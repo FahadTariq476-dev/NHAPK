@@ -34,6 +34,10 @@
     <!-- jQuery(necessary for all JavaScript plugins) -->
     <script src="{{asset('assets/js/jquery/jquery-3.5.1.min.js')}}"></script>
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{asset('assets/js/bootstrap/bootstrap.min.js')}}">
+
+
 </head>
 
 <body>

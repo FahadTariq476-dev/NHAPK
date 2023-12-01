@@ -17,9 +17,11 @@ use App\Http\Controllers\Admin\LogoutController;
 use App\Http\Controllers\BlogFrontEndController;
 use App\Http\Controllers\HomeDashboardController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FaqAdminController;
 use App\Http\Controllers\Admin\MembershipAdminController;
 use App\Http\Controllers\Admin\NewsFeedsAdminController;
 use App\Http\Controllers\Admin\PostBlogsController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\HostelRegistrationController;
 use App\Http\Controllers\NewsFeedController;
 
@@ -72,10 +74,6 @@ Route::get('hostelRegistration/hostelPartnerCniccheck/{hostelPartnerCnic}', [Hos
 Route::get('hostelRegistration/hostelName/{hostelName}', [HostelRegistrationController::class, 'hostelNameCheck'])->name('hostelRegistration.HostelNameCheck');
 Route::post('hostelRegistration/save', [HostelRegistrationController::class, 'hostelRegister'])->name('hostelRegistration.save');
 
-// Show the contact us Form
-Route::get('contactUs', [ContactUsController::class, 'showContactUsForm'])->name('ContactUsForm');
-// Save the Contact Us data
-Route::post('saveContactUs', [ContactUsController::class, 'saveData'])->name('saveContactUsData');
 
 
 Route::middleware('guest')->group(function () {
@@ -160,15 +158,43 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth']], function () {
     Route::post('/admin/updateNewsfeeeds',[NewsFeedsAdminController::class,'updateFullNewsfeed'])->name('admin.newsfeeds.updateFullNewsfeed');
     // End: Route for News & Feeds
 
+    // Begin: Route for FAQ's
+    // Route for admin to show the post faqs page
+    Route::get('/admin/post-faqs',[FaqAdminController::class,'index'])->name('admin.faqs.post-faqs');
+    // Route for the admin to save the faq's
+    Route::post('/admin/storeFaqs',[FaqAdminController::class,'storeFaqs'])->name('admin.faqs.storeFaqs');
+    // Route for the admin to get the list of faqs and show them in the data table
+    Route::get('/admin/get-faqs',[FaqAdminController::class,'adminListingFaqs'])->name('admin.faqs.adminListingFaqs');
+    // Route for admin to update the status  of faqs from the listing page using ajax request
+    Route::get('/admin/faqs/update-status/{status}/{faqsId}',[FaqAdminController::class,'updateFaqsStatus'])->name('admin.faqs.updateFaqsStatus');
+    // Route for the admin to show the edit-faqs with faqs's requested from listing
+    Route::get('/admin/faqs/editfaqs/{id}',[FaqAdminController::class,'editFaqsView'])->name('admin.faqs.editFaqsView');
+    // Route for the admin to update the full faq's from the edit view
+    Route::post('/admin/faqs/update',[FaqAdminController::class,'updateFullFaqs'])->name('admin.faqs.updateFullFaqs');
+    // Route for admin to show the FAQ's listing page
+    Route::get('/admin/list-faqs',[FaqAdminController::class, 'listFaqsView'])->name('admin.faqs.list-faqs');
+    // Route for admin to delete the FAQ's from listing page
+    Route::get('/admin/faqs/delete-faqs/{id}',[FaqAdminController::class,'delFaqs'])->name('admin.faqs.delFaqs');
+    // End: Route for FAQ's
+
 
 });
 
 
 
 
-// Routes For FronEnd
+// Begin: Routes For FrontEnd
+// Begin: About Us
 // Route to Show the about Us Page on the front End
 Route::get('/about', [AboutController::class, 'showAbout'])->name('forntEnd.showAbout');
+// End: About Us
+
+// Begin: Contact Us
+// Show the contact us Form
+Route::get('contactUs', [ContactUsController::class, 'showContactUsForm'])->name('ContactUsForm');
+// Save the Contact Us data
+Route::post('saveContactUs', [ContactUsController::class, 'saveData'])->name('saveContactUsData');
+// End: Contact Us
 
 // Begin: Routes for Complaint
 // Route to show thw complaint form on the front end
@@ -181,7 +207,6 @@ Route::post('complaintPost', [ComplaintController::class, 'saveComplaint'])->nam
 Route::get('/blogs',[BlogFrontEndController::class,'index'])->name('frontEnd.list-blogs');
 // Route to Display the full blod using blog id
 Route::get('/blogDetails/{slug}',[BlogFrontEndController::class,'viewFullBlogById'])->name('frontEnd.viewFullBlogBySlug');
-
 // End: Route for Blogs
 
 // Begin: Route for Newsfeed
@@ -189,8 +214,14 @@ Route::get('/blogDetails/{slug}',[BlogFrontEndController::class,'viewFullBlogByI
 Route::get('/newsfeeds',[NewsFeedController::class,'index'])->name('frontEnd.newsfeed.list-newsfeeds');
 // Route to Display the full Newsfeed using slug
 Route::get('/newsfeedsDetails/{slug}',[NewsFeedController::class,'viewFullNewsfeedBySlug'])->name('frontEnd.newsfeed.viewFullNewsfeedBySlug');
-
 // End: Route for Newsfeed
+
+// Begin: Route for FAQ's
+// Route to show the FAQ's
+Route::get('/faqs',[FaqController::class,'index'])->name('frontEnd.faqs');
+// End: Route for FAQ's
+
+// Begin: Routes For FrontEnd
 
 
 

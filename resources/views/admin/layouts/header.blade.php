@@ -187,9 +187,7 @@
                         </li>
                         {{-- End: Membership --}}
 
-                        <li>
-                            <a class="d-flex align-items-center" href="layout-without-menu.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Without Menu">Without Menu</span></a>
-                        </li>
+                        
                         <li>
                             <a class="d-flex align-items-center" href="layout-empty.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Empty">Layout Empty</span></a>
                         </li>
@@ -206,6 +204,20 @@
                             </ul>
                         </li>
                         {{-- End: Contact Us --}}
+
+                        {{-- Begin: FAQ's--}}
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">FAQ's</span></a>
+                            <ul class="menu-content">
+                                <li>
+                                    <a class="d-flex align-items-center" href="{{route('admin.faqs.post-faqs')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post FAQ's</span></a>
+                                </li>
+                                <li>
+                                    <a class="d-flex align-items-center" href="{{route('admin.faqs.list-faqs')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List FAQ's</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        {{-- End: FAQ's --}}
                     </ul>
                 </li>
             </ul>
