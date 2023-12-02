@@ -114,9 +114,6 @@
                             <a href="{{route('saveHostelForm')}}" class="nav-link">Register Hostel</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">Login</a>
-                        </li>
-                        <li class="nav-item">
                             <a href="{{route('forntEnd.showAbout')}}" class="nav-link">About Us</a>
                         </li>
                         <li class="nav-item">
@@ -129,26 +126,25 @@
                                     <a class="nav-link" href="{{route('forntEnd.showComplaintForm')}}">Complaint</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{route('frontEnd.list-blogs')}}">Blogs<i class="fas fa-angle-right ml-1"></i></a>
+                                    <a class="nav-link" href="{{route('frontEnd.list-blogs')}}">Blogs</a>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link" href="{{route('frontEnd.newsfeed.list-newsfeeds')}}">News & Media<i class="fas fa-angle-right ml-1"></i></a>
+                                    <a class="nav-link" href="{{route('frontEnd.newsfeed.list-newsfeeds')}}">News & Media</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link" href="{{route('frontEnd.faqs')}}">FAQ's</a>
                                 </li>
                             </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Login</a>
                         </li>
                     </ul>
                     <!-- Navbar Icons -->
                     <ul class="navbar-nav icons">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="modal" data-target="#search">
-                                <i class="fas fa-search"></i>
-                            </a>
-                        </li>
                         <li class="nav-item social">
-                            <a href="#" class="nav-link"><i class="fab fa-facebook-f"></i></a>
-                        </li>
-                        <li class="nav-item social">
-                            <a href="#" class="nav-link"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.facebook.com/natioanalhostelsassociation" class="nav-link"><i class="fab fa-facebook-f"></i></a>
                         </li>
                     </ul>
                     <!-- Navbar Toggler -->

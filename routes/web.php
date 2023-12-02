@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\FaqAdminController;
 use App\Http\Controllers\Admin\MembershipAdminController;
 use App\Http\Controllers\Admin\NewsFeedsAdminController;
 use App\Http\Controllers\Admin\PostBlogsController;
+use App\Http\Controllers\Admin\SopAdminController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\HostelRegistrationController;
 use App\Http\Controllers\NewsFeedController;
@@ -177,6 +178,25 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth']], function () {
     Route::get('/admin/faqs/delete-faqs/{id}',[FaqAdminController::class,'delFaqs'])->name('admin.faqs.delFaqs');
     // End: Route for FAQ's
 
+    // Begin: Route for SOP's & Legal Documentation
+    // Route for admin to show the post sops page
+    Route::get('/admin/sops/post-sops',[SopAdminController::class,'index'])->name('admin.sops.post-sops');
+    // Route for admin to save the SOP's in database
+    Route::post('/admin/sops/storeSops',[SopAdminController::class,'storeSops'])->name('admin.sops.storeSops');
+    // Route for admin to list the SOP's page
+    Route::get('/admin/sops/list-sops',[SopAdminController::class,'listSopsView'])->name('admin.sops.list-sops');
+    // Route for admin to get the list of sops and show them in the data table
+    Route::get('/admin/sops/get-list',[SopAdminController::class,'getSops'])->name('admin.sops.getSops');
+    // ROute for admin to show the edit-sops having sopsId from listing page
+    Route::get('/admin/sops/edit-sops/{sopsId}',[SopAdminController::class,'editSops'])->name('admin.sops.editSops');
+    // Route for admin to update the full sops requested from edit-sops page
+    Route::post('/admin/sops/update-sops',[SopAdminController::class,'updateSops'])->name('admin.sops.updateSops');
+    // Route for admin to delete the sops requested from list-sops page
+    Route::get('/admin/sops/delete-sops/{sopsId}',[SopAdminController::class,'deleteSops'])->name('admin.sops.deleteSops');
+    // Route for the the admin to get description of sops using the id
+    Route::get('/admin/sops/list-sops/get-description/{id}',[SopAdminController::class,'get_description'])->name('admin.sops.get_description');
+    // End: Route for SOP's & Legal Documentation
+
 
 });
 
@@ -191,7 +211,7 @@ Route::get('/about', [AboutController::class, 'showAbout'])->name('forntEnd.show
 
 // Begin: Contact Us
 // Show the contact us Form
-Route::get('contactUs', [ContactUsController::class, 'showContactUsForm'])->name('ContactUsForm');
+Route::get('contact-us', [ContactUsController::class, 'showContactUsForm'])->name('ContactUsForm');
 // Save the Contact Us data
 Route::post('saveContactUs', [ContactUsController::class, 'saveData'])->name('saveContactUsData');
 // End: Contact Us

@@ -8,16 +8,16 @@
                     <!-- Welcome Intro Start -->
                     <div class="col-12 col-md-7">
                         <div class="welcome-intro">
-                            <h1 class="text-white">We are digital agency & Marketing</h1>
-                            <p class="text-white my-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit nihil tenetur minus quidem est deserunt molestias accusamus harum ullam tempore debitis et, expedita, repellat delectus aspernatur neque itaque qui quod.</p>
+                            <h1 class="text-white">We are National Hostel Association of Pakistan</h1>
+                            <p class="text-white my-4">A non-profit organization.
+                                The hostel owners community named as National Hostels Association of Pakistan</p>
                             <!-- Buttons -->
                             <div class="button-group">
-                                <a href="#" class="btn btn-bordered-white">Start a Project</a>
-                                <a href="#" class="btn btn-bordered-white d-none d-sm-inline-block">Contact Us</a>
+                                <a href="{{route('ContactUsForm')}}" class="btn btn-bordered-white d-none d-sm-inline-block">Contact Us</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-5">
+                    {{-- <div class="col-12 col-md-5">
                         <!-- Welcome Thumb -->
                         <div class="welcome-thumb-wrapper mt-5 mt-md-0">
                             <span class="welcome-thumb-1">
@@ -39,7 +39,7 @@
                                 <img class="welcome-animation d-block" src="assets/img/welcome/thumb_6.png" alt="">
                             </span>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <!-- Shape Bottom -->
