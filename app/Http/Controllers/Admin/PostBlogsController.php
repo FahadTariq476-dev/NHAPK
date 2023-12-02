@@ -173,40 +173,6 @@ class PostBlogsController extends Controller
 
     public function updateFullBlog(Request $request){
         // Validate the form data
-        // if ($request->hasFile('image') && $request->hasFile('thumbnailImage')) {
-        //     $validatedData = $request->validate([
-        //         'title' => 'required|max:255',
-        //         'shortDescription' => 'required|max:255',
-        //         'editor' => 'required',
-        //         'image' => 'required|image|mimes:jpeg,png,jpg,JPEG,JPG,PNG|max:2048', // Maximum 2MB for image
-        //         'thumbnailImage' => 'required|mimes:jpeg,png,jpg,JPEG,JPG,PNG|image|max:2048',
-        //         'status' => 'required|in:pending,published',
-        //     ]);
-        // } elseif ($request->hasFile('image')) {
-        //     $validatedData = $request->validate([
-        //         'title' => 'required|max:255',
-        //         'shortDescription' => 'required|max:255',
-        //         'editor' => 'required',
-        //         'image' => 'required|image|mimes:jpeg,png,jpg,JPEG,JPG,PNG|max:2048', // Maximum 2MB for image
-        //         'status' => 'required|in:pending,published',
-        //     ]);
-        // } elseif ($request->hasFile('thumbnailImage')) {
-        //     $validatedData = $request->validate([
-        //         'title' => 'required|max:255',
-        //         'shortDescription' => 'required|max:255',
-        //         'editor' => 'required',
-        //         'thumbnailImage' => 'required|mimes:jpeg,png,jpg,JPEG,JPG,PNG|image|max:2048',
-        //         'status' => 'required|in:pending,published',
-        //     ]);
-        // } else {
-        //     $validatedData = $request->validate([
-        //         'title' => 'required|max:255',
-        //         'shortDescription' => 'required|max:255',
-        //         'editor' => 'required',
-        //         'status' => 'required|in:pending,published',
-        //     ]);
-        // }
-        
 
         $commonRules = [
             'title' => 'required|max:255',

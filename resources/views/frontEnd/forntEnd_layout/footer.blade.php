@@ -38,7 +38,7 @@
                         <!-- Footer Title -->
                         <h3 class="footer-title text-uppercase mb-2">Support</h3>
                         <ul>
-                            <li class="py-2"><a class="text-black-50" href="#">Frequently Asked</a></li>
+                            <li class="py-2"><a class="text-black-50" href="{{route('frontEnd.faqs')}}">Frequently Asked</a></li>
                             <li class="py-2"><a class="text-black-50" href="#">Terms &amp; Conditions</a></li>
                             <li class="py-2"><a class="text-black-50" href="#">Privacy Policy</a></li>
                             <li class="py-2"><a class="text-black-50" href="#">Help Center</a></li>
