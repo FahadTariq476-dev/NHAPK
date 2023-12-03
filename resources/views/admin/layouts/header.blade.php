@@ -35,16 +35,8 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
     <!-- END: Custom CSS-->
 
-    <!-- Include SweetAlert CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-
-    <!-- Include SweetAlert JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
-
     <!-- jQuery(necessary for all JavaScript plugins) -->
     {{-- <script src="{{asset('assets/js/jquery/jquery-3.5.1.min.js')}}"></script> --}}
-    
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <!-- ✅ Load CSS file for DataTables  -->
     <link
@@ -142,100 +134,95 @@
                 </li>
                 <li class="nav-item">
                     <a class="d-flex align-items-center" href="#">
-                        <i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Menus</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">6</span>
+                        <i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Menus</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">5</span>
                     </a>
                     <ul class="menu-content">
-                        <li>
-                            <a class="d-flex align-items-center" href="{{route('admin.ListComplaintView')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Complaint List</span></a>
-                        </li>
-                        {{-- Begin:Blogs --}}
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Blogs</span></a>
-                            <ul class="menu-content">
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{route('admin.post-blogs')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post Blogs</span></a>
-                                </li>
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{route('admin.list-blogs')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Blogs</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                        {{-- End:Blogs --}}
-
-                        {{-- Begin: NewsFeeds --}}
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">News & Media</span></a>
-                            <ul class="menu-content">
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{route('admin.newsfeeds.post-newsfeeds')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post News & Media</span></a>
-                                </li>
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{route('admin.newsfeeds.list-newsfeeds')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List News & Media</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                        {{-- End: NewsFeeds --}}
-
-                        {{-- Begin: Membership --}}
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Membership</span></a>
-                            <ul class="menu-content">
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{route('admin.list-memebership')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Membership</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                        {{-- End: Membership --}}
-
                         
-                        <li>
-                            <a class="d-flex align-items-center" href="layout-empty.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Empty">Layout Empty</span></a>
-                        </li>
-                        <li>
-                            <a class="d-flex align-items-center" href="layout-blank.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Blank">Layout Blank</span></a>
-                        </li>
-                        {{-- Begin: Contact Us --}}
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Contact Us</span></a>
-                            <ul class="menu-content">
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{route('admin.contactUs.list-contactus')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Contact Us</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                        {{-- End: Contact Us --}}
-
-                        {{-- Begin: FAQ's--}}
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">FAQ's</span></a>
-                            <ul class="menu-content">
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{route('admin.faqs.post-faqs')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post FAQ's</span></a>
-                                </li>
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{route('admin.faqs.list-faqs')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List FAQ's</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                        {{-- End: FAQ's --}}
-                        
-                        {{-- Begin: SOP's & Legal Documentation --}}
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">SOP's & Legal Documentation</span></a>
-                            <ul class="menu-content">
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{route('admin.sops.post-sops')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post SOP's & Legal Documentation</span></a>
-                                </li>
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{route('admin.sops.list-sops')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List SOP's & Legal Documentation</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                        {{-- End: SOP's & Legal Documentation --}}
                     </ul>
+                    <li>
+                        <a class="d-flex align-items-center" href="{{route('admin.ListComplaintView')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Complaint List</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Blogs (News Feed)</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.post-blogs')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post Blogs</span></a>
+                            </li>
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.list-blogs')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Blogs</span></a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+                    
+                    {{-- Begin: NewsFeeds --}}
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">News & Media</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.newsfeeds.post-newsfeeds')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post News & Media</span></a>
+                            </li>
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.newsfeeds.list-newsfeeds')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List News & Media</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{-- End: NewsFeeds --}}
+
+                    {{-- Begin: Membership --}}
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Membership</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.list-memebership')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Membership</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{-- End: Membership --}}
+                    
+                    {{-- Begin: Contact Us --}}
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Contact Us</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.contactUs.list-contactus')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Contact Us</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{-- End: Contact Us --}}
+                    {{-- Begin: FAQ's--}}
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">FAQ's</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.faqs.post-faqs')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post FAQ's</span></a>
+                            </li>
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.faqs.list-faqs')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List FAQ's</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{-- End: FAQ's --}}
+                     {{-- Begin: SOP's & Legal Documentation --}}
+                     <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">SOP's & Legal Documentation</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.sops.post-sops')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post SOP's & Legal Documentation</span></a>
+                            </li>
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.sops.list-sops')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List SOP's & Legal Documentation</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{-- End: SOP's & Legal Documentation --}}
+                    <li>
+                        <a class="d-flex align-items-center" href="{{route('admin.user')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">User</span></a>
+                    </li>
+
                 </li>
             </ul>
         </div>
         
-    </div>
+    </div> 
     <!-- END: Main Menu-->
