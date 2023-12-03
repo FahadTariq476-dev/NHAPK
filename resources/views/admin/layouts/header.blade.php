@@ -218,6 +218,20 @@
                             </ul>
                         </li>
                         {{-- End: FAQ's --}}
+                        
+                        {{-- Begin: SOP's & Legal Documentation --}}
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">SOP's & Legal Documentation</span></a>
+                            <ul class="menu-content">
+                                <li>
+                                    <a class="d-flex align-items-center" href="{{route('admin.sops.post-sops')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post SOP's & Legal Documentation</span></a>
+                                </li>
+                                <li>
+                                    <a class="d-flex align-items-center" href="{{route('admin.sops.list-sops')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List SOP's & Legal Documentation</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        {{-- End: SOP's & Legal Documentation --}}
                     </ul>
                 </li>
             </ul>
