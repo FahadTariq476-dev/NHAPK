@@ -129,12 +129,6 @@
     @section('js')
     <script>
         $(document).ready(function(){
-            // Swal.fire({
-            //     title: 'Welcome!',
-            //     text: 'You can save FAQs here..',
-            //     icon: 'success'
-            // });
-
             // Jquery Form validation
             $("#faqsForm").submit(function (e){
                 $(".alert-danger").remove();

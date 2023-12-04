@@ -14,7 +14,7 @@ class PostBlogsController extends Controller
 {
     //
     public function index(){
-        return view('admin.post-blogs');
+        return view('admin.blogs.post-blogs');
     }
 
     // 
@@ -88,7 +88,7 @@ class PostBlogsController extends Controller
 
 
     public function listBlogView(){
-        return view('admin.list-blogs');
+        return view('admin.blogs.list-blogs');
     }
 
     public function adminListingPostedBlogs(Request $request){
@@ -166,9 +166,9 @@ class PostBlogsController extends Controller
         // return $id;
         $blogs = Blog::find($id);
         if(!$blogs){
-            return redirect()->route('admin.list-blogs');
+            return redirect()->route('admin.list-blogs')->with('error','You are accessing the invalid blog. Kindly access the valid one.');
         }
-        return view('admin.edit-blogs')->with(['blogs'=>$blogs]);
+        return view('admin.blogs.edit-blogs')->with(['blogs'=>$blogs]);
     }
 
     public function updateFullBlog(Request $request){

@@ -34,6 +34,9 @@
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
     <!-- END: Custom CSS-->
+    
+    <!-- Include SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
 
     <!-- jQuery(necessary for all JavaScript plugins) -->
     {{-- <script src="{{asset('assets/js/jquery/jquery-3.5.1.min.js')}}"></script> --}}
@@ -134,14 +137,20 @@
                 </li>
                 <li class="nav-item">
                     <a class="d-flex align-items-center" href="#">
-                        <i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Menus</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">5</span>
+                        <i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Menus</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">8</span>
                     </a>
-                    <ul class="menu-content">
-                        
-                    </ul>
-                    <li>
-                        <a class="d-flex align-items-center" href="{{route('admin.ListComplaintView')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Complaint List</span></a>
+                    {{-- Begin: Complaints --}}
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Complaints</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.ListComplaintView')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Complaint List</span></a>
+                            </li>
+                        </ul>
                     </li>
+                    {{-- End: Complaints --}}
+
+                    {{-- Begin: Blogs (News Feed) --}}
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Blogs (News Feed)</span></a>
                         <ul class="menu-content">
@@ -151,9 +160,9 @@
                             <li>
                                 <a class="d-flex align-items-center" href="{{route('admin.list-blogs')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Blogs</span></a>
                             </li>
-                            
                         </ul>
                     </li>
+                    {{-- End: Blogs (News Feed) --}}
                     
                     {{-- Begin: NewsFeeds --}}
                     <li class="nav-item">
@@ -203,8 +212,9 @@
                         </ul>
                     </li>
                     {{-- End: FAQ's --}}
-                     {{-- Begin: SOP's & Legal Documentation --}}
-                     <li class="nav-item">
+
+                    {{-- Begin: SOP's & Legal Documentation --}}
+                    <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">SOP's & Legal Documentation</span></a>
                         <ul class="menu-content">
                             <li>
@@ -216,10 +226,18 @@
                         </ul>
                     </li>
                     {{-- End: SOP's & Legal Documentation --}}
-                    <li>
-                        <a class="d-flex align-items-center" href="{{route('admin.user')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">User</span></a>
+                    
+                    
+                    {{-- Begin: Users --}}
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Users</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.users.list-users')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Users</span></a>
+                            </li>
+                        </ul>
                     </li>
-
+                    {{-- End: Users --}}
                 </li>
             </ul>
         </div>

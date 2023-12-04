@@ -16,7 +16,7 @@ class MembershipAdminController extends Controller
 {
     //
     public function indexMembership(){
-        return view('admin.list-membership');
+        return view('admin.memberships.list-membership');
     }
 
     // 
@@ -96,15 +96,16 @@ class MembershipAdminController extends Controller
         
         // dd($cities);
         
-        return view('admin.edit-membership')->with([
-                                                    'memberships'=>$memberships,
-                                                    'membershipTypes' => $membershipTypes,
-                                                    'countries' => $countries,
-                                                    'states' => $states,
-                                                    'cities' => $cities,
-                                                    'cities' => $cities,
-                                                    'properties' => $properties,
-                                                    ]);
+        return view('admin.memberships.edit-membership')
+            ->with([
+                'memberships'=>$memberships,
+                'membershipTypes' => $membershipTypes,
+                'countries' => $countries,
+                'states' => $states,
+                'cities' => $cities,
+                'cities' => $cities,
+                'properties' => $properties,
+            ]);
     }
 
     // 

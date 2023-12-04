@@ -14,13 +14,13 @@ class ComplaintController extends Controller
     public function showComplaintForm(){
         // $hostels = Properties::select('name','id')->get();
         $countries = Country::select('name','id')->get();
-        return view('frontEnd.complaint')->with([
+        return view('frontEnd.complaints.post-complaint')->with([
             'countries' => $countries,
         ]);
     }
 
     public function adminListComplaintView(){
-        return view('admin.complaint_list');
+        return view('admin.complaints.list-complaint');
     }
 
     public function adminListingComplaint(Request $request){

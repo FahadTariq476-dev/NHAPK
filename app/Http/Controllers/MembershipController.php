@@ -17,7 +17,7 @@ class MembershipController extends Controller
         // 
         $countries = Country::select('name','id')->get();
         $membershipTypes = MembershipTypes::all();
-        return view('frontEnd.membership')->with([
+        return view('frontEnd.membership.post-membership')->with([
             'membershipTypes' => $membershipTypes,
             'countries' => $countries,
         ]);

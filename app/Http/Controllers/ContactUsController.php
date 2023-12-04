@@ -9,7 +9,7 @@ class ContactUsController extends Controller
 {
     //
     public function showContactUsForm(){
-        return view('frontEnd.contact');
+        return view('frontEnd.contact-us.contact-us');
         // return view('contactus');
     }
     public function saveData(Request $req){

@@ -15,13 +15,13 @@ class NewsFeedsAdminController extends Controller
     //
     // Begin: Function to show the page to add news & feed
     public function index(){
-        return view('admin.NewsFeeds.post-newsfeeds');
+        return view('admin.newsfeeds.post-newsfeeds');
     }
     // End: Function to show the page to add news & feed
 
     // Begin: Function to show the list of news & feed
     public function listNewsfeedsView(){
-        return view('admin.NewsFeeds.list-newsfeeds');
+        return view('admin.newsfeeds.list-newsfeeds');
     }
     // End: Function to show the list of news & feed
 
@@ -68,11 +68,7 @@ class NewsFeedsAdminController extends Controller
     // Associate the news with the authenticated user
     $news->author_id = Auth::id();
 
-    $news->save();
-
-    // return redirect()->route('admin.post-blogs')->with('success', 'Blog entry created successfully!');
-    
-    if(!$news){
+    if(!$news->save()){
         return redirect()->back()->withInput()->withErrors(['error' => 'An error occurred while saving the news. Try again']);
     }
     return redirect()->route('admin.newsfeeds.post-newsfeeds')->with('success', 'News created successfully!');
@@ -177,7 +173,7 @@ class NewsFeedsAdminController extends Controller
         if(!$news){
             return redirect()->route('admin.newsfeeds.list-newsfeeds')->with('error','Invalid news you are trying to access');
         }
-        return view('admin.NewsFeeds.edit-newsfeeds')->with(['news'=>$news]);
+        return view('admin.newsfeeds.edit-newsfeeds')->with(['news'=>$news]);
     }
     // End: To show the edit newsfeed page using news id from listing newsfeed page
 

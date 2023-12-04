@@ -26,16 +26,23 @@
     <h2 class="text-center mb-4">Hostel Complaint Registration</h2>
     <div>
         @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+            <script>
+                Swal.fire({
+                    title: 'Success!',
+                    text: "{{ session('success') }}",
+                    icon: 'success'
+                });
+            </script>
         @endif
-
         @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-        @endif
+            <script>
+                    Swal.fire({
+                        title: 'Error!',
+                        text: "{{ session('error') }}",
+                        icon: 'error'
+                    });
+            </script>
+         @endif
     </div>
 
     <form action="{{route('frontEnd.saveComplaint')}}" method="POST" id="complaintForm">
@@ -48,8 +55,13 @@
             <div class="alert alert-danger">{{$message}}</div>
         @enderror
         <div class="form-group">
-            <label for="fullName">Mobile Number:</label>
-            <input type="tel" class="form-control" id="MobNo" name="MobNo" pattern="[0-9]{9}" maxlength="9" minlength="9" value="{{old('MobNo')}}" placeholder="Enter your mobile number here:" >
+            <label for="MobNo">Mobile Number:</label>
+            <div class="input-group" id="div-MobNo">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">+923</span>
+                </div>
+                <input type="text" class="form-control" name="MobNo" id="MobNo" value="{{old('MobNo')}}" pattern="[0-9]{9}" maxlength="9" minlength="9"  placeholder="Enter your mobile number here:">
+            </div>
             <small class="form-text text-muted">Please enter a mobile number. Don't add +923</small>
         </div>
         @error('MobNo')
@@ -292,7 +304,7 @@
             let MobNo = $("#MobNo").val();
             if(MobNo.trim() ==='' || MobNo.length !=9){
                 e.preventDefault();
-                $("#MobNo").after('<div class="alert alert-danger">Mobile Number Should be provided properly. Plzz Dont add +923 in the mobile no.</div>')
+                $("#div-MobNo").after('<div class="alert alert-danger">Mobile Number Should be provided properly. Plzz Dont add +923 in the mobile no.</div>')
             }
 
             // Check if the email is empty
@@ -352,7 +364,7 @@
             }
 
             // Check if the complaintDetails are empty
-            let complaintDetails = $("#complaintDetails").html();
+            let complaintDetails = $("#complaintDetails").val();
             if(complaintDetails.trim() ===""){
                 e.preventDefault();
                 $("#complaintDetails").after('<div class="alert alert-danger">Complaint details should be provided.</div>')
