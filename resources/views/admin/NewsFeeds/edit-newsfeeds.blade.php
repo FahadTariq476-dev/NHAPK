@@ -42,16 +42,6 @@
                     <div class="container">
                         <form class="blog-form" id="blogForm" action="{{route('admin.newsfeeds.updateFullNewsfeed')}}" method="POST" enctype="multipart/form-data">
                           <h2 class="text-center mb-4">Edit News & Media</h2>
-                          @if(session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                            @endif
-                            @if(session('error'))
-                            <div class="alert alert-danger">
-                                {{ session('error') }}
-                            </div>
-                            @endif
                           <!-- Your form fields here -->
                           @csrf
                           <input type="hidden" name="id" value="{{ $news->id }}" readonly>

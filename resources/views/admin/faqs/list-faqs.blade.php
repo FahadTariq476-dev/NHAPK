@@ -118,11 +118,6 @@
         var jq = jQuery.noConflict();
     
         jq(document).ready(function() {
-            // Swal.fire({
-            //     title: 'Welcome!',
-            //     text: 'List FAQs',
-            //     icon: 'success'
-            // });
             var dataTable = jq('#faqsTable').DataTable({
                 columns: [
                     { data: 'id' },

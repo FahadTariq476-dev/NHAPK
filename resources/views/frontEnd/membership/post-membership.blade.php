@@ -478,7 +478,7 @@
     </script>
     {{-- End of the script to check that id card on selecting the gender --}}
 
-    <!-- Your script for CNIC and referal_cnic formatting -->
+    <!-- script for CNIC and referal_cnic formatting -->
 <script>
     $(document).ready(function() {
         // Function to format CNIC and referal_cnic dynamically

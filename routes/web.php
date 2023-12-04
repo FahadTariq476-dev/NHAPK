@@ -3,11 +3,12 @@
 use App\Models\Membership;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AboutController;
-use App\Http\Controllers\Admin\ContactUsAdminController;
 use App\Http\Controllers\StatesController;
+use App\Http\Controllers\NewsFeedController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\ContactUsController;
@@ -16,15 +17,15 @@ use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\LogoutController;
 use App\Http\Controllers\BlogFrontEndController;
 use App\Http\Controllers\HomeDashboardController;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FaqAdminController;
-use App\Http\Controllers\Admin\MembershipAdminController;
-use App\Http\Controllers\Admin\NewsFeedsAdminController;
-use App\Http\Controllers\Admin\PostBlogsController;
 use App\Http\Controllers\Admin\SopAdminController;
-use App\Http\Controllers\FaqController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PostBlogsController;
+use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\HostelRegistrationController;
-use App\Http\Controllers\NewsFeedController;
+use App\Http\Controllers\Admin\ContactUsAdminController;
+use App\Http\Controllers\Admin\NewsFeedsAdminController;
+use App\Http\Controllers\Admin\MembershipAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,31 +50,12 @@ Route::get('/',[HomeDashboardController::class,'index'])->name('Home');
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Route for Membership
-// Route::get('/membership/registration', function () {
-//     return view('membership');
-// });
-Route::get('/membership/registration', [MembershipController::class, 'show'])->name('membershipRegister');
-Route::post('/addMembership', [MembershipController::class, 'addMembership']);
-Route::get('/saveHostelForm', [MembershipController::class, 'saveHostel'])->name('saveHostelForm');
 Route::get('/get-states/{country_id}', [StatesController::class, 'getStates'])->name('get.states');
 Route::get('/get-cities/{state_id}', [CityController::class, 'getCities'])->name('get.cities');
 Route::get('/get-properties/{city_id}', [PropertyController::class, 'getProperties'])->name('get.properties');
-Route::get('/checkEmail/{email}', [UserController::class, 'uniqueEmail']);
+Route::get('/checkEmail/{email}', [UserController::class, 'uniqueEmail'])->name('frontEnd.users.check-email');
 // Route the check the CNIC from the user table
 Route::get('/checkCNIC/{cnic}', [UserController::class, 'uniqueCNIC'])->name('uniqueCNIC');
-// Route to check the CNIC in Membership table
-Route::get('/checkCNIC_Membership/{cnic}', [MembershipController::class, 'chkMembershipCNIC'])->name('checkCNIC_Membership');
-// Route to check the Hostel Id from the properties table
-Route::get('/checkHostelId/{id}', [PropertyController::class, 'properties_IdCheck'])->name('properties.checkHostelId');
-// Route to check the transaction no from the membership table
-Route::get('/checkTransaction_no/{id}', [MembershipController::class, 'checkTransaction_No'])->name('v');
-
-Route::get('hostelRegistration/hostelOwnerCniccheck/{hostelOwnerCnic}', [HostelRegistrationController::class, 'hostelOwnerCniccheck'])->name('hostelRegistration.OwnerCnicCheck');
-Route::get('hostelRegistration/hostelPartnerCniccheck/{hostelPartnerCnic}', [HostelRegistrationController::class, 'hostelPartnerCniccheck'])->name('hostelRegistration.PartnerCnicCheck');
-
-Route::get('hostelRegistration/hostelName/{hostelName}', [HostelRegistrationController::class, 'hostelNameCheck'])->name('hostelRegistration.HostelNameCheck');
-Route::post('hostelRegistration/save', [HostelRegistrationController::class, 'hostelRegister'])->name('hostelRegistration.save');
 
 
 
@@ -197,6 +179,11 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth']], function () {
     Route::get('/admin/sops/list-sops/get-description/{id}',[SopAdminController::class,'get_description'])->name('admin.sops.get_description');
     // End: Route for SOP's & Legal Documentation
 
+    // Begin: Route for Users
+    // Route for admin to list the users
+    Route::get('/admin/users/list',[UserAdminController::class,'index'])->name('admin.users.list-users');
+    // End: Route for Users
+
 
 });
 
@@ -241,6 +228,32 @@ Route::get('/newsfeedsDetails/{slug}',[NewsFeedController::class,'viewFullNewsfe
 Route::get('/faqs',[FaqController::class,'index'])->name('frontEnd.faqs');
 // End: Route for FAQ's
 
-// Begin: Routes For FrontEnd
-////////user list
-Route::get('/list',[UserController::class,'index'])->name('admin.user');
+// Begin: Route for Membership
+// Route for the frontEnd to show the membership registration form.
+Route::get('/membership/registration', [MembershipController::class, 'show'])->name('membershipRegister');
+// Route for the frontEnd to store the membership registration form data
+Route::post('/addMembership', [MembershipController::class, 'addMembership'])->name('frontEnd.memebrship.store');
+// Route to check the CNIC in Membership table
+Route::get('/checkCNIC_Membership/{cnic}', [MembershipController::class, 'chkMembershipCNIC'])->name('checkCNIC_Membership');
+// Route to check the transaction no from the membership table
+Route::get('/checkTransaction_no/{id}', [MembershipController::class, 'checkTransaction_No'])->name('frontEnd.memebeship.checkTransaction_No');
+// End: Route for Membership
+
+// Begin: Route for Register Hostel
+// Route to show register hostel form
+Route::get('/saveHostelForm', [HostelRegistrationController::class, 'saveHostel'])->name('saveHostelForm');
+// Route to save the register the hostel in db
+Route::post('hostelRegistration/save', [HostelRegistrationController::class, 'hostelRegister'])->name('hostelRegistration.save');
+// Route to check the Hostel Owner CNIC fron the properties table
+Route::get('hostelRegistration/hostelOwnerCniccheck/{hostelOwnerCnic}', [HostelRegistrationController::class, 'hostelOwnerCniccheck'])->name('hostelRegistration.OwnerCnicCheck');
+// Route to  check the Hostel partner CNIC fron the properties table
+Route::get('hostelRegistration/hostelPartnerCniccheck/{hostelPartnerCnic}', [HostelRegistrationController::class, 'hostelPartnerCniccheck'])->name('hostelRegistration.PartnerCnicCheck');
+// Route to check the hostel name is unique or not
+Route::get('hostelRegistration/hostelName/{hostelName}', [HostelRegistrationController::class, 'hostelNameCheck'])->name('hostelRegistration.HostelNameCheck');
+// Route to check the Hostel Id from the properties table
+Route::get('/checkHostelId/{id}', [PropertyController::class, 'properties_IdCheck'])->name('properties.checkHostelId');
+// End: Route for Register Hostel
+
+// End: Routes For FrontEnd
+
+

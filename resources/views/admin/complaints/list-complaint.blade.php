@@ -36,16 +36,23 @@
                 <div class="row">
                     <div class="col-12">
                         @if(session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif
-                            
-                        @if(session('error'))
-                            <div class="alert alert-danger">
-                                {{ session('error') }}
-                            </div>
-                        @endif
+                                <script>
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        text: "{{ session('success') }}",
+                                        icon: 'success'
+                                    });
+                                </script>
+                            @endif
+                            @if(session('error'))
+                                <script>
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: "{{ session('error') }}",
+                                        icon: 'error'
+                                    });
+                                </script>
+                            @endif
                         <div class="table-responsive">
                             <h2>List Complaints</h2>
                             <table class="table mb-0 dataTable" id="complaintTable">

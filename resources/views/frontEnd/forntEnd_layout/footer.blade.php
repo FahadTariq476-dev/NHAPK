@@ -8,7 +8,7 @@
                     <!-- Footer Items -->
                     <div class="footer-items">
                         <!-- Footer Title -->
-                        <h3 class="footer-title text-uppercase mb-2">About Us</h3>
+                        <h3 class="footer-title mb-2">About Us</h3>
                         <ul>
                             <li class="py-2"><a class="text-black-50" href="#">Company Profile</a></li>
                             <li class="py-2"><a class="text-black-50" href="#">Testimonials</a></li>
@@ -22,7 +22,7 @@
                     <!-- Footer Items -->
                     <div class="footer-items">
                         <!-- Footer Title -->
-                        <h3 class="footer-title text-uppercase mb-2">Services</h3>
+                        <h3 class="footer-title mb-2">Services</h3>
                         <ul>
                             <li class="py-2"><a class="text-black-50" href="#">Web Application</a></li>
                             <li class="py-2"><a class="text-black-50" href="#">Product Management</a></li>
@@ -36,13 +36,13 @@
                     <!-- Footer Items -->
                     <div class="footer-items">
                         <!-- Footer Title -->
-                        <h3 class="footer-title text-uppercase mb-2">Support</h3>
+                        <h3 class="footer-title mb-2">Support</h3>
                         <ul>
                             <li class="py-2"><a class="text-black-50" href="{{route('frontEnd.faqs')}}">Frequently Asked</a></li>
                             <li class="py-2"><a class="text-black-50" href="#">Terms &amp; Conditions</a></li>
                             <li class="py-2"><a class="text-black-50" href="#">Privacy Policy</a></li>
                             <li class="py-2"><a class="text-black-50" href="#">Help Center</a></li>
-                            <li class="py-2"><a class="text-black-50" href="#">Contact Us</a></li>
+                            <li class="py-2"><a class="text-black-50" href="{{route('ContactUsForm')}}">Contact Us</a></li>
                         </ul>
                     </div>
                 </div>
@@ -50,11 +50,11 @@
                     <!-- Footer Items -->
                     <div class="footer-items">
                         <!-- Footer Title -->
-                        <h3 class="footer-title text-uppercase mb-2">Follow Us</h3>
-                        <p class="mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur, quae.</p>
+                        <h3 class="footer-title mb-2">Follow Us</h3>
+                        <p class="mb-2 text-justify">We are National Hostel Association of Pakistan. A non-profit organization. The hostel owners community named as National Hostels Association of Pakistan</p>
                         <!-- Social Icons -->
                         <ul class="social-icons list-inline pt-2">
-                            <li class="list-inline-item px-1"><a href="#"><i class="fab fa-facebook"></i></a></li>
+                            <li class="list-inline-item px-1"><a href="https://www.facebook.com/natioanalhostelsassociation"><i class="fab fa-facebook"></i></a></li>
                             <li class="list-inline-item px-1"><a href="#"><i class="fab fa-twitter"></i></a></li>
                             <li class="list-inline-item px-1"><a href="#"><i class="fab fa-google-plus"></i></a></li>
                             <li class="list-inline-item px-1"><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
@@ -84,39 +84,7 @@
 </footer>
 <!--====== Footer Area End ======-->
 
-<!--====== Modal Search Area Start ======-->
-<div id="search" class="modal fade p-0">
-    <div class="modal-dialog dialog-animated">
-        <div class="modal-content h-100">
-            <div class="modal-header" data-dismiss="modal">
-                Search <i class="far fa-times-circle icon-close"></i>
-            </div>
-            <div class="modal-body">
-                <form class="row">
-                    <div class="col-12 align-self-center">
-                        <div class="row">
-                            <div class="col-12 pb-3">
-                                <h2 class="search-title mb-3">What are you looking for?</h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent diam lacus, dapibus sed imperdiet consectetur.</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 input-group">
-                                <input type="text" class="form-control" placeholder="Enter your keywords">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 input-group align-self-center">
-                                <button class="btn btn-bordered mt-3">Search</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!--====== Modal Search Area End ======-->
+
 
 <!--====== Modal Responsive Menu Area Start ======-->
 <div id="menu" class="modal fade p-0">

@@ -40,14 +40,22 @@
                         <div class="table-responsive">
                             <h2>Posted Blogs</h2>
                             @if(session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
+                                <script>
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        text: "{{ session('success') }}",
+                                        icon: 'success'
+                                    });
+                                </script>
                             @endif
                             @if(session('error'))
-                            <div class="alert alert-danger">
-                                {{ session('error') }}
-                            </div>
+                                <script>
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: "{{ session('error') }}",
+                                        icon: 'error'
+                                    });
+                                </script>
                             @endif
                             <table class="table mb-0 dataTable" id="nhapkBlogTable">
                                 <thead>
@@ -117,11 +125,6 @@
         var jq = jQuery.noConflict();
     
         jq(document).ready(function() {
-            Swal.fire({
-                title: 'Welcome!',
-                text: 'This is listing the news feed here.',
-                icon: 'success'
-            });
             var dataTable = jq('#nhapkBlogTable').DataTable({
                 columns: [
                     { data: 'id' },

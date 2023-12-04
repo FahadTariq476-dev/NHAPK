@@ -17,7 +17,7 @@ class MembershipController extends Controller
         // 
         $countries = Country::select('name','id')->get();
         $membershipTypes = MembershipTypes::all();
-        return view('frontEnd.membership')->with([
+        return view('frontEnd.membership.post-membership')->with([
             'membershipTypes' => $membershipTypes,
             'countries' => $countries,
         ]);
@@ -93,16 +93,7 @@ class MembershipController extends Controller
         return redirect()->route('membershipRegister')->with('success', 'Membership created successfully!');
     }
     
-    public function saveHostel(Request $req){  
-        $countries = Country::all();
-        $categories = Category::all();  // Hostel Categories
-        $property_types = PropertyType::all();      // Hostel Property Types
-        return view('hostelregistration')
-        ->with(['countries' => $countries,
-                'categories' => $categories,
-                'property_types' => $property_types
-            ]);
-    }
+    
 
     // Function to verify the unqiue CNIC number for memebrship
     public function chkMembershipCNIC($cnic){

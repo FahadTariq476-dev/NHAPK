@@ -39,15 +39,23 @@
                         <form class="blog-form" id="blogForm" action="{{route('admin.saveBlogPost')}}" method="POST" enctype="multipart/form-data">
                           <h2 class="text-center mb-4">Blog Entry</h2>
                           @if(session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                            @endif
-                            @if(session('error'))
-                            <div class="alert alert-danger">
-                                {{ session('error') }}
-                            </div>
-                            @endif
+                          <script>
+                              Swal.fire({
+                                  title: 'Success!',
+                                  text: "{{ session('success') }}",
+                                  icon: 'success'
+                              });
+                          </script>
+                      @endif
+                      @if(session('error'))
+                          <script>
+                              Swal.fire({
+                                  title: 'Error!',
+                                  text: "{{ session('error') }}",
+                                  icon: 'error'
+                              });
+                          </script>
+                      @endif
                           <!-- Your form fields here -->
                           @csrf
                       

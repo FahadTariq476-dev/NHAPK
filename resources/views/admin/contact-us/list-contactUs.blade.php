@@ -40,14 +40,22 @@
                         <div class="table-responsive">
                             <h2>Contact Us Record</h2>
                             @if(session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
+                                <script>
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        text: "{{ session('success') }}",
+                                        icon: 'success'
+                                    });
+                                </script>
                             @endif
                             @if(session('error'))
-                            <div class="alert alert-danger">
-                                {{ session('error') }}
-                            </div>
+                                <script>
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: "{{ session('error') }}",
+                                        icon: 'error'
+                                    });
+                                </script>
                             @endif
                             <table class="table mb-0 dataTable" id="contactUsTable">
                                 <thead>
@@ -128,11 +136,6 @@
         var jq = jQuery.noConflict();
     
         jq(document).ready(function() {
-            Swal.fire({
-                title: 'Welcome!',
-                text: 'List Contact Us.',
-                icon: 'success'
-            });
             var dataTable = jq('#contactUsTable').DataTable({
                 columns: [
                     { data: 'id' },
