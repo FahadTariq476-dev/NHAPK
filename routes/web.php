@@ -55,7 +55,13 @@ Route::get('/',[HomeDashboardController::class,'index'])->name('Home');
 // });
 Route::get('/membership/registration', [MembershipController::class, 'show'])->name('membershipRegister');
 Route::post('/addMembership', [MembershipController::class, 'addMembership']);
-Route::get('/saveHostelForm', [MembershipController::class, 'saveHostel'])->name('saveHostelForm');
+// Begin: Route for Register Hostel
+// Route to show register hostel form
+Route::get('/saveHostelForm', [HostelRegistrationController::class, 'saveHostel'])->name('saveHostelForm');
+// Route to save the register the hostel in db
+Route::post('hostelRegistration/save', [HostelRegistrationController::class, 'hostelRegister'])->name('hostelRegistration.save');
+// End: Route for Register Hostel
+
 Route::get('/get-states/{country_id}', [StatesController::class, 'getStates'])->name('get.states');
 Route::get('/get-cities/{state_id}', [CityController::class, 'getCities'])->name('get.cities');
 Route::get('/get-properties/{city_id}', [PropertyController::class, 'getProperties'])->name('get.properties');
@@ -73,7 +79,7 @@ Route::get('hostelRegistration/hostelOwnerCniccheck/{hostelOwnerCnic}', [HostelR
 Route::get('hostelRegistration/hostelPartnerCniccheck/{hostelPartnerCnic}', [HostelRegistrationController::class, 'hostelPartnerCniccheck'])->name('hostelRegistration.PartnerCnicCheck');
 
 Route::get('hostelRegistration/hostelName/{hostelName}', [HostelRegistrationController::class, 'hostelNameCheck'])->name('hostelRegistration.HostelNameCheck');
-Route::post('hostelRegistration/save', [HostelRegistrationController::class, 'hostelRegister'])->name('hostelRegistration.save');
+
 
 
 
