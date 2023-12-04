@@ -248,6 +248,5 @@ Route::get('/faqs',[FaqController::class,'index'])->name('frontEnd.faqs');
 // End: Route for FAQ's
 
 // Begin: Routes For FrontEnd
-
-
-
+////////user list
+Route::get('/list',[UserController::class,'index'])->name('admin.user');
