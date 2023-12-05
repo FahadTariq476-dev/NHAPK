@@ -57,7 +57,7 @@
                                     });
                                 </script>
                             @endif
-                            <table class="table mb-0 dataTable" id="memberhsipTable">
+                            <table class="table mb-0 dataTable" id="memberhsipTable" style="background-color: #f2f2f2; color: #333;">
                                 <thead>
                                     <tr>
                                         <th>Id</th>
@@ -202,21 +202,21 @@
             .on('click', '.edit-btn', function() {
                 var dataId = jq(this).data('id');
                 // Navigate to the editBlogView route
-                window.location.href = '/admin/editMembership/' + dataId;
+                // window.location.href = '/admin/editMembership/' + dataId;
             })
             .on('click', '.delete-btn', function() {
                 var dataId = jq(this).data('id');
 
                 // Show SweetAlert confirmation dialog
                 Swal.fire({
-                title: 'Are you sure?',
-                text: 'You won\'t be able to revert this!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete it!'
-            })
+                    title: 'Are you sure?',
+                    text: 'You won\'t be able to revert this!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                })
             });
     });
     

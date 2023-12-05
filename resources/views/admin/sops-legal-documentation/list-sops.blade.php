@@ -57,7 +57,7 @@
                                     });
                                 </script>
                             @endif
-                            <table class="table mb-0 dataTable" id="sopsTable">
+                            <table class="table mb-0 dataTable" id="sopsTable" style="background-color: #f2f2f2; color: #333;">
                                 <thead>
                                     <tr>
                                         <th>Id</th>
@@ -174,13 +174,13 @@
                     { 
                         data: null,
                          render: function(data, type, row) {
-                            return '<button class="btn btn-primary btn-sm edit-btn" data-id="' + row.id + '">Edit</button>';
+                            return '<button class="btn btn-success btn-sm edit-btn" data-id="' + row.id + '">Edit</button>';
                         }
                     },
                     { 
                         data: null,
                          render: function(data, type, row) {
-                            return '<button class="btn btn-primary btn-sm delete-btn" data-id="' + row.id + '">Delete</button>';
+                            return '<button class="btn btn-danger btn-sm delete-btn" data-id="' + row.id + '">Delete</button>';
                         }
                     },
                 ],
@@ -235,7 +235,21 @@
             })
             .on('click', '.edit-btn', function () {
                 var dataId = jq(this).data('id');
-                window.location.href = '/admin/sops/edit-sops/' + dataId;
+                // Use SweetAlert for confirmation
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'Do you want to edit this item?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // User clicked "Yes", proceed to the edit page
+                        window.location.href = '/admin/sops/edit-sops/' + dataId;
+                    }
+                });
             })
             .on('click', '.delete-btn', function () {
                 var dataId = jq(this).data('id');

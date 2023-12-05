@@ -57,7 +57,7 @@
                                     });
                                 </script>
                             @endif
-                            <table class="table mb-0 dataTable" id="contactUsTable">
+                            <table class="table mb-0 dataTable" id="contactUsTable" style="background-color: #f2f2f2; color: #333;">
                                 <thead>
                                     <tr>
                                         <th>Id</th>
@@ -111,7 +111,7 @@
                 <!-- Message content will be inserted here dynamically -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal" id="modal-closebutton">Close</button>
             </div>
         </div>
     </div>
@@ -163,7 +163,7 @@
                     { 
                 data: null,
                 render: function(data, type, row) {
-                    return '<button class="btn btn-primary btn-sm contact-btn" data-id="' + row.id + '">Show Message</button>';
+                    return '<button class="btn btn-success btn-sm contact-btn" data-id="' + row.id + '">Show Message</button>';
                 }
             },
                 ],
@@ -229,7 +229,7 @@
             });
 
             // "Close" button click event
-            jq('#messageModal .modal-footer .btn-secondary').click(function() {
+            jq('#modal-closebutton').click(function() {
                 jq('#messageModal').modal('hide');
             });
             

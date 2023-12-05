@@ -32,7 +32,7 @@
                                 src="{{ asset($item->thumbnail_image_path) }}"
                                 class="card-img-top img-fluid" style=" height: 300px;  "
                                 alt="Thumbnail Image" 
-                                onerror="this.onerror=null; this.src='{{ asset('no-image-icon.png') }}';"
+                                onerror="this.onerror=null; this.src='{{ asset('app-assets/images/no-image-icon.jpg') }}';"
                             >
                             <div class="card-body">
                                 <h5 class="card-title">
