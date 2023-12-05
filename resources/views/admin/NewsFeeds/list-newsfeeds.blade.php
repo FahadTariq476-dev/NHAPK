@@ -57,7 +57,7 @@
                                     });
                                 </script>
                             @endif
-                            <table class="table mb-0 dataTable" id="nhapkBlogTable">
+                            <table class="table mb-0 dataTable" id="nhapkNewsfeedTable" style="background-color: #f2f2f2; color: #333;">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -125,7 +125,7 @@
         var jq = jQuery.noConflict();
     
         jq(document).ready(function() {
-            var dataTable = jq('#nhapkBlogTable').DataTable({
+            var dataTable = jq('#nhapkNewsfeedTable').DataTable({
                 columns: [
                     { data: 'id' },
                     { data: 'title' },
@@ -169,7 +169,7 @@
                         render: function(data, type, row) {
                             // Render the select button for the action column
                             // form-select
-                            return '<select class="status-select form-select form-control" data-id="' + row.id + '">' +
+                            return '<select class="status-select form-select form-control form-select-sm" data-id="' + row.id + '">' +
                                     '<option value="" disabled>Select</option>'+
                                     '<option value="pending" ' + (row.status === 'pending' ? 'selected' : '') + '>Pending</option>' +
                                     '<option value="published" ' + (row.status === 'published' ? 'selected' : '') + '>Published</option>' +
@@ -223,7 +223,7 @@
             });
 
             // Event delegation for dynamically generated elements
-        jq('#nhapkBlogTable')
+        jq('#nhapkNewsfeedTable')
         .on('change', '.status-select', function() {
             //  code for handling status change
             var selectedValue = jq(this).val();

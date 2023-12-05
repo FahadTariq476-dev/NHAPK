@@ -1,25 +1,24 @@
 @extends('frontEnd.forntEnd_layout.main')
 @section('main-container')
-<!-- ***** Welcome Area Start ***** -->
-        <section id="home" class="section welcome-area overflow-hidden d-flex align-items-center">
-            <div class="container">
-                <div class="row align-items-center">
-                    <!-- Welcome Intro Start -->
-                    <div class="col-12 col-md-7">
-                        <div class="welcome-intro">
-                            <h1>We make the path to your digital presence</h1>
-                            <p class="my-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit nihil tenetur minus quidem est deserunt molestias accusamus harum ullam tempore debitis et, expedita, repellat delectus aspernatur neque itaque qui quod.</p>
-                            <!-- Buttons -->
-                            <div class="button-group">
-                                <a href="#" class="btn btn-bordered">Work with Us</a>
-                                <a href="#" class="btn btn-bordered d-none d-sm-inline-block">View Process</a>
-                            </div>
-                        </div>
-                    </div>
+
+<!-- ***** Breadcrumb Area Start ***** -->
+<section class="section breadcrumb-area overlay-dark d-flex align-items-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- Breamcrumb Content -->
+                <div class="breadcrumb- text-center">
+                    <h2 class="text-white mb-3">Complaints</h2>
+                    <ol class="breadcrumb d-flex justify-content-center">
+                        <li class="breadcrumb-item"><a class="text text-white" href="/">Home</a></li>
+                        <li class="breadcrumb-item text-white active">Register Complaint</li>
+                    </ol>
                 </div>
             </div>
-        </section>
-        <!-- ***** Welcome Area End ***** -->
+        </div>
+    </div>
+</section>
+<!-- ***** Breadcrumb Area End ***** -->
 
         
 <div class="container mt-5">

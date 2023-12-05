@@ -54,8 +54,8 @@
                                 </script>
                             @endif
                         <div class="table-responsive">
-                            <h2>List Complaints</h2>
-                            <table class="table mb-0 dataTable" id="complaintTable">
+                            <h2>List Complaints Here</h2>
+                            <table class="table mb-0 dataTable" id="complaintTable" style="background-color: #f2f2f2; color: #333;">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -150,7 +150,7 @@ jq(document).ready(function() {
                 render: function(data, type, row) {
                     // Render the select button for the action column
                     // form-select
-                    return '<select class="status-select form-select" data-id="' + row.id + '">' +
+                    return '<select class="status-select form-select form-control form-select-sm" data-id="' + row.id + '">' +
                                 '<option value="" disabled>Select</option>'+
                                '<option value="pending" ' + (row.status === 'pending' ? 'selected' : '') + '>Pending</option>' +
                                '<option value="resolved" ' + (row.status === 'resolved' ? 'selected' : '') + '>Resolved</option>' +
@@ -233,34 +233,54 @@ jq(document).ready(function() {
     jq('#complaintTable').on('change', '.status-select', function() {
             var selectedValue = jq(this).val();
             var dataId = jq(this).data('id');
-            
-            // Show a confirmation alert
-            var isConfirmed = confirm("Are you sure you want to change the status to " + selectedValue + "?");
-
-            // Check user's choice
-            if (isConfirmed) {
-                // Proceed with your action here
-                jq.ajax({
-                    url:'/complaint/update-status/'+selectedValue+'/'+dataId,
-                    type:'get',
-                    success:function(response){
-                        if(response=='error'){
-                            alert("Stats didn't updated.");
-                            dataTable.ajax.reload();
+            // Use SweetAlert for confirmation
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to change the status to " + selectedValue + "?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Proceed with your action here
+                    jq.ajax({
+                        url:'/complaint/update-status/'+selectedValue+'/'+dataId,
+                        type:'get',
+                        success:function(response){
+                            if(response=='error'){
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: "Status didn't update.",
+                                    icon: 'error'
+                                });
+                                dataTable.ajax.reload();
+                            }
+                            if(response=='success'){
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: "Status Updated Succefully",
+                                    icon: 'success'
+                                });
+                                dataTable.ajax.reload();
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error);
                         }
-                        if(response=='success'){
-                            alert(response);
-                            dataTable.ajax.reload();
-                        }
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
-                });
-            } else {
-                alert("You pressed Cancel!");
-            }
-        });
+                    });
+                } else {
+                    dataTable.ajax.reload();
+                    Swal.fire({
+                        title: 'Cancelled',
+                        text: "You pressed Cancel!",
+                        icon: 'info'
+                    });
+                }
+            });
+        }
+    );
 });
 
      </script>

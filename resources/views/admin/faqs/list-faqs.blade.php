@@ -57,7 +57,7 @@
                                     });
                                 </script>
                             @endif
-                            <table class="table mb-0 dataTable" id="faqsTable">
+                            <table class="table mb-0 dataTable" id="faqsTable" style="background-color: #f2f2f2; color: #333;">
                                 <thead>
                                     <tr>
                                         <th>Id</th>
@@ -146,7 +146,7 @@
                         render: function(data, type, row) {
                             // Render the select button for the action column
                             // form-select
-                            return '<select class="status-select form-select" data-id="' + row.id + '">' +
+                            return '<select class="status-select form-select form-control form-select-sm" data-id="' + row.id + '">' +
                                     '<option value="" disabled>Select Status</option>'+
                                     '<option value="active" ' + (row.status === 'active' ? 'selected' : '') + '>Active</option>' +
                                     '<option value="inactive" ' + (row.status === 'inactive' ? 'selected' : '') + '>In-Active</option>' +

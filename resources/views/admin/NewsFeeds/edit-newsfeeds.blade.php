@@ -46,7 +46,7 @@
                           @csrf
                           <input type="hidden" name="id" value="{{ $news->id }}" readonly>
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="title">Blog Title:</label>
                             <input type="text" class="form-control" id="title" name="title" value="{{ $news->title }}" placeholder="Enter the title">
                           </div>
@@ -54,7 +54,7 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="shortDescription">Short Description:</label>
                             <input type="text" class="form-control" id="shortDescription" name="shortDescription" value="{{ $news->short_description }}" maxlength="255" placeholder="Enter a short description">
                           </div>
@@ -62,7 +62,7 @@
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="editor">Editor:</label>
                             <textarea id="editor" name="editor" class="form-control">{{ $news->editor_content }}</textarea>
                           </div>
@@ -70,14 +70,14 @@
                             <div class="alert alert-danger">{{$message}}</div>
                           @enderror
 
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="image">Blog Image:</label>
                             <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
                             @if ($news->image_path)
-                            <img src="{{ asset($news->image_path) }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;">
+                            <img src="{{ asset($news->image_path) }}" alt="Thumbnail Image" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;" onerror="this.onerror=null; this.src='{{ asset('app-assets/images/no-image-icon.jpg') }}';">
                             <span id="image-name">{{ $news->image_path }}</span>
                             @else
-                            <img src="{{ asset('no-image-icon.png') }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px; display: none;">
+                            <img src="{{ asset('app-assets/images/no-image-icon.jpg') }}" alt="Thumbnail Image" id="image-preview" class="img-fluid mt-2" style="max-height: 200px; display: none;" onerror="this.onerror=null; this.src='{{ asset('app-assets/images/no-image-icon.jpg') }}';">
                             <span id="image-name">Image is not saved.</span>
                             @endif
                           </div>
@@ -86,14 +86,14 @@
                           @enderror
                           
 
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="thumbnailImage">Thumbnail Image:</label>
                             <input type="file" class="form-control-file" id="thumbnailImage" name="thumbnailImage" accept="image/*">
                             @if ($news->image_path)
-                            <img src="{{ asset($news->thumbnail_image_path) }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;">
+                            <img src="{{ asset($news->thumbnail_image_path) }}" alt="Thumbnail Image" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;" onerror="this.onerror=null; this.src='{{ asset('app-assets/images/no-image-icon.jpg') }}';">
                             <span id="image-name">{{ $news->thumbnail_image_path }}</span>
                             @else
-                            <img src="{{ asset('no-image-icon.png') }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px; display: none;">
+                            <img src="{{ asset('app-assets/images/no-image-icon.jpg') }}" alt="Thumbnail Image" id="image-preview" class="img-fluid mt-2" style="max-height: 200px; display: none;" onerror="this.onerror=null; this.src='{{ asset('app-assets/images/no-image-icon.jpg') }}';">
                             <span id="image-name">Image is not saved.</span>
                             @endif
                           </div>
@@ -101,7 +101,7 @@
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <div class="form-group form-check">
+                          <div class="form-group form-check mb-1">
                             <input type="checkbox" class="form-check-input" id="featuredPost" name="featuredPost" @if($news->featured_post) checked @endif>
                             <label class="form-check-label" for="featuredPost">Mark as Featured Post</label>
                           </div>
@@ -109,7 +109,7 @@
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="status">Status:</label>
                             <select class="form-control" id="status" name="status">
                                 <option value="" disabled @if($news->status) selected @endif>Select Status</option>

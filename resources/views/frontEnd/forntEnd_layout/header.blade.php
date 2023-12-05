@@ -14,16 +14,16 @@
     <title>NHA Pakistan | National Hostel Association of Pakistan</title>
 
     <!-- Favicon  -->
-    <link rel="icon" href="{{asset('assets/img/NHAPK.jpeg')}}">
+    <link rel="icon" href="{{asset('front-end-asset/assets/img/logo/NHAPK.jpeg')}}">
 
     <!-- ***** All CSS Files ***** -->
 
     <!-- Style css -->
     
-    <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('front-end-asset/assets/css/style.css')}}">
 
     <!-- Responsive css -->
-    <link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
+    <link rel="stylesheet" href="{{asset('front-end-asset/assets/css/responsive.css')}}">
 
     <!-- Include SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
@@ -35,7 +35,7 @@
     <script src="{{asset('assets/js/jquery/jquery-3.5.1.min.js')}}"></script>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{asset('assets/js/bootstrap/bootstrap.min.js')}}">
+    <link rel="stylesheet" href="{{asset('front-end-asset/assets/js/bootstrap/bootstrap.min.js')}}">
 
 
 </head>
@@ -98,8 +98,8 @@
                 <div class="container header">
                     <!-- Navbar Brand-->
                     <a class="navbar-brand" href="/">
-                        <img class="navbar-brand-regular" src="{{asset('assets/img/logo/NHAPK.jpeg')}}" alt="brand-logo" style="width:50px">
-                        <img class="navbar-brand-sticky" src="{{asset('assets/img/logo/NHAPK.jpeg')}}" alt="sticky brand-logo" style="width:50px">
+                        <img class="navbar-brand-regular" src="{{asset('front-end-asset/assets/img/logo/NHAPK.jpeg')}}" alt="brand-logo" style="width:50px">
+                        <img class="navbar-brand-sticky" src="{{asset('front-end-asset/assets/img/logo/NHAPK.jpeg')}}" alt="sticky brand-logo" style="width:50px">
                     </a>
                     <div class="ml-auto"></div>
                     <!-- Navbar -->

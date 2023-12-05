@@ -71,10 +71,10 @@
                                 <input type="file" class="form-control-file" id="file_path" name="file_path" value="{{$sops->file_path}}" accept="/*">
                                 @if ($sops->file_type == 'img')
                                 @if ($sops->file_path)
-                                    <img src="{{ asset($sops->file_path) }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;">
+                                    <img src="{{ asset($sops->file_path) }}" alt="Image" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;" onerror="this.onerror=null; this.src='{{ asset('app-assets/images/no-image-icon.jpg') }}';">
                                     <span id="image-name">{{ $sops->file_path }}</span>
                                 @else
-                                    <img src="{{ asset('no-image-icon.png') }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px; display: none;">
+                                    <img src="{{ asset('app-assets/images/no-image-icon.jpg') }}" alt="Image" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;" onerror="this.onerror=null; this.src='{{ asset('app-assets/images/no-image-icon.jpg') }}';">
                                     <span id="image-name">Image is not saved.</span>
                                 @endif
                                 @elseif ($sops->file_type == 'file')
@@ -106,7 +106,7 @@
                             @enderror
     
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
                             </div>
                         </form>
                     </div>

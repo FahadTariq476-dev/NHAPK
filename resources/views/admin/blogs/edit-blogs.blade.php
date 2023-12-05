@@ -33,14 +33,14 @@
             <div class="content-body">
 
                 <div class="row">
-                    <div class="container">
+                    <div class="container" style="color: black;">
                         <form class="blog-form" id="blogForm" action="{{route('admin.updateFullBlog')}}" method="POST" enctype="multipart/form-data">
                           <h2 class="text-center mb-4">Edit Blog</h2>
                           <!-- Your form fields here -->
                           @csrf
                           <input type="hidden" name="id" value="{{ $blogs->id }}" readonly>
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="title">Blog Title:</label>
                             <input type="text" class="form-control" id="title" name="title" value="{{ $blogs->title }}" placeholder="Enter the title">
                           </div>
@@ -48,7 +48,7 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="shortDescription">Short Description:</label>
                             <input type="text" class="form-control" id="shortDescription" name="shortDescription" value="{{ $blogs->short_description }}" maxlength="255" placeholder="Enter a short description">
                           </div>
@@ -56,7 +56,7 @@
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="editor">Editor:</label>
                             <textarea id="editor" name="editor" class="form-control">{{ $blogs->editor_content }}</textarea>
                           </div>
@@ -64,14 +64,14 @@
                             <div class="alert alert-danger">{{$message}}</div>
                           @enderror
 
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="image">Blog Image:</label>
                             <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
                             @if ($blogs->image_path)
-                            <img src="{{ asset($blogs->image_path) }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;">
+                            <img src="{{ asset($blogs->image_path) }}" alt="Blog Image" onerror="this.onerror=null; this.src='{{ asset('app-assets/images/no-image-icon.jpg') }}';" id="image-preview"  class="img-fluid mt-2" style="max-height: 200px;">
                             <span id="image-name">{{ $blogs->image_path }}</span>
                             @else
-                            <img src="{{ asset('no-image-icon.png') }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px; display: none;">
+                            <img src="{{ asset('app-assets/images/no-image-icon.jpg') }}" alt="Blog Image" onerror="this.onerror=null; this.src='{{ asset('app-assets/images/no-image-icon.jpg') }}';" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;">
                             <span id="image-name">Image is not saved.</span>
                             @endif
                           </div>
@@ -80,14 +80,14 @@
                           @enderror
                           
 
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="thumbnailImage">Thumbnail Image:</label>
                             <input type="file" class="form-control-file" id="thumbnailImage" name="thumbnailImage" accept="image/*">
-                            @if ($blogs->image_path)
-                            <img src="{{ asset($blogs->thumbnail_image_path) }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;">
+                            @if ($blogs->thumbnail_image_path)
+                            <img src="{{ asset($blogs->thumbnail_image_path) }}" alt="ThumbNail Image" onerror="this.onerror=null; this.src='{{ asset('app-assets/images/no-image-icon.jpg') }}';" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;">
                             <span id="image-name">{{ $blogs->thumbnail_image_path }}</span>
                             @else
-                            <img src="{{ asset('no-image-icon.png') }}" alt="{{ asset('no-image-icon.png') }}" id="image-preview" class="img-fluid mt-2" style="max-height: 200px; display: none;">
+                            <img src="{{ asset('app-assets/images/no-image-icon.jpg') }}" alt="Thumbnail Image" onerror="this.onerror=null; this.src='{{ asset('app-assets/images/no-image-icon.jpg') }}';" id="image-preview" class="img-fluid mt-2" style="max-height: 200px;">
                             <span id="image-name">Image is not saved.</span>
                             @endif
                           </div>
@@ -95,7 +95,7 @@
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <div class="form-group form-check">
+                          <div class="form-group form-check mb-1">
                             <input type="checkbox" class="form-check-input" id="featuredPost" name="featuredPost" @if($blogs->featured_post) checked @endif>
                             <label class="form-check-label" for="featuredPost">Mark as Featured Post</label>
                           </div>
@@ -103,7 +103,7 @@
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="status">Status:</label>
                             <select class="form-control" id="status" name="status">
                                 <option value="" disabled @if($blogs->status) selected @endif>Select Status</option>

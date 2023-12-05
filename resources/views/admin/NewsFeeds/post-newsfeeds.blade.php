@@ -64,7 +64,7 @@
                           <!-- Your form fields here -->
                           @csrf
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="title">News Title:</label>
                             <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" placeholder="Enter the title">
                           </div>
@@ -72,7 +72,7 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="shortDescription">News Short Description:</label>
                             <input type="text" class="form-control" id="shortDescription" name="shortDescription" value="{{old('shortDescription')}}" maxlength="255" placeholder="Enter a short description">
                           </div>
@@ -80,7 +80,7 @@
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="editor">News Editor Content:</label>
                             <textarea id="editor" name="editor" class="form-control">{{ old('editor') }}</textarea>
                           </div>
@@ -88,7 +88,7 @@
                             <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="image">News Image:</label>
                             <input type="file" class="form-control-file" id="image" name="image" value="{{old('image')}}" accept="image/*">
                           </div>
@@ -96,7 +96,7 @@
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="thumbnailImage">News Thumbnail Image:</label>
                             <input type="file" class="form-control-file" id="thumbnailImage" name="thumbnailImage" value="{{old('thumbnailImage')}}" accept="image/*">
                           </div>
@@ -104,7 +104,7 @@
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <div class="form-group form-check">
+                          <div class="form-group form-check mb-1">
                             <input type="checkbox" class="form-check-input" id="featuredPost" name="featuredPost" @if(old('featuredPost')) checked @endif>
                             <label class="form-check-label" for="featuredPost">Mark as Featured Post</label>
                           </div>
@@ -112,7 +112,7 @@
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="status">Status:</label>
                             <select class="form-control" id="status" name="status">
                                 <option value="" disabled @if(old('status') == '') selected @endif>Select Status</option>

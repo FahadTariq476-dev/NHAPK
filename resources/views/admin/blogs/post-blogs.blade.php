@@ -35,7 +35,7 @@
             <div class="content-body">
 
                 <div class="row">
-                    <div class="container">
+                    <div class="container" style="color: black;">
                         <form class="blog-form" id="blogForm" action="{{route('admin.saveBlogPost')}}" method="POST" enctype="multipart/form-data">
                           <h2 class="text-center mb-4">Blog Entry</h2>
                           @if(session('success'))
@@ -59,7 +59,7 @@
                           <!-- Your form fields here -->
                           @csrf
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="title">Blog Title:</label>
                             <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" placeholder="Enter the title">
                           </div>
@@ -67,7 +67,7 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="shortDescription">Short Description:</label>
                             <input type="text" class="form-control" id="shortDescription" name="shortDescription" value="{{old('shortDescription')}}" maxlength="255" placeholder="Enter a short description">
                           </div>
@@ -75,7 +75,7 @@
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="editor">Editor:</label>
                             <textarea id="editor" name="editor" class="form-control">{{ old('editor') }}</textarea>
                           </div>
@@ -83,15 +83,15 @@
                             <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="image">Blog Image:</label>
-                            <input type="file" class="form-control-file" id="image" name="image" value="{{old('image')}}" accept="image/*">
+                            <input type="file" class="custom-file-input" id="image" name="image" value="{{old('image')}}" accept="image/*">
                           </div>
                           @error('image')
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="thumbnailImage">Thumbnail Image:</label>
                             <input type="file" class="form-control-file" id="thumbnailImage" name="thumbnailImage" value="{{old('thumbnailImage')}}" accept="image/*">
                           </div>
@@ -99,7 +99,7 @@
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <div class="form-group form-check">
+                          <div class="form-group form-check mb-1">
                             <input type="checkbox" class="form-check-input" id="featuredPost" name="featuredPost" @if(old('featuredPost')) checked @endif>
                             <label class="form-check-label" for="featuredPost">Mark as Featured Post</label>
                           </div>
@@ -107,7 +107,7 @@
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <div class="form-group">
+                          <div class="form-group mb-1">
                             <label for="status">Status:</label>
                             <select class="form-control" id="status" name="status">
                                 <option value="" disabled @if(old('status') == '') selected @endif>Select Status</option>
@@ -118,6 +118,7 @@
                           @error('status')
                               <div class="alert alert-danger">{{$message}}</div>
                           @enderror
+                          
                       
                           {{-- <div class="form-group">
                             <label for="postCategory">Post Category:</label>
@@ -129,6 +130,7 @@
                               <!-- Add more categories as needed -->
                             </select>
                           </div> --}}
+                          <button type="reset" class="btn btn-success btn-block">Reset</button>
                           <button type="submit" class="btn btn-primary btn-block">Submit Blog</button>
                         </form>
                       </div>

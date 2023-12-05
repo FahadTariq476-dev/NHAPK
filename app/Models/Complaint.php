@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Complaint extends Model
 {
     use HasFactory;
-    protected $table = 'complaints';
+    protected $table = 'nhapk_complaints';
 
     public function property(){
         return $this->belongsTo(Properties::class, 'hostel_id');
