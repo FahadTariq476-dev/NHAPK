@@ -17,24 +17,23 @@ class LoginController extends Controller
 
     function AdminloginPost(Request $req){
         //
+        $rules=[
+            'username'=>'required|email',
+            'password'=>'required',
+        ];
+        $this->validate($req,$rules);
         $email = $req->username;
         $password=$req->password;
-        // return $req;
-        if(!empty($email) && !empty($password)){
-            // Retrieve the submitted login credentials
-            $credentials = ['email' => $email, 'password' => $password];
-            // Attempt to authenticate the user
-            if (Auth::attempt($credentials)) {
-                // return view('admin.dashboard');
-                return redirect()->route('admin.ShowDashboard')->with('success',"Logged in");
-                // return redirect()->route('admin.ShowDashboard')->with('success',"Logged in");
-                // return "Login Successfull";
-            } else {
-                return redirect()->route('admin.login.showForm')->with('error', 'Invalid Credentials');
-            }
-        }
-        else{
-            return redirect()->route('admin.login.showForm')->with('error',"Username and Password must be provided");
+        // Retrieve the submitted login credentials
+        $credentials = ['email' => $email, 'password' => $password];
+        // Attempt to authenticate the user
+        if (Auth::attempt($credentials)) {
+            // return view('admin.dashboard');
+            return redirect()->route('admin.ShowDashboard')->with('success',"Logged in");
+            // return redirect()->route('admin.ShowDashboard')->with('success',"Logged in");
+            // return "Login Successfull";
+        } else {
+            return redirect()->route('admin.login.showForm')->with('error', 'Invalid Credentials');
         }
     }
 }

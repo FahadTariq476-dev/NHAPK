@@ -19,34 +19,37 @@
             </div>
         </section>
         <!-- ***** Breadcrumb Area End ***** -->
-        <br>
-        <br>
-        <br>
-
-        <!--Section: FAQ-->
+ 
+        <!--Begin:  Section: FAQ-->
         <section class="container my-5">
-            <h3 class="text-center mb-4 pb-2 text-primary fw-bold">FAQ's</h3>
+            <h1 class="text-center mb-4 pb-2 text-primary fw-bold">FAQ's</h1>
             <p class="text-center mb-5">
                 Find the answers for the most frequently asked questions below
             </p>
-            <div class="row">
-                @foreach ($faqs as $faq)
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card border-primary">
-                            <div class="card-body">
-                                <h6 class="card-title mb-3 text-primary"><i class="far fa-paper-plane text-primary pe-2"></i> {{ $faq->question }}</h6>
-                                <p class="card-text">{{ $faq->answer }}</p>
-                            </div>
+            <div class="accordion" id="faqAccordion">
+                @foreach ($faqs as $key => $faq)
+                <div class="card">
+                    <div class="card-header" id="faqHeading{{ $key }}">
+                        <h5 class="mb-0">
+                            <button class="btn text-primary" data-toggle="collapse"
+                                data-target="#faqCollapse{{ $key }}" aria-expanded="true" aria-controls="faqCollapse{{ $key }}">
+                                {{ $faq->question }}
+                            </button>
+                        </h5>
+                    </div>
+        
+                    <div id="faqCollapse{{ $key }}" class="collapse" aria-labelledby="faqHeading{{ $key }}"
+                        data-parent="#faqAccordion">
+                        <div class="card-body text-justify">
+                            {{ $faq->answer }}
                         </div>
                     </div>
+                </div>
                 @endforeach
             </div>
         </section>
-        <!--Section: FAQ-->
+        <!--End:  Section: FAQ-->
 
-        <br>
-        <br>
-        <br>
 
         <!--====== Call To Action Area Start ======-->
         <section class="section cta-area bg-overlay ptb_100">
@@ -55,9 +58,9 @@
                     <div class="col-12 col-lg-10">
                         <!-- Section Heading -->
                         <div class="section-heading text-center m-0">
-                            <h2 class="text-white">Looking for the best digital agency &amp; marketing solution?</h2>
-                            <p class="text-white d-none d-sm-block mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati dignissimos quae quo ad iste ipsum officiis deleniti asperiores sit.</p>
-                            <p class="text-white d-block d-sm-none mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati.</p>
+                            <h1 class="text-white">Looking for the best hostel registration &amp; marketing solution?</h1>
+                            <p class="text-white d-block d-sm-block mt-4">We are National Hostel Association of Pakistan.</p>
+                            <p class="text-white d-block d-sm-block mt-4">A non-profit organization. The hostel owners community named as National Hostels Association of Pakistan</p>
                             <a href="{{route('ContactUsForm')}}" class="btn btn-bordered-white mt-4">Contact Us</a>
                         </div>
                     </div>

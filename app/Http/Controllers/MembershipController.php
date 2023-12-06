@@ -66,19 +66,22 @@ class MembershipController extends Controller
         ];
         // Validate the request data
         $this->validate($req, $commonRules, $messages);
+        // dd($req->toArray());
         // Save the data here
         $membership = new Membership();
         $membership->name = $req->name;
         $membership->cnic = $req->cnic;
         $membership->membershiptype_id = $req->membershiptype_id;
         $membership->hostelreg_no = $req->hostelreg_no;
+        $membership->gender = $req->gender;
         if(!empty($req->referal_cnic)){
             $membership->referal_cnic = $req->referal_cnic;
         }
         $membership->transaction_no = $req->transaction_no;
-        $membership->gender = $req->gender;
         if(!empty($req->since)){
             $membership->since = $req->since;
+        }else{
+            $membership->since = now();
         }
         if(!empty($req->previous_hostel)){
             $membership->previous_hostel = $req->previous_hostel;

@@ -36,8 +36,8 @@ class ContactUsAdminController extends Controller
             $data = "Your are accessing the invalid data";
             return $data;
         }
-        // $data = $contactUs->message;
-        return $contactUs;
+        $data = $contactUs->message;
+        return $data;
     }
     // End: Function to get the message using id of contact us
 }

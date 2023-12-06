@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Blog;
 use App\Models\NewsFeed;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -31,7 +30,7 @@ class NewsFeedsAdminController extends Controller
         // Validate the form data
     $validatedData = $request->validate([
         'title' => 'required|max:255',
-        'shortDescription' => 'required|max:255',
+        'shortDescription' => 'required|max:65535',
         'editor' => 'required',
         'image' => 'required|image|mimes:jpeg,png,jpg,JPEG,JPG,PNG|max:2048', // Maximum 2MB for image
         'thumbnailImage' => 'required|mimes:jpeg,png,jpg,JPEG,JPG,PNG|image|max:2048',
@@ -110,7 +109,7 @@ class NewsFeedsAdminController extends Controller
 
         // Check if the given $status is in the array of valid statuses
         if (!(in_array($status, $validStatuses))) {
-            return 'error';
+            return 'invalid';
         }
         $news = NewsFeed::find($newsId);
         if(!$news){
@@ -183,7 +182,7 @@ class NewsFeedsAdminController extends Controller
         // Setting common rules
         $commonRules = [
             'title' => 'required|max:255',
-            'shortDescription' => 'required|max:255',
+            'shortDescription' => 'required|max:65535',
             'editor' => 'required',
             'status' => 'required|in:pending,published',
         ];

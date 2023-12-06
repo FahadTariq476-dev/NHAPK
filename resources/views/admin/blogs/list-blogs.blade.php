@@ -230,38 +230,65 @@
                 var selectedValue = jq(this).val();
                 var dataId = jq(this).data('id');
                 
-                // Show a confirmation alert
-                var isConfirmed = confirm("Are you sure you want to change the status to " + selectedValue + "?");
-
-                // Check user's choice
-                if (isConfirmed) {
-                    // Proceed with your action here
-                    jq.ajax({
-                        url:'/admin/blogs/update-status/'+selectedValue+'/'+dataId,
-                        type:'get',
-                        success:function(response){
-                            if(response=='error'){
-                                alert("Stats didn't updated.");
-                                dataTable.ajax.reload();
-                            }
-                            if(response=='success'){
-                                alert("Status updated succesfully");
-                                dataTable.ajax.reload();
-                            }
-                        },
-                        error: function(error) {
-                            console.log(error);
-                        }
-                    });
-                } else {
-                    alert("You pressed Cancel!");
-                    dataTable.ajax.reload();
-                }
+                // Show a confirmation SweetAlert
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to change the status to " + selectedValue + "?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, change it!",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Proceed with your action here
+                        jq.ajax({
+                            url: '/admin/blogs/update-status/' + selectedValue + '/' + dataId,
+                            type: 'get',
+                            success: function (response) {
+                                if (response == 'error') {
+                                    Swal.fire("Error", "Stats didn't update.", "error");
+                                    dataTable.ajax.reload();
+                                }
+                                if (response == 'success') {
+                                    Swal.fire("Success", "Status updated successfully", "success");
+                                    dataTable.ajax.reload();
+                                }
+                                if (response == 'invalid') {
+                                    Swal.fire("Invalid", "You are accessing invalid data", "error");
+                                    dataTable.ajax.reload();
+                                }
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            },
+                        });
+                    } else {
+                        Swal.fire("Cancelled", "You pressed Cancel!", "info");
+                        dataTable.ajax.reload();
+                    }
+                });
             })
             .on('click', '.edit-btn', function() {
                 var dataId = jq(this).data('id');
                 // Navigate to the editBlogView route
-                window.location.href = '/admin/editBlog/' + dataId;
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to edit the blog of: " + dataId + "?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Proceed with your action here
+                        window.location.href = '/admin/editBlog/' + dataId;
+                    } else {
+                        Swal.fire("Cancelled", "You pressed Cancel!", "info");
+                    }
+                });
+                
             })
             .on('click', '.delete-btn', function() {
                 var dataId = jq(this).data('id');
