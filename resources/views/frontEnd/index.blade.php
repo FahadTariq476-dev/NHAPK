@@ -1,6 +1,26 @@
 @extends('frontEnd.forntEnd_layout.main')
 @section('main-container')
 
+            @if(session('success'))
+                <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: '{{ session('success') }}',
+                    });
+                </script>
+            @endif
+
+            @if(session('error'))
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: '{{ session('error') }}',
+                    });
+                </script>
+            @endif
+
         <!-- ***** Welcome Area Start ***** -->
         <section id="home" class="section welcome-area bg-overlay overflow-hidden d-flex align-items-center">
             <div class="container">
@@ -42,7 +62,33 @@
                         </div>
                     </div>
                 </div>
+                <form action="{{route('frontEnd.hostels.findHostelById')}}" method="POST" id="searchForm">
+                    @csrf
+                    <div class="row justify-content-center py-3 mx-5 bg-light mt-5" style="border-radius:100px;">
+                        <div class="col-lg-3 col-md-3 col-12 align-self-center">
+                            <input id="rd_reg_no" value="Reg_No" class="checkbox-custom px-1" name="search_type" type="radio" checked>
+                            <label for="rd_reg_no" class="checkbox-custom-label px-1 pe-2">Reg. Number</label>
+                            <input id="rd_by_name" value="Name" class="checkbox-custom px-1" name="search_type" type="radio">
+                            <label for="rd_by_name" class="checkbox-custom-label px-1">By Name</label>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-12">
+                            <input type="text" name="search_data" id="search_data" class="form-control "
+                                placeholder="Search Hostel location"
+                                {{-- style=" border:none !important; border-radius:0px !important;  height:55px !important; background-color:#eeeeee !important;"  --}}
+                                />
+                                <div id="nameSuggestions" class="suggestions dropdown-menu dropdown-menu-end" style="max-height: 200px; overflow-y: auto; position: absolute; width: 100%;">
+                                {{-- Suggestion will diplayed here --}}
+                                </div>
+                                
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-12 align-self-center">
+                            <button type="submit" class="theme-btn-1 btn  mybtn text-light">Search Result</button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="selectedHostelId" id="selectedHostelId" value="" required>
+                </form>
             </div>
+            
             <!-- Shape Bottom -->
             <div class="shape shape-bottom">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none" fill="#FFFFFF">
@@ -53,6 +99,115 @@
             </div>
         </section>
         <!-- ***** Welcome Area End ***** -->
+
+        <script>
+            $(document).ready(function () {
+                // Function to handle keyup event on the name input
+                $('#search_data').on('keyup', function () {
+                    var inputVal = $(this).val();
+                    if(inputVal.trim()==='' || inputVal ===null || inputVal.length==0){
+                        $('#nameSuggestions').hide();
+                        $('#nameSuggestions').html("");
+                        $('#selectedHostelId').val("");
+                    }
+                    if ($('#rd_by_name').prop('checked')) {
+                        if(!(inputVal.trim()==='' || inputVal ===null )){
+                            // 
+                            // Perform an AJAX request to get suggestions
+                            $.ajax({
+                                url: '/get-hostel-suggestions', // Change this to your actual route
+                                method: 'GET',
+                                data: { inputVal: inputVal },
+                                success: function (data) {
+                                    // Display the suggestions in the suggestions div
+                                    $('#nameSuggestions').html(data);
+                                    $('#nameSuggestions').show(); // Show the suggestions
+                                },
+                                error: function (error) {
+                                    console.log(error);
+                                }
+                            });
+                        }else {
+                            // Hide the suggestions if the input is empty
+                            $('#nameSuggestions').hide();
+                            $('#nameSuggestions').html("");
+                            $('#selectedHostelId').val("");
+                        }
+                    }
+                });
+
+
+                // Handle click on a suggestion
+                $(document).on('click', '.suggestion-item', function () {
+                    var hostelName = $(this).text();
+                    var hostelId = $(this).data('hostel-id');
+            
+                    // Set the selected value in the input field
+                    $('#search_data').val(hostelName);
+
+                    // Do something with the selected hostel ID (e.g., save it in a hidden input)
+                    $('#selectedHostelId').val(hostelId);
+
+                    // Hide the suggestions
+                    $('#nameSuggestions').hide();
+                });
+
+            });
+        </script>
+
+        <script>
+            $(document).ready(function(){
+                $('input[name="search_type"]').on('change', function (){
+                    var currentSelectedRadio = $(this).attr('id');
+                    if (currentSelectedRadio === 'rd_by_name') {
+                        $('#selectedHostelId').val("");
+                    } else if (currentSelectedRadio === 'rd_reg_no') {
+                        $('#selectedHostelId').val("");
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function(){
+                // Handle form submission
+        $('#searchForm').submit(function (e) {
+            // Check if Reg. Number radio button is checked
+            var isRegNoChecked = $('#rd_reg_no').prop('checked');
+
+            // If Reg. Number is checked, submit the form as is
+            if (isRegNoChecked) {
+                let search_data = $("#search_data").val();
+                if(search_data.trim() ==='' || search_data ===null || search_data.length==0){
+                    e.preventDefault();
+                    alert("Registration Number Should be provided");
+                    return false;
+                }
+                return true;
+            }
+
+            // Extract the selected hostel ID
+            var selectedHostelId = $('#selectedHostelId').val();
+
+            // Perform any additional checks if needed
+            if (selectedHostelId) {
+                // Set the selected hostel ID in a hidden input and submit the form
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'selectedHostelId',
+                    value: selectedHostelId
+                }).appendTo('#searchForm');
+
+                // Submit the form
+                $('#searchForm').submit();
+            } else {
+                // Handle the case when no hostel is selected
+                e.preventDefault();
+                alert('Please select a hostel from the suggestions.');
+            }
+        });
+            });
+        </script>
 
         {{-- Begin: View Blogs Area --}}
         <div class="container mt-5">
