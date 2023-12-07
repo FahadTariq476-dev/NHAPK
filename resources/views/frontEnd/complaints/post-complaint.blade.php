@@ -127,17 +127,18 @@
             <label for="complaintType">Complaint Type:</label>
             <select class="form-control" id="complaintType" name="complaintType" >
                 <option value="" disabled @if(old('complaintType')=='') selected @endif>
-                    Select complaint type
+                    Select Complaint Type
                 </option>
-                <option value="cleanliness" @if(old('complaintType')=='cleanliness') selected @endif>
-                    Cleanliness</option>
-                <option value="maintenance" @if(old('complaintType')=='maintenance') selected @endif>
-                    Maintenance
-                </option>
-                <option value="security" @if(old('complaintType')=='security') selected @endif>
-                    Security
-                </option>
-                <!-- Add more complaint types as needed -->
+                @if (count($complaint_types)>0)
+                    @foreach ($complaint_types as $complaint_type)
+                        <option value="{{ $complaint_type->id}}" @if(old('complaintType')== $complaint_type->id) selected @endif>
+                            {{ $complaint_type->name }}
+                        </option>
+                    @endforeach
+                @else
+                    <option value="" disabled>No Complaint Type Found</option>
+                @endif
+                
             </select>
         </div>
         @error('complaintType')

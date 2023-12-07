@@ -7,6 +7,8 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Admin\ComplaintAdminController;
+use App\Http\Controllers\Admin\CompliantTypeController;
 use App\Http\Controllers\StatesController;
 use App\Http\Controllers\NewsFeedController;
 use App\Http\Controllers\PropertyController;
@@ -76,12 +78,35 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth']], function () {
     // Route::get('/admin/dashboard',[DashboardController::class,'showAdminDashboard'])->name('admin.ShowDashboard');
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
 
+    // Begin: Route for Complaint
     // Route to Show List Complaint View
-    Route::get('/admin/listComplaint', [ComplaintController::class, 'adminListComplaintView'])->name('admin.ListComplaintView');
+    Route::get('/admin/listComplaint', [ComplaintAdminController::class, 'adminListComplaintView'])->name('admin.ListComplaintView');
     // Route for admin to list complaint
-    Route::get('/get-adminListingComplaint', [ComplaintController::class, 'adminListingComplaint'])->name('admin.adminListingComplaint');
+    Route::get('/get-adminListingComplaint', [ComplaintAdminController::class, 'adminListingComplaint'])->name('admin.adminListingComplaint');
     // Route for admin to update the complaint status
-    Route::get('/complaint/update-status/{status}/{complaintId}', [ComplaintController::class, 'updateComplaintStatus'])->name('admin.updateComplaintStatus');
+    Route::get('/complaint/update-status/{status}/{complaintId}', [ComplaintAdminController::class, 'updateComplaintStatus'])->name('admin.updateComplaintStatus');
+    // Route to get the complaint details using complaint id
+    Route::get('/admin/complaint/list-complaint/get-details/{id}',[ComplaintAdminController::class,'get_details'])->name('admin.complaints.get-details');
+    // End: Route for Complaint
+
+    // Begin: Route for Complaint_Types
+    // Route for the admin to show the post-complaint_types.bldae.php
+    Route::get('/admin/complaint-types/post',[CompliantTypeController::class,'index'])->name('admin.complaint-types.index');
+    // Route for the admin to post the complaint_types in the db
+    Route::post('/admin/complaint-types/post',[CompliantTypeController::class,'store'])->name('admin.complaint-types.store');
+    // Route for the admin to show the edit-complaint-types.blade.php with complaints
+    Route::get('/admin/complaint-types/edit-complaint-types/{id}',[CompliantTypeController::class,'edit'])->name('admin.complaint-types.edit');
+    // Route for the admin to update the full complaint-types
+    Route::post('/admin/complaint-types/update',[CompliantTypeController::class,'update'])->name('admin.complaint-types.update');
+    // Route for the admin to show the list-complaint-types.blade.php
+    Route::get('/admin/complaint-types/list-complaint-types',[CompliantTypeController::class,'list'])->name('admin.complaint-types.list');
+    // Route for the admin to show the list-complaint-types.blade.php
+    Route::get('/admin/complaint-types/list-complaint-types/get-complaint-types',[CompliantTypeController::class,'get_complaint_types'])->name('admin.complaint-types.get-complaint-types');
+    // Route to update_status from active to inactive or vice verse 
+    Route::get('/admin/complaint_types/list-complaint-types/update-status/{statu}/{id}',[CompliantTypeController::class,'update_status'])->name('admin.complaint-types.update-status');
+    // Route for the admin to get the full description of complaint_types using complaint_types id
+    Route::get('/admin/complaint-types/list-complaint-types/description/{id}',[CompliantTypeController::class,'get_description'])->name('admin.complaint-types.get_description');
+    // End: Route for Complaint_Types
 
     // Route to show post-blogs page
     Route::get('/admin/post-blogs',[PostBlogsController::class, 'index'])->name('admin.post-blogs');
@@ -254,6 +279,10 @@ Route::get('hostelRegistration/hostelPartnerCniccheck/{hostelPartnerCnic}', [Hos
 Route::get('hostelRegistration/hostelName/{hostelName}', [HostelRegistrationController::class, 'hostelNameCheck'])->name('hostelRegistration.HostelNameCheck');
 // Route to check the Hostel Id from the properties table
 Route::get('/checkHostelId/{id}', [PropertyController::class, 'properties_IdCheck'])->name('properties.checkHostelId');
+// Route to getHostelSuggestions
+Route::get('/get-hostel-suggestions', [PropertyController::class, 'getHostelSuggestions'])->name('frontEnd.getHostelSuggestions');
+// Route for the frontEnd to take HostelRegNo form the banner of homepage
+Route::post('/hostels/hostel-details', [PropertyController::class,'findHostelById'])->name('frontEnd.hostels.findHostelById');
 // End: Route for Register Hostel
 
 // End: Routes For FrontEnd

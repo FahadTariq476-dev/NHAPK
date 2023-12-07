@@ -13,4 +13,10 @@ class Complaint extends Model
     public function property(){
         return $this->belongsTo(Properties::class, 'hostel_id');
     }
+
+    // Begin: Function to define the relationship of complaint with complaint_types one complaints have one complaint_types
+    public function complaintType(){
+        return $this->belongsTo(ComplaintType::class,'complaint_type');
+    }
+    // End: Function to define the relationship of complaint with complaint_types one complaints have one complaint types
 }

@@ -518,6 +518,8 @@ class HostelRegistrationController extends Controller
         // 
     }
 
+   
+
     // Begin: Function to make slug unique
     private function makeSlugUnique($slug, $counter = 1)
     {

@@ -11,7 +11,6 @@
                             <h2 class="text-white mb-3">News Feed</h2>
                             <ol class="breadcrumb d-flex justify-content-center">
                                 <li class="breadcrumb-item"><a class="text-white" href="/">Home</a></li>
-                                <li class="breadcrumb-item"><a class="text-white" href="#">More</a></li>
                                 <li class="breadcrumb-item text-white active">News Feed</li>
                             </ol>
                         </div>

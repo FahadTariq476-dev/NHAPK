@@ -38,7 +38,7 @@
                         </h5>
                     </div>
         
-                    <div id="faqCollapse{{ $key }}" class="collapse" aria-labelledby="faqHeading{{ $key }}"
+                    <div id="faqCollapse{{ $key }}" class="collapse @if($key === 0) show @endif" aria-labelledby="faqHeading{{ $key }}"
                         data-parent="#faqAccordion">
                         <div class="card-body text-justify">
                             {{ $faq->answer }}

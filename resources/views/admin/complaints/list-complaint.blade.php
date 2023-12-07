@@ -70,6 +70,7 @@
                                         <th>Complaint Date</th>
                                         <th>Status</th>
                                         <th>Action</th>
+                                        <th>Complaint</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -88,6 +89,7 @@
                                         <th>Complaint Date</th>
                                         <th>Status</th>
                                         <th>Action</th>
+                                        <th>Complaint</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -104,6 +106,27 @@
         </div>
     </div>
     <!-- END: Content-->
+
+    <!-- Begin: Bootstrap Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">Contact Message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Message content will be inserted here dynamically -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal" id="modal-closebutton">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End: Bootstrap Modal -->
 
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
@@ -130,9 +153,16 @@ jq(document).ready(function() {
             { data: 'mob_no' },
             { data: 'email' },
             { data: 'room_no' },
-            { data: 'property.name' },
-            { data: 'complaint_type' },
-            { data: 'complaint_details' },
+            { data: 'property_name' },
+            { data: 'complaint_type_name' },
+            { 
+                data: 'complaint_details',
+                render: function(data, type, row) {
+                    // Show only the first 100 characters with an ellipsis at the end
+                    var truncatedDescription = data.length > 100 ? data.substring(0, 50) + '  __...' : data;
+                    return truncatedDescription;
+                }
+            },
             { data: 'complaint_priority' },
             { 
                 data: 'created_at', 
@@ -158,7 +188,13 @@ jq(document).ready(function() {
                                '<option value="approved" ' + (row.status === 'approved' ? 'selected' : '') + '>Approved</option>' +
                            '</select>';
                 }
-            }
+            },
+            { 
+                    data: null,
+                    render: function(data, type, row) {
+                         return '<button class="btn btn-success btn-sm complaint-btn" data-id="' + row.id + '">Complaint</button>';
+                    }
+            },
         ],
         columnDefs: [
             {
@@ -195,7 +231,6 @@ jq(document).ready(function() {
                     }
                 }
             }
-
         ],
         serverSide: true,
         responsive: true,
@@ -280,9 +315,42 @@ jq(document).ready(function() {
                 }
             });
         }
-    );
+    )
+    .on('click', '.complaint-btn', function() {
+        var dataId = jq(this).data('id');
+
+        // Fetch the complaint by ID
+        jq.ajax({
+            url: '/admin/complaint/list-complaint/get-details/' + dataId, 
+            method: 'GET',
+            success: function(response) {
+                // Show modal with the complaint details
+                jq('#messageModal').find('.modal-body').html('<p>' + response + '</p>');
+                jq('#messageModal').modal('show');
+            },
+            error: function(error) {
+                console.error('Error fetching contact message:', error);
+            }
+        });
+                
+    });
 });
 
      </script>
+
+<script>
+    jq(document).ready(function() {
+        // Close button ("x" button) click event
+        jq('#messageModal .close').click(function() {
+            jq('#messageModal').modal('hide');
+        });
+
+        // "Close" button click event
+        jq('#modal-closebutton').click(function() {
+            jq('#messageModal').modal('hide');
+        });
+        
+    });
+</script>
     
     @endsection

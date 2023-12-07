@@ -162,6 +162,19 @@
                             <li>
                                 <a class="d-flex align-items-center" href="{{route('admin.ListComplaintView')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Complaint List</span></a>
                             </li>
+                            {{-- Begin: Complaint_Types --}}
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Complaint Types</span></a>
+                                <ul class="menu-content">
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{route('admin.complaint-types.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post Complaint Types</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{route('admin.complaint-types.list')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Complaint Types</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            {{-- End: Complaint_Types --}}
                         </ul>
                     </li>
                     {{-- End: Complaints --}}
