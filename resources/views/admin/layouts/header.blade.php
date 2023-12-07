@@ -6,13 +6,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
-    <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
-    <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
-    <meta name="author" content="PIXINVENT">
-    <title>Home - Vuexy - Bootstrap HTML admin template</title>
+    <meta name="description" content="We are National Hostel Association of Pakistan.">
+    <meta name="keywords" content="A non-profit organization. The hostel owners community named as National Hostels Association of Pakistan.">
+    <meta name="author" content="NHAPK">
+    <title>Home - NHAPK Admin Panel</title>
     {{-- {{ asset('app-assets/css/bootstrap.css') }} --}}
-    <link rel="apple-touch-icon" href="{{asset('app-assets/images/ico/apple-icon-120.png')}}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('app-assets/images/ico/favicon.ico')}}">
+    <link rel="apple-touch-icon" href="{{asset('front-end-asset/assets/img/logo/NHAPK.jpeg')}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('front-end-asset/assets/img/logo/NHAPK.jpeg')}}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
 
     <!-- BEGIN: Vendor CSS-->
@@ -77,7 +77,19 @@
             </div>
             <ul class="nav navbar-nav align-items-center ms-auto">
                 <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <div class="user-nav d-sm-flex d-none"><span class="user-name fw-bolder">John Doe</span><span class="user-status">Admin</span></div><span class="avatar"><img class="round" src="{{asset('app-assets/images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="40" width="40"><span class="avatar-status-online"></span></span>
+                        <div class="user-nav d-sm-flex d-none">
+                            <span class="user-name fw-bolder">
+                                {{-- John Doe --}}
+                                {{ auth()->user()->name }}
+                            </span>
+                            <span class="user-status">
+                                Admin
+                            </span>
+                        </div>
+                        <span class="avatar">
+                            <img class="round" src="{{asset('app-assets/images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="40" width="40">
+                            <span class="avatar-status-online"></span>
+                        </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
                         <a class="dropdown-item" href="#"><i class="me-50" data-feather="user"></i> Profile</a>
@@ -101,7 +113,9 @@
     <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
         <div class="navbar-header">
             <ul class="nav navbar-nav flex-row">
-                <li class="nav-item me-auto"><a class="navbar-brand" href="{{asset('starter-kit/ltr/vertical-menu-template/')}}"><span class="brand-logo">
+                <li class="nav-item me-auto">
+                    <a class="navbar-brand" href="{{route('admin.ShowDashboard')}}">
+                        <span class="brand-logo">
                             <svg viewbox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
                                 <defs>
                                     <lineargradient id="linearGradient-1" x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%">
@@ -124,9 +138,11 @@
                                         </g>
                                     </g>
                                 </g>
-                            </svg></span>
+                            </svg>
+                        </span>
                         <h2 class="brand-text">NHAPK</h2>
-                    </a></li>
+                    </a>
+                </li>
                 <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
             </ul>
         </div>

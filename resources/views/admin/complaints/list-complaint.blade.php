@@ -167,11 +167,11 @@ jq(document).ready(function() {
                     // Apply background color to the cell based on complaint priority
                     switch (data) {
                         case 'high':
-                            return '<span class="text-danger">High</span>';
+                            return '<span class="alert alert-danger text-danger">High</span>';
                         case 'normal':
-                            return '<span class="text-warning">Normal</span>';
+                            return '<span class="alert alert-warning text-warning">Normal</span>';
                         case 'low':
-                            return '<span class="text-success">Low</span>';
+                            return '<span class="alert alert-success text-success">Low</span>';
                         default:
                             return data;
                     }

@@ -257,8 +257,16 @@
                             if (response == 'success') {
                                 Swal.fire({
                                     title: "Success",
-                                    text: "Status updated successfully",
+                                    text: "Status updated successfully.",
                                     icon: "success",
+                                });
+                                dataTable.ajax.reload();
+                            }
+                            if (response == 'invalid') {
+                                Swal.fire({
+                                    title: "Invalid",
+                                    text: "You are accessing invalid data.",
+                                    icon: "error",
                                 });
                                 dataTable.ajax.reload();
                             }
@@ -281,7 +289,22 @@
             .on('click', '.edit-btn', function() {
                 var dataId = jq(this).data('id');
                 // Navigate to the editBlogView route
-                window.location.href = '/admin/editNewsfeeds/' + dataId;
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to edit the blog of: " + dataId + "?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Proceed with your action here
+                        window.location.href = '/admin/editNewsfeeds/' + dataId;
+                    } else {
+                        Swal.fire("Cancelled", "You pressed Cancel!", "info");
+                    }
+                });
             })
             .on('click', '.delete-btn', function() {
                 var dataId = jq(this).data('id');

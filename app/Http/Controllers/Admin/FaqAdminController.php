@@ -30,7 +30,7 @@ class FaqAdminController extends Controller
         
         $rules =[
             'question' =>'required|string|max:255|unique:nhapk_faqs,question',
-            'answer' => 'required|string|max:255',
+            'answer' => 'required|string|max:65535',
             'status' => 'required|in:active,inactive',
         ];
         // Generate the initial slug from the title
@@ -96,7 +96,7 @@ class FaqAdminController extends Controller
 
         // Check if the given $status is in the array of valid statuses
         if (!(in_array($status, $validStatuses))) {
-            return 'error';
+            return 'invalid';
         }
         $faqs = FAQ::find($faqsId);
         if(!$faqs){
@@ -127,7 +127,7 @@ class FaqAdminController extends Controller
         }
         $rules = [
             'question' => 'required|string|max:255',
-            'answer' => 'required|string|max:255',
+            'answer' => 'required|string|max:65535',
             'status' => 'required|in:active,inactive',
         ];
         
@@ -175,5 +175,18 @@ class FaqAdminController extends Controller
         return "success";
     }
     // End:Function to Delete Faq's
+
+    // Begin: Function to get the answer using id of faqs
+    public function get_answer($id){
+        $faqs = FAQ::find($id);
+        $data ="";
+        if(!$faqs){
+            $data = "Your are accessing the invalid data";
+            return $data;
+        }
+        $data = $faqs->answer;
+        return $data;
+    }
+    // End: Function to get the answer using id of faqs
 
 }

@@ -66,6 +66,7 @@
                                         <th>Status</th>
                                         <th>Date & Time</th>
                                         <th>Action</th>
+                                        <th>Show</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
@@ -81,6 +82,7 @@
                                         <th>Status</th>
                                         <th>Date & Time</th>
                                         <th>Action</th>
+                                        <th>Show</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
@@ -99,6 +101,27 @@
     </div>
     
     <!-- END: Content-->
+
+    <!-- Begin: Bootstrap Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">Contact Message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                <!-- Message content will be inserted here dynamically -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal" id="modal-closebutton">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End:   Bootstrap Modal -->
 
  
 
@@ -122,7 +145,14 @@
                 columns: [
                     { data: 'id' },
                     { data: 'question' },
-                    { data: 'answer' },
+                    { 
+                        data: 'answer',
+                        render: function(data, type, row) {
+                            // Show only the first 100 characters with an ellipsis at the end
+                            var truncatedDescription = data.length > 100 ? data.substring(0, 100) + '  __...' : data;
+                            return truncatedDescription;
+                        }
+                    },
                     { 
                         data: 'status',
                         render: function(data, type, row) {
@@ -153,7 +183,13 @@
                                 '</select>';
                         }
                     },
-                    // Edit button
+                    // Show button
+                    {
+                        data: null,
+                        render: function(data, type, row) {
+                            return '<button class="btn btn-success btn-sm show-btn" data-id="' + row.id + '">Show</button>';
+                        }
+                    },// Edit button
                     {
                         data: null,
                         render: function(data, type, row) {
@@ -243,6 +279,16 @@
                                     });
                                     dataTable.ajax.reload();
                                 }
+                                if (response == 'invalid') {
+                                    Swal.fire({
+                                        title: 'Invalid!',
+                                        text: 'You are accessing invalid data',
+                                        icon: 'info',
+                                        timer: 2000,
+                                        showConfirmButton: true
+                                    });
+                                    dataTable.ajax.reload();
+                                }
                             },
                             error: function(error) {
                                 console.log(error);
@@ -263,7 +309,41 @@
             .on('click', '.edit-btn', function() {
                 var dataId = jq(this).data('id');
                 // Navigate to the editBlogView route
-                window.location.href = '/admin/faqs/editfaqs/' + dataId;
+                // window.location.href = '/admin/faqs/editfaqs/' + dataId;
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to edit the FAQs of: " + dataId + "?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Proceed with your action here
+                        window.location.href = '/admin/faqs/editfaqs/' + dataId;
+                    } else {
+                        Swal.fire("Cancelled", "You pressed Cancel!", "info");
+                    }
+                });
+            })
+            .on('click', '.show-btn', function() {
+                var dataId = jq(this).data('id');
+
+                // Fetch the message by ID
+                jq.ajax({
+                    url: '/admin/faqs/list-faqs/get-answer/' + dataId, // Replace with your actual route
+                    method: 'GET',
+                    success: function(response) {
+                        // Show modal with the message
+                        jq('#messageModal').find('.modal-body').html('<p>' + response + '</p>');
+                        jq('#messageModal').modal('show');
+                    },
+                    error: function(error) {
+                        console.error('Error fetching contact message:', error);
+                    }
+                });
+                
             })
             .on('click', '.delete-btn', function() {
                 var dataId = jq(this).data('id');
@@ -288,6 +368,7 @@
                                         Swal.fire('Deleted!', 'Item deleted successfully', 'success');
                                         dataTable.ajax.reload();
                                     } else {
+                                        dataTable.ajax.reload();
                                         Swal.fire('Error!', 'Error deleting item', 'error');
                                     }
                                 },
@@ -295,11 +376,28 @@
                                 console.log(error);
                             }
                         });
+                    }else{
+                        dataTable.ajax.reload();
+                        Swal.fire("Cancelled", "You pressed Cancel!", "info");
                     }
                 });
             });
     });
     
+    </script>
+    <script>
+        jq(document).ready(function() {
+            // Close button ("x" button) click event
+            jq('#messageModal .close').click(function() {
+                jq('#messageModal').modal('hide');
+            });
+
+            // "Close" button click event
+            jq('#modal-closebutton').click(function() {
+                jq('#messageModal').modal('hide');
+            });
+            
+        });
     </script>
       
     @endsection
