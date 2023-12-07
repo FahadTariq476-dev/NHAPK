@@ -34,12 +34,9 @@
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
     <!-- END: Custom CSS-->
-<<<<<<< Updated upstream
     
     <!-- Include SweetAlert JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
-=======
->>>>>>> Stashed changes
 
     <!-- jQuery(necessary for all JavaScript plugins) -->
     {{-- <script src="{{asset('assets/js/jquery/jquery-3.5.1.min.js')}}"></script> --}}
