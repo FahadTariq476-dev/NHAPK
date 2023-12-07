@@ -156,6 +156,8 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth']], function () {
     Route::post('/admin/faqs/update',[FaqAdminController::class,'updateFullFaqs'])->name('admin.faqs.updateFullFaqs');
     // Route for admin to show the FAQ's listing page
     Route::get('/admin/list-faqs',[FaqAdminController::class, 'listFaqsView'])->name('admin.faqs.list-faqs');
+    // Route for the the admin to get answer of FAQ's using the id
+    Route::get('/admin/faqs/list-faqs/get-answer/{id}',[FaqAdminController::class,'get_answer'])->name('admin.faqs.get_answer');
     // Route for admin to delete the FAQ's from listing page
     Route::get('/admin/faqs/delete-faqs/{id}',[FaqAdminController::class,'delFaqs'])->name('admin.faqs.delFaqs');
     // End: Route for FAQ's

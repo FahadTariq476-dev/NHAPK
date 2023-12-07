@@ -32,11 +32,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
     
     <!-- jQuery(necessary for all JavaScript plugins) -->
-    <script src="{{asset('assets/js/jquery/jquery-3.5.1.min.js')}}"></script>
+    <script src="{{asset('front-end-asset/assets/js/jquery/jquery-3.5.1.min.js')}}"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{asset('front-end-asset/assets/js/bootstrap/bootstrap.min.js')}}">
-
 
 </head>
 
@@ -117,7 +116,7 @@
                             <a href="{{route('forntEnd.showAbout')}}" class="nav-link">About Us</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('ContactUsForm')}}" class="nav-link"><i class="fas fa-paper-plane contact-icon mr-md-2"></i>Contact Us</a>
+                            <a href="{{route('ContactUsForm')}}" class="nav-link">Contact Us</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#">More<i class="fas fa-angle-down ml-1"></i></a>
@@ -144,7 +143,7 @@
                     <!-- Navbar Icons -->
                     <ul class="navbar-nav icons">
                         <li class="nav-item social">
-                            <a href="https://www.facebook.com/natioanalhostelsassociation" class="nav-link"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.facebook.com/natioanalhostelsassociation" class="nav-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
                         </li>
                     </ul>
                     <!-- Navbar Toggler -->

@@ -23,7 +23,7 @@ class PostBlogsController extends Controller
         // Validate the form data
     $validatedData = $request->validate([
         'title' => 'required|max:255',
-        'shortDescription' => 'required|max:255',
+        'shortDescription' => 'required|max:65535',
         'editor' => 'required',
         'image' => 'required|image|mimes:jpeg,png,jpg,JPEG,JPG,PNG|max:2048', // Maximum 2MB for image
         'thumbnailImage' => 'required|mimes:jpeg,png,jpg,JPEG,JPG,PNG|image|max:2048',
@@ -108,7 +108,7 @@ class PostBlogsController extends Controller
 
         // Check if the given $status is in the array of valid statuses
         if (!(in_array($status, $validStatuses))) {
-            return 'error';
+            return 'invalid';
         }
         $blog = Blog::find($blogId);
         if(!$blog){
@@ -176,7 +176,7 @@ class PostBlogsController extends Controller
 
         $commonRules = [
             'title' => 'required|max:255',
-            'shortDescription' => 'required|max:255',
+            'shortDescription' => 'required|max:65535',
             'editor' => 'required',
             'status' => 'required|in:pending,published',
         ];

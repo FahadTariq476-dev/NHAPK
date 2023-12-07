@@ -7,8 +7,8 @@
                 <div class="row">
                     <div class="col-12">
                         <!-- Breamcrumb Content -->
-                        <div class="breadcrumb-content text-center">
-                            <h2 class="text-white text-uppercase mb-3">Blogs (News Feed)</h2>
+                        <div class="breadcrumb- text-center">
+                            <h2 class="text-white mb-3">Blogs (News Feed)</h2>
                             <ol class="breadcrumb d-flex justify-content-center">
                                 <li class="breadcrumb-item"><a class="text-white" href="/">Home</a></li>
                                 <li class="breadcrumb-item"><a class="text-white" href="#">More</a></li>
@@ -51,7 +51,8 @@
                 @endforeach
                 <!-- End loop -->
             </div>
-            <!-- Pagination Links -->
+
+            <!-- Begin: Pagination Links -->
             <div class="row justify-content-center mt-4">
                 <div class="col-12">
                     {{-- {{ $blogs->links() }} --}}
@@ -59,6 +60,8 @@
                     {{-- {{ $blogs->links('pagination::bootstrap-4') }} --}}
                 </div>
             </div>
+            <!-- End:   Pagination Links -->
+
         </div>
         {{-- End: View Blogs Area --}}
 
@@ -70,9 +73,9 @@
                     <div class="col-12 col-lg-10">
                         <!-- Section Heading -->
                         <div class="section-heading text-center m-0">
-                            <h2 class="text-white">Looking for the best digital agency &amp; marketing solution?</h2>
-                            <p class="text-white d-none d-sm-block mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati dignissimos quae quo ad iste ipsum officiis deleniti asperiores sit.</p>
-                            <p class="text-white d-block d-sm-none mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati.</p>
+                            <h1 class="text-white">Looking for the best hostel registration &amp; marketing solution?</h1>
+                            <p class="text-white d-block d-sm-block mt-4">We are National Hostel Association of Pakistan.</p>
+                            <p class="text-white d-block d-sm-block mt-4">A non-profit organization. The hostel owners community named as National Hostels Association of Pakistan</p>
                             <a href="{{route('ContactUsForm')}}" class="btn btn-bordered-white mt-4">Contact Us</a>
                         </div>
                     </div>

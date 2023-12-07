@@ -161,11 +161,11 @@
                         }
                     },
                     { 
-                data: null,
-                render: function(data, type, row) {
-                    return '<button class="btn btn-success btn-sm contact-btn" data-id="' + row.id + '">Show Message</button>';
-                }
-            },
+                        data: null,
+                        render: function(data, type, row) {
+                            return '<button class="btn btn-success btn-sm contact-btn" data-id="' + row.id + '">Show Message</button>';
+                        }
+                    },
                 ],
                 serverSide: true,
                 responsive: true,
@@ -209,7 +209,7 @@
                     method: 'GET',
                     success: function(response) {
                         // Show modal with the message
-                        jq('#messageModal').find('.modal-body').html('<p>' + response.message + '</p>');
+                        jq('#messageModal').find('.modal-body').html('<p>' + response + '</p>');
                         jq('#messageModal').modal('show');
                     },
                     error: function(error) {

@@ -17,13 +17,14 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-12 col-md-5">
+                    <div class="col-12 col-md-5">
                         <!-- Welcome Thumb -->
                         <div class="welcome-thumb-wrapper mt-5 mt-md-0">
                             <span class="welcome-thumb-1">
-                                <img class="welcome-animation d-block ml-auto" src="assets/img/welcome/thumb_1.png" alt="">
+                                {{-- <img class="welcome-animation d-block ml-auto" src="assets/img/welcome/thumb_1.png" alt=""> --}}
+                                <img class="welcome-animation d-block ml-auto" src="assets/img/welcome/h.jpg" alt="">
                             </span>
-                            <span class="welcome-thumb-2">
+                            {{-- <span class="welcome-thumb-2">
                                 <img class="welcome-animation d-block" src="assets/img/welcome/thumb_2.png" alt="">
                             </span>
                             <span class="welcome-thumb-3">
@@ -37,9 +38,9 @@
                             </span>
                             <span class="welcome-thumb-6">
                                 <img class="welcome-animation d-block" src="assets/img/welcome/thumb_6.png" alt="">
-                            </span>
+                            </span> --}}
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
             </div>
             <!-- Shape Bottom -->
@@ -675,10 +676,10 @@
                     <div class="col-12 col-lg-10">
                         <!-- Section Heading -->
                         <div class="section-heading text-center m-0">
-                            <h2 class="text-white">Looking for the best digital agency &amp; marketing solution?</h2>
-                            <p class="text-white d-none d-sm-block mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati dignissimos quae quo ad iste ipsum officiis deleniti asperiores sit.</p>
-                            <p class="text-white d-block d-sm-none mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati.</p>
-                            <a href="#" class="btn btn-bordered-white mt-4">Contact Us</a>
+                            <h1 class="text-white">Looking for the best hostel registration &amp; marketing solution?</h1>
+                            <p class="text-white d-block d-sm-block mt-4">We are National Hostel Association of Pakistan.</p>
+                            <p class="text-white d-block d-sm-block mt-4">A non-profit organization. The hostel owners community named as National Hostels Association of Pakistan</p>
+                            <a href="{{route('ContactUsForm')}}" class="btn btn-bordered-white mt-4">Contact Us</a>
                         </div>
                     </div>
                 </div>

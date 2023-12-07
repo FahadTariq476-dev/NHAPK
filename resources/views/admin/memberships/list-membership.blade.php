@@ -203,20 +203,43 @@
                 var dataId = jq(this).data('id');
                 // Navigate to the editBlogView route
                 // window.location.href = '/admin/editMembership/' + dataId;
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to edit the Membership of: " + dataId + "?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Proceed with your action here
+                        Swal.fire("Success", "Membership Updated", "success");
+                    } else {
+                        Swal.fire("Cancelled", "You pressed Cancel!", "info");
+                    }
+                });
             })
             .on('click', '.delete-btn', function() {
                 var dataId = jq(this).data('id');
 
                 // Show SweetAlert confirmation dialog
                 Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'You won\'t be able to revert this!',
-                    icon: 'warning',
+                    title: "Are you sure?",
+                    text: "You want to delte the membership of: " + dataId + "?",
+                    icon: "warning",
                     showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, delete it!'
-                })
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Proceed with your action here
+                        Swal.fire("Success", "Membership Deleted", "info");
+                    } else {
+                        Swal.fire("Cancelled", "You pressed Cancel!", "info");
+                    }
+                });
             });
     });
     

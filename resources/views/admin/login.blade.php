@@ -89,8 +89,7 @@
 
                                 <h4 class="card-title mb-1">Welcome to NHAPK 👋</h4>
                                 <p class="card-text mb-2">Please sign-in to your user account and start the adventure</p>
-
-                                <form class="auth-login-form mt-2" method="POST" action="{{route('admin.login.post')}}" onsubmit="return confirmSubmit()">
+                                <form class="auth-login-form mt-2" method="POST" action="{{route('admin.login.post')}}"  id="loginForm">
                                     @csrf
                                     @if (session('error'))
                                     <span class="text-danger" role="alert">
@@ -99,22 +98,28 @@
                                     @endif
                                     <div class="mb-1">
                                         <label for="login-email" class="form-label">Email</label>
-                                        <input type="text" class="form-control" id="username" name="username" placeholder="john@example.com" aria-describedby="login-email" tabindex="1" autofocus required />
+                                        <input type="text" class="form-control" id="username" name="username" placeholder="john@example.com" aria-describedby="login-email" tabindex="1" autofocus />
                                     </div>
+                                    @error('username')
+                                        <div class="alert alert-danger">{{$message}}</div>
+                                    @enderror
                                     
                                     <div class="mb-1">
                                         <div class="d-flex justify-content-between">
                                             <label class="form-label" for="login-password">Password</label>
                                         </div>
-                                        <div class="input-group input-group-merge form-password-toggle">
-                                            <input type="password" class="form-control form-control-merge" id="password" name="password" tabindex="2" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="login-password" required/>
+                                        <div class="input-group input-group-merge form-password-toggle" id="showpassworderror">
+                                            <input type="password" class="form-control form-control-merge" id="password" name="password" tabindex="2" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="login-password" />
                                             <div class="input-group-append">
-                                              <span class="input-group-text eye-icon" id="showPassword">
-                                                <i class="fas fa-eye"></i>
+                                              <span class="input-group-text eye-icon" id="showPassword" title="Show Password" style="cursor: pointer;">
+                                                Show Password
                                               </span>
                                             </div>
                                         </div>
                                     </div>
+                                    @error('password')
+                                        <div class="alert alert-danger">{{$message}}</div>
+                                    @enderror
                                     <button class="btn btn-primary w-100" tabindex="4">Sign in</button>
                                 </form>
                             </div>
@@ -128,32 +133,29 @@
     </div>
     <!-- END: Content-->
 
-    {{-- Start of Script to check the value of text box before submitting --}}
-    <script>
-      function confirmSubmit(){
-          function validateAndFoucs(element, errorMessage){
-              var value = element.value.trim();
-              if(value ===""){
-                  alert(errorMessage);
-                  element.focus();
-                  return false;
-              }
-              else{
-                  return true;
-              }
-          }
-          if(!validateAndFoucs(document.getElementById("username"), "User Name must be provided") ||
-          !validateAndFoucs(document.getElementById("password"), "Password must be provided")){
-              return false;
-          }
-      }
-    </script>
-    {{-- End of Script to check the value of text box before submitting --}}
-
 
     {{-- Start of the script to show passowrd on clicking eye button --}}
     <script>
       $(document).ready(function() {
+
+        // To Validate the form
+        $("#loginForm").submit(function(e){
+            // 
+            let username = $("#username").val();
+            if(username.trim()==='' || username === null || username.lenght == 0){
+                e.preventDefault();
+                $("#username").after('<div class="alert alert-danger">Username must be provided</div>');
+            }
+            
+            // To check the password
+            let password = $("#password").val();
+            if(password.trim()==='' || password === null || password.lenght == 0){
+                e.preventDefault();
+                $("#showpassworderror").after('<div class="alert alert-danger">Password must be provided</div>');
+            }
+
+        });
+
         // Toggle password visibility
         $("#showPassword").click(function() {
           var passwordInput = $("#password");
@@ -172,33 +174,7 @@
     {{-- End of the script to show passowrd on clicking eye button --}}
 
 
-    <!-- BEGIN: Vendor JS-->
-    {{-- <script src="{{ asset('app-assets/vendors/js/vendors.min.js') }}"></script>
-    <!-- BEGIN Vendor JS-->
-
-    <!-- BEGIN: Page Vendor JS-->
-    <script src="{{ asset('app-assets/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
-    <!-- END: Page Vendor JS-->
-
-    <!-- BEGIN: Theme JS-->
-    <script src="{{ asset('app-assets/js/core/app-menu.js') }}"></script>
-    <script src="{{ asset('app-assets/js/core/app.js') }}"></script>
-    <!-- END: Theme JS-->
-
-    <!-- BEGIN: Page JS-->
-    <script src="{{ asset('app-assets/js/scripts/pages/auth-login.js') }}"></script>
-    <!-- END: Page JS-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(window).on('load', function() {
-            if (feather) {
-                feather.replace({
-                    width: 14,
-                    height: 14
-                });
-            }
-        })
-    </script> --}}
+  
 </body>
 <!-- END: Body-->
 
