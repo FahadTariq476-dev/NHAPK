@@ -233,7 +233,7 @@
                                     </div>
                                 </li>
                             </ul>
-                            <a href="#" class="btn btn-bordered mt-4">Learn More</a>
+                            <a href="{{route('forntEnd.showAbout')}}" class="btn btn-bordered mt-4">Learn More</a>
                         </div>
                     </div>
                 </div>
@@ -242,7 +242,7 @@
         <!-- ***** Content Area End ***** -->
 
         <!-- ***** Service Area End ***** -->
-        <section id="service" class="section service-area bg-grey ptb_150">
+        {{-- <section id="service" class="section service-area bg-grey ptb_150">
             <!-- Shape Top -->
             <div class="shape shape-top">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none" fill="#FFFFFF">
@@ -327,7 +327,7 @@
         c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"></path>
                 </svg>
             </div>
-        </section>
+        </section> --}}
         <!-- ***** Service Area End ***** -->
 
 
@@ -484,7 +484,7 @@
         <!-- ***** Portfolio Area End ***** -->
 
         <!-- ***** Price Plan Area Start ***** -->
-        <section id="pricing" class="section price-plan-area bg-grey overflow-hidden ptb_100">
+        {{-- <section id="pricing" class="section price-plan-area bg-grey overflow-hidden ptb_100">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-10 col-lg-7">
@@ -561,10 +561,10 @@
                     </div>
                 </div>
                 <div class="row justify-content-center pt-5">
-                    <p class="pt-4 fw-5">Not sure what to choose? <a class="service-btn" href="#"><strong>Contact Us</strong></a></p>
+                    <p class="pt-4 fw-5">Not sure what to choose? <a class="service-btn" href="{{route('ContactUsForm')}}"><strong>Contact Us</strong></a></p>
                 </div>
             </div>
-        </section>
+        </section> --}}
         <!-- ***** Price Plan Area End ***** -->
 
         <!-- ***** Review Area Start ***** -->

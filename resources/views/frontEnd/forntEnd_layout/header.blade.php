@@ -106,7 +106,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="/">Home</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item"style="text-align:justify;">
                             <a href="{{route('membershipRegister')}}" class="nav-link">Membership Registration</a>
                         </li>
                         <li class="nav-item">

@@ -259,3 +259,6 @@ Route::get('/checkHostelId/{id}', [PropertyController::class, 'properties_IdChec
 // End: Routes For FrontEnd
 
 
+// Begin: Routes For FrontEnd
+////////user list
+Route::get('/list',[UserController::class,'index'])->name('admin.user');
