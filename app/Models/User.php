@@ -45,4 +45,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // Begin: Function to define the relationship of user with properties. User has one properties
+    public function properties()
+    {
+        return $this->hasOne(Properties::class, 'author_id');
+    }
+    // End: Function to define the relationship of user with properties. User has one properties
+
+    // Begin: Function to define the relationship of partner-user with properties
+    public function partnerProperties()
+    {
+        return $this->belongsToMany(Properties::class, 'properties_partner', 'author_id', 'properties_id');
+    }
+    // End: Function to define the relationship of partner-user with properties
+    
+    // Begin: Function to define the relationship of warden-user with properties
+    public function wardenProperties()
+    {
+        return $this->belongsToMany(Properties::class, 'properties_warden', 'author_id', 'properties_id');
+    }
+    // End: Function to define the relationship of warden-user with properties
 }
