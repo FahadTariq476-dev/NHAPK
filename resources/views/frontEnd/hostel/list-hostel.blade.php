@@ -278,16 +278,23 @@
     const apiKey = 'AIzaSyDrN1lnwhavrmfKr2HWruDFDdXJcIfAM1M&libraries';
     // Replace latitude and longitude with actual values from your PHP variables
     const latitude = <?php echo json_encode($properties->latitude); ?>;
-        const longitude = <?php echo json_encode($properties->longitude); ?>;
+    const longitude = <?php echo json_encode($properties->longitude); ?>;
 
-        function initMap() {
-            const map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: parseFloat(latitude), lng: parseFloat(longitude) },
-                zoom: 15
-            });
+    function initMap() {
+        const map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: parseFloat(latitude), lng: parseFloat(longitude) },
+            // center: { lat: parseFloat(31.4794637), lng: parseFloat(74.2960851) },
+            zoom: 15
+        });
 
-            // You can use the Places library features here
-        }
+        // Create a marker and set its position
+        const marker = new google.maps.Marker({
+            position: { lat: parseFloat(latitude), lng: parseFloat(longitude) },
+            map: map,
+            title: 'Hostel Location',
+            icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png' // You can customize the icon URL
+        });
+    }
 </script>
 
 <script async defer

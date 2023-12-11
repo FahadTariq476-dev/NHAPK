@@ -7,8 +7,6 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AboutController;
-use App\Http\Controllers\Admin\ComplaintAdminController;
-use App\Http\Controllers\Admin\CompliantTypeController;
 use App\Http\Controllers\StatesController;
 use App\Http\Controllers\NewsFeedController;
 use App\Http\Controllers\PropertyController;
@@ -25,9 +23,15 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PostBlogsController;
 use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\HostelRegistrationController;
+use App\Http\Controllers\Admin\CompliantTypeController;
+use App\Http\Controllers\Client\LogoutClientController;
+use App\Http\Controllers\Admin\ComplaintAdminController;
 use App\Http\Controllers\Admin\ContactUsAdminController;
 use App\Http\Controllers\Admin\NewsFeedsAdminController;
 use App\Http\Controllers\Admin\MembershipAdminController;
+use App\Http\Controllers\Client\DashboardClientController;
+use App\Http\Controllers\Client\MembershipClientController;
+use App\Http\Controllers\Frontend\Client\LoginClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,7 +74,7 @@ Route::middleware('guest')->group(function () {
     });
 });
 
-
+// Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => ['role:nhapk_admin', 'auth']], function () {
     // Admin Front Routes
@@ -291,3 +295,27 @@ Route::post('/hostels/hostel-details', [PropertyController::class,'findHostelByI
 // Begin: Routes For FrontEnd
 ////////user list
 Route::get('/list',[UserController::class,'index'])->name('admin.user');
+
+
+// Begin: Login Route for Client
+Route::middleware('guest')->group(function () {
+    Route::group(['prefix' => 'client'], function () {
+        // Route to show the client login page
+        Route::get('/login', [LoginClientController::class, 'index'])->name('front-end.client.login');
+        // Route to login the page
+        Route::post('/login', [LoginClientController::class, 'login_credentials'])->name('front-end.client.login_credentials');
+    });
+});
+// End: Login Route for Client
+
+Route::group(['middleware' => ['role:nhapk_client', 'auth']], function () {
+    // Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.ShowDashboard');
+    // Route::get('/admin/dashboard',[DashboardController::class,'showAdminDashboard'])->name('admin.ShowDashboard');
+
+    Route::get('/client/dashboard',[DashboardClientController::class,'index'])->name('client.dashboard.index');
+    
+    // Route for client to logout
+    Route::get('client/logout',[LogoutClientController::class,'logout'])->name('client.logout');
+
+    Route::get('clinet/membership/index',[MembershipClientController::class,'index'])->name('client.membership.index');
+});

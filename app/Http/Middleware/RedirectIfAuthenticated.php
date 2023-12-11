@@ -25,7 +25,7 @@ class RedirectIfAuthenticated
                 if ($user->hasRole('nhapk_admin')) {
                     return redirect('admin/dashboard');
                 } elseif ($user->hasRole('nhapk_client')) {
-                    return redirect('/');
+                    return redirect('client/dashboard');
                 } else {
                     return redirect('/');
                 }
