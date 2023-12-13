@@ -9,7 +9,14 @@
         <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
         <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
         <meta name="author" content="PIXINVENT">
-        <title>@yield('title', 'Your Website Title')</title>
+        <title>
+            @hasSection('title')
+                @yield('title') | Client Dashboard | NHA Pakistan | National Hostel Association of Pakistan
+            @else
+                Client Dashboard | NHA Pakistan | National Hostel Association of Pakistan
+            @endif
+        </title>
+    
         <link rel="apple-touch-icon" href="{{asset('app-assets/images/ico/apple-icon-120.png')}}">
         <link rel="shortcut icon" type="image/x-icon" href="{{asset('app-assets/images/ico/favicon.ico')}}">
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
@@ -35,11 +42,16 @@
         <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
         <!-- END: Custom CSS-->
 
+        {{-- Begin: SweetAlert Files --}}
         <!-- Include SweetAlert CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
-
+        <link rel="stylesheet" href="{{ asset('sweetalert2/sweetalert2.min.css') }}">
         <!-- Include SweetAlert JS -->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
+        <script src="{{ asset('sweetalert2/sweetalert2.all.min.js') }}"></script>
+        {{-- End: SweetAlert Files --}}
+
+        <!-- jQuery -->
+        <!-- jQuery(necessary for all JavaScript plugins) -->
+        <script src="{{asset('front-end-asset/assets/js/jquery/jquery-3.5.1.min.js')}}"></script>
 
         <!-- Additional CSS Section -->
         @yield('css')
@@ -52,6 +64,10 @@
     <body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
 
         @include('client.layouts.header')
+        
+        {{-- Begin: To Show sett alert with respect to message --}}
+        @include('client.layouts.compulsory-sweetalert')
+        {{-- End: To Show sett alert with respect to message --}}
 
         @include('client.layouts.main')
 

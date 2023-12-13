@@ -28,10 +28,20 @@ class LoginController extends Controller
         $credentials = ['email' => $email, 'password' => $password];
         // Attempt to authenticate the user
         if (Auth::attempt($credentials)) {
-            // return view('admin.dashboard');
-            return redirect()->route('admin.ShowDashboard')->with('success',"Logged in");
-            // return redirect()->route('admin.ShowDashboard')->with('success',"Logged in");
-            // return "Login Successfull";
+            // dd("Yess");
+            /// Check the user's role after successful login
+            $user = Auth::user();
+            $userRoles = Auth::user()->getRoleNames();
+            // && ($user->nhapk_register) == 1
+            if ($userRoles->contains('nhapk_admin') && ($user->nhapk_register) == 1) {
+                // Redirect to the desired route for nhapk_admin role
+                return redirect()->route('admin.ShowDashboard')->with('success',"Successfully Logged in Now!");
+            } 
+            
+            else {
+                Auth::logout();
+                return redirect()->route('admin.login.showForm')->with('error', 'Invalid Credentials');
+            }
         } else {
             return redirect()->route('admin.login.showForm')->with('error', 'Invalid Credentials');
         }

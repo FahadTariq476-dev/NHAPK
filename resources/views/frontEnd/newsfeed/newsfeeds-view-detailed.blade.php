@@ -1,4 +1,5 @@
 @extends('frontEnd.forntEnd_layout.main')
+@section('title','News Feeds Details')
 @section('main-container')
 
 

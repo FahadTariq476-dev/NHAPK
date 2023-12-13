@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\NewsFeedsAdminController;
 use App\Http\Controllers\Admin\MembershipAdminController;
 use App\Http\Controllers\Client\DashboardClientController;
 use App\Http\Controllers\Client\MembershipClientController;
+use App\Http\Controllers\Client\sops\SopsClientController;
 use App\Http\Controllers\Frontend\Client\LoginClientController;
 
 /*
@@ -308,6 +309,7 @@ Route::middleware('guest')->group(function () {
 });
 // End: Login Route for Client
 
+// Begin: Route for Client
 Route::group(['middleware' => ['role:nhapk_client', 'auth']], function () {
     // Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.ShowDashboard');
     // Route::get('/admin/dashboard',[DashboardController::class,'showAdminDashboard'])->name('admin.ShowDashboard');
@@ -317,5 +319,14 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth']], function () {
     // Route for client to logout
     Route::get('client/logout',[LogoutClientController::class,'logout'])->name('client.logout');
 
-    Route::get('clinet/membership/index',[MembershipClientController::class,'index'])->name('client.membership.index');
+    Route::get('client/membership/index',[MembershipClientController::class,'index'])->name('client.membership.index');
+
+    // Begin: SOPS
+        // Route for client to list and download the sops
+        Route::get('/client/sops/list',[SopsClientController::class,'list_sops'])->name('client.sops.list_sops');
+        // Route for the the client to get description of sops using the id
+        Route::get('/client/sops/list/get-description/{id}',[SopAdminController::class,'get_description'])->name('client.sops.get_description');
+    // End: SOPS
+
 });
+// End: Route for Client

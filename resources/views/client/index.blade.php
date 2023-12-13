@@ -6,28 +6,6 @@
 
 @section('content')
 
-    {{-- Begin: To Show sett alert with respect to message --}}
-    @if (session('success'))
-        <script>
-            Swal.fire({ title: 'Success!',  text: "{{ session('success') }}",   icon: 'success' });
-        </script>
-    @endif
-    @if (session('error'))
-        <script>
-            Swal.fire({ title: 'Error!',  text: "{{ session('error') }}",   icon: 'error' });
-        </script>
-    @endif
-    @if (session('info'))
-        <script>
-            Swal.fire({ title: 'Info!',  text: "{{ session('info') }}",   icon: 'info' });
-        </script>
-    @endif 
-    @if (session('warning'))
-        <script>
-            Swal.fire({ title: 'Warning!',  text: "{{ session('warning') }}",   icon: 'warning' });
-        </script>
-    @endif
-    {{-- End: To Show sett alert with respect to message --}}
 
     <!-- BEGIN: Content-->
     <div class="app-content content ">

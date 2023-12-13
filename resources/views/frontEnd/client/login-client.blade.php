@@ -9,7 +9,7 @@
     <meta name="description" content="HIMRS user is super flexible, powerful, clean with unlimited possibilities.">
     <meta name="keywords" content="user template HIMRS">
     <meta name="author" content="HIMRS">
-    <title>Admin Login</title>
+    <title>Cleint Login</title>
     <!-- Favicon  -->
     <link rel="icon" href="/assets/img/NHAPK.JPEG">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">

@@ -1,4 +1,5 @@
 @extends('frontEnd.forntEnd_layout.main')
+@section('title','Contact Us')
 @section('main-container')
 
         <!-- ***** Breadcrumb Area Start ***** -->

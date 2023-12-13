@@ -1,4 +1,5 @@
 @extends('frontEnd.forntEnd_layout.main')
+@section('title','Membership Registration')
 @section('main-container')
 
         <!-- ***** Breadcrumb Area Start ***** -->
@@ -250,7 +251,7 @@
 @endsection
 @section('frontEnd-js')
     <!-- Include jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script> --}}
 
 
     {{-- Start of Script to Get States Using Country Id --}}
