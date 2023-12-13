@@ -132,12 +132,13 @@
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link" href="{{route('frontEnd.faqs')}}">FAQ's</a>
+                                    <a class="nav-link" href="{{route('client.logout')}}">Log Out</a>
                                 </li>
                             </ul>
                         </li>
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link">Login</a>
+                            <a href="{{route('front-end.client.login')}}" class="nav-link">Login</a>
                         </li>
                     </ul>
                     <!-- Navbar Icons -->
