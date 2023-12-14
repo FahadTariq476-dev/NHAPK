@@ -98,6 +98,9 @@
                             <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Memebership</span></a>
                             <ul class="menu-content">
                                 <li>
+                                    <a class="d-flex align-items-center" href="{{ route('client.membership.show_refferal') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Refferal Link</span></a>
+                                </li>
+                                <li>
                                     <a class="d-flex align-items-center" href="{{ route('client.membership.index') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Post</span></a>
                                 </li>
                                 <li>

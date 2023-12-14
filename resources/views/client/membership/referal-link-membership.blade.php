@@ -1,13 +1,9 @@
 @extends('client.layouts.master')
-@section('title','Your title here')
+@section('title','Membership - Refferal Link')
 
 {{-- Begin: Addiitonal CSS Section starts Here --}}
 @section('css')
     {{--  --}}
-    <!-- Begin: DataTables CSS and JS -->
-    @include('client.layouts.dataTables-links')
-    <!-- End: DataTables CSS and JS -->
-
 @endsection
 {{-- End: Addiitonal CSS Section starts Here --}}
 
@@ -24,7 +20,7 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Membership Menu</h2>
+                            <h2 class="content-header-title float-start mb-0">Referal Link</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
@@ -37,7 +33,7 @@
                                         <a href="#">Membership</a>
                                     </li>
                                     <li class="breadcrumb-item active">
-                                        View Membership
+                                        Referal Link for Membership
                                     </li>
                                 </ol>
                             </div>
@@ -57,26 +53,14 @@
                 <!-- Begin: Kick start -->
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Kick start your next project 🚀</h4>
+                        <h4 class="card-title">Referal Link for Membership is:</h4>
                     </div>
                     <div class="card-body">
                         <div class="card-text">
-                            <p class="text text-justify">
-                                Getting start with your project custom requirements using a ready template which is quite difficult and time
-                                taking process, Vuexy Admin provides useful features to kick start your project development with no efforts !
-                                Getting start with your project custom requirements using a ready template which is quite difficult and time
-                                taking process, Vuexy Admin provides useful features to kick start your project development with no efforts !
-                            </p>
-                            <ul>
-                                <li class="text text-justify">
-                                    Vuexy Admin provides you getting start pages with different layouts, use the layout as per your custom
-                                    requirements and just change the branding, menu &amp; content.
-                                </li>
-                                <li class="text text-justify">
-                                    Every components in Vuexy Admin are decoupled, it means use use only components you actually need! Remove
-                                    unnecessary and extra code easily just by excluding the path to specific SCSS, JS file.
-                                </li>
-                            </ul>
+                           {{-- Referal Link Here --}}
+                            <p id="referralLink">{{ $referralLink }}</p>
+                            <button class="btn btn-primary" onclick="copyToClipboard()">Copy Link</button>
+                 
                         </div>
                     </div>
                 </div>
@@ -103,6 +87,25 @@
 {{-- Begin: Script Section Starts Here --}}
 @section('scripts')
     {{--  --}}
+    <script>
+        function copyToClipboard() {
+            // Get the referral link text
+            var referralLinkText = document.getElementById('referralLink').innerText;
+
+            // Create a temporary input element
+            var tempInput = document.createElement('input');
+            tempInput.value = referralLinkText;
+            document.body.appendChild(tempInput);
+
+            // Select and copy the text
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            // Optionally, provide feedback to the user (e.g., show a tooltip)
+            Swal.fire('Link copied to clipboard!');
+        }
+    </script>
 @endsection
 {{-- End: Script Section Starts Here --}}
 

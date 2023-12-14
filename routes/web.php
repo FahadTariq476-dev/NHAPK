@@ -30,7 +30,7 @@ use App\Http\Controllers\Admin\ContactUsAdminController;
 use App\Http\Controllers\Admin\NewsFeedsAdminController;
 use App\Http\Controllers\Admin\MembershipAdminController;
 use App\Http\Controllers\Client\DashboardClientController;
-use App\Http\Controllers\Client\MembershipClientController;
+use App\Http\Controllers\Client\membership\MembershipClientController;
 use App\Http\Controllers\Client\sops\SopsClientController;
 use App\Http\Controllers\Frontend\Client\LoginClientController;
 
@@ -263,6 +263,10 @@ Route::get('/faqs',[FaqController::class,'index'])->name('frontEnd.faqs');
 // Begin: Route for Membership
 // Route for the frontEnd to show the membership registration form.
 Route::get('/membership/registration', [MembershipController::class, 'show'])->name('membershipRegister');
+// Route for the frontEnd to show the membership registration form having encrypted atuhor_id in the token
+Route::get('/membership/registration/referral/{token}', [MembershipController::class, 'show_membership_referal'])->name('membership.registration.refferal');
+// Route for the frontEnd to store the membership registration form data from the post-memebrship-refferal.blade.ph
+Route::post('//membership/registration/referral', [MembershipController::class, 'store_memebership_refferal'])->name('frontEnd.memebrship.registration.refferal.store');
 // Route for the frontEnd to store the membership registration form data
 Route::post('/addMembership', [MembershipController::class, 'addMembership'])->name('frontEnd.memebrship.store');
 // Route to check the CNIC in Membership table
@@ -319,7 +323,11 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth']], function () {
     // Route for client to logout
     Route::get('client/logout',[LogoutClientController::class,'logout'])->name('client.logout');
 
-    Route::get('client/membership/index',[MembershipClientController::class,'index'])->name('client.membership.index');
+    // Begin: Membership
+        Route::get('client/membership/index',[MembershipClientController::class,'index'])->name('client.membership.index');
+        // Route for client to show referal link of membership
+        Route::get('/client/memebership/referal',[MembershipClientController::class,'show_refferal'])->name('client.membership.show_refferal');
+    // End: Membership
 
     // Begin: SOPS
         // Route for client to list and download the sops
@@ -330,3 +338,4 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth']], function () {
 
 });
 // End: Route for Client
+
