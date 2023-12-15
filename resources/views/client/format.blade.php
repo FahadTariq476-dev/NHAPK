@@ -4,34 +4,16 @@
 {{-- Begin: Addiitonal CSS Section starts Here --}}
 @section('css')
     {{--  --}}
+    <!-- Begin: DataTables CSS and JS -->
+    @include('client.layouts.dataTables-links')
+    <!-- End: DataTables CSS and JS -->
+
 @endsection
 {{-- End: Addiitonal CSS Section starts Here --}}
 
 {{-- Begin: Main-Content Section  --}}
 @section('content')
 
-    {{-- Begin: To Show sett alert with respect to message --}}
-    @if (session('success'))
-        <script>
-            Swal.fire({ title: 'Success!',  text: "{{ session('success') }}",   icon: 'success' });
-        </script>
-    @endif
-    @if (session('error'))
-        <script>
-            Swal.fire({ title: 'Error!',  text: "{{ session('error') }}",   icon: 'error' });
-        </script>
-    @endif
-    @if (session('info'))
-        <script>
-            Swal.fire({ title: 'Info!',  text: "{{ session('info') }}",   icon: 'info' });
-        </script>
-    @endif 
-    @if (session('warning'))
-        <script>
-            Swal.fire({ title: 'Warning!',  text: "{{ session('warning') }}",   icon: 'warning' });
-        </script>
-    @endif
-    {{-- End: To Show sett alert with respect to message --}}
 
     <!-- BEGIN: Content-->
     <div class="app-content content ">

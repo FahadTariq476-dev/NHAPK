@@ -1,5 +1,5 @@
 @extends('frontEnd.forntEnd_layout.main')
-@section('title','Membership Registration')
+@section('title','Membership Registration - Refferal')
 @section('main-container')
 
         <!-- ***** Breadcrumb Area Start ***** -->
@@ -158,9 +158,9 @@
                             </div>
         
                             <!-- Referral CNIC -->
-                            <div class="form-group">
+                            <div class="form-group" style="display: none">
                                 <label for="referralCNIC">Referral CNIC:</label>
-                                <input type="text" class="form-control" id="referal_cnic" name="referal_cnic" value="{{old('referal_cnic')}}" placeholder="Enter referral cnic here:">
+                                <input type="hidden" class="form-control" id="referal_cnic" name="referal_cnic" value="{{$refferal_cnic}}" readonly>
                             </div>
                             @error('referal_cnic')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -250,8 +250,6 @@
 
 @endsection
 @section('frontEnd-js')
-    <!-- Include jQuery -->
-    {{-- <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script> --}}
 
 
     {{-- Start of Script to Get States Using Country Id --}}
@@ -479,10 +477,10 @@
     </script>
     {{-- End of the script to check that id card on selecting the gender --}}
 
-    <!-- script for CNIC and referal_cnic formatting -->
+    <!-- script for CNIC formatting -->
 <script>
     $(document).ready(function() {
-        // Function to format CNIC and referal_cnic dynamically
+        // Function to format CNIC dynamically
         function formatField(field) {
             var value = field.val().replace(/[^0-9]/g, ''); // Remove non-numeric characters
             var formattedValue = formatCnic(value);
@@ -505,14 +503,9 @@
             formatField($(this));
         });
 
-        // Format referal_cnic on input
-        $('#referal_cnic').on('input', function() {
-            formatField($(this));
-        });
-
         // Set maximum and minimum values for both fields
-        $('#cnic, #referal_cnic').attr('maxlength', '15');
-        $('#cnic, #referal_cnic').attr('minlength', '15');
+        $('#cnic').attr('maxlength', '15');
+        $('#cnic').attr('minlength', '15');
     });
 </script>
 

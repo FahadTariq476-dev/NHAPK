@@ -1,4 +1,5 @@
 @extends('frontEnd.forntEnd_layout.main')
+@section('title','News Feeds')
 @section('main-container')
 
         <!-- ***** Breadcrumb Area Start ***** -->

@@ -1,4 +1,5 @@
 @extends('frontEnd.forntEnd_layout.main')
+@section('title','Home')
 @section('main-container')
 
             @if(session('success'))

@@ -98,6 +98,9 @@
                             <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Memebership</span></a>
                             <ul class="menu-content">
                                 <li>
+                                    <a class="d-flex align-items-center" href="{{ route('client.membership.show_refferal') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Refferal Link</span></a>
+                                </li>
+                                <li>
                                     <a class="d-flex align-items-center" href="{{ route('client.membership.index') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Post</span></a>
                                 </li>
                                 <li>
@@ -149,19 +152,19 @@
                         </li>
                         {{-- Begin: Menu C  --}}
 
-                        {{-- Begin: Menu D  --}}
+                        {{-- Begin: SOP Menu  --}}
                         <li class="nav-item">
-                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Menu D</span></a>
+                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">SOP's</span></a>
                             <ul class="menu-content">
                                 <li>
                                     <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Post</span></a>
                                 </li>
                                 <li>
-                                    <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Layout">List</span></a>
+                                    <a class="d-flex align-items-center" href="{{route('client.sops.list_sops')}}"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Layout">List SOP's</span></a>
                                 </li>
                             </ul>
                         </li>
-                        {{-- Begin: Menu D  --}}
+                        {{-- Begin: SOP Menu  --}}
                     </ul>
                     
                 </li>

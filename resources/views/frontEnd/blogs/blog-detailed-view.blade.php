@@ -1,4 +1,5 @@
 @extends('frontEnd.forntEnd_layout.main')
+@section('title','Blogs Detail')
 @section('main-container')
 
 
