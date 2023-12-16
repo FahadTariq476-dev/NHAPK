@@ -125,4 +125,59 @@
                 </div>
             </nav>
         </header>
-        <!-- ***** Header End ***** -->
+        <!-- ***** Header End ***** --> 
+        <script>
+            $(document).ready(function () {
+                // Handle the first modal
+                $('.btnn').click(function () {
+                    $('#exampleModalToggle').modal('hide');
+                });
+                $('#exampleModalToggle').on('hidden.bs.modal', function () {
+                    $('#exampleModalToggle1').modal('show');
+                });
+                // Handle the second modal
+                $('.btnn1').click(function () {
+                    $('#exampleModalToggle1').modal('hide');
+                    
+             
+                });
+                $('#exampleModalToggle1').on('hidden.bs.modal', function () {
+                    $('#exampleModalToggle2').modal('show');
+                });
+        
+                // Handle the third modal
+                $('.btnn2').click(function () {
+                    $('#exampleModalToggle2').modal('hide');
+                   
+                });
+                $('#exampleModalToggle2').on('hidden.bs.modal', function () {
+                    $('#exampleModalToggle3').modal('show');
+                });
+        
+                
+                // $(".close, .modal").click(function(){
+                //  $("#exampleModalToggle").css("display","none");
+                // });
+                $(".close").click(function () {
+                    // alert('yes');
+            $('#exampleModalToggle').modal('hide');
+        });
+        // $("#exampleModalToggle .close").click(function () {
+        //     $('#exampleModalToggle').css('border','red');
+        // });
+                // Add more code if you have additional modals to handle
+            });
+//             document.querySelector('.close').addEventListener('click', () => {
+//   document.querySelector('dialog').close();
+
+// });
+// function closeModal() {
+//     // Find the modal by its ID and close it
+//     var modal = document.getElementById('yourModalId'); // Replace 'yourModalId' with the actual ID of your modal
+//     modal.style.display = 'none';
+//   }
+            });
+        </script>
+
+          
+        

@@ -1190,7 +1190,9 @@ header {
     font-weight: 600;
     color: #2c2e30;
 }
-
+.modal-backdrop{
+    z-index: 0;
+}
 .modal-open {
     overflow-x: hidden;
     overflow-y: hidden;
@@ -1373,7 +1375,18 @@ header {
 .welcome-area.bg-overlay::after {
     z-index: -2;
 }
+ .close{
+ color:#8e00fc;
+ border: none;
+ background-color: transparent;
+ font-size: 2em;
+ }
+ .close:hover {
+    color:rgb(144, 26, 218) solid 1px;
+     
+ }
 
+    
 .welcome-area .welcome-shape {
     position: absolute;
     top: auto;
