@@ -172,46 +172,7 @@
                 // Return true if the phone number is valid, otherwise return false
                 return phoneNumber.length === 10 && /^\d+$/.test(phoneNumber);
             }
-        
-        //     // Password Submit
-        //     $('#btn-password').on('click', function() {
-        //     var password = $("#passwordModal").val();
-        //     var phone_number = $("#phoneNumModal").val();
-        //     var isValidPasswordLength = isPasswordValid(passwordModal);
-        //     if (isValidPasswordLength) {
-        //         alert('success');
-        //         $('#phoneNumModal').modal('hide');
-                        
-        //     } else {
-        //         alert('Password must be 8 characters');
-        //         toastr.error('Password must be 8 characters');
-        //     }
-        // });
-        // $('#btn-password').on('click', function() {
-        //     var password = $("#password").val();
-        //     var phone_number = $("#phone_number").val();
-        //     var isValidPasswordLength = isPasswordValid(password);
-        //     if (isValidPasswordLength) {
-        //        $('#phoneNumModal').modal('hide');
-               
-        //     } else {
-        //         toastr.error('Password must be 8 characters');
-        //     }
-        // });
-        // $('#btn-password').on('click', function() {
-        //     var password = $("#passwordModal").val(); // Corrected the selector
-        //     var phone_number = $("#phoneNumModal").val(); // Corrected the selector
-        //     var isValidPasswordLength = isPasswordValid(passwordModal);
-
-        //     if (isValidPasswordLength) {
-        //         // If password is valid, hide the current modal and show the next modal or display success message
-        //         $('#passwordModal').modal('hide');
-        //         // You may want to show the next modal or display a success message here
-        //         alert('Success! Your data has been submitted.');
-        //     } else {
-        //         alert('Password must be 8 characters');
-        //     }
-        // });
+       
         $('#btn-password').click(function() {
     // Get the value of the password input
     var password = $("#password").val();
