@@ -134,7 +134,7 @@ class LoginClientController extends Controller
 
                 // Assign role only if the user is successfully saved
                 if ($results) {
-                    $user->assignRole("user");
+                    $user->assignRole("nhapk_client");
                     return redirect()->route('Home')->with('success', 'User created successfully');
                 } else {
                     return redirect()->route('Home')->with('error', 'Due to some error. User not saved. Kindly try again');
