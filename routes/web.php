@@ -282,8 +282,10 @@ Route::get('/saveHostelForm', [HostelRegistrationController::class, 'saveHostel'
 Route::post('hostelRegistration/save', [HostelRegistrationController::class, 'hostelRegister'])->name('hostelRegistration.save');
 // Route to check the Hostel Owner CNIC fron the properties table
 Route::get('hostelRegistration/hostelOwnerCniccheck/{hostelOwnerCnic}', [HostelRegistrationController::class, 'hostelOwnerCniccheck'])->name('hostelRegistration.OwnerCnicCheck');
-// Route to  check the Hostel partner CNIC fron the properties table
+// Route to  check the Hostel partner CNIC from the properties_partner table
 Route::get('hostelRegistration/hostelPartnerCniccheck/{hostelPartnerCnic}', [HostelRegistrationController::class, 'hostelPartnerCniccheck'])->name('hostelRegistration.PartnerCnicCheck');
+// Route to  check the Hostel warden CNIC from the properties_wardenr table
+Route::get('hostelRegistration/hostelWardenCniccheck/{hostelWardenCnic}', [HostelRegistrationController::class, 'hostelWaardenCnicCheck'])->name('hostelRegistration.WardenCnicCheck');
 // Route to check the hostel name is unique or not
 Route::get('hostelRegistration/hostelName/{hostelName}', [HostelRegistrationController::class, 'hostelNameCheck'])->name('hostelRegistration.HostelNameCheck');
 // Route to check the Hostel Id from the properties table
@@ -293,6 +295,9 @@ Route::get('/get-hostel-suggestions', [PropertyController::class, 'getHostelSugg
 // Route for the frontEnd to take HostelRegNo form the banner of homepage
 Route::post('/hostels/hostel-details', [PropertyController::class,'findHostelById'])->name('frontEnd.hostels.findHostelById');
 // End: Route for Register Hostel
+
+// Route to check that mobile number is exist or not
+Route::get('/check-phone_number/{phone_number}',[LoginClientController::class,'checkPhoneNumber'])->name('checkPhoneNumber');
 
 // End: Routes For FrontEnd
 
@@ -309,6 +314,8 @@ Route::middleware('guest')->group(function () {
         Route::get('/login', [LoginClientController::class, 'index'])->name('front-end.client.login');
         // Route to login the page
         Route::post('/login', [LoginClientController::class, 'login_credentials'])->name('front-end.client.login_credentials');
+        // Route to store new use
+        Route::post('/login/store',[LoginClientController::class,'storeNewUser'])->name('front-end.storeNewUser');
     });
 });
 // End: Login Route for Client

@@ -1,8 +1,7 @@
 <button class="btn btnn" data-toggle="modal" data-target="#phoneNumModal">login</button>
 
-<!-- BEGIN FIRST MODAL -->
-<div class="modal fade" id="phoneNumModal" tabindex="-1" role="dialog" aria-labelledby="phoneNumModalLabel"
-    aria-hidden="true" style="height: auto;">
+<!-- BEGIN FIRST MODAL phoneNumModal -->
+<div class="modal fade" id="phoneNumModal" tabindex="-1" role="dialog" aria-labelledby="phoneNumModalLabel" aria-hidden="true" style="height: auto;">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-top: 3px solid #7367f0;">
             <div class="modal-header" style="border: none;">
@@ -10,36 +9,36 @@
                 <button type="button" class="close" id="closeEnterNumber" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                {{-- <button type="button" class="btn btn-danger" data-dismiss="fmodal">
-<i class="fas fa-times"></i> Close
-</button> --}}
             </div>
             <form class="row g-3 d-flex justify-content-center">
-                <div class="col-8">
+                <div class="col-8 mb-2">
                     <label for="phone" class="form-label">
-                        <h5 style="color: #7367f0; font-family: inherit;">Enter Your Phone
-                            Number</h5>
+                        <h5 style="color: #7367f0; font-family: inherit;">Enter Your Phone Number</h5>
                     </label>
                     <div class="input-group w-100" style="border-top: none;">
-                        <span class="input-group-text bg-light" id="phone"
-                            style="height: 55px !important;">+92</span>
-                        <input id="phone_number" type="phone" class="form-control"
-                            aria-describedby="inputGroupPrepend2"
-                            style="border: none !important; border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;"
-                            placeholder="3068142339" required>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">+923</span>
+                            </div>
+                            <input type="tel" class="form-control" id="phone_number" name="phone_number" maxlength="9" minlength="9" value="{{old('phone_number')}}" placeholder="Enter Your Mobile Number Here:" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 mb-2">
+                    <div class="modal-footer" style="border: none;">
+                        <button class="btn" type="submit" id="btn-phoneNum" data-toggle="modal">Login</button>
+                        {{-- <button class="btn" type="submit" id="btn-phoneNum" data-toggle="modal" data-target="#passwordModal">Login</button> --}}
                     </div>
                 </div>
             </form>
-            <div class="modal-footer" style="border: none;">
-                <button class="btn " id="btn-phoneNum" data-toggle="modal" data-target="#passwordModal">Login</button>
-            </div>
         </div>
     </div>
 </div>
-<!-- BEGIN FIRST MODAL-->
-<!-- BEGIN SECOND MODAL-->
-<div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel"
-    aria-hidden="true" style="height: auto;">
+
+<!-- End FIRST MODAL phoneNumModal-->
+
+<!-- BEGIN SECOND MODAL passwordModal-->
+<div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true" style="height: auto;">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-top: 3px solid #7367f0;">
             <div class="modal-header" style="border: none;">
@@ -48,27 +47,30 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="row g-3 d-flex justify-content-center">
-                <div class="col-8">
+            <form class="row g-3 d-flex justify-content-center" action="{{route('front-end.client.login_credentials')}}" method="POST">
+                <div class="col-8 mb-2">
                     <label for="password" class="form-label">
-                        <h5 style="color: #7367f0; font-family: inherit;">Enter Your
-                            Password</h5>
+                        <h5 style="color: #7367f0; font-family: inherit;">Enter Your Password</h5>
                     </label>
+                    @csrf
                     <div style="border-top: none;">
-                        <input value="" id="password" type="password" class="form-control" name="password"
-                            style="border: none !important; border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;"
+                        <input type="hidden" class="form-control" id="phone_number_login" name="phone_number_login" maxlength="9" minlength="9" placeholder="Enter Your Mobile Number Here:" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);">
+                        <input value="" id="loginPassword" type="password" class="form-control" name="password" style="border: none !important; border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;"
                             placeholder="*******" required>
                     </div>
                 </div>
+                <div class="col-8 mb-2">
+                    <div class="modal-footer" style="border-top: none;">
+                        <button class="btn " type="submit" id="btn-password" data-toggle="modal" data-target="#">Submit</button>
+                    </div>
+                </div>
             </form>
-            <div class="modal-footer" style="border-top: none;">
-                <button class="btn " id="btn-password" data-toggle="modal" data-target="#">Submit</button>
-            </div>
         </div>
     </div>
 </div>
-<!-- BEGIN SECOND MODAL-->
-<!-- BEGIN THIRD MODAL-->
+<!-- End SECOND MODAL passwordModal-->
+
+<!-- Begin OTP Modal-->
 <div class="modal fade" id="OtpModal" tabindex="-1" role="dialog" aria-labelledby="OtpModalLabel" aria-hidden="true"
     style="height: auto;">
     <div class="modal-dialog modal-dialog-centered">
@@ -80,31 +82,35 @@
                 </button>
             </div>
             <form class="row g-3 d-flex justify-content-center">
-                <div class="col-8">
+                <div class="col-8 mb-2">
                     <label for="otp" class="form-label text-dark">
-                        <h5 style="color: #7367f0; font-family: inherit;">Enter OTP code
-                        </h5>
+                        <h5 style="color: #7367f0; font-family: inherit;">Enter OTP code</h5>
                     </label>
-                    <div class="input-group w-100">
-                        <input id="verify-otp" type="text" class="form-control"
+                    <div class="input-group w-100" id="div_verify_otp">
+                        <input id="verify_otp" type="text" class="form-control"
                             style="border: none !important; border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;"
                             placeholder="******" required>
                     </div>
                 </div>
+                <div class="col-8 mb-2">
+                    <div class="modal-footer" style="border-top: none;">
+                        <button class="btn " id="btn-Otp" data-toggle="modal" data-target="">Verify OTP</button>
+                        {{-- <button class="btn " id="btn-Otp" data-toggle="modal" data-target="#RegisterModal">Verify OTP</button> --}}
+                    </div>
+                </div>
             </form>
-            <div class="modal-footer" style="border-top: none;">
-                <button class="btn " id="btn-Otp" data-toggle="modal" data-target="#RegisterModal">Verify
-                    OTP</button>
-            </div>
         </div>
     </div>
 </div>
-<!-- BEGIN THIRD MODAL-->
-<!-- BEGIN FOURTH MODAL-->
+<!-- End OTP Modal-->
+
+<!-- Begin Fourth Modal => Register New User-->
 <div class="modal fade" id="RegisterModal" tabindex="-1" role="dialog" aria-labelledby="RegisterModalLabel"
-    aria-hidden="true" style="height:auto;">
+    aria-hidden="true" style="height:auto; overflow-y: auto;">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-top: 3px solid #7367f0;">
+        <div class="modal-content" style="border-top: 3px solid #7367f0; max-height: 90vh;">
+            <!-- Add 'max-height' to limit the height of the modal -->
+
             <div class="modal-header" style="border-bottom: none;">
                 <h1 class="modal-title fs-5" id="exampleModalToggleLabel3"></h1>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -112,34 +118,103 @@
                 </button>
             </div>
             <div class="back">
+                <h2 class="px-5 pb-2" style="color: #7367f0; font-family: inherit;">
+                    Register New User</h2>
                 <div class="box text-dark">
                     <h4 class="px-5 pb-2" style="color: #7367f0; font-family: inherit;">
                         Enter Your Information</h4>
-                    <form method="POST" id="m_form_register" class="px-5">
-                        <input type="email" id="email" class="form-control error mt-4"
-                            style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;"
-                            name="email" placeholder="Email">
-                        <input type="text" id="firstname" class="form-control error mt-4"
-                            style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;"
-                            name="firstname" placeholder="First Name" required>
-                        <input type="text" id="lastname" class="form-control error mt-4"
-                            style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;"
-                            name="lastname" placeholder="Last Name" required>
-                        <input type="text" id="cnic_no" class="form-control error mt-4"
-                            style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;"
-                            name="cnic_no" placeholder="Cnic" required>
-                        <input type="password" name="password" id="password" class="form-control error mt-4" id="myInput"
-                            placeholder="Password"
-                            style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
-                            <input type="password" id="confirm-password" name="confirm-password" class="form-control error mt-4" id="myInput"
-                            placeholder="confirm-Password"
-                            style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
-                        <div style="margin-top: 3px !important; padding-top: 0px !important;">
-                            <input type="checkbox" onclick="myFunction()"> Show Password
+                    <form method="POST" action="{{ route('front-end.storeNewUser') }}" id="m_form_register" class="px-5">
+                        @csrf
+                        
+                        {{-- First Name --}}
+                        <div class="form-group">
+                            <label for="firstname">First Name:</label>
+                            <input type="text" id="firstname" class="form-control error mt-2" name="firstname"
+                                placeholder="Enter your first name" value="{{old('firstname')}}"
+                                style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
                         </div>
-                       
-                        <button type="submit" class="btn btnn w-100 p-2 my-4 loginbutton"
-                            style="border: 1px solid #7367f0;">Register</button>
+                        @error('firstname')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        {{-- Last Name --}}
+                        <div class="form-group">
+                            <label for="lastname">Last Name:</label>
+                            <input type="text" id="lastname" class="form-control error mt-2" name="lastname"
+                                placeholder="Enter your last name" value="{{old('lastname')}}"
+                                style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
+                        </div>
+                        @error('lastname')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        {{-- Email --}}
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" class="form-control error mt-2" name="email"
+                                placeholder="Enter your email" value="{{old('email')}}"
+                                style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
+                        </div>
+                        @error('email')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        {{-- CNIC Number --}}
+                        <div class="form-group">
+                            <label for="cnic_no">CNIC:</label>
+                            <input type="text" id="cnic_no" class="form-control error mt-2" name="cnic_no" minlength="15" maxlength="15"
+                                placeholder="Enter your CNIC number" value="{{old('cnic_no')}}"
+                                style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
+                        </div>
+                        @error('cnic_no')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        {{-- Mobile Number --}}
+                        <div class="form-group" id="div_new_phone_number">
+                            <label for="phone" class="form-label">Enter Your Phone Number</label>
+                            <div class="input-group w-100" style="border-top: none;">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">+923</span>
+                                    </div>
+                                    <input type="tel" class="form-control" id="new_phone_number" name="new_phone_number" maxlength="9" minlength="9" 
+                                    value="{{old('new_phone_number')}}" placeholder="Enter Your Mobile Number Here:" 
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);" style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
+                                </div>
+                            </div>
+                        </div>
+                        @error('new_phone_number')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        {{-- Password --}}
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" name="password" id="password" class="form-control error mt-2" minlength="8" maxlength="8"
+                                placeholder="Enter your password" 
+                                style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
+                        </div>
+                        @error('password')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        {{-- Confirm Password --}}
+                        <div class="form-group">
+                            <label for="confirm-password">Confirm Password:</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" minlength="8" maxlength="8"
+                                class="form-control error mt-2" placeholder="Confirm your password"
+                                style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
+                        </div>
+                        @error('confirmPassword')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+
+                        <div style="margin-top: 3px !important; padding-top: 0px !important;">
+                            <input type="checkbox" id="showPassword"> Show Password
+                        </div>
+
+                        <button type="submit" class="btn btnn w-100 p-2 my-4 loginbutton" id="regsterBtn" style="border: 1px solid #7367f0;">Register</button>
                     </form>
                 </div>
             </div>
@@ -147,4 +222,332 @@
     </div>
 </div>
 
-<!-- BEGIN FOURTH MODAL-->
+
+<!-- End: Fourth Modal => Register New User-->
+
+
+<!-- Include toastr CSS and JS from CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<!-- Your custom script using toastr -->
+<script>
+    toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+};
+</script>
+<script>
+    $(document).ready(function() {
+        // $("#RegisterModal").modal('show');
+        // Handle the Login button in the Phone Number modal
+        var generatedOtp = Math.floor(100000 + Math.random() * 900000);
+        $('#btn-phoneNum').click(function(e) {
+            // Perform phone number validation
+            $('.alert-danger').remove();
+            e.preventDefault();
+            let phone_number = $("#phone_number").val();
+            if(phone_number.length==0){
+                return;
+            }
+            else if(!validatePhoneNumber(phone_number)){
+                e.preventDefault();
+                $("#phone_number").after('<div class="alert alert-danger">Valid Phone Number should be provided.</div>');
+                $("#phone_number").focus();
+            }
+            else{
+                $.ajax({
+                    url:'/check-phone_number/'+phone_number,
+                    type:'GET',
+                    success:function(response){
+                        if(response==1){
+                            $('#phoneNumModal').modal('hide');
+                            $('#passwordModal').modal('show');
+                            $('#phone_number_login').val(phone_number);
+                            $("#phone_number").val('');
+                        }
+                        else{
+                            $('#OtpModal').modal('show');
+                            $('#phoneNumModal').modal('hide');
+                            $('#passwordModal').modal('hide');
+                            // $("#phone_number").after('<div class="alert alert-danger">Valid Phone Number should be provided that exist in our record.</div>');
+                            $("#phone_number").val('');
+                            toastr.success('OTP Code: ' + generatedOtp);
+                            return;
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+
+        });
+
+        // phone number validation function
+        function validatePhoneNumber(phoneNumber) {
+            // Implement phone number validation logic here
+            // Return true if the phone number is valid, otherwise return false
+            return phoneNumber.length === 9 && /^[0-9]+$/.test(phoneNumber);
+        }
+   
+        $('#btn-password').click(function(e) {
+            // Get the value of the password input
+            var loginPassword = $("#loginPassword").val();
+
+            // Validate the password
+            if(loginPassword.length!=8){
+                e.preventDefault();
+                $("#loginPassword").after('<div class="alert alert-danger">Password must be 8 characters.</div>');
+                $("#loginPassword").val('');
+                $("#loginPassword").focus();
+            }
+            else{
+                // window.location.href = '/admin/faqs/editfaqs/' + dataId;
+            }
+
+        });
+
+        // Begin: To Verify the OTP
+        $('#btn-Otp').click(function(e){
+            let verify_otp = $("#verify_otp").val();
+            $(".alert-danger").remove();
+            if(verify_otp != generatedOtp){
+                e.preventDefault();
+                $("#div_verify_otp").after('<div class="alert alert-danger">OTP Password must be matched.</div>');
+                $("#verify_otp").focus();
+                $("#verify_otp").val('');
+                return;
+            }
+            else{
+                e.preventDefault();
+                $("#verify_otp").val('');
+                $("#OtpModal").modal('hide');
+                $("#RegisterModal").modal('show');
+            }
+        });
+        // End: To Verify the OTP
+
+        // Begin: Script for the Register New User Form
+            // Begin:   Toggle password visibility
+                $("#showPassword").click(function() {
+                    var passwordInput = $("#password");
+                    var confirmPasswordInput = $("#confirmPassword");
+                    passwordInput.attr("type", passwordInput.attr("type") === "password" ? "text" : "password");
+                    confirmPasswordInput.attr("type", confirmPasswordInput.attr("type") === "password" ? "text" : "password");
+                });
+            // End:   Toggle password visibility
+
+            // Begin:   Function to format CNIC dynamically (323226161887 => 32322-616188-7)
+                function formatField(field) {
+                    var value = field.val().replace(/[^0-9]/g, ''); // Remove non-numeric characters
+                    var formattedValue = formatCnic(value);
+                    field.val(formattedValue);
+                }
+
+                // Function to format CNIC dynamically (323226161887 => 32322-616188-7)
+                function formatCnic(value) {
+                    if (value.length >= 5 && value.length < 12) {
+                        return value.slice(0, 5) + '-' + value.slice(5);
+                    } else if (value.length >= 12) {
+                        return value.slice(0, 5) + '-' + value.slice(5, 12) + '-' + value.slice(12, 15);
+                    } else {
+                        return value;
+                    }
+                }
+
+                // Format CNIC on input
+                $('#cnic_no').on('input', function() {
+                    formatField($(this));
+                });
+            // End:   Function to format CNIC dynamically (323226161887 => 32322-616188-7)
+
+            // Begin: Function to verify the unique email
+                // Function to verify the format of email
+                function isValidEmail(email) {
+                    // Regular expression for a simple email validation
+                    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    return emailRegex.test(email);
+                }
+
+                $("#email").focusout(function(){
+                    let email = $("#email").val();
+                    $("#emailDangerAlert").remove();
+                    if(email.length!=0 && isValidEmail(email)){
+                        // 
+                        $.ajax({
+                            url: '/checkEmail/' + email,
+                            type: 'GET',
+                            success: function(response){
+                                if (response == 1) {
+                                    // alert(email+": Email already exists");
+                                    $("#email").after('<div class="alert alert-danger" id="emailDangerAlert">'+email+': Email already exists. Kindly use the unique email.</div>');
+                                    $("#email").val('');
+                                    $("#email").focus();
+                                    return;
+                                }
+                            }
+                        });
+                    }
+                    else if(email.length==0){
+                        return;
+                    }
+                    else{
+                        $("#email").after('<div class="alert alert-danger" id="emailDangerAlert">Valid Email Shiuld be provided</div>');
+                        $("#email").focus();
+                        $("#email").val('');
+                    }
+                });
+            // End: Function to verify the unique email
+
+            // Begin: Script to verify the unqiue cnic
+            $("#cnic_no").focusout(function(){
+                let cnic_no = $("#cnic_no").val();
+                $("#cnicNoDangerAlert").remove();
+                if(cnic_no.length == 15){
+                    // 
+                    $.ajax({
+                        type:'GET',
+                        url:'/checkCNIC/'+cnic_no,
+                        success:function(response){
+                            if(response==1){
+                                $("#cnic_no").after('<div class="alert alert-danger" id="cnicNoDangerAlert">CNIC should be unique. Kindly use the unique cnic.</div>');
+                                $("#cnic_no").focus();
+                                $("#cnic_no").val('');
+                                return;
+                            }
+                            else{
+                                return;
+                            }
+                        },
+                        error:function(error){
+                            console.log(error);
+                        }
+                    });
+                } else if(cnic_no.length==0){
+                    return;
+                }
+                else{
+                    $("#cnic_no").after('<div class="alert alert-danger" id="cnicNoDangerAlert">Valid CNIC No Should be provided.</div>');
+                    $("#cnic_no").focus();
+                    $("$cnic_no").val('');
+                }
+            });
+            // End: Script to verify the unqiue cnic
+
+            // Begin: To Verify the phone number should be unique
+                $('#new_phone_number').focusout(function(e) {
+                    // Perform phone number validation
+                    $('#divAlertDangerNewPhoneNum').remove();
+                    e.preventDefault();
+                    let new_phone_number = $("#new_phone_number").val();
+                    if(new_phone_number.length==0){
+                        return;
+                    }
+                    else if(!validatePhoneNumber(new_phone_number)){
+                        e.preventDefault();
+                        $("#div_new_phone_number").after('<div class="alert alert-danger" id="divAlertDangerNewPhoneNum">Valid Phone Number should be provided.</div>');
+                        $("#new_phone_number").focus();
+                    }
+                    else{
+                        $.ajax({
+                            url:'/check-phone_number/'+new_phone_number,
+                            type:'GET',
+                            success:function(response){
+                                if(response==1){
+                                    $("#div_new_phone_number").after('<div class="alert alert-danger" id="divAlertDangerNewPhoneNum">Phone Number should be unique. Kindly Provide unique mob no.</div>');
+                                    $("#new_phone_number").focus();
+                                    $("#new_phone_number").val('');
+                                }
+                                else{
+                                    return;
+                                }
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            }
+                        });
+                    }
+                });
+            // End: To Verify the phone number should be unique
+
+            // Begin:   function to validate form fields
+                $("#regsterBtn").click(function(e){
+                    $(".alert-danger").remove();
+                    e.preventDefault();
+
+                    // To check the firstname is empty or not
+                    let firstname = $("#firstname").val();
+                    if(firstname.length ==0 || firstname.trim()==='' || firstname ==null){
+                        e.preventDefault();
+                        $("#firstname").after('<div class="alert alert-danger">First Name Should be Provided.</div>');
+                    }
+                    
+                    // To check the lastname is empty or not
+                    let lastname = $("#lastname").val();
+                    if(lastname.length ==0 || lastname.trim()==='' || lastname ==null){
+                        e.preventDefault();
+                        $("#lastname").after('<div class="alert alert-danger">Last Name Should be Provided.</div>');
+                    }
+                    
+                    // To check the email is valid or not
+                    let email = $("#email").val();
+                    if(!(isValidEmail(email))){
+                        e.preventDefault();
+                        $("#email").after('<div class="alert alert-danger">Valid Email Should be Provided.</div>');
+                    }
+                    
+                    // To check the cnic_no is empty or not
+                    let cnic_no = $("#cnic_no").val();
+                    if(cnic_no.length!=15){
+                        e.preventDefault();
+                        $("#cnic_no").after('<div class="alert alert-danger">Valid CNIC No Should be Provided.</div>');
+                    } 
+                    
+                    // To check the cnic_no is empty or not
+                    let new_phone_number = $("#new_phone_number").val();
+                    if(!(validatePhoneNumber(new_phone_number))){
+                        e.preventDefault();
+                        $("#div_new_phone_number").after('<div class="alert alert-danger">Valid Phone No Should be Provided.</div>');
+                    }
+
+                    // To check the password is empty or not
+                    let password = $("#password").val();
+                    if(password.length ==0 || password.length !=8 || password.trim()==='' || password ==null){
+                        e.preventDefault();
+                        $("#password").after('<div class="alert alert-danger">Password Should be Provided. Password Length Should be 8 characters.</div>');
+                    }
+                    
+                    // To check the lastname is empty or not
+                    let confirmPassword = $("#confirmPassword").val();
+                    if(confirmPassword.length ==0 || confirmPassword.length !=8 || confirmPassword.trim()==='' || confirmPassword ==null){
+                        e.preventDefault();
+                        $("#confirmPassword").after('<div class="alert alert-danger">Confirm Password Should be Provided. Confirm Password Length Should be 8 characters.</div>');
+                    }
+                    else{
+                        if(!(confirmPassword==password)){
+                            e.preventDefault();
+                            $("#confirmPassword").after('<div class="alert alert-danger">Confirm Password & Password Should be Same.</div>');
+                        }
+                    }
+                    
+                });
+            // End:   function to validate form fields
+
+        // End: Script for the Register New User Form
+
+    });
+</script>

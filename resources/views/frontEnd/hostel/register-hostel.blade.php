@@ -160,6 +160,15 @@
                             @error('totalRooms')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
+                            
+                            {{-- Hostel Capacity --}}
+                            <div class="form-group">
+                                <label for="room_occupany">Total Hostel Capacity:</label>
+                                <input type="number" class="form-control" name="room_occupany" id="room_occupany" placeholder="Total Hostel Capacity">
+                            </div>
+                            @error('room_occupany')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
 
                             {{-- Hostel Gender --}}
                             <div class="form-group">
@@ -339,9 +348,18 @@
 
                             <div class="form-group">
                                 <label>Attach Your Reg Fee Vochure / ScreenShot of Your Transaction</label>
-                                <input type="file"  name="image" id="image" accept=".png, .jpg, .jpeg" class="form-control">
+                                <input type="file"  name="slip_image" id="slip_image" accept=".png, .jpg, .jpeg" class="form-control">
                             </div>
-                            @error('image')
+                            @error('slip_image')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                            
+                            {{-- Hostel Images --}}
+                            <div class="form-group">
+                                <label>Attach Your Images of the Hostel</label>
+                                <input type="file"  name="hostel_images" id="hostel_images" accept=".png, .jpg, .jpeg" class="form-control" multiple>
+                            </div>
+                            @error('hostel_images')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
 
@@ -531,6 +549,13 @@
                     e.preventDefault();
                     $("#totalRooms").after('<div class="alert alert-danger">Please enter a valid positive integer greater than 0 for Total Hostel Rooms.</div>');
                 }
+                
+                // Validate room_occupany
+                let room_occupany = $("#room_occupany").val();
+                if (room_occupany <= 0 || !Number.isInteger(Number(room_occupany))) {
+                    e.preventDefault();
+                    $("#room_occupany").after('<div class="alert alert-danger">Please enter a valid positive integer greater than 0 for Total Hostel Capacity.</div>');
+                }
 
                 // To check the valid hostel gender is selected or not
                 let hostelGender = $("#hostelGender").val();
@@ -637,12 +662,12 @@
                     $("#hostelCategories").after('<div class="alert alert-danger">Hostel Categories Should be Selected properly.</div>');
                 }
 
-                // Check the file input
-                let imageInput = $('#image')[0];
+                // Check the file slip_image
+                let imageInput = $('#slip_image')[0];
 
                 if (imageInput.files.length === 0) {
                     e.preventDefault();
-                    $("#image").after('<div class="alert alert-danger">Please select a file.</div>');
+                    $("#slip_image").after('<div class="alert alert-danger">Please select a file.</div>');
                 }
                 else{
                     // Check file extension
@@ -652,14 +677,45 @@
 
                     if (!allowedExtensions.includes(fileExtension)) {
                         e.preventDefault();
-                        $("#image").after('<div class="alert alert-danger">Please select a file with a valid extension (PNG, JPG, JPEG).</div>');
+                        $("#slip_image").after('<div class="alert alert-danger">Please select a file with a valid extension (PNG, JPG, JPEG).</div>');
                     }
 
                     // Check file size
                     let maxSize = 2 * 1024 * 1024; // 2 MB in bytes
                     if (imageInput.files[0].size > maxSize) {
                         e.preventDefault();
-                        $("#image").after('<div class="alert alert-danger">File size should not exceed 2 MB.</div>');
+                        $("#slip_image").after('<div class="alert alert-danger">File size should not exceed 2 MB.</div>');
+                    }
+                }
+                
+                // Check the file hostel_images
+                let imageInputHostelImages = $('#hostel_images')[0];
+
+                if (imageInputHostelImages.files.length === 0) {
+                    e.preventDefault();
+                    $("#hostel_images").after('<div class="alert alert-danger">Please select at least one file.</div>');
+                } else {
+                    // Check each file
+                    let allowedExtensions = ['png', 'jpg', 'jpeg'];
+                    let maxSize = 2 * 1024 * 1024; // 2 MB in bytes
+
+                    for (let i = 0; i < imageInputHostelImages.files.length; i++) {
+                        let fileName = imageInputHostelImages.files[i].name;
+                        let fileExtension = fileName.split('.').pop().toLowerCase();
+
+                        // Check file extension
+                        if (!allowedExtensions.includes(fileExtension)) {
+                            e.preventDefault();
+                            $("#hostel_images").after('<div class="alert alert-danger">Please select files with valid extensions (PNG, JPG, JPEG).</div>');
+                            break; // Stop checking if an invalid extension is found
+                        }
+
+                        // Check file size
+                        if (imageInputHostelImages.files[i].size > maxSize) {
+                            e.preventDefault();
+                            $("#hostel_images").after('<div class="alert alert-danger">File size should not exceed 2 MB.</div>');
+                            break; // Stop checking if a file exceeds the size limit
+                        }
                     }
                 }
 
@@ -803,27 +859,23 @@
                     url:'hostelRegistration/hostelOwnerCniccheck/' + hostelOwnerCnic,
                     success:function(response){
                         if(response==0){
-                            $(".cnicverify").show();
-                            $(".cnicverify").html("Hostel is Registered with this CNIC.");
+                            $("#divCnic").remove();
+                            $("#hostelOwnerCnic").after('<div class="alert alert-danger" id="divCnic">Hostel is Registered with this CNIC.</div>');
                             $("#hostelOwnerCnic").focus();
                             $('#div-hostelOwnerEmail').hide();
                             //  $('#hostelOwnerEmail').hide();
                             $('#hostelOwnerEmail').val('');
-                            $(".cnicverify").css({"border":"2px solid red"});
                             return;
                         }
                         else if(response==-1){
-                            $(".cnicverify").show();
-                            $(".cnicverify").html("You are a new user kindly provide the email of the owner");
-                            //  $('#hostelOwnerEmail').show();
+                            $("#divCnic").remove();
+                            $("#hostelOwnerEmail").after('<div class="alert alert-success" id="divCnic">You are a new user kindly provide the email of the owner</div>');
                             $('#div-hostelOwnerEmail').show();
                             $("#hostelOwnerEmail").focus();
-                            $(".cnicverify").css({"border":"2px solid green"});
                             return;
                         }
                         else{
-                            $(".cnicverify").html("");
-                            $(".cnicverify").hide();
+                            $("#divCnic").remove();
                             return;
                         }
                     },
@@ -833,20 +885,17 @@
                 });
             }
             else if(hostelOwnerCnic.length == 0){
-                $(".cnicverify").html("");
-                $(".cnicverify").hide();
+                $("#divCnic").remove();
                 $('#div-hostelOwnerEmail').hide();
                 $('#hostelOwnerEmail').val('');
                 return;
             }
             else if(hostelOwnerCnic.length > 0 && hostelOwnerCnic.length<15){
-                alert("Kindly Provide the complete cnic");
-                $(".cnicverify").html("");
-                $(".cnicverify").hide();
+                $("#divCnic").remove();
+                $("#hostelOwnerCnic").after('<div class="alert alert-danger" id="divCnic">Kindly use the valid cnic.</div>');
+                $("#hostelOwnerCnic").focus();
                 $('#div-hostelOwnerEmail').hide();
                 $('#hostelOwnerEmail').val('');
-                $("#hostelOwnerCnic").val('');
-                $("#hostelOwnerCnic").focus();
                 return;
             }
              
@@ -854,6 +903,50 @@
     });
  </script>
  {{-- End of script to verify the cnic of the owner --}}
+
+{{-- Start of script to verify the cnic of the refferal --}}
+<script>
+    $(document).ready(function(){
+        $('#referalCNIC').focusout(function(){
+           //
+           let referalCNIC = $('#referalCNIC').val();
+           if(referalCNIC.length == 15){
+               // alert(hostelOwnerCnic);
+               $.ajax({
+                   type:'GET',
+                   url:'/checkCNIC/' + referalCNIC,
+                   success:function(response){
+                       if(response==1){
+                            $("#divReferalCNIC").remove();
+                            return;
+                       }
+                       else{
+                            $("#divReferalCNIC").remove();
+                            $("#referalCNIC").after('<div class="alert alert-danger" id="divReferalCNIC">Referal CNIC does not exist in our record. Kindly use the valid cnic.</div>');
+                            $("#referalCNIC").focus();
+                            return;
+                       }
+                   },
+                   error: function(error) {
+                       console.log(error);
+                   }
+               });
+           }
+           else if(referalCNIC.length == 0){
+                $("#divReferalCNIC").remove();
+                return;
+           }
+           else if(referalCNIC.length > 0 && referalCNIC.length<15){
+                $("#divReferalCNIC").remove();
+                $("#referalCNIC").after('<div class="alert alert-danger" id="divReferalCNIC">Referal CNIC length should be provided correctly.</div>');
+                $("#referalCNIC").focus();
+                return;
+           }
+            
+       });
+   });
+</script>
+{{-- End of script to verify the cnic of the referral --}}
  
  {{-- Start of script to verify the cnic of the Hostel Partner --}}
  <script>
@@ -867,23 +960,20 @@
                     url:'hostelRegistration/hostelPartnerCniccheck/' + hostelPartnerCnic,
                     success:function(response){
                         if(response==0){
-                            $(".PartnerCnicVerify").show();
-                            $(".PartnerCnicVerify").html("Hostel Partner is Registered with this CNIC.");
+                            $("#divPartnerCnic").remove();
+                            $("#partnerCnic").after('<div class="alert alert-danger" id="divPartnerCnic">Hostel Partner is Registered with this CNIC.</div>');
                             $("#partnerCnic").focus();
                             $('#div-hostelPartnerEmail').hide();
                             $('#hostelPartnerEmail').val('');
-                            $(".PartnerCnicVerify").css({"border":"2px solid red"});
                         }
                         else if(response==-1){
-                            $(".PartnerCnicVerify").show();
-                            $(".PartnerCnicVerify").html("Hostel Partner is a new user kindly provide the email of the partner");
+                            $("#divPartnerCnic").remove();
+                            $("#hostelPartnerEmail").after('<div class="alert alert-success" id="divPartnerCnic">Hostel Partner is a new user kindly provide the email of the partner</div>');
                             $('#div-hostelPartnerEmail').show();
                             $("#hostelPartnerEmail").focus();
-                            $(".PartnerCnicVerify").css({"border":"2px solid green"});
                         }
                         else{
-                            $(".PartnerCnicVerify").html("");
-                            $(".PartnerCnicVerify").hide();
+                            $("#divPartnerCnic").remove();
                             $('#div-hostelPartnerEmail').hide();
                             $('#hostelPartnerEmail').val('');
                         }
@@ -894,18 +984,15 @@
                 });
             }
             else if(hostelPartnerCnic.length==0){
-                $(".PartnerCnicVerify").html("");
-                $(".PartnerCnicVerify").hide();
+                $("#divPartnerCnic").remove();
                 $('#div-hostelPartnerEmail').hide();
                 $('#hostelPartnerEmail').val('');
             }
             else{
-                alert("Kindly Provide the complete hostel partner cnic");
-                $(".PartnerCnicVerify").html("");
-                $(".PartnerCnicVerify").hide();
+                $("#divPartnerCnic").remove();
+                $("#partnerCnic").after('<div class="alert alert-danger" id="divPartnerCnic">Kindly Provide the complete hostel partner cnic</div>');
                 $('#div-hostelPartnerEmail').hide();
                 $('#hostelPartnerEmail').val('');
-                $("#partnerCnic").val('');
                 $("#partnerCnic").focus();
                 return;
             }
@@ -920,34 +1007,28 @@
     $(document).ready(function(){
         $('#hostelWardenCnic').focusout(function(){
             //
-            let hostelPartnerCnic = $('#hostelWardenCnic').val();
-            if(hostelPartnerCnic.length ==15){
+            let hostelWardenCnic = $('#hostelWardenCnic').val();
+            if(hostelWardenCnic.length ==15){
                 $.ajax({
                     type:'GET',
-                    url:'hostelRegistration/hostelPartnerCniccheck/' + hostelPartnerCnic,
+                    url:'hostelRegistration/hostelWardenCniccheck/' + hostelWardenCnic,
                     success:function(response){
                         if(response==0){
-                            $(".wardenCnicVeryify").show();
-                            $(".wardenCnicVeryify").html("Hostel Warden is Registered with this CNIC.");
+                            $("#divWardenCnic").remove();
+                            $("#hostelWardenCnic").after('<div class="alert alert-danger" id="divWardenCnic">Hostel Warden is Registered with this CNIC.</div>');
                             $("#partnerCnic").focus();
-                            //  $('#hostelWardenEmail').hide();
                             $('#div-hostelWardenEmail').hide();
                             $('#hostelWardenEmail').val('');
-                            $(".wardenCnicVeryify").css({"border":"2px solid red"});
                         }
                         else if(response==-1){
-                            $(".wardenCnicVeryify").show();
-                            $(".wardenCnicVeryify").html("Hostel Warden is a new user kindly provide the email of the warden");
+                            $("#divWardenCnic").remove();
+                            $("#hostelWardenEmail").after('<div class="alert alert-success" id="divWardenCnic">Hostel Warden is a new user kindly provide the email of the warden</div>');
                             $('#div-hostelWardenEmail').show();
-                            //  $('#hostelWardenEmail').show();
                             $("#hostelWardenEmail").focus();
-                            $(".wardenCnicVeryify").css({"border":"2px solid green"});
                         }
                         else{
-                            $(".wardenCnicVeryify").html("");
-                            $(".wardenCnicVeryify").hide();
+                            $("#divWardenCnic").remove();
                             $('#div-hostelWardenEmail').hide();
-                            //  $('#hostelWardenEmail').hide();
                             $('#hostelWardenEmail').val('');
                         }
                     },
@@ -956,20 +1037,16 @@
                     }
                 });
             }
-            else if(hostelPartnerCnic.length==0){
-                $(".wardenCnicVeryify").html("");
-                $(".wardenCnicVeryify").hide();
+            else if(hostelWardenCnic.length==0){
+                $("#divWardenCnic").remove();
                 $('#div-hostelWardenEmail').hide();
-                //  $('#hostelWardenEmail').hide();
                 $('#hostelWardenEmail').val('');
             }
             else{
-                alert("Kindly Provide the complete hostel warden cnic");
-                $(".wardenCnicVeryify").html("");
-                $(".wardenCnicVeryify").hide();
+                $("#divWardenCnic").remove();
+                $("#hostelWardenCnic").after('<div class="alert alert-danger" id="divWardenCnic">Kindly Provide the complete hostel warden cnic</div>');
                 $('#div-hostelWardenEmail').hide();
                 $('#hostelWardenEmail').val('');
-                $("#hostelWardenCnic").val('');
                 $("#hostelWardenCnic").focus();
                 return;
             }
@@ -980,37 +1057,35 @@
 
  {{-- Start of script to verify the Name of the Hostel --}}
  <script>
-     $(document).ready(function(){
-         $('#hostelName').focusout(function(){
-             let hostelName = $('#hostelName').val();
-             if(hostelName.length>2){
-                 // alert("Yes");
-                 $.ajax({
-                     url:'hostelRegistration/hostelName/' + hostelName,
-                     type:'GET',
-                     success:function(response){
-                         if(response==1){
-                             $(".samehostel").show();
-                             $(".samehostel").html("Hostel Name Already Exist");
-                         }
-                         else{
-                             $(".samehostel").hide();
-                             $(".samehostel").html();
-                         }
-                         // alert(response);
-                     },
-                     error: function(error) {
-                         console.log(error);
-                     }
-                 });
-             }
-             else if(hostelName.length==0){
-                 $(".samehostel").hide();
-                 $(".samehostel").html();
-             }
+    $(document).ready(function(){
+        $('#hostelName').focusout(function(){
+            let hostelName = $('#hostelName').val();
+            if(hostelName.length>2){
+                // alert("Yes");
+                $.ajax({
+                    url:'hostelRegistration/hostelName/' + hostelName,
+                    type:'GET',
+                    success:function(response){
+                        if(response==1){
+                            $("#divHostelName").remove();
+                            $("#hostelName").after('<div class="alert alert-danger" id="divHostelName">Hostel Name Already Exist. Kindly Provide the unique Hostel Name.</div>');
+                        }
+                        else{
+                            $("#divHostelName").remove();
+                        }
+                        // alert(response);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            }
+            else if(hostelName.length==0){
+                $("#divHostelName").remove();
+            }
 
-         });
-     });
+        });
+    });
  </script>
  {{-- End of script to verify the Name of the Hostel --}}
  <script>

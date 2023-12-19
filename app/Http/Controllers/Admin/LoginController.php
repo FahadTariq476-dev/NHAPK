@@ -28,12 +28,11 @@ class LoginController extends Controller
         $credentials = ['email' => $email, 'password' => $password];
         // Attempt to authenticate the user
         if (Auth::attempt($credentials)) {
-            // dd("Yess");
             /// Check the user's role after successful login
             $user = Auth::user();
             $userRoles = Auth::user()->getRoleNames();
             // && ($user->nhapk_register) == 1
-            if ($userRoles->contains('nhapk_admin') && ($user->nhapk_register) == 1) {
+            if ($userRoles->contains('nhapk_admin')) {
                 // Redirect to the desired route for nhapk_admin role
                 return redirect()->route('admin.ShowDashboard')->with('success',"Successfully Logged in Now!");
             } 

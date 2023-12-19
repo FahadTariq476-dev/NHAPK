@@ -74,9 +74,9 @@ class HostelRegistrationController extends Controller
 
     public function hostelWaardenCnicCheck($hostelWardenCnic){
         $result = User::where('cnic_no',$hostelWardenCnic)->first();
-        $author_id = $result->id;
         if($result){
             //  Check the warden is registered with any hostel or not
+            $author_id = $result->id;
             $properties_warden_chechAuthorId = PropertiesWarden::where('author_id',$author_id)->get();
             if(count($properties_warden_chechAuthorId)>0){
                 return 0;
@@ -120,6 +120,7 @@ class HostelRegistrationController extends Controller
             'hostelOwnerName' => 'required|string|max:255',
             'hostelOwnerContact' => 'required|regex:/^[0-9]{9}$/',
             'totalRooms' => 'required|integer|min:1',
+            'room_occupany' => 'required|integer|min:1',
             'hostelGender' => 'required|in:male,female',
             'hostelType' => 'required|exists:property_type,id',
             'hostelName'=> 'required|string|max:255|unique:properties,name',
@@ -127,10 +128,11 @@ class HostelRegistrationController extends Controller
             'hostelContactNumber' =>'required|regex:/^[0-9]{9}$/',
             'hostelCategories'=>'required|exists:categories,id',
             'terms' => 'required|accepted', // Added rule for terms checkbox
-            'image' => 'required|image|mimes:jpeg,png,jpg,JPEG,PNG,JPG|max:2048',
+            'slip_image' => 'image|mimes:jpeg,png,jpg,JPEG,PNG,JPG|max:2048',
+            'hostel_images.*' => 'image|mimes:jpeg,png,jpg,JPEG,PNG,JPG|max:2048',
         ];
         if(!empty($req->referalCNIC) && strlen($req->referalCNIC)>0){
-            $rules['referalCNIC']='required|max:15|min:15';
+            $rules['referalCNIC']='required|max:15|min:15|exists:user,cnic_no';
         }
         if(!empty($req->hostelOwnerCnic) && strlen($req->hostelOwnerCnic)==15){
             $hostelOwnerCnicCheck = User::where('cnic_no',$req->hostelOwnerCnic)->get();
@@ -347,6 +349,7 @@ class HostelRegistrationController extends Controller
             $properties_metas->contact_number = "+923".$req->hostelContactNumber;
             $properties_metas->location = $req->hostelLocation;
             $properties_metas->map_location = $req->hostelLocation;
+            $properties_metas->room_occupany = $req->room_occupany;
             if(!($properties_metas->save())){
                 return redirect()->route('saveHostelForm')->with('error','There is a problem while saving the properties metas kidnly try again.');
             }
@@ -476,6 +479,7 @@ class HostelRegistrationController extends Controller
             $properties_metas->contact_number = "+923".$req->hostelContactNumber;
             $properties_metas->location = $req->hostelLocation;
             $properties_metas->map_location = $req->hostelLocation;
+            $properties_metas->room_occupany = $req->room_occupany;
             if(!($properties_metas->save())){
                 return redirect()->route('saveHostelForm')->with('error','There is a problem while saving the properties metas kidnly try again.');
             }
