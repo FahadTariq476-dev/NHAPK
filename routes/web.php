@@ -298,6 +298,8 @@ Route::post('/hostels/hostel-details', [PropertyController::class,'findHostelByI
 
 // Route to check that mobile number is exist or not
 Route::get('/check-phone_number/{phone_number}',[LoginClientController::class,'checkPhoneNumber'])->name('checkPhoneNumber');
+// Route to check that mobile number is exist or not with given Cnic
+Route::get('/check-phone_number/{cnic_no}/{phone_number}',[LoginClientController::class,'cnicCheckPhoneNumber'])->name('cnic.checkPhoneNumber');
 
 // End: Routes For FrontEnd
 
