@@ -17,13 +17,16 @@ class ComplaintAdminController extends Controller
     public function adminListingComplaint(Request $request){
         if ($request->ajax()) {
             $complaints = Complaint::with(['property', 'complaintType'])->latest()->get();
+            // dd($complaints->toArray());
             return DataTables::of($complaints)
                 ->addIndexColumn()
                 ->addColumn('property_name', function ($complaint) {
-                    return $complaint->property->name;
+                    // Check if $complaint->property is not null before accessing 'name'
+                    return $complaint->property ? $complaint->property->name : 'NULL';
                 })
                 ->addColumn('complaint_type_name', function ($complaint) {
-                    return $complaint->complaintType->name;
+                    // Check if $complaint->complaintType is not null before accessing 'name'
+                    return $complaint->complaintType ? $complaint->complaintType->name : 'NULL';
                 })
                 ->make(true);
         }        

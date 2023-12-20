@@ -1,11 +1,44 @@
-<button class="btn btnn" data-toggle="modal" data-target="#phoneNumModal">login</button>
+<button class="btn btnn" data-toggle="modal" data-target="#cnicModal">login</button>
+
+<!-- End Zero Modal cnicModal-->
+    <div class="modal fade" id="cnicModal" tabindex="-1" role="dialog" aria-labelledby="cnicModalModalLabel" aria-hidden="true" style="height: auto;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-top: 3px solid #7367f0;">
+                <div class="modal-header" style="border: none;">
+                    <h1 class="modal-title fs-5" id=""></h1>
+                    <button type="button" class="close" id="closeEcnicModal" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form class="row g-3 d-flex justify-content-center">
+                    <div class="col-8 mb-2">
+                        <label for="phone" class="form-label">
+                            <h5 style="color: #7367f0; font-family: inherit;">Enter Your CNIC Number</h5>
+                        </label>
+                        <div class="input-group w-100" style="border-top: none;" id="divFirstCnic_no">
+                            <input type="text" id="firstCnic_no" class="form-control error mt-2" name="firstCnic_no" minlength="15" maxlength="15"
+                                placeholder="Enter your CNIC number"
+                                >
+                        </div>
+                    </div>
+                    <div class="col-8 mb-2">
+                        <div class="modal-footer" style="border: none;">
+                            <button class="btn" type="submit" id="btnLogin" data-toggle="modal">Login</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<!-- End Zero Modal cnicModal-->
 
 <!-- BEGIN FIRST MODAL phoneNumModal -->
-<div class="modal fade" id="phoneNumModal" tabindex="-1" role="dialog" aria-labelledby="phoneNumModalLabel" aria-hidden="true" style="height: auto;">
+<div class="modal fade" id="MobModal" tabindex="-1" role="dialog" aria-labelledby="phoneNumModalLabel" aria-hidden="true" style="height: auto;">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-top: 3px solid #7367f0;">
             <div class="modal-header" style="border: none;">
-                <h1 class="modal-title fs-5" id="phoneNumModal"></h1>
+                <h1 class="modal-title fs-5" id=""></h1>
                 <button type="button" class="close" id="closeEnterNumber" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -26,7 +59,7 @@
                 </div>
                 <div class="col-8 mb-2">
                     <div class="modal-footer" style="border: none;">
-                        <button class="btn" type="submit" id="btn-phoneNum" data-toggle="modal">Login</button>
+                        <button class="btn" type="submit" id="btn-phoneNum">Submit</button>
                         {{-- <button class="btn" type="submit" id="btn-phoneNum" data-toggle="modal" data-target="#passwordModal">Login</button> --}}
                     </div>
                 </div>
@@ -35,6 +68,7 @@
     </div>
 </div>
 
+
 <!-- End FIRST MODAL phoneNumModal-->
 
 <!-- BEGIN SECOND MODAL passwordModal-->
@@ -42,7 +76,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-top: 3px solid #7367f0;">
             <div class="modal-header" style="border: none;">
-                <h1 class="modal-title fs-5" id="FirstModal1"></h1>
+                <h1 class="modal-title fs-5" id=""></h1>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -54,14 +88,15 @@
                     </label>
                     @csrf
                     <div style="border-top: none;">
-                        <input type="hidden" class="form-control" id="phone_number_login" name="phone_number_login" maxlength="9" minlength="9" placeholder="Enter Your Mobile Number Here:" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);">
+                        <input type="hidden" class="form-control" id="phone_number_login" name="phone_number_login" maxlength="9" minlength="9" placeholder="Enter Your Mobile Number Here:" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);" readonly>
+                        <input type="hidden" class="form-control" id="cnic_no_login" name="cnic_no_login" maxlength="15" minlength="15" readonly>
                         <input value="" id="loginPassword" type="password" class="form-control" name="password" style="border: none !important; border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;"
                             placeholder="*******" required>
                     </div>
                 </div>
                 <div class="col-8 mb-2">
                     <div class="modal-footer" style="border-top: none;">
-                        <button class="btn " type="submit" id="btn-password" data-toggle="modal" data-target="#">Submit</button>
+                        <button class="btn " type="submit" id="btn-password" data-toggle="modal" data-target="">Submit</button>
                     </div>
                 </div>
             </form>
@@ -71,37 +106,37 @@
 <!-- End SECOND MODAL passwordModal-->
 
 <!-- Begin OTP Modal-->
-<div class="modal fade" id="OtpModal" tabindex="-1" role="dialog" aria-labelledby="OtpModalLabel" aria-hidden="true"
-    style="height: auto;">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-top: 3px solid #7367f0;">
-            <div class="modal-header" style="border: none;">
-                <h1 class="modal-title fs-5" id="OtpModal"></h1>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+    <div class="modal fade" id="OtpModal" tabindex="-1" role="dialog" aria-labelledby="OtpModalLabel" aria-hidden="true"
+        style="height: auto;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-top: 3px solid #7367f0;">
+                <div class="modal-header" style="border: none;">
+                    <h1 class="modal-title fs-5" id=""></h1>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form class="row g-3 d-flex justify-content-center">
+                    <div class="col-8 mb-2">
+                        <label for="otp" class="form-label text-dark">
+                            <h5 style="color: #7367f0; font-family: inherit;">Enter OTP code</h5>
+                        </label>
+                        <div class="input-group w-100" id="div_verify_otp">
+                            <input id="verify_otp" type="text" class="form-control"
+                                style="border: none !important; border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;"
+                                placeholder="******" required>
+                        </div>
+                    </div>
+                    <div class="col-8 mb-2">
+                        <div class="modal-footer" style="border-top: none;">
+                            <button class="btn " id="btn-Otp" data-toggle="modal" data-target="">Verify OTP</button>
+                            {{-- <button class="btn " id="btn-Otp" data-toggle="modal" data-target="#RegisterModal">Verify OTP</button> --}}
+                        </div>
+                    </div>
+                </form>
             </div>
-            <form class="row g-3 d-flex justify-content-center">
-                <div class="col-8 mb-2">
-                    <label for="otp" class="form-label text-dark">
-                        <h5 style="color: #7367f0; font-family: inherit;">Enter OTP code</h5>
-                    </label>
-                    <div class="input-group w-100" id="div_verify_otp">
-                        <input id="verify_otp" type="text" class="form-control"
-                            style="border: none !important; border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;"
-                            placeholder="******" required>
-                    </div>
-                </div>
-                <div class="col-8 mb-2">
-                    <div class="modal-footer" style="border-top: none;">
-                        <button class="btn " id="btn-Otp" data-toggle="modal" data-target="">Verify OTP</button>
-                        {{-- <button class="btn " id="btn-Otp" data-toggle="modal" data-target="#RegisterModal">Verify OTP</button> --}}
-                    </div>
-                </div>
-            </form>
         </div>
     </div>
-</div>
 <!-- End OTP Modal-->
 
 <!-- Begin Fourth Modal => Register New User-->
@@ -123,7 +158,8 @@
                 <div class="box text-dark">
                     <h4 class="px-5 pb-2" style="color: #7367f0; font-family: inherit;">
                         Enter Your Information</h4>
-                    <form method="POST" action="{{ route('front-end.storeNewUser') }}" id="m_form_register" class="px-5">
+                        {{-- method="POST" action="{{ route('front-end.storeNewUser') }}" --}}
+                    <form  id="m_form_register" class="px-5">
                         @csrf
                         
                         {{-- First Name --}}
@@ -253,13 +289,51 @@
 <script>
     $(document).ready(function() {
         // $("#RegisterModal").modal('show');
-        // Handle the Login button in the Phone Number modal
         var generatedOtp = Math.floor(100000 + Math.random() * 900000);
+        // Begin:   Handle the btnLogin
+            $("#btnLogin").click(function(e){
+                // 
+                $('.alert-danger').remove();
+                e.preventDefault();
+                let firstCnic_no = $("#firstCnic_no").val();
+                if(firstCnic_no.length == 15){
+                    // 
+                    $('#MobModal').modal('show');
+                    $('#cnicModal').modal('hide');
+                    // $.ajax({
+                    //     type:'GET',
+                    //     url:'/checkCNIC/'+firstCnic_no,
+                    //     success:function(response){
+                    //         $('#MobModal').modal('show');
+                    //         $('#cnicModal').modal('hide');
+                    //         if(response==1){
+                    //             return;
+                    //         }
+                    //         else{
+                    //             return;
+                    //         }
+                    //     },
+                    //     error:function(error){
+                    //         console.log(error);
+                    //     }
+                    // });
+                } else if(firstCnic_no.length==0){
+                    return;
+                }
+                else{
+                    $("#divFirstCnic_no").after('<div class="alert alert-danger">Valid CNIC No Should be provided.</div>');
+                    $("#firstCnic_no").focus();
+                    $("$firstCnic_no").val('');
+                }
+            });
+        // End:   Handle the btnLogin
+        // Handle the submit button in the Phone Number modal
         $('#btn-phoneNum').click(function(e) {
             // Perform phone number validation
             $('.alert-danger').remove();
             e.preventDefault();
             let phone_number = $("#phone_number").val();
+            // let firstCnic_no = $("#firstCnic_no").val();
             if(phone_number.length==0){
                 return;
             }
@@ -269,30 +343,34 @@
                 $("#phone_number").focus();
             }
             else{
-                $.ajax({
-                    url:'/check-phone_number/'+phone_number,
-                    type:'GET',
-                    success:function(response){
-                        if(response==1){
-                            $('#phoneNumModal').modal('hide');
-                            $('#passwordModal').modal('show');
-                            $('#phone_number_login').val(phone_number);
-                            $("#phone_number").val('');
-                        }
-                        else{
-                            $('#OtpModal').modal('show');
-                            $('#phoneNumModal').modal('hide');
-                            $('#passwordModal').modal('hide');
-                            // $("#phone_number").after('<div class="alert alert-danger">Valid Phone Number should be provided that exist in our record.</div>');
-                            $("#phone_number").val('');
-                            toastr.success('OTP Code: ' + generatedOtp);
-                            return;
-                        }
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
+                $('#OtpModal').modal('show');
+                $('#MobModal').modal('hide');
+                $('#passwordModal').modal('hide');
+                toastr.success('OTP Code: ' + generatedOtp);
+                // $.ajax({
+                //     url:'/check-phone_number/'+firstCnic_no+'/'+phone_number,
+                //     type:'GET',
+                //     success:function(response){
+                //         if(response==1){
+                //             $('#phoneNumModal').modal('hide');
+                //             $('#passwordModal').modal('show');
+                //             $('#phone_number_login').val(phone_number);
+                //             $("#phone_number").val('');
+                //         }
+                //         else{
+                //             $('#OtpModal').modal('show');
+                //             $('#phoneNumModal').modal('hide');
+                //             $('#passwordModal').modal('hide');
+                //             // $("#phone_number").after('<div class="alert alert-danger">Valid Phone Number should be provided that exist in our record.</div>');
+                //             $("#phone_number").val('');
+                //             toastr.success('OTP Code: ' + generatedOtp);
+                //             return;
+                //         }
+                //     },
+                //     error: function (error) {
+                //         console.log(error);
+                //     }
+                // });
             }
 
         });
@@ -334,9 +412,31 @@
             }
             else{
                 e.preventDefault();
-                $("#verify_otp").val('');
-                $("#OtpModal").modal('hide');
-                $("#RegisterModal").modal('show');
+                let phone_number = $("#phone_number").val();
+                let firstCnic_no = $("#firstCnic_no").val();    
+                $.ajax({
+                    url:'/check-phone_number/'+firstCnic_no+'/'+phone_number,
+                    type:'GET',
+                    success:function(response){
+                        if(response==1){
+                            $('#OtpModal').modal('hide');
+                            $('#passwordModal').modal('show');
+                            $("#cnic_no_login").val(firstCnic_no);
+                            $("#phone_number_login").val(phone_number);
+                            $("#phone_number").val('');
+                            $("#firstCnic_no").val('');
+                        }
+                        else{
+                            $("#verify_otp").val('');
+                            $("#OtpModal").modal('hide');
+                            $("#RegisterModal").modal('show');
+                            return;
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
             }
         });
         // End: To Verify the OTP
@@ -371,6 +471,11 @@
 
                 // Format CNIC on input
                 $('#cnic_no').on('input', function() {
+                    formatField($(this));
+                });
+                
+                // Format firstCnic_no on input
+                $('#firstCnic_no').on('input', function() {
                     formatField($(this));
                 });
             // End:   Function to format CNIC dynamically (323226161887 => 32322-616188-7)
@@ -487,7 +592,6 @@
             // Begin:   function to validate form fields
                 $("#regsterBtn").click(function(e){
                     $(".alert-danger").remove();
-                    e.preventDefault();
 
                     // To check the firstname is empty or not
                     let firstname = $("#firstname").val();
@@ -547,7 +651,52 @@
                 });
             // End:   function to validate form fields
 
+            // Submit the form using Ajax
+    $('#m_form_register').submit(function (e) {
+        e.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                url: 'client/login/store',
+                data: $('#m_form_register').serialize(),
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    $(".alert-danger").remove();
+                    if (response.status === 'success') {
+                        // If the user is added successfully
+                        $("#RegisterModal").modal('hide');
+                        $('#m_form_register')[0].reset();
+                        Swal.fire('Success', response.message, 'success');
+                    } else {
+                        Swal.fire('Error', response.message, 'error');
+                    }
+                },
+                error: function (err) {
+                    // If there is an error adding the user
+                    let error = err.responseJSON;
+                    $(".alert-danger").remove();
+                    if (error.hasOwnProperty('errors')) {
+                        $.each(error.errors, function (index, value) {
+                            if(index=='new_phone_number'){
+                                $("#div_new_phone_number").after('<div class="alert alert-danger">'+value+'</div>');
+                            } else {
+                                $("#" + index).after('<div class="alert alert-danger">'+value+'</div>');
+                            }
+                        });
+                    } else if (error.hasOwnProperty('message')) {
+                        // Display a general error message
+                        Swal.fire('Error', error.message, 'error');
+                    }
+                }
+            });
+        
+
+    });
+
         // End: Script for the Register New User Form
 
+        
     });
 </script>

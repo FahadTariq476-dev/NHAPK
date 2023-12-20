@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -30,8 +31,8 @@ class LoginClientController extends Controller
         // dd($req->toArray());
         try{
             // 
-            echo '+923'.$req->phone_number_login;
-            $users = User::where('phone_number','+923'.$req->phone_number_login)->first();
+            // $users = User::where('phone_number','+923'.$req->phone_number_login)->first();
+            $users = User::where('phone_number','+923'.$req->phone_number_login)->where('cnic_no',$req->cnic_no_login)->first();
             if(!($users)){
                 return redirect()->route('Home')->with('error', 'Invalid Credentials');
             }
@@ -71,6 +72,29 @@ class LoginClientController extends Controller
         try{
             // 
             $users = User::where('phone_number','+923'.$phone_number)->get();
+            if(count($users)>0){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
+        catch(Exception $e){
+            return redirect()->back()->with('error','Your Exception is:'.$e->getMessage());
+        }
+    }
+    /**
+     * End: Function to check the phone_number exist or not
+    */
+    
+    /**
+     * Begin: Function to check the phone_number exist or not
+    */
+    public function cnicCheckPhoneNumber($cnic_no,$phone_number){
+        try{
+            // 
+            $users = User::where('phone_number','+923'.$phone_number)->where('cnic_no',$cnic_no)->get();
+            // dd($users->toArray());
             if(count($users)>0){
                 return 1;
             }
@@ -135,16 +159,30 @@ class LoginClientController extends Controller
                 // Assign role only if the user is successfully saved
                 if ($results) {
                     $user->assignRole("nhapk_client");
-                    return redirect()->route('Home')->with('success', 'User created successfully');
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'User added successfully',
+                    ]);
                 } else {
-                    return redirect()->route('Home')->with('error', 'Due to some error. User not saved. Kindly try again');
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'User Not saved successfully',
+                    ]);
                 }
             }
             catch(ValidationException $vaildationExceptionErrors){
-                return redirect()->back()->withErrors($vaildationExceptionErrors->validator->getMessageBag())->withInput();;
+                Log::error($vaildationExceptionErrors->errors());
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => $vaildationExceptionErrors->validator->getMessageBag(),
+                ], 422);
             }
             catch(Exception $e){
-                return redirect()->route('Home')->with('error','Your Exception is: '.$e->getMessage());
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Failed to add user',
+                    'exception' => $e->getMessage(),
+                ], 500);
             }
         }
      /**
