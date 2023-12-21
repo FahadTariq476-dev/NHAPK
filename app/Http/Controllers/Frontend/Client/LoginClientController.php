@@ -34,7 +34,11 @@ class LoginClientController extends Controller
             // $users = User::where('phone_number','+923'.$req->phone_number_login)->first();
             $users = User::where('phone_number','+923'.$req->phone_number_login)->where('cnic_no',$req->cnic_no_login)->first();
             if(!($users)){
-                return redirect()->route('Home')->with('error', 'Invalid Credentials');
+                // return redirect()->route('Home')->with('error', 'Invalid Credentials');
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid Credentials',
+                ]);
             }
             $email =$users->email;
             $password=$req->password;
@@ -48,19 +52,42 @@ class LoginClientController extends Controller
                 if ($userRoles->contains('nhapk_client')) {
                     // dd("Yes Client");
                     // Redirect to the desired route for nhapk_client role
-                    return redirect()->route('client.dashboard.index')->with('success',"Successfully Logged in Now!");
+                    if($users->nhapk_verified == 0){
+                        $users->nhapk_verified = 1;
+                        $users->save();
+                    }
+                    
+                    // return redirect()->route('client.dashboard.index')->with('success',"Successfully Logged in Now!");
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'Successfully Logged in Now!',
+                        'redirect' => route('client.dashboard.index'), // Adjust this to your dashboard route
+                    ]);
                 } 
                 
                 else {
                     Auth::logout();
-                    return redirect()->route('Home')->with('error', 'Invalid Credentials');
+                    // return redirect()->route('Home')->with('error', 'Invalid Credentials');
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Invalid Credentials',
+                    ]);
                 }
             } else {
-                return redirect()->route('Home')->with('error', 'Invalid Credentials');
+                // return redirect()->route('Home')->with('error', 'Invalid Credentials');
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid Credentials',
+                ]);
             }
         }
         catch(Exception $e){
-            return redirect()->route('Home')->with('error','Your Exception is:'.$e->getMessage());
+            dd($e->getMessage());
+            // return redirect()->route('Home')->with('error','Your Exception is:'.$e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to add user'.$e->getMessage(),
+            ], 500);
         }
     }
     // End: Function to check the credentails and logged in the client user
@@ -93,13 +120,16 @@ class LoginClientController extends Controller
     public function cnicCheckPhoneNumber($cnic_no,$phone_number){
         try{
             // 
-            $users = User::where('phone_number','+923'.$phone_number)->where('cnic_no',$cnic_no)->get();
+            $users = User::where('phone_number','+923'.$phone_number)->where('cnic_no',$cnic_no)->first();
             // dd($users->toArray());
-            if(count($users)>0){
-                return 1;
+            if(($users)){
+                if($users->nhapk_verified==0){
+                    return -1;      // It means that user exist but it is not verified it will verify the otp here
+                }
+                return 1;       // It means that user exist and it is nhapk_verified it will enter the password here
             }
             else{
-                return 0;
+                return 0;   // It means that user does not exist with mobile number and cnic it will can register now
             }
         }
         catch(Exception $e){
@@ -153,16 +183,23 @@ class LoginClientController extends Controller
                 $user->slug = $uniqueSlug;
                 $user->password = Hash::make($request->password);
                 $user->nhapk_register = 1;
+                $user->nhapk_verified = 1;
                 // Save the user
                 $results = $user->save();
 
                 // Assign role only if the user is successfully saved
                 if ($results) {
                     $user->assignRole("nhapk_client");
-                    return response()->json([
-                        'status' => 'success',
-                        'message' => 'User added successfully',
-                    ]);
+                        Auth::login($user);
+                        return response()->json([
+                            'status' => 'success',
+                            'message' => 'User added successfully',
+                            'redirect' => route('client.dashboard.index'), // Adjust this to your dashboard route
+                        ]);
+                    // return response()->json([
+                    //     'status' => 'success',
+                    //     'message' => 'User added successfully',
+                    // ]);
                 } else {
                     return response()->json([
                         'status' => 'error',

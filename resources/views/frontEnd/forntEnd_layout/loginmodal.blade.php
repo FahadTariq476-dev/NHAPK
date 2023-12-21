@@ -10,7 +10,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="row g-3 d-flex justify-content-center">
+                <form class="row g-3 d-flex justify-content-center" id="fristCnicForm">
                     <div class="col-8 mb-2">
                         <label for="phone" class="form-label">
                             <h5 style="color: #7367f0; font-family: inherit;">Enter Your CNIC Number</h5>
@@ -43,13 +43,13 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="row g-3 d-flex justify-content-center">
+            <form class="row g-3 d-flex justify-content-center" id="mobNoForm">
                 <div class="col-8 mb-2">
                     <label for="phone" class="form-label">
                         <h5 style="color: #7367f0; font-family: inherit;">Enter Your Phone Number</h5>
                     </label>
                     <div class="input-group w-100" style="border-top: none;">
-                        <div class="input-group">
+                        <div class="input-group" id="divPhone_number">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">+923</span>
                             </div>
@@ -81,15 +81,16 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="row g-3 d-flex justify-content-center" action="{{route('front-end.client.login_credentials')}}" method="POST">
+            {{-- <form class="row g-3 d-flex justify-content-center" action="{{route('front-end.client.login_credentials')}}" method="POST" id="passwordFrom"> --}}
+            <form class="row g-3 d-flex justify-content-center" id="passwordFrom">
                 <div class="col-8 mb-2">
                     <label for="password" class="form-label">
                         <h5 style="color: #7367f0; font-family: inherit;">Enter Your Password</h5>
                     </label>
-                    @csrf
+                    {{-- @csrf --}}
                     <div style="border-top: none;">
-                        <input type="hidden" class="form-control" id="phone_number_login" name="phone_number_login" maxlength="9" minlength="9" placeholder="Enter Your Mobile Number Here:" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);" readonly>
-                        <input type="hidden" class="form-control" id="cnic_no_login" name="cnic_no_login" maxlength="15" minlength="15" readonly>
+                        <input type="text" class="form-control" id="phone_number_login" name="phone_number_login" maxlength="9" minlength="9" placeholder="Enter Your Mobile Number Here:" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);" readonly>
+                        <input type="text" class="form-control" id="cnic_no_login" name="cnic_no_login" maxlength="15" minlength="15" readonly>
                         <input value="" id="loginPassword" type="password" class="form-control" name="password" style="border: none !important; border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;"
                             placeholder="*******" required>
                     </div>
@@ -116,7 +117,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="row g-3 d-flex justify-content-center">
+                <form class="row g-3 d-flex justify-content-center" id="otpForm">
                     <div class="col-8 mb-2">
                         <label for="otp" class="form-label text-dark">
                             <h5 style="color: #7367f0; font-family: inherit;">Enter OTP code</h5>
@@ -128,7 +129,8 @@
                         </div>
                     </div>
                     <div class="col-8 mb-2">
-                        <div class="modal-footer" style="border-top: none;">
+                        <div class="modal-footer row" style="border-top: none;">
+                            <button class="btn btn-success" id="btnOtpResend" data-toggle="modal" data-target="">Resend OTP</button>
                             <button class="btn " id="btn-Otp" data-toggle="modal" data-target="">Verify OTP</button>
                             {{-- <button class="btn " id="btn-Otp" data-toggle="modal" data-target="#RegisterModal">Verify OTP</button> --}}
                         </div>
@@ -147,14 +149,15 @@
             <!-- Add 'max-height' to limit the height of the modal -->
 
             <div class="modal-header" style="border-bottom: none;">
-                <h1 class="modal-title fs-5" id="exampleModalToggleLabel3"></h1>
+                {{-- <h1 class="modal-title fs-5" id="exampleModalToggleLabel3"></h1> --}}
+                <h4 class="modal-title fs-5" id="exampleModalToggleLabel3">Register New User</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="back">
-                <h2 class="px-5 pb-2" style="color: #7367f0; font-family: inherit;">
-                    Register New User</h2>
+                {{-- <h2 class="px-5 pb-2" style="color: #7367f0; font-family: inherit;">
+                    Register New User</h2> --}}
                 <div class="box text-dark">
                     <h4 class="px-5 pb-2" style="color: #7367f0; font-family: inherit;">
                         Enter Your Information</h4>
@@ -199,7 +202,7 @@
                         <div class="form-group">
                             <label for="cnic_no">CNIC:</label>
                             <input type="text" id="cnic_no" class="form-control error mt-2" name="cnic_no" minlength="15" maxlength="15"
-                                placeholder="Enter your CNIC number" value="{{old('cnic_no')}}"
+                                placeholder="Enter your CNIC number" value="{{old('cnic_no')}}" readonly
                                 style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
                         </div>
                         @error('cnic_no')
@@ -214,7 +217,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">+923</span>
                                     </div>
-                                    <input type="tel" class="form-control" id="new_phone_number" name="new_phone_number" maxlength="9" minlength="9" 
+                                    <input type="tel" class="form-control" id="new_phone_number" name="new_phone_number" maxlength="9" minlength="9" readonly
                                     value="{{old('new_phone_number')}}" placeholder="Enter Your Mobile Number Here:" 
                                     oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);" style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
                                 </div>
@@ -289,7 +292,8 @@
 <script>
     $(document).ready(function() {
         // $("#RegisterModal").modal('show');
-        var generatedOtp = Math.floor(100000 + Math.random() * 900000);
+        var generatedOtp = '';
+        let newUser ="";
         // Begin:   Handle the btnLogin
             $("#btnLogin").click(function(e){
                 // 
@@ -300,23 +304,27 @@
                     // 
                     $('#MobModal').modal('show');
                     $('#cnicModal').modal('hide');
-                    // $.ajax({
-                    //     type:'GET',
-                    //     url:'/checkCNIC/'+firstCnic_no,
-                    //     success:function(response){
-                    //         $('#MobModal').modal('show');
-                    //         $('#cnicModal').modal('hide');
-                    //         if(response==1){
-                    //             return;
-                    //         }
-                    //         else{
-                    //             return;
-                    //         }
-                    //     },
-                    //     error:function(error){
-                    //         console.log(error);
-                    //     }
-                    // });
+                    $.ajax({
+                        type:'GET',
+                        url:'/checkCNIC/'+firstCnic_no,
+                        success:function(response){
+                            $(".alert-info").remove();
+                            if(response==1){
+                                newUser="False";
+                                return;
+                            }
+                            else{
+                                newUser="True";
+                                $("#divPhone_number").after('<div class="alert alert-info">You are new user. Kindly Enter your Number to register yourself.</div>');
+                                return;
+                            }
+                            $('#MobModal').modal('show');
+                            $('#cnicModal').modal('hide');
+                        },
+                        error:function(error){
+                            console.log(error);
+                        }
+                    });
                 } else if(firstCnic_no.length==0){
                     return;
                 }
@@ -333,44 +341,78 @@
             $('.alert-danger').remove();
             e.preventDefault();
             let phone_number = $("#phone_number").val();
-            // let firstCnic_no = $("#firstCnic_no").val();
+            let firstCnic_no = $("#firstCnic_no").val();
             if(phone_number.length==0){
                 return;
             }
             else if(!validatePhoneNumber(phone_number)){
                 e.preventDefault();
-                $("#phone_number").after('<div class="alert alert-danger">Valid Phone Number should be provided.</div>');
+                $("#divPhone_number").after('<div class="alert alert-danger">Valid Phone Number should be provided.</div>');
                 $("#phone_number").focus();
             }
             else{
-                $('#OtpModal').modal('show');
-                $('#MobModal').modal('hide');
-                $('#passwordModal').modal('hide');
-                toastr.success('OTP Code: ' + generatedOtp);
-                // $.ajax({
-                //     url:'/check-phone_number/'+firstCnic_no+'/'+phone_number,
-                //     type:'GET',
-                //     success:function(response){
-                //         if(response==1){
-                //             $('#phoneNumModal').modal('hide');
-                //             $('#passwordModal').modal('show');
-                //             $('#phone_number_login').val(phone_number);
-                //             $("#phone_number").val('');
-                //         }
-                //         else{
-                //             $('#OtpModal').modal('show');
-                //             $('#phoneNumModal').modal('hide');
-                //             $('#passwordModal').modal('hide');
-                //             // $("#phone_number").after('<div class="alert alert-danger">Valid Phone Number should be provided that exist in our record.</div>');
-                //             $("#phone_number").val('');
-                //             toastr.success('OTP Code: ' + generatedOtp);
-                //             return;
-                //         }
-                //     },
-                //     error: function (error) {
-                //         console.log(error);
-                //     }
-                // });
+                if(newUser=="True"){
+                    $.ajax({
+                        url:'/check-phone_number/'+phone_number,
+                        type:'GET',
+                        success:function(response){
+                            if(response==1){
+                                $("#divPhone_number").after('<div class="alert alert-danger">Unique Phone Number should be provided.</div>');
+                                $('#MobModal').modal('show');
+                                $("#phone_number").focus();
+                            }
+                            else{
+                                $("#div_verify_otp").after('<div class="alert alert-info">You are new user at NHAPK. Kindly Verify your Number to Register yourself.</div>');
+                                $('#OtpModal').modal('show');
+                                $('#MobModal').modal('hide');
+                                $('#passwordModal').modal('hide');
+                                generatedOtp = Math.floor(100000 + Math.random() * 900000);
+                                toastr.success('OTP Code: ' + generatedOtp);
+                                return;
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }
+                else if(newUser=="False"){
+                    // 
+                    $.ajax({
+                        url:'/check-phone_number/'+firstCnic_no+'/'+phone_number,
+                        type:'GET',
+                        success:function(response){
+                            if(response==1){
+                                $('#MobModal').modal('hide');
+                                $("#phone_number_login").val(phone_number);
+                                $("#cnic_no_login").val(firstCnic_no);
+                                $('#passwordModal').modal('show');
+                            }
+                            else if(response==-1){
+                                $("#div_verify_otp").after('<div class="alert alert-info">You are new user at NHAPK. Kindly Verify your Number to login yourself.</div>');
+                                $('#OtpModal').modal('show');
+                                $('#MobModal').modal('hide');
+                                $('#passwordModal').modal('hide');
+                                generatedOtp = Math.floor(100000 + Math.random() * 900000);
+                                toastr.success('OTP Code: ' + generatedOtp);
+                                return;
+                            }
+                            else{
+                                $("#div_verify_otp").after('<div class="alert alert-info">You are new user at NHAPK. Kindly Verify your Number to Register yourself.</div>');
+                                $('#OtpModal').modal('show');
+                                $('#MobModal').modal('hide');
+                                $('#passwordModal').modal('hide');
+                                generatedOtp = Math.floor(100000 + Math.random() * 900000);
+                                toastr.success('OTP Code: ' + generatedOtp);
+                                return;
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }
+                
             }
 
         });
@@ -392,9 +434,39 @@
                 $("#loginPassword").after('<div class="alert alert-danger">Password must be 8 characters.</div>');
                 $("#loginPassword").val('');
                 $("#loginPassword").focus();
+                return;
             }
             else{
                 // window.location.href = '/admin/faqs/editfaqs/' + dataId;
+                e.preventDefault();
+                $.ajax({
+                type: 'POST',
+                url: 'client/login',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: $('#passwordFrom').serialize(),
+                success: function (response) {
+                    $('#m_form_register')[0].reset();
+                    $('#fristCnicForm')[0].reset();
+                    $('#mobNoForm')[0].reset();
+                    $('#otpForm')[0].reset();
+                    $('#passwordFrom')[0].reset();
+                    $('#passwordModal').modal('hide');
+                    if (response.status === 'success') {
+                        window.location.href = response.redirect;
+                    } else if (response.status === 'error') {
+                        Swal.fire('Error', response.message, 'error');
+                    }
+                },
+                error: function (err) {
+                    // If there is an error adding the user
+                    let error = err.responseJSON;
+                    Swal.fire('Console Error', error.message, 'error');
+                }
+            });
+
+                
             }
 
         });
@@ -402,6 +474,8 @@
         // Begin: To Verify the OTP
         $('#btn-Otp').click(function(e){
             let verify_otp = $("#verify_otp").val();
+            let phone_number = $("#phone_number").val();
+            let firstCnic_no = $("#firstCnic_no").val();
             $(".alert-danger").remove();
             if(verify_otp != generatedOtp){
                 e.preventDefault();
@@ -412,34 +486,58 @@
             }
             else{
                 e.preventDefault();
-                let phone_number = $("#phone_number").val();
-                let firstCnic_no = $("#firstCnic_no").val();    
-                $.ajax({
-                    url:'/check-phone_number/'+firstCnic_no+'/'+phone_number,
-                    type:'GET',
-                    success:function(response){
-                        if(response==1){
-                            $('#OtpModal').modal('hide');
-                            $('#passwordModal').modal('show');
-                            $("#cnic_no_login").val(firstCnic_no);
-                            $("#phone_number_login").val(phone_number);
-                            $("#phone_number").val('');
-                            $("#firstCnic_no").val('');
-                        }
-                        else{
-                            $("#verify_otp").val('');
-                            $("#OtpModal").modal('hide');
-                            $("#RegisterModal").modal('show');
-                            return;
-                        }
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
+                if(newUser=="True"){
+                    $("#verify_otp").val('');
+                    $("#OtpModal").modal('hide');
+                    $("#RegisterModal").modal('show');
+                    $("#cnic_no").val(firstCnic_no);
+                    $("#new_phone_number").val(phone_number);
+                    return;
+                }
+                else if(newUser=="False"){
+                    $('#OtpModal').modal('hide');
+                    $("#phone_number_login").val(phone_number);
+                    $("#cnic_no_login").val(firstCnic_no);
+                    $('#passwordModal').modal('show');
+                    return;
+                }
+                return;
+                    
+                // $.ajax({
+                //     url:'/check-phone_number/'+firstCnic_no+'/'+phone_number,
+                //     type:'GET',
+                //     success:function(response){
+                //         if(response==1){
+                //             $('#OtpModal').modal('hide');
+                //             $('#passwordModal').modal('show');
+                //             $("#cnic_no_login").val(firstCnic_no);
+                //             $("#phone_number_login").val(phone_number);
+                //             $("#phone_number").val('');
+                //             $("#firstCnic_no").val('');
+                //         }
+                //         else{
+                //             $("#verify_otp").val('');
+                //             $("#OtpModal").modal('hide');
+                //             $("#RegisterModal").modal('show');
+                //             return;
+                //         }
+                //     },
+                //     error: function (error) {
+                //         console.log(error);
+                //     }
+                // });
             }
         });
         // End: To Verify the OTP
+
+        // Begin: To resend the OTP
+            $("#btnOtpResend").click(function(e){
+                e.preventDefault();
+                generatedOtp = Math.floor(100000 + Math.random() * 900000);
+                toastr.success('OTP Code: ' + generatedOtp);
+                return;
+            });
+        // End: To resend the OTP
 
         // Begin: Script for the Register New User Form
             // Begin:   Toggle password visibility
@@ -668,7 +766,12 @@
                         // If the user is added successfully
                         $("#RegisterModal").modal('hide');
                         $('#m_form_register')[0].reset();
+                        $('#fristCnicForm')[0].reset();
+                        $('#mobNoForm')[0].reset();
+                        $('#otpForm')[0].reset();
+                        $('#passwordFrom')[0].reset();
                         Swal.fire('Success', response.message, 'success');
+                        window.location.href = response.redirect;
                     } else {
                         Swal.fire('Error', response.message, 'error');
                     }
