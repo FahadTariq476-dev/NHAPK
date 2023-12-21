@@ -9,6 +9,7 @@
     <!-- SEO Meta Description -->
     <meta name="description" content="">
     <meta name="author" content="Themeland">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Title  -->
     {{-- <title>NHA Pakistan | National Hostel Association of Pakistan</title>
