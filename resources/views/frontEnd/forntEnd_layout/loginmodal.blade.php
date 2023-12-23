@@ -89,8 +89,8 @@
                     </label>
                     {{-- @csrf --}}
                     <div style="border-top: none;">
-                        <input type="text" class="form-control" id="phone_number_login" name="phone_number_login" maxlength="9" minlength="9" placeholder="Enter Your Mobile Number Here:" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);" readonly>
-                        <input type="text" class="form-control" id="cnic_no_login" name="cnic_no_login" maxlength="15" minlength="15" readonly>
+                        <input type="hidden" class="form-control" id="phone_number_login" name="phone_number_login" maxlength="9" minlength="9" placeholder="Enter Your Mobile Number Here:" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);" readonly>
+                        <input type="hidden" class="form-control" id="cnic_no_login" name="cnic_no_login" maxlength="15" minlength="15" readonly>
                         <input value="" id="loginPassword" type="password" class="form-control" name="password" style="border: none !important; border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;"
                             placeholder="*******" required>
                     </div>
@@ -339,6 +339,7 @@
         $('#btn-phoneNum').click(function(e) {
             // Perform phone number validation
             $('.alert-danger').remove();
+            $('.alert-info').remove();
             e.preventDefault();
             let phone_number = $("#phone_number").val();
             let firstCnic_no = $("#firstCnic_no").val();
@@ -398,12 +399,11 @@
                                 return;
                             }
                             else{
-                                $("#div_verify_otp").after('<div class="alert alert-info">You are new user at NHAPK. Kindly Verify your Number to Register yourself.</div>');
-                                $('#OtpModal').modal('show');
-                                $('#MobModal').modal('hide');
+                                $("#divPhone_number").after('<div class="alert alert-info">Your mob no doesnt mathced with you cnicn kindly provide the correct cnic.</div>');
+                                $('#OtpModal').modal('hide');
+                                $('#MobModal').modal('show');
                                 $('#passwordModal').modal('hide');
-                                generatedOtp = Math.floor(100000 + Math.random() * 900000);
-                                toastr.success('OTP Code: ' + generatedOtp);
+                                $("#phone_number").focus();
                                 return;
                             }
                         },
