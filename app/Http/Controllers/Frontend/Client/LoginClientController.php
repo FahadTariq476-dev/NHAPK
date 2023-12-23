@@ -33,6 +33,7 @@ class LoginClientController extends Controller
             // 
             // $users = User::where('phone_number','+923'.$req->phone_number_login)->first();
             $users = User::where('phone_number','+923'.$req->phone_number_login)->where('cnic_no',$req->cnic_no_login)->first();
+            // dd($users);
             if(!($users)){
                 // return redirect()->route('Home')->with('error', 'Invalid Credentials');
                 return response()->json([
