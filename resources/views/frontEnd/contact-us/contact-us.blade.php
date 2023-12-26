@@ -52,15 +52,16 @@
                                 {{-- Begin: Mobile Number --}}
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="form-group">
+                                        <div class="form-group" id="divMobNo">
                                             <label for="mob_no">Mobile Number:</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text">+923</span>
+                                                    <span class="input-group-text">+92</span>
                                                 </div>
-                                                <input type="tel" class="form-control" id="mob_no" name="mob_no" pattern="[0-9]{9}" maxlength="9" minlength="9" value="{{old('mob_no')}}" placeholder="Enter Your Mobile Number Here:" >
+                                                <input type="tel" class="form-control" id="mob_no" name="mob_no" pattern="[0-9]{10}" maxlength="10" minlength="10" 
+                                                value="{{old('mob_no')}}" placeholder="Enter Your Mobile Number Here:" onkeyup="validateMobileNumber(this)">
                                             </div>
-                                            <small class="form-text text-muted">Please enter a mobile number. Don't add +923</small>
+                                            <small class="form-text text-muted">Please enter a mobile number. Don't add +92</small>
                                         </div>
                                         @error('mob_no')
                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -74,7 +75,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="email">Your Email:</label>
-                                            <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}" placeholder="Enter Your Email Here:">
+                                            <input type="email" class="form-control" id="userEmail" name="email" value="{{old('email')}}" placeholder="Enter Your Email Here:">
                                         </div>
                                         @error('email')
                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -164,6 +165,21 @@
         @endsection()
         @section('frontEnd-js')
         <script>
+            function validateMobileNumber(input) {
+                // Remove any non-digit characters
+                let sanitizedValue = input.value.replace(/\D/g, '');
+            
+                // Ensure the first digit is 3
+                if (sanitizedValue.length > 0 && sanitizedValue[0] !== '3') {
+                    // If the first digit is not 3, remove it
+                    sanitizedValue = sanitizedValue.slice(1);
+                }
+            
+                // Update the input value with the sanitized value
+                input.value = sanitizedValue;
+            }
+        </script>
+        <script>
             $(document).ready(function () {
                 function isValidEmail(email) {
                     // Regular expression for a simple email validation
@@ -194,16 +210,16 @@
 
                     // check the mobile number is empty or not
                     var mob_no = $('#mob_no').val();
-                    if(mob_no.length !== 9){
+                    if (mob_no.length !== 10 || mob_no[0] !== '3' || !/^\d+$/.test(mob_no)) {
                         e.preventDefault();
-                        $("#mob_no").after('<div class="alert alert-danger">Mobile Number should be provided and completely.</div>');
+                        $("#divMobNo").after('<div class="alert alert-danger">Mobile Number should be provided and should start with 3 and contain only ten digits.</div>');
                     }
 
                     //  CHeck the email is valid or not
-                    var email = $('#email').val();
-                    if((!email) || (!isValidEmail(email))){
+                    var email = $('#userEmail').val();
+                    if(email.length==0 || !(isValidEmail(email))){
                         e.preventDefault();
-                        $("#email").after('<div class="alert alert-danger">Email should be provided and should be in the correct format.</div>');
+                        $("#userEmail").after('<div class="alert alert-danger">Email should be provided and should be in the correct format.</div>');
                     }
 
                     var message = $('#message').val();

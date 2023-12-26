@@ -32,7 +32,7 @@ class LoginClientController extends Controller
         try{
             // 
             // $users = User::where('phone_number','+923'.$req->phone_number_login)->first();
-            $users = User::where('phone_number','+923'.$req->phone_number_login)->where('cnic_no',$req->cnic_no_login)->first();
+            $users = User::where('phone_number','+92'.$req->phone_number_login)->where('cnic_no',$req->cnic_no_login)->first();
             // dd($users);
             if(!($users)){
                 // return redirect()->route('Home')->with('error', 'Invalid Credentials');
@@ -99,7 +99,7 @@ class LoginClientController extends Controller
     public function checkPhoneNumber($phone_number){
         try{
             // 
-            $users = User::where('phone_number','+923'.$phone_number)->get();
+            $users = User::where('phone_number','+92'.$phone_number)->get();
             if(count($users)>0){
                 return 1;
             }
@@ -121,7 +121,7 @@ class LoginClientController extends Controller
     public function cnicCheckPhoneNumber($cnic_no,$phone_number){
         try{
             // 
-            $users = User::where('phone_number','+923'.$phone_number)->where('cnic_no',$cnic_no)->first();
+            $users = User::where('phone_number','+92'.$phone_number)->where('cnic_no',$cnic_no)->first();
             // dd($users->toArray());
             if(($users)){
                 if($users->nhapk_verified==0){
@@ -154,13 +154,15 @@ class LoginClientController extends Controller
                     'email' => 'required|email|unique:users,email',
                     'cnic_no' => 'required|string|max:15|min:15|unique:users,cnic_no',
                     // 'new_phone_number' => 'required|string|required|regex:/^[0-9]{9}$/',
+                    // 'mob_no' => 'required|numeric|digits:10|regex:/^3\d{9}$/',
                     'new_phone_number' => [
                         'required',
-                        'string',
-                        'regex:/^[0-9]{9}$/',
+                        'numeric',
+                        'digits:10',
+                        'regex:/^3\d{9}$/',
                         Rule::unique('users', 'phone_number')->where(function ($query) use ($request) {
                             // Customize the condition to match your database structure
-                            $query->where('phone_number', '+923' . $request->new_phone_number);
+                            $query->where('phone_number', '+92' . $request->new_phone_number);
                         }),
                     ],
                     'password' => 'required|string|required|max:8|min:8',
@@ -180,7 +182,7 @@ class LoginClientController extends Controller
                 $user->lastname = $request->lastname;
                 $user->cnic_no = $request->cnic_no;
                 $user->email = $request->email;
-                $user->phone_number = '+923'.$request->new_phone_number;
+                $user->phone_number = '+92'.$request->new_phone_number;
                 $user->slug = $uniqueSlug;
                 $user->password = Hash::make($request->password);
                 $user->nhapk_register = 1;

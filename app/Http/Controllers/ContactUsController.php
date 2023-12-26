@@ -17,7 +17,7 @@ class ContactUsController extends Controller
         // return $req;
         $rules =[
             "name" => 'required|string|max:255',
-            "mob_no" => 'required|numeric| digits:9',
+            'mob_no' => 'required|numeric|digits:10|regex:/^3\d{9}$/',
             "email" => 'required|string|email',
             "message" => 'required |min:5|max:500',
             'g-recaptcha-response' => 'required|captcha',
@@ -26,6 +26,7 @@ class ContactUsController extends Controller
         $messages = [
             'g-recaptcha-response.required' => 'Please complete the captcha.',
             'g-recaptcha-response.captcha' => 'Captcha verification failed, please try again.',
+            'mob_no.regex' => 'Mobile Number should be provided and should start with 3 and contain only ten digits.',
         ];
         // return $req->mob_no;
         
@@ -34,7 +35,7 @@ class ContactUsController extends Controller
         
         $contactUs = new ContactUs();
         $contactUs->name = $req->name;
-        $contactUs->mob_no = "+923".$req->mob_no;
+        $contactUs->mob_no = "+92".$req->mob_no;
         $contactUs->email = $req->email;
         $contactUs->message = $req->message;
         $result = $contactUs->save();

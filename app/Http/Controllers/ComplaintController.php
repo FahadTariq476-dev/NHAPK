@@ -29,7 +29,8 @@ class ComplaintController extends Controller
         // Validation rules
         $rules = [
             'fullName' => 'required',
-            'MobNo' => 'required|numeric|digits:9',
+            // 'MobNo' => 'required|numeric|digits:9',
+            'MobNo' => 'required|numeric|digits:10|regex:/^3\d{9}$/',
             'email' => 'required|email',
             'roomNumber' => 'required',
             'countryId' => 'required',
@@ -47,6 +48,7 @@ class ComplaintController extends Controller
             'countryId.exsits' => 'Invalid Country ID.',
             'stateId.exsits' => 'Invalid State ID.',
             'cityId.exsits' => 'Invalid City ID.',
+            'MobNo.regex' => 'Mobile Number should be provided and should start with 3 and contain only ten digits.',
         ];
         // dd($req->toArray());
 
@@ -57,7 +59,7 @@ class ComplaintController extends Controller
         // If validation passes, you can continue with processing the data
         $complaint = new Complaint();
         $complaint->name = $req->fullName;
-        $complaint->mob_no = '+923'.$req->MobNo;
+        $complaint->mob_no = '+92'.$req->MobNo;
         $complaint->email = $req->email;
         $complaint->room_no = $req->roomNumber;
         $complaint->hostel_id = $req->hostelId;
