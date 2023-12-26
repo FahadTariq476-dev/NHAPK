@@ -56,18 +56,21 @@
         @enderror
         <div class="form-group">
             <label for="MobNo">Mobile Number:</label>
-            <div class="input-group" id="div-MobNo">
+            <div class="input-group" id="divMobNo">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">+923</span>
+                    <span class="input-group-text">+92</span>
                 </div>
-                <input type="text" class="form-control" name="MobNo" id="MobNo" value="{{old('MobNo')}}" pattern="[0-9]{9}" maxlength="9" minlength="9"  placeholder="Enter your mobile number here:">
+                {{-- <input type="text" class="form-control" name="MobNo" id="MobNo" value="{{old('MobNo')}}" pattern="[0-9]{10}" maxlength="10" minlength="10"  
+                placeholder="Enter your mobile number here:" onkeyup="validateMobileNumber(this)">  --}}
+                <input type="text" class="form-control" name="MobNo" id="MobNo" value="{{old('MobNo')}}" 
+                placeholder="Enter your mobile number here:" >
             </div>
-            <small class="form-text text-muted">Please enter a mobile number. Don't add +923</small>
+            <small class="form-text text-muted">Please enter a mobile number. Don't add +92</small>
         </div>
         @error('MobNo')
             <div class="alert alert-danger">{{$message}}</div>
         @enderror
-        <div class="form-group">
+        <div class="form-group" id="divEmail">
             <label for="fullName">Email:</label>
             <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}" placeholder="Enter your email here:" >
         </div>
@@ -174,208 +177,233 @@
         @enderror
 
         <button type="submit" class="btn btn-primary">Submit Complaint</button>
+        <button type="reset" class="btn btn-info">Reset</button>
     </form>
 </div>
 
 
 
-{{-- Begin: To Get States Name and Id Using Country Id --}}
-<script>
-    $(document).ready(function() {
-        $('#countryId').change(function() {
-            if($('#countryId').val() != null){
-                var countryId = $(this).val();
-                // Make an Ajax request to get the states for the selected country
-                $.ajax({
-                    url: '/get-states/' + countryId,
-                    type: 'GET',
-                    success: function(response) {
-                        // Clear existing options
-                        $('#stateId').empty();
-                        $('#stateId').append('<option value="" selected disabled>Select State</option>');
-                        // Check if response has states or if states are null
-                        if (response.length === 0 || response === null) {
-                            $('#stateId').append('<option value="" disabled>No states found</option>');
-                        } else {
-                            // Populate the state dropdown with the fetched data
-                            $.each(response, function(key, value) {
-                                $('#stateId').append('<option value="' + value.id + '">' + value.name + '</option>');
-                            });
-                        }
-                        $('#cityId').empty();
-                        $('#cityId').append('<option value="" selected disabled>Select City</option>');
-                        $('#hostelId').empty();
-                        $('#hostelId').append('<option value="" selected disabled>Select Hostel</option>')
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
-                });
-            }
-        });
-    });
-</script>
-{{-- End: To Get States Name and Id Using Country Id --}}
 
-
-{{-- Begin: To Get Cities Name and Id Using States Id --}}
-<script>
-    $(document).ready(function() {
-        $('#stateId').change(function() {
-            if($('#stateId').val() != null){
-                var stateId = $(this).val();
-                // Make an Ajax request to get the states for the selected country
-                $.ajax({
-                    url: '/get-cities/' + stateId,
-                    type: 'GET',
-                    success: function(response) {
-                        // Clear existing options
-                        $('#cityId').empty();
-                        $('#cityId').append('<option value="" disabled selected>Select City</option>');
-                        // Check if response has cities or if cities are null
-                        if(response.length === 0 || response === null){
-                            $('#cityId').append('<option value="" disabled>No city found</option>');
-                        }
-                        else{
-                            // Populate the state dropdown with the fetched data
-                            $.each(response, function(key, value) {
-                                $('#cityId').append('<option value="' + value.id + '">' + value.name + '</option>');
-                            });
-                        }
-                        $('#hostelId').empty();
-                        $('#hostelId').append('<option value="" selected disabled>Select Hostel</option>')
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
-                });
-            }
-        });
-    });
-</script>
-{{-- End: To Get Cities Name and Id Using States Id --}}
-
-{{-- Begin: To Get The All Hostel Name and Id Using the City ID --}}
-<script>
-    $(document).ready(function(){
-        $('#cityId').change(function(){
-            if($('#cityId').val() != null){
-                let cityId = $(this).val();
-                $.ajax({
-                    url:'/get-properties/'+cityId,
-                    type:"GET",
-                    success:function(response){
-                        $('#hostelId').empty();
-                        $('#hostelId').append('<option value="" selected disabled>Select Hostel</option>')
-                        if(response.length === 0 || response === null){
-                            $('#hostelId').append('<option value=""  disabled>No Hostel Found</option>')
-                        }
-                        else{
-                            $.each(response, function(key, value){
-                                $('#hostelId').append('<option value="'+value.id+'">'+value.name+'</option>')
-                            });
-                        }
-                    },
-                    error:function(error){
-                        console.log(error);
-                    },
-                });
-            }
-        });
-    });
-</script>
-{{-- End: To Get The All Hostel Name and Id Using the City ID --}}
-
-{{-- Begin: Form validation --}}
-<script>
-    $(document).ready(function(){
-        // complaintForm validation logic here
-        $("#complaintForm").submit(function(e){
-            // Reset the previous error message
-            $(".alert-danger").remove();
-
-            // Check if the Full name is empty
-            let fullName = $('#fullName').val();
-            if(fullName.trim() === ''){
-                e.preventDefault();
-                $("#fullName").after('<div class="alert alert-danger">Full Name should be provided.</div>');
-            }
-
-            // Check if the Mobile Number is empty or it's length is not equal to 9
-            let MobNo = $("#MobNo").val();
-            if(MobNo.trim() ==='' || MobNo.length !=9){
-                e.preventDefault();
-                $("#div-MobNo").after('<div class="alert alert-danger">Mobile Number Should be provided properly. Plzz Dont add +923 in the mobile no.</div>')
-            }
-
-            // Check if the email is empty
-            let email = $("#email").val();
-            if(email.trim() === ''){
-                e.preventDefault();
-                $("#email").after('<div class="alert alert-danger">Email should be provided properly.</div>')
-            }
-
-            // Check if the room number is empty
-            let roomNumber = $("#roomNumber").val();
-            if(roomNumber.trim() === ""){
-                e.preventDefault();
-                $("#roomNumber").after('<div class="alert alert-danger">Room Number should be provided.</div>');
-            }
-
-            // Check if the contry is empty
-            let countryId = $("#countryId").val();
-            if(countryId === "" || countryId === null){
-                e.preventDefault();
-                $("#countryId").after('<div class="alert alert-danger">Country Should be selected.</div>')
-            }
-
-            // Check if the state is empty
-            let stateId = $("#stateId").val();
-            if(stateId === "" || stateId === null){
-                e.preventDefault();
-                $("#stateId").after('<div class="alert alert-danger">State should be selected</div>')
-            }
-
-            //  Check if the city is empty
-            let cityId = $("#cityId").val();
-            if(cityId === "" || cityId === null){
-                e.preventDefault();
-                $("#cityId").after('<div class="alert alert-danger">City should be provided</div>');
-            }
-
-            // Check if the hostel is empty
-            let hostelId = $("#hostelId").val();
-            if(hostelId === "" || hostelId === null){
-                e.preventDefault();
-                $("#hostelId").after('<div class="alert alert-danger">Hostel should be selected</div>')
-            }
-
-            // Chect if the Complaint Type is empty
-            let complaintType = $("#complaintType").val();
-            if(complaintType === "" || complaintType === null){
-                e.preventDefault();
-                $("#complaintType").after('<div class="alert alert-danger">Complaint Type should be selected</div>');
-            }
-
-            // Check if the priority is empty
-            let priority = $("#priority").val();
-            if(priority === "" || priority === null){
-                e.preventDefault();
-                $("#priority").after('<div class="alert alert-danger">Complaint Priority should be selected</div>');
-            }
-
-            // Check if the complaintDetails are empty
-            let complaintDetails = $("#complaintDetails").val();
-            if(complaintDetails.trim() ===""){
-                e.preventDefault();
-                $("#complaintDetails").after('<div class="alert alert-danger">Complaint details should be provided.</div>')
-            }
-
-        });
-    });
-</script>
-{{-- End: Form validation --}}
 
 
 
 @endsection()
+@section('frontEnd-js')
+    <script>
+        function validateMobileNumber(input) {
+            // Remove any non-digit characters
+            let sanitizedValue = input.value.replace(/\D/g, '');
+        
+            // Ensure the first digit is 3
+            if (sanitizedValue.length > 0 && sanitizedValue[0] !== '3') {
+                // If the first digit is not 3, remove it
+                sanitizedValue = sanitizedValue.slice(1);
+            }
+        
+            // Update the input value with the sanitized value
+            input.value = sanitizedValue;
+        }
+    </script>
+
+    {{-- Begin: To Get States Name and Id Using Country Id --}}
+    <script>
+        $(document).ready(function() {
+            $('#countryId').change(function() {
+                if($('#countryId').val() != null){
+                    var countryId = $(this).val();
+                    // Make an Ajax request to get the states for the selected country
+                    $.ajax({
+                        url: '/get-states/' + countryId,
+                        type: 'GET',
+                        success: function(response) {
+                            // Clear existing options
+                            $('#stateId').empty();
+                            $('#stateId').append('<option value="" selected disabled>Select State</option>');
+                            // Check if response has states or if states are null
+                            if (response.length === 0 || response === null) {
+                                $('#stateId').append('<option value="" disabled>No states found</option>');
+                            } else {
+                                // Populate the state dropdown with the fetched data
+                                $.each(response, function(key, value) {
+                                    $('#stateId').append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
+                            }
+                            $('#cityId').empty();
+                            $('#cityId').append('<option value="" selected disabled>Select City</option>');
+                            $('#hostelId').empty();
+                            $('#hostelId').append('<option value="" selected disabled>Select Hostel</option>')
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    {{-- End: To Get States Name and Id Using Country Id --}}
+
+
+    {{-- Begin: To Get Cities Name and Id Using States Id --}}
+    <script>
+        $(document).ready(function() {
+            $('#stateId').change(function() {
+                if($('#stateId').val() != null){
+                    var stateId = $(this).val();
+                    // Make an Ajax request to get the states for the selected country
+                    $.ajax({
+                        url: '/get-cities/' + stateId,
+                        type: 'GET',
+                        success: function(response) {
+                            // Clear existing options
+                            $('#cityId').empty();
+                            $('#cityId').append('<option value="" disabled selected>Select City</option>');
+                            // Check if response has cities or if cities are null
+                            if(response.length === 0 || response === null){
+                                $('#cityId').append('<option value="" disabled>No city found</option>');
+                            }
+                            else{
+                                // Populate the state dropdown with the fetched data
+                                $.each(response, function(key, value) {
+                                    $('#cityId').append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
+                            }
+                            $('#hostelId').empty();
+                            $('#hostelId').append('<option value="" selected disabled>Select Hostel</option>')
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    {{-- End: To Get Cities Name and Id Using States Id --}}
+
+    {{-- Begin: To Get The All Hostel Name and Id Using the City ID --}}
+    <script>
+        $(document).ready(function(){
+            $('#cityId').change(function(){
+                if($('#cityId').val() != null){
+                    let cityId = $(this).val();
+                    $.ajax({
+                        url:'/get-properties/'+cityId,
+                        type:"GET",
+                        success:function(response){
+                            $('#hostelId').empty();
+                            $('#hostelId').append('<option value="" selected disabled>Select Hostel</option>')
+                            if(response.length === 0 || response === null){
+                                $('#hostelId').append('<option value=""  disabled>No Hostel Found</option>')
+                            }
+                            else{
+                                $.each(response, function(key, value){
+                                    $('#hostelId').append('<option value="'+value.id+'">'+value.name+'</option>')
+                                });
+                            }
+                        },
+                        error:function(error){
+                            console.log(error);
+                        },
+                    });
+                }
+            });
+        });
+    </script>
+    {{-- End: To Get The All Hostel Name and Id Using the City ID --}}
+
+    {{-- Begin: Form validation --}}
+    <script>
+        $(document).ready(function(){
+            // complaintForm validation logic here
+            $("#complaintForm").submit(function(e){
+                // Reset the previous error message
+                $(".alert-danger").remove();
+
+                // Check if the Full name is empty
+                let fullName = $('#fullName').val();
+                if(fullName.trim() === ''){
+                    e.preventDefault();
+                    $("#fullName").after('<div class="alert alert-danger">Full Name should be provided.</div>');
+                }
+
+                // Check if the Mobile Number is empty or it's length is not equal to 10
+                let MobNo = $('#MobNo').val();
+                if (MobNo.length !== 10 || MobNo[0] !== '3' || !/^\d+$/.test(MobNo)) {
+                    e.preventDefault();
+                    $("#divMobNo").after('<div class="alert alert-danger">Mobile Number should be provided and should start with 3 and contain only ten digits.</div>');
+                }
+
+                // Check if the email is empty
+                function isValidEmail(email) {
+                    // Regular expression for a simple email validation
+                    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    return emailRegex.test(email);
+                }
+                let email = $("#email").val();
+                if(email.trim() === '' || email.length==0 || !(isValidEmail(email))){
+                    e.preventDefault();
+                    $("#divEmail").after('<div class="alert alert-danger">Email should be provided properly.</div>')
+                }
+
+                // Check if the room number is empty
+                let roomNumber = $("#roomNumber").val();
+                if(roomNumber.trim() === ""){
+                    e.preventDefault();
+                    $("#roomNumber").after('<div class="alert alert-danger">Room Number should be provided.</div>');
+                }
+
+                // Check if the contry is empty
+                let countryId = $("#countryId").val();
+                if(countryId === "" || countryId === null){
+                    e.preventDefault();
+                    $("#countryId").after('<div class="alert alert-danger">Country Should be selected.</div>')
+                }
+
+                // Check if the state is empty
+                let stateId = $("#stateId").val();
+                if(stateId === "" || stateId === null){
+                    e.preventDefault();
+                    $("#stateId").after('<div class="alert alert-danger">State should be selected</div>')
+                }
+
+                //  Check if the city is empty
+                let cityId = $("#cityId").val();
+                if(cityId === "" || cityId === null){
+                    e.preventDefault();
+                    $("#cityId").after('<div class="alert alert-danger">City should be provided</div>');
+                }
+
+                // Check if the hostel is empty
+                let hostelId = $("#hostelId").val();
+                if(hostelId === "" || hostelId === null){
+                    e.preventDefault();
+                    $("#hostelId").after('<div class="alert alert-danger">Hostel should be selected</div>')
+                }
+
+                // Chect if the Complaint Type is empty
+                let complaintType = $("#complaintType").val();
+                if(complaintType === "" || complaintType === null){
+                    e.preventDefault();
+                    $("#complaintType").after('<div class="alert alert-danger">Complaint Type should be selected</div>');
+                }
+
+                // Check if the priority is empty
+                let priority = $("#priority").val();
+                if(priority === "" || priority === null){
+                    e.preventDefault();
+                    $("#priority").after('<div class="alert alert-danger">Complaint Priority should be selected</div>');
+                }
+
+                // Check if the complaintDetails are empty
+                let complaintDetails = $("#complaintDetails").val();
+                if(complaintDetails.trim() ===""){
+                    e.preventDefault();
+                    $("#complaintDetails").after('<div class="alert alert-danger">Complaint details should be provided.</div>')
+                }
+
+            });
+        });
+    </script>
+    {{-- End: Form validation --}}
+@endsection

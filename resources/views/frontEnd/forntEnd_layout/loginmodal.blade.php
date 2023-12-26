@@ -51,9 +51,11 @@
                     <div class="input-group w-100" style="border-top: none;">
                         <div class="input-group" id="divPhone_number">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">+923</span>
+                                <span class="input-group-text">+92</span>
                             </div>
-                            <input type="tel" class="form-control" id="phone_number" name="phone_number" maxlength="9" minlength="9" value="{{old('phone_number')}}" placeholder="Enter Your Mobile Number Here:" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);">
+                            <input type="tel" class="form-control" id="phone_number" name="phone_number" maxlength="10" minlength="10" 
+                            value="{{old('phone_number')}}" placeholder="Enter Your Mobile Number Here:" onkeyup="validateMobileNumber(this)">
+                            <small class="form-text text-muted">Please enter a mobile number. Don't add +92</small>
                         </div>
                     </div>
                 </div>
@@ -89,7 +91,7 @@
                     </label>
                     {{-- @csrf --}}
                     <div style="border-top: none;">
-                        <input type="hidden" class="form-control" id="phone_number_login" name="phone_number_login" maxlength="9" minlength="9" placeholder="Enter Your Mobile Number Here:" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);" readonly>
+                        <input type="hidden" class="form-control" id="phone_number_login" name="phone_number_login" maxlength="10" minlength="10" placeholder="Enter Your Mobile Number Here:" readonly>
                         <input type="hidden" class="form-control" id="cnic_no_login" name="cnic_no_login" maxlength="15" minlength="15" readonly>
                         <input value="" id="loginPassword" type="password" class="form-control" name="password" style="border: none !important; border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;"
                             placeholder="*******" required>
@@ -167,7 +169,6 @@
                         
                         {{-- First Name --}}
                         <div class="form-group">
-                            <label for="firstname">First Name:</label>
                             <input type="text" id="firstname" class="form-control error mt-2" name="firstname"
                                 placeholder="Enter your first name" value="{{old('firstname')}}"
                                 style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
@@ -178,7 +179,6 @@
 
                         {{-- Last Name --}}
                         <div class="form-group">
-                            <label for="lastname">Last Name:</label>
                             <input type="text" id="lastname" class="form-control error mt-2" name="lastname"
                                 placeholder="Enter your last name" value="{{old('lastname')}}"
                                 style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
@@ -189,7 +189,6 @@
 
                         {{-- Email --}}
                         <div class="form-group">
-                            <label for="email">Email:</label>
                             <input type="email" id="email" class="form-control error mt-2" name="email"
                                 placeholder="Enter your email" value="{{old('email')}}"
                                 style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
@@ -199,8 +198,7 @@
                         @enderror
 
                         {{-- CNIC Number --}}
-                        <div class="form-group">
-                            <label for="cnic_no">CNIC:</label>
+                        <div class="form-group" style="display: none">
                             <input type="text" id="cnic_no" class="form-control error mt-2" name="cnic_no" minlength="15" maxlength="15"
                                 placeholder="Enter your CNIC number" value="{{old('cnic_no')}}" readonly
                                 style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
@@ -210,8 +208,7 @@
                         @enderror
 
                         {{-- Mobile Number --}}
-                        <div class="form-group" id="div_new_phone_number">
-                            <label for="phone" class="form-label">Enter Your Phone Number</label>
+                        <div class="form-group" id="div_new_phone_number" style="display: none">
                             <div class="input-group w-100" style="border-top: none;">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -229,7 +226,6 @@
 
                         {{-- Password --}}
                         <div class="form-group">
-                            <label for="password">Password:</label>
                             <input type="password" name="password" id="password" class="form-control error mt-2" minlength="8" maxlength="8"
                                 placeholder="Enter your password" 
                                 style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
@@ -240,7 +236,6 @@
 
                         {{-- Confirm Password --}}
                         <div class="form-group">
-                            <label for="confirm-password">Confirm Password:</label>
                             <input type="password" id="confirmPassword" name="confirmPassword" minlength="8" maxlength="8"
                                 class="form-control error mt-2" placeholder="Confirm your password"
                                 style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
@@ -346,9 +341,9 @@
             if(phone_number.length==0){
                 return;
             }
-            else if(!validatePhoneNumber(phone_number)){
+            else if(phone_number.length !== 10 || phone_number[0] !== '3' || !/^\d+$/.test(phone_number)){
                 e.preventDefault();
-                $("#divPhone_number").after('<div class="alert alert-danger">Valid Phone Number should be provided.</div>');
+                $("#divPhone_number").after('<div class="alert alert-danger">Mobile Number should be provided and should start with 3 and contain only ten digits.</div>');
                 $("#phone_number").focus();
             }
             else{
@@ -502,30 +497,6 @@
                     return;
                 }
                 return;
-                    
-                // $.ajax({
-                //     url:'/check-phone_number/'+firstCnic_no+'/'+phone_number,
-                //     type:'GET',
-                //     success:function(response){
-                //         if(response==1){
-                //             $('#OtpModal').modal('hide');
-                //             $('#passwordModal').modal('show');
-                //             $("#cnic_no_login").val(firstCnic_no);
-                //             $("#phone_number_login").val(phone_number);
-                //             $("#phone_number").val('');
-                //             $("#firstCnic_no").val('');
-                //         }
-                //         else{
-                //             $("#verify_otp").val('');
-                //             $("#OtpModal").modal('hide');
-                //             $("#RegisterModal").modal('show');
-                //             return;
-                //         }
-                //     },
-                //     error: function (error) {
-                //         console.log(error);
-                //     }
-                // });
             }
         });
         // End: To Verify the OTP
@@ -720,10 +691,12 @@
                     } 
                     
                     // To check the cnic_no is empty or not
+                    
                     let new_phone_number = $("#new_phone_number").val();
-                    if(!(validatePhoneNumber(new_phone_number))){
+                    if(new_phone_number.length !== 10 || new_phone_number[0] !== '3' || !/^\d+$/.test(new_phone_number)){
+                    // if(!(validatePhoneNumber(new_phone_number))){
                         e.preventDefault();
-                        $("#div_new_phone_number").after('<div class="alert alert-danger">Valid Phone No Should be Provided.</div>');
+                        $("#div_new_phone_number").after('<div class="alert alert-danger">Mobile Number should be provided and should start with 3 and contain only ten digits..</div>');
                     }
 
                     // To check the password is empty or not
@@ -803,3 +776,20 @@
         
     });
 </script>
+    <!-- Begin: Script to Validate Mobile Noumber-->
+        <script>
+            function validateMobileNumber(input) {
+                // Remove any non-digit characters
+                let sanitizedValue = input.value.replace(/\D/g, '');
+            
+                // Ensure the first digit is 3
+                if (sanitizedValue.length > 0 && sanitizedValue[0] !== '3') {
+                    // If the first digit is not 3, remove it
+                    sanitizedValue = sanitizedValue.slice(1);
+                }
+            
+                // Update the input value with the sanitized value
+                input.value = sanitizedValue;
+            }
+        </script>
+    <!-- End: Script to Validate Mobile Noumber-->
