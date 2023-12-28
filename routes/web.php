@@ -30,7 +30,7 @@ use App\Http\Controllers\Admin\ContactUsAdminController;
 use App\Http\Controllers\Admin\NewsFeedsAdminController;
 use App\Http\Controllers\Admin\MembershipAdminController;
 use App\Http\Controllers\Client\DashboardClientController;
-use App\Http\Controllers\client\hostels\HostelClientController;
+use App\Http\Controllers\Client\hostels\HostelClientController;
 use App\Http\Controllers\Client\membership\MembershipClientController;
 use App\Http\Controllers\Client\sops\SopsClientController;
 use App\Http\Controllers\Frontend\Client\LoginClientController;
