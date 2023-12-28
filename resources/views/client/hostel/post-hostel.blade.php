@@ -197,7 +197,7 @@
                                 <h4>Hostel Address & Details</h4>
                                 <form class="row">
                                     <!-- Left Column -->
-                                    <div class="col-md-4 mb-1">
+                                    <div class="col-md-6 mb-1">
                                        
 
                                         <!-- Hostel Slogan -->
@@ -283,12 +283,11 @@
                                             <label for="hostelRecommendedPlace">Hostel Recommended Place:</label>
                                             <input type="text" class="form-control" id="hostelRecommendedPlace" name="hostelRecommendedPlace" required>
                                         </div>
-
                                         
                                     </div>
                             
-                                    <!-- Mid Column -->
-                                    <div class="col-md-4 mb-1">
+                                    <!-- Right Column -->
+                                    <div class="col-md-6 mb-1">
                                         <!-- Hostel Contact Number -->
                                         <div class="form-group">
                                             <label for="hostelContactNumber">Hostel Contact Number:</label>
@@ -357,8 +356,24 @@
 
                                     </div>
 
-                                    <!-- Right Column-->
-                                    <div class="col-md-4 mb-1">
+
+                                    <!-- Buttons-->
+                                    <div class="form-group mb-2">
+                                        <button type="reset" class="btn btn-info">Reset</button>
+                                        <button type="button" class="btn btn-success" onclick="prevStep(2)">Previous</button>
+                                        <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next</button>
+                                    </div>
+                                    
+                                </form>
+                            </div>
+        
+                            <!-- Hostel Metas -->
+                            <div class="form-step" id="step3" style="display: none;">
+                                <h4>Hostel Metas</h4>
+                                
+                                <form class="row">
+                                    <!-- Left Column -->
+                                    <div class="col-md-6 mb-1">
                                         <!-- Hostel Mess -->
                                         <div class="form-group">
                                             <label for="hostelMess">Hostel Mess:</label>
@@ -433,6 +448,20 @@
                                             </select>
                                         </div>
                                         
+                                        <!-- Hostel Parking Availability -->
+                                        <div class="form-group">
+                                            <label for="hostelParkingAvailability">Hostel Parking Availability:</label>
+                                            <select class="form-control" name="hostelParkingAvailability" id="hostelParkingAvailability">
+                                                <option value="" selected disabled>Select Hostel Parking Availability</option>
+                                                <option value="indoor">Indoor</option>
+                                                <option value="outdoor">Outdoor</option>
+                                            </select>
+                                        </div>
+                                        
+                                    </div>
+                            
+                                    <!-- Right Column -->
+                                    <div class="col-md-6 mb-1">
                                         <!-- Hostel Made Type -->
                                         <div class="form-group">
                                             <label for="hostelMadeType">Hostel Made Type:</label>
@@ -452,7 +481,7 @@
                                                 <option value="office_time">Office Time</option>
                                             </select>
                                         </div>
-                                        
+
                                         <!-- Hostel Warden Type -->
                                         <div class="form-group">
                                             <label for="hostelWardenType">Hostel Warden Type:</label>
@@ -503,18 +532,8 @@
                                             </select>
                                         </div>
 
-                                        <!-- Hostel Parking Availability -->
-                                        <div class="form-group">
-                                            <label for="hostelParkingAvailability">Hostel Parking Availability:</label>
-                                            <select class="form-control" name="hostelParkingAvailability" id="hostelParkingAvailability">
-                                                <option value="" selected disabled>Select Hostel Parking Availability</option>
-                                                <option value="indoor">Indoor</option>
-                                                <option value="outdoor">Outdoor</option>
-                                            </select>
-                                        </div>
-                                        
-                                        <!-- Hostel Canteen Availability -->
-                                        <div class="form-group">
+                                         <!-- Hostel Canteen Availability -->
+                                         <div class="form-group">
                                             <label for="hostelCanteenAvailability">Hostel Canteen Availability:</label>
                                             <select class="form-control" name="hostelCanteenAvailability" id="hostelCanteenAvailability">
                                                 <option value="" selected disabled>Select Hostel Canteen Availability</option>
@@ -527,21 +546,20 @@
                                             </select>
                                         </div>
 
-
                                     </div>
-
+                                    
                                     <!-- Buttons-->
                                     <div class="form-group mb-2">
                                         <button type="reset" class="btn btn-info">Reset</button>
-                                        <button type="button" class="btn btn-success" onclick="prevStep(2)">Previous</button>
-                                        <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next</button>
+                                        <button type="button" class="btn btn-success" onclick="prevStep(3)">Previous</button>
+                                        <button type="button" class="btn btn-primary" onclick="nextStep(4)">Next</button>
                                     </div>
                                     
                                 </form>
                             </div>
-        
+                            
                             <!-- Partner Details -->
-                            <div class="form-step" id="step3" style="display: none;">
+                            <div class="form-step" id="step4" style="display: none;">
                                 <h4>Partner Details</h4>
                                 <form>
                                     <div class="form-group">
@@ -614,15 +632,15 @@
 
                                     <div class="form-group">
                                         <button type="reset" class="btn btn-info" >Reset</button>
-                                        <button type="button" class="btn btn-success" onclick="prevStep(3)">Previous</button>
-                                        <button type="button" class="btn btn-primary" onclick="nextStep(4)">Next</button>
+                                        <button type="button" class="btn btn-success" onclick="prevStep(4)">Previous</button>
+                                        <button type="button" class="btn btn-primary" onclick="nextStep(5)">Next</button>
                                     </div>
 
                                 </form>
                             </div>
         
                             <!-- Warden Details -->
-                            <div class="form-step" id="step4" style="display: none;">
+                            <div class="form-step" id="step5" style="display: none;">
                                 <h4>Warden Details</h4>
                                 <form>
                                     <div class="form-group">
@@ -695,14 +713,14 @@
 
                                     <div class="form-group">
                                         <button type="reset" class="btn btn-info" >Reset</button>
-                                        <button type="button" class="btn btn-success" onclick="prevStep(4)">Previous</button>
-                                        <button type="button" class="btn btn-primary" onclick="nextStep(5)">Next</button>
+                                        <button type="button" class="btn btn-success" onclick="prevStep(5)">Previous</button>
+                                        <button type="button" class="btn btn-primary" onclick="nextStep(6)">Next</button>
                                     </div>
                                 </form>
                             </div>
 
                             <!--Hostel Features, Facilities, Amenities, Luxuries-->
-                            <div class="form-step" id="step5" style="display: none;">
+                            <div class="form-step" id="step6" style="display: none;">
                                 <h4>Hostel Features, Facilities, Amenities, Luxuries</h4>
                                 <form>
                                     <div class="row">
@@ -777,8 +795,8 @@
                                     
                                     <div class="form-group">
                                         <button type="reset" class="btn btn-info" >Reset</button>
-                                        <button type="button" class="btn btn-success" onclick="prevStep(5)">Previous</button>
-                                        <button type="button" class="btn btn-primary" onclick="nextStep(6)">Next</button>
+                                        <button type="button" class="btn btn-success" onclick="prevStep(6)">Previous</button>
+                                        <button type="button" class="btn btn-primary" onclick="nextStep(7)">Next</button>
                                     </div>
                                 </form>
                             </div>
@@ -946,7 +964,7 @@
                     var hostelStatesId = $(this).val();
                     if(hostelStatesId == "null"){  // Check if the selected value is "Select Country"
                     alert("No state selected!");
-                    return;  // Exit the function early
+                        return false;  // Exit the function early
                     }
                     // Your existing code for the selected country
                     // alert(country_id);
