@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\ContactUsAdminController;
 use App\Http\Controllers\Admin\NewsFeedsAdminController;
 use App\Http\Controllers\Admin\MembershipAdminController;
 use App\Http\Controllers\Client\DashboardClientController;
+use App\Http\Controllers\client\hostels\HostelClientController;
 use App\Http\Controllers\Client\membership\MembershipClientController;
 use App\Http\Controllers\Client\sops\SopsClientController;
 use App\Http\Controllers\Frontend\Client\LoginClientController;
@@ -344,6 +345,11 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth']], function () {
         // Route for the the client to get description of sops using the id
         Route::get('/client/sops/list/get-description/{id}',[SopAdminController::class,'get_description'])->name('client.sops.get_description');
     // End: SOPS
+
+    // Begin: Hostels
+        // Route to show post-hostel.blade.php
+        Route::get('/client/hostels/add',[HostelClientController::class,'index'])->name('client.hostels.index');
+    // End: Hostels
 
 });
 // End: Route for Client
