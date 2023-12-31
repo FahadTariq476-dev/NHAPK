@@ -64,6 +64,8 @@ Route::get('/get-properties/{city_id}', [PropertyController::class, 'getProperti
 Route::get('/checkEmail/{email}', [UserController::class, 'uniqueEmail'])->name('frontEnd.users.check-email');
 // Route the check the CNIC from the user table
 Route::get('/checkCNIC/{cnic}', [UserController::class, 'uniqueCNIC'])->name('uniqueCNIC');
+// Route the check the CNIC from the user table and send the user in response
+Route::get('/checkCnicWithData/{cnic}', [UserController::class, 'uniqueCnicWithData'])->name('uniqueCnicWithData');
 
 
 
@@ -349,6 +351,8 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth']], function () {
     // Begin: Hostels
         // Route to show post-hostel.blade.php
         Route::get('/client/hostels/add',[HostelClientController::class,'index'])->name('client.hostels.index');
+        // Route to storeHostel
+        Route::post('/client/hostels/storeHostel',[HostelClientController::class,'storeHostel'])->name('client.hostels.storeHostel');
     // End: Hostels
 
 });
