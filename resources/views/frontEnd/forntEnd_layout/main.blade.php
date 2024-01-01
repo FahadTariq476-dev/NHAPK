@@ -81,6 +81,7 @@
     @yield('frontEnd-js')
     
 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrN1lnwhavrmfKr2HWruDFDdXJcIfAM1M&libraries=places"></script>
     <script>
         if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
