@@ -126,23 +126,12 @@
                                             <input type="number" class="form-control" value="" id="hostelTotalRooms" name="hostelTotalRooms" placeholder="Enter Total Number of Rooms Here:">
                                         </div>
                             
-                                        <!-- Total Number of Bath Rooms -->
-                                        <div class="form-group">
-                                            <label for="hostelBathRooms">Total Number of Bath Rooms:</label>
-                                            <input type="number" class="form-control" value="" id="hostelBathRooms" name="hostelBathRooms" placeholder="Enter Total Number of Bath Rooms Here:">
-                                        </div>
+                                        
                                     </div>
                             
                                     <!-- Right Column -->
                                     <div class="col-md-6 mb-1">
-                                         <!-- Hostel Location -->
-                                         <div class="form-group">
-                                            <label for="hostelLocation">Hostel Location:</label>
-                                            <input type="text" class="form-control" value="" id="hostelLocation" name="hostelLocation" placeholder="Enter Your Hostel Location Here:">
-                                            <input type="text" class="form-control" name="latitude" id="latitude" placeholder="Latitude Here" readonly/>
-                                            <input type="text" class="form-control" name="longitude" id="longitude" placeholder="Latitude Here" readonly/>
-                                       
-                                        </div>
+                                         
 
                                          <!-- Hostel Address -->
                                          <div class="form-group">
@@ -150,11 +139,7 @@
                                             <textarea class="form-control" id="hostelAddress" name="hostelAddress" rows="3" minlength="5" maxlength="400" placeholder="Enter Your Hostel Address Here:"></textarea>
                                         </div>
                             
-                                        <!-- Hostel Zip Code -->
-                                        <div class="form-group">
-                                            <label for="hostelZipCode">Zip Code:</label>
-                                            <input type="text" class="form-control" id="hostelZipCode" value="" name="hostelZipCode" minlength="4" maxlength="255" placeholder="Enter Your Zip Code Here:">
-                                        </div>
+                                       
 
                                         <!-- Hostel Nearest Landmark -->
                                         <div class="form-group">
@@ -167,6 +152,12 @@
                                             <label for="hostelTotalFloors">Total Number of Floors:</label>
                                             <input type="number" class="form-control" value="" id="hostelTotalFloors" name="hostelTotalFloors" placeholder="Enter Total Number of FLoors Here:">
                                         </div>
+
+                                        <!-- Total Number of Bath Rooms -->
+                                        <div class="form-group">
+                                            <label for="hostelBathRooms">Total Number of Bath Rooms:</label>
+                                            <input type="number" class="form-control" value="" id="hostelBathRooms" name="hostelBathRooms" placeholder="Enter Total Number of Bath Rooms Here:">
+                                        </div>
                                         
                                         <!-- Hostel Categories-->
                                         <div class="form-group">
@@ -175,8 +166,7 @@
                                                 <option value="" selected disabled >Select Hostel Category</option>
                                                 @if (count($categories)>0)
                                                     @foreach($categories as $category)
-                                                        <option value="{{$category->id}}" @if ($category->id==1) selected @endif>
-                                                        {{-- <option value="{{$category->id}}" @if (old('hostelCategoryId')==$category->id) selected @endif> --}}
+                                                        <option value="{{$category->id}}">
                                                             {{$category->name}}
                                                         </option>
                                                     @endforeach
@@ -205,10 +195,10 @@
                                 </form>
                             </div>
         
-                            <!-- Hostel Address -->
+                            <!-- Hostel Details -->
                             <div class="form-step" id="step2" style="display: none;">
-                                <h4>Hostel Address & Details</h4>
-                                <form class="row" id="formHostelAddressDetails">
+                                <h4>Hostel Details</h4>
+                                <form class="row" id="formHostelDetails">
                                     <!-- Left Column -->
                                     <div class="col-md-6 mb-1">
                                        
@@ -261,6 +251,13 @@
                                                 <option value="Yearly">Yearly</option>
                                             </select>
                                         </div>
+
+                                        <!-- Hostel Average Rent Per Seat (Monthly) -->
+                                        <div class="form-group">
+                                            <label for="hostelAvgRentPerMonth">Hostel Average Rent Per Seat (Monthly):</label>
+                                            <input type="number" class="form-control" value="" id="hostelAvgRentPerMonth" name="hostelAvgRentPerMonth" placeholder="Enter Hostel Average Rent Per Seat (Monthly) Here:">
+                                            <small class="form-text text-muted">Hostel Average Rent Per Seat (Monthly) Should be 10,000/Rs and greater.</small>
+                                        </div>
                             
                                         <!-- Hostel Type -->
                                         <div class="form-group">
@@ -269,7 +266,7 @@
                                                 <option value="">Select Hostel Type</option>
                                                 @if (count($property_types)>0)
                                                     @foreach ($property_types as $property_type)
-                                                        <option value="{{$property_type->id}}" @if ($property_type->id==1) selected @endif>
+                                                        <option value="{{$property_type->id}}">
                                                             {{$property_type->name}}
                                                         </option>    
                                                     @endforeach
@@ -279,24 +276,7 @@
                                             </select>
                                         </div>
 
-                                        <!-- Hostel Average Rent Per Seat (Monthly) -->
-                                        <div class="form-group">
-                                            <label for="hostelAvgRentPerMonth">Hostel Average Rent Per Seat (Monthly):</label>
-                                            <input type="number" class="form-control" value="" id="hostelAvgRentPerMonth" name="hostelAvgRentPerMonth" placeholder="Enter Hostel Average Rent Per Seat (Monthly) Here:">
-                                            <small class="form-text text-muted">Hostel Average Rent Per Seat (Monthly) Should be 10,000/Rs and greater.</small>
-                                        </div>
-                                        
-                                        <!-- Hostel Room Occupancy -->
-                                        <div class="form-group">
-                                            <label for="hostelRoomOccupancy">Hostel Room Occupancy:</label>
-                                            <input type="number" class="form-control" value="" id="hostelRoomOccupancy" name="hostelRoomOccupancy" placeholder="Enter Hostel Room Occupancy Here:">
-                                        </div>
-                                        
-                                        <!-- Hostel Recommended Place -->
-                                        <div class="form-group">
-                                            <label for="hostelRecommendedPlace">Hostel Recommended Place:</label>
-                                            <input type="text" class="form-control" value="" id="hostelRecommendedPlace" name="hostelRecommendedPlace" placeholder="Enter Hostel Recommended Place Here:">
-                                        </div>
+                                       
                                         
                                     </div>
                             
@@ -326,7 +306,13 @@
                                             <label for="hostelCloseTiming">Hostel Close Timing:</label>
                                             <input type="time" class="form-control" value="21:00" id="hostelCloseTiming" name="hostelCloseTiming">
                                         </div>
-                                        
+
+                                        <!-- Hostel Room Occupancy -->
+                                        <div class="form-group">
+                                            <label for="hostelRoomOccupancy">Hostel Room Occupancy:</label>
+                                            <input type="number" class="form-control" value="" id="hostelRoomOccupancy" name="hostelRoomOccupancy" placeholder="Enter Hostel Room Occupancy Here:">
+                                        </div>
+                                                                               
                                         <!-- Hostel Youtube Link -->
                                         <div class="form-group">
                                             <label for="hostelYoutubeLink">Hostel Youtube Link:</label>
@@ -344,58 +330,90 @@
                                             <label for="hostelInstagramLink">Hostel Instagram Link:</label>
                                             <input type="url" class="form-control" id="hostelInstagramLink" name="hostelInstagramLink" placeholder="Enter Hostel Instagram Link Here:">
                                         </div>
-                                        
-                                        <!-- Hostel Area Name -->
-                                        <div class="form-group">
-                                            <label for="hostelAreaName">Hostel Area Name:</label>
-                                            <input type="text" value="Hostel Area Name" class="form-control" id="hostelAreaName" name="hostelAreaName" placeholder="Enter Hostel Area Name Here:">
-                                        </div>
-                                        
-                                        <!-- Hostel Plot No -->
-                                        <div class="form-group">
-                                            <label for="hostelPlotNo">Hostel Plot No:</label>
-                                            <input type="text" value="N/A" class="form-control" id="hostelPlotNo" name="hostelPlotNo" placeholder="Enter Hostel Plot No Here:">
-                                        </div>
-                                        
-                                        <!-- Hostel Street No -->
-                                        <div class="form-group">
-                                            <label for="hostelPlotNo">Hostel Street No:</label>
-                                            <input type="text" value="N/A" class="form-control" id="hostelStreetNo" name="hostelStreetNo" placeholder="Enter Hostel Street No Here:">
-                                        </div>
-
-                                        <!-- Hostel Location -->
-                                        <div class="form-group">
-                                            <label for="hosteMetalLocation">Hostel Location:</label>
-                                            <input type="text" class="form-control"  id="hosteMetalLocation" name="hosteMetalLocation" placeholder="Enter Hostel Location Here:">
-                                        </div>
-                                        <!-- Hostel Map Location -->
-                                        <div class="form-group">
-                                            <label for="hostelMapLocation">Hostel Map Location:</label>
-                                            <input type="text" class="form-control" id="hostelMapLocation" name="hostelMapLocation" placeholder="Enter Hostel Map Location Here:">
-                                            <span class="text-danger map_location_err"></span>
-                                            <input type="text" name="hostelMetaLatitude" id="hostelMetaLatitude" />
-                                    <input type="text" name="hostelMetalongitude" id="hostelMetalongitude" />
-                                        </div>
 
                                     </div>
-                                    
-                                <div id="map" style="height: 450px;"></div>
-
 
                                     <!-- Buttons-->
                                     <div class="form-group mb-2">
                                         <button type="reset" class="btn btn-info">Reset</button>
                                         <button type="button" class="btn btn-success" onclick="prevStep(2)">Previous</button>
-                                        <button type="submit" class="btn btn-primary" id="btnHostelAddressDetails">Next</button>
-                                        {{-- <button type="button" class="btn btn-primary" onclick="nextStep(3)" id="btnHostelAddressDetails">Next</button> --}}
-                                        {{-- <a href="#" id="btnHostelAddressDetails">Next</a> --}}
+                                        <button type="submit" class="btn btn-primary" id="btnHostelDetails">Next</button>
+                                        {{-- <button type="button" class="btn btn-primary" onclick="nextStep(3)" id="btnHostelDetails">Next</button> --}}
+                                        {{-- <a href="#" id="btnHostelDetails">Next</a> --}}
                                     </div>
                                     
                                 </form>
                             </div>
-        
+
+                            <!-- Hostel Address With Map -->
+                            <div class="form-step" id="step3" style="display: none">
+                                <h4>Hostel Address Details</h4>
+                                <form class="row" id="formHostelAdressDetails">
+                                    <!-- Left Column-->
+                                    <div class="col-md-6 mb-1">
+                                        <!-- Hostel Location -->
+                                        <div class="form-group">
+                                            <label for="hostelLocation">Hostel Location:</label>
+                                            <input type="text" class="form-control" value="" id="hostelLocation" name="hostelLocation" placeholder="Enter Your Hostel Location Here:">
+                                            <span class="text-danger map_location_err"></span>
+                                            <input type="hidden" class="form-control" name="latitude" id="latitude" placeholder="Latitude Here" readonly/>
+                                            <input type="hidden" class="form-control" name="longitude" id="longitude" placeholder="Latitude Here" readonly/>
+                                        </div>
+                                         <!-- Hostel Zip Code -->
+                                         <div class="form-group">
+                                            <label for="hostelZipCode">Zip Code:</label>
+                                            <input type="text" class="form-control" id="hostelZipCode" value="" name="hostelZipCode" minlength="4" maxlength="255" placeholder="Enter Your Zip Code Here:">
+                                        </div>
+                                        <!-- Hostel Recommended Place -->
+                                        <div class="form-group">
+                                            <label for="hostelRecommendedPlace">Hostel Recommended Place:</label>
+                                            <input type="text" class="form-control" value="" id="hostelRecommendedPlace" name="hostelRecommendedPlace" placeholder="Enter Hostel Recommended Place Here:">
+                                        </div>
+
+                                    </div>
+                                    
+                                    <!-- Right Column-->
+                                    <div class="col-md-6 mb-1">
+                                         <!-- Hostel Area Name -->
+                                         <div class="form-group">
+                                            <label for="hostelAreaName">Hostel Area Name:</label>
+                                            <input type="text" class="form-control" id="hostelAreaName" name="hostelAreaName" placeholder="Enter Hostel Area Name Here:">
+                                        </div>
+                                        
+                                        <!-- Hostel Plot No -->
+                                        <div class="form-group">
+                                            <label for="hostelPlotNo">Hostel Plot No:</label>
+                                            <input type="text"  class="form-control" id="hostelPlotNo" name="hostelPlotNo" placeholder="Enter Hostel Plot No Here:">
+                                        </div>
+                                        
+                                        <!-- Hostel Street No -->
+                                        <div class="form-group">
+                                            <label for="hostelPlotNo">Hostel Street No:</label>
+                                            <input type="text" class="form-control" id="hostelStreetNo" name="hostelStreetNo" placeholder="Enter Hostel Street No Here:">
+                                        </div>
+                                        <!-- Hostel Map Location -->
+                                        <div class="form-group">
+                                            <label for="hostelMapLocation">Hostel Map Location:</label>
+                                            <input type="text" class="form-control" id="hostelMapLocation" name="hostelMapLocation" placeholder="Enter Hostel Map Location Here:">
+                                            
+                                        </div>
+
+                                    </div>
+                                    <div id="map" style="height: 450px;" class="mb-2"></div>
+                                     <!-- Buttons-->
+                                     <div class="form-group mb-2">
+                                        <button type="reset" class="btn btn-info">Reset</button>
+                                        <button type="button" class="btn btn-success" onclick="prevStep(3)">Previous</button>
+                                        <button type="submit" class="btn btn-primary" id="btnHostelAddresDetails">Next</button>
+                                        {{-- <button type="button" class="btn btn-primary" onclick="nextStep(3)" id="btnHostelAddresDetails">Next</button> --}}
+                                        {{-- <a href="#" id="btnHostelAddresDetails">Next</a> --}}
+                                    </div>
+
+                                </form>
+                            </div>
+                            
                             <!-- Hostel Metas -->
-                            <div class="form-step" id="step3" style="display: none;">
+                            <div class="form-step" id="step4" style="display: none;">
                                 <h4>Hostel Metas</h4>
                                 
                                 <form class="row" id="formHostelMetas">
@@ -648,10 +666,10 @@
                                     
                                     <!-- Buttons-->
                                     <div class="form-group mb-2">
-                                        <button type="reset" class="btn btn-info">Reset</button>
-                                        <button type="button" class="btn btn-success" onclick="prevStep(3)">Previous</button>
+                                        <button type="reset" class="btn btn-info">Reset sfdfgdgg</button>
+                                        <button type="button" class="btn btn-success" onclick="prevStep(4)">Previous</button>
                                         {{-- <button type="button" class="btn btn-primary" onclick="nextStep(4)">Next</button> --}}
-                                        <button type="submit" class="btn btn-primary" id="btnHostelMetas">Next</button>
+                                        <button type="submit" class="btn btn-primary" id="btnHostelMetas">Next afdg</button>
                                         {{-- <a href="#" id="btnHostelMetas">Next</a> --}}
                                     </div>
                                     
@@ -659,7 +677,7 @@
                             </div>
                             
                             <!-- Partner Details -->
-                            <div class="form-step" id="step4" style="display: none;">
+                            <div class="form-step" id="step5" style="display: none;">
                                 <h4>Partner Details</h4>
                                 <form>
                                     
@@ -684,7 +702,7 @@
                                     </div>
                                     <div id="divEnterPartnerDetails" style="display: none">
                                         <h4>Enter Partner Details</h4>
-                                        <input type="text" class="form-control" id="partnerAuthorId" name="partnerAuthorId" placeholder="Enter Partner partnerAuthorId Here:" readonly>
+                                        <input type="hidden" class="form-control" id="partnerAuthorId" name="partnerAuthorId" placeholder="Enter Partner partnerAuthorId Here:" readonly>
                                         <!-- Partner First Name -->
                                         <div class="form-group">
                                             <label for="partnerFirstName">Partner First Name:</label>
@@ -720,7 +738,7 @@
                                     
                                 </form>
                                 <div class="form-group mb-1">
-                                    <button type="button" class="btn btn-success" onclick="prevStep(4)">Previous</button>
+                                    <button type="button" class="btn btn-success" onclick="prevStep(5)">Previous</button>
                                     <button type="submit" class="btn btn-primary" id="btnNextPartner">Next</button>
                                     {{-- <button type="button" class="btn btn-primary" onclick="nextStep(5)">Next</button> --}}
                                     {{-- <a href="#" id="btnNextPartner">Next</a> --}}
@@ -728,7 +746,7 @@
                             </div>
         
                             <!-- Warden Details -->
-                            <div class="form-step" id="step5" style="display: none;">
+                            <div class="form-step" id="step6" style="display: none;">
                                 <h4>Warden Details</h4>
                                 <form id="formNewWardenDetails">
                                     <div class="form-group mb-1" id="divWardenRadioButton">
@@ -750,7 +768,7 @@
                                     </div>
                                     <div id="divEnterWardenDetails" style="display: none;">
                                         <h4>Enter Warden Details</h4>
-                                        <input type="text" class="form-control" id="wardenAuthorId" name="wardenAuthorId" placeholder="Enter Warden wardenAuthorId Here:" readonly>
+                                        <input type="hidden" class="form-control" id="wardenAuthorId" name="wardenAuthorId" placeholder="Enter Warden wardenAuthorId Here:" readonly>
                                         <!-- Warden First Name -->
                                         <div class="form-group">
                                             <label for="wardenFirstName">Warden First Name:</label>
@@ -783,14 +801,14 @@
                                         </div> 
                                     </div>
                                 </form>
-                                <button type="button" class="btn btn-success" onclick="prevStep(5)">Previous</button>
+                                <button type="button" class="btn btn-success" onclick="prevStep(6)">Previous</button>
                                 {{-- <button type="button" class="btn btn-primary" onclick="nextStep(6)">Next</button> --}}
                                 <button type="button" class="btn btn-primary" id="btnNextWarden">Next</button>
                                 {{-- <a href="#" id="btnNextWarden">Next</a> --}}
                             </div>
 
                             <!--Hostel Features, Facilities, Amenities, Luxuries-->
-                            <div class="form-step" id="step6" style="display: none;">
+                            <div class="form-step" id="step7" style="display: none;">
                                 <h4>Hostel Features, Facilities, Amenities, Luxuries</h4>
                                 <form action="#" method="POST" id="formAddFeaturesFacilitiesAmenitiesLuxuries">
                                     @csrf
@@ -870,7 +888,7 @@
                                     
                                     <div class="form-group">
                                         <button type="reset" class="btn btn-info" >Reset</button>
-                                        <button type="button" class="btn btn-success" onclick="prevStep(6)">Previous</button>
+                                        <button type="button" class="btn btn-success" onclick="prevStep(7)">Previous</button>
                                         <button type="submit" class="btn btn-primary" id="btnSaveHostelAllFroms">Save Hostel</button>
                                     </div>
                                 </form>
@@ -1642,24 +1660,10 @@
                     e.preventDefault();
                 }
                 
-                // To check the Hostel Location is empty or not
-                let hostelLocation = $("#hostelLocation").val();
-                if(hostelLocation.trim() === '' || hostelLocation == null ||  hostelDescription.length == 0){
-                    $("#hostelLocation").after('<div class="alert alert-danger addHostelAlert">Hostel Location Should be Provided</div>');
-                    e.preventDefault();
-                }
-                
                 // To check the Hostel Address is empty or not
                 let hostelAddress = $("#hostelAddress").val();
                 if(hostelAddress.trim() === '' || hostelAddress == null ||  hostelAddress.length < 5 || hostelAddress.length > 400){
                     $("#hostelAddress").after('<div class="alert alert-danger addHostelAlert">Hostel Address Should be Provided</div>');
-                    e.preventDefault();
-                }
-                
-                // To check the Hostel Zip Code is empty or not
-                let hostelZipCode = $("#hostelZipCode").val();
-                if(hostelZipCode.trim() === '' || hostelZipCode == null ||  hostelZipCode.length < 5 || hostelZipCode.length > 400){
-                    $("#hostelZipCode").after('<div class="alert alert-danger addHostelAlert">Hostel Zip Code Should be Provided</div>');
                     e.preventDefault();
                 }
                 
@@ -1726,80 +1730,73 @@
     </script>
     <!-- End of the script to Validate the form (formAddHostel)-->
     
-    <!-- Start of the script to Validate the form (formHostelAddressDetails)-->
+    <!-- Start of the script to Validate the form (formHostelDetails)-->
     <script type="text/javascript">
         $(document).ready(function(){
-            $("#btnHostelAddressDetails").click(function(e){
+            $("#btnHostelDetails").click(function(e){
                 e.preventDefault();
-                $(".addHostelAddressDetailsAlert").remove();
+                $(".addHostelDetailsAlert").remove();
 
                 // To check the Hostel Slogan is empty or not
                 let hostelSlogan = $("#hostelSlogan").val();
                 if(hostelSlogan.trim() === '' || hostelSlogan == null ||hostelSlogan.length == 0 || hostelSlogan.length < 3 || hostelSlogan.length > 255){
-                    $("#hostelSlogan").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Slogan Should be Provided.</div>');
+                    $("#hostelSlogan").after('<div class="alert alert-danger addHostelDetailsAlert">Hostel Slogan Should be Provided.</div>');
                     e.preventDefault();
                 }
                 
                 // To check the Hostel Gender is empty or not
                 let hostelGender = $("#hostelGender").val();
                 if(hostelGender === null || hostelGender.trim() === '' || (hostelGender !== 'male' && hostelGender !== 'female')){
-                    $("#hostelGender").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Gender Should be Provided.</div>');
+                    $("#hostelGender").after('<div class="alert alert-danger addHostelDetailsAlert">Hostel Gender Should be Provided.</div>');
                     e.preventDefault();
                 }
                 
                 // To check the Hostel Stay Type is empty or not
                 let hostelStayType = $("#hostelStayType").val();
                 if(hostelStayType === null || hostelStayType.trim() === '' || (hostelStayType !== 'short_stay' && hostelStayType !== 'long_stay')){
-                    $("#hostelStayType").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Stay Type Should be Provided.</div>');
+                    $("#hostelStayType").after('<div class="alert alert-danger addHostelDetailsAlert">Hostel Stay Type Should be Provided.</div>');
                     e.preventDefault();
                 }
                 
                 // To check the Hostel Guest Stay Allow is empty or not
                 let hostelGuestStayAllow = $("#hostelGuestStayAllow").val();
                 if(hostelGuestStayAllow === null || hostelGuestStayAllow.trim() === '' || (hostelGuestStayAllow !== 'Yes' && hostelGuestStayAllow !== 'No')){
-                    $("#hostelGuestStayAllow").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Guest Stay Allow Should be Provided.</div>');
+                    $("#hostelGuestStayAllow").after('<div class="alert alert-danger addHostelDetailsAlert">Hostel Guest Stay Allow Should be Provided.</div>');
                     e.preventDefault();
                 }
                 
                 // To check the Hostel Rent Pay Schedule is empty or not
                 let hostelRentPaySchedule = $("#hostelRentPaySchedule").val();
                 if(hostelRentPaySchedule === null || hostelRentPaySchedule.trim() === '' || (hostelRentPaySchedule !== 'Daily' && hostelRentPaySchedule !== 'Weekly' && hostelRentPaySchedule !== 'Monthly' && hostelRentPaySchedule !== 'Quarterly' && hostelRentPaySchedule !== 'Yearly')){
-                    $("#hostelRentPaySchedule").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Rent Pay Schedule Should be Provided.</div>');
+                    $("#hostelRentPaySchedule").after('<div class="alert alert-danger addHostelDetailsAlert">Hostel Rent Pay Schedule Should be Provided.</div>');
                     e.preventDefault();
                 }
                 
                 // To check the Hostel Type is empty or not
                 let hostelTypeId = $("#hostelTypeId").val();
                 if(hostelTypeId === null || hostelTypeId.trim() === ''){
-                    $("#hostelTypeId").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Type Should be Provided.</div>');
+                    $("#hostelTypeId").after('<div class="alert alert-danger addHostelDetailsAlert">Hostel Type Should be Provided.</div>');
                     e.preventDefault();
                 }
                 
                 // To check the Hostel Average Rent Per Seat (Monthly) is empty or not
                 let hostelAvgRentPerMonth = $("#hostelAvgRentPerMonth").val();
                 if(hostelAvgRentPerMonth.trim() === ''|| isNaN(hostelAvgRentPerMonth) || parseInt(hostelAvgRentPerMonth) < 10000){
-                    $("#hostelAvgRentPerMonth").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Average Rent Per Seat (Monthly) Should be Provided. And Rent Should not be less than 10,000/Rs.</div>');
+                    $("#hostelAvgRentPerMonth").after('<div class="alert alert-danger addHostelDetailsAlert">Hostel Average Rent Per Seat (Monthly) Should be Provided. And Rent Should not be less than 10,000/Rs.</div>');
                     e.preventDefault();
                 }
                 
                 // To check the Hostel Room Occupancy is empty or not
                 let hostelRoomOccupancy = $("#hostelRoomOccupancy").val();
                 if(hostelRoomOccupancy.trim() === '' ||isNaN(hostelRoomOccupancy) || parseInt(hostelRoomOccupancy) < 0){
-                    $("#hostelRoomOccupancy").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Room Occupancy Should be Provided.</div>');
+                    $("#hostelRoomOccupancy").after('<div class="alert alert-danger addHostelDetailsAlert">Hostel Room Occupancy Should be Provided.</div>');
                     e.preventDefault();
                 }
-                
-                // To check the Hostel hostelRecommendedPlace is empty or not
-                let hostelRecommendedPlace = $("#hostelRecommendedPlace").val();
-                if(hostelRecommendedPlace.trim() === '' || hostelRecommendedPlace == null ||  hostelRecommendedPlace.length <3 ||  hostelRecommendedPlace.length > 255 ){
-                    $("#hostelRecommendedPlace").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Recommended Place Should be Provided</div>');
-                    e.preventDefault();
-                }
-                
+ 
                 // To check the Hostel Contact Number is empty or not
                 let hostelContactNumber = $("#hostelContactNumber").val();
                 if(hostelContactNumber.trim() === '' || hostelContactNumber == null ||  hostelContactNumber.length != 10){
-                    $("#divHostelContactNumber").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Contact Number Should be Provided.</div>');
+                    $("#divHostelContactNumber").after('<div class="alert alert-danger addHostelDetailsAlert">Valid Hostel Contact Number Should be Provided.</div>');
                     e.preventDefault();
                 }
                 
@@ -1809,32 +1806,31 @@
                 $(".alertTimingOpenClose").remove();
                 // Check if timings are empty
                 if (openTiming.trim() === '' ) {
-                    $("#hostelOpenTiming").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Open Timings are required.</div>');
+                    $("#hostelOpenTiming").after('<div class="alert alert-danger addHostelDetailsAlert">Hostel Open Timings are required.</div>');
                     e.preventDefault();
                 } 
                 
 
                 if (closeTiming.trim() === '') {
-                    $("#hostelCloseTiming").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Close Timings are required.</div>');
+                    $("#hostelCloseTiming").after('<div class="alert alert-danger addHostelDetailsAlert">Hostel Close Timings are required.</div>');
                     e.preventDefault();
                 } 
                 else if (openTiming === closeTiming) {
-                    $("#hostelCloseTiming").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Close timing should be different from open timing.</div>');
+                    $("#hostelCloseTiming").after('<div class="alert alert-danger addHostelDetailsAlert">Hostel Close timing should be different from open timing.</div>');
                     e.preventDefault();
                 } 
                 else if (closeTiming < openTiming) {
-                    $("#hostelCloseTiming").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Close timing should be after open timing.</div>');
+                    $("#hostelCloseTiming").after('<div class="alert alert-danger addHostelDetailsAlert">Hostel Close timing should be after open timing.</div>');
                     e.preventDefault();
                 }
             
-
                 // To check the Hostel Youtube Link is given if it is given then it should be valid url
                 let hostelYoutubeLink = $("#hostelYoutubeLink").val();
                 // Check if the input is not empty
                 if (hostelYoutubeLink.trim() !== '' || hostelYoutubeLink.length > 1) {
                     // Validate the URL using a regular expression
                     if (!isValidUrl(hostelYoutubeLink)) {
-                        $("#hostelYoutubeLink").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Youtube Link Should be Provided.</div>');
+                        $("#hostelYoutubeLink").after('<div class="alert alert-danger addHostelDetailsAlert">Valid Hostel Youtube Link Should be Provided.</div>');
                         e.preventDefault();
                     }
                 }
@@ -1845,7 +1841,7 @@
                 if (hostelFacebookLink.trim() !== '' || hostelFacebookLink.length > 1) {
                     // Validate the URL using a regular expression
                     if (!isValidUrl(hostelFacebookLink)) {
-                        $("#hostelFacebookLink").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Facebook Link Should be Provided.</div>');
+                        $("#hostelFacebookLink").after('<div class="alert alert-danger addHostelDetailsAlert">Valid Hostel Facebook Link Should be Provided.</div>');
                         e.preventDefault();
                     }
                 }
@@ -1856,9 +1852,47 @@
                 if (hostelInstagramLink.trim() !== '' || hostelInstagramLink.length > 1) {
                     // Validate the URL using a regular expression
                     if (!isValidUrl(hostelInstagramLink)) {
-                        $("#hostelInstagramLink").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Instagram Link Should be Provided.</div>');
+                        $("#hostelInstagramLink").after('<div class="alert alert-danger addHostelDetailsAlert">Valid Hostel Instagram Link Should be Provided.</div>');
                         e.preventDefault();
                     }
+                }
+
+                // If there are no validation errors, proceed with next form request
+                if ($(".addHostelDetailsAlert").length === 0) {
+                    nextStep(3);
+                }
+
+            });
+        });
+    </script>
+    <!-- End of the script to Validate the form (formHostelDetails)-->
+    <!-- Start of the script to Validate the form (formHostelAddressDetails)-->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            
+            $("#btnHostelAddresDetails").click(function(e){
+                e.preventDefault();
+                $(".addHostelAddressDetailsAlert").remove();
+
+                // To check the Hostel Location is empty or not
+                let hostelLocation = $("#hostelLocation").val();
+                if(hostelLocation.trim() === '' || hostelLocation == null ||  hostelDescription.length == 0){
+                    $("#hostelLocation").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Location Should be Provided</div>');
+                    e.preventDefault();
+                }
+
+                // To check the Hostel Zip Code is empty or not
+                let hostelZipCode = $("#hostelZipCode").val();
+                if(hostelZipCode.trim() === '' || hostelZipCode == null){
+                    $("#hostelZipCode").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Zip Code Should be Provided</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel hostelRecommendedPlace is empty or not
+                let hostelRecommendedPlace = $("#hostelRecommendedPlace").val();
+                if(hostelRecommendedPlace.trim() === '' || hostelRecommendedPlace == null ||  hostelRecommendedPlace.length <3 ||  hostelRecommendedPlace.length > 255 ){
+                    $("#hostelRecommendedPlace").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Recommended Place Should be Provided</div>');
+                    e.preventDefault();
                 }
 
                 // To check the Hostel Area Name is empty or not
@@ -1882,31 +1916,25 @@
                     e.preventDefault();
                 }
 
-                // To check the Hostel Location is empty or not
-                let hosteMetalLocation = $("#hosteMetalLocation").val();
-                if(hosteMetalLocation.trim() === ''|| hosteMetalLocation === null){
-                    $("#hosteMetalLocation").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Location Should be Provided.</div>');
-                    e.preventDefault();
-                }
-
                 // To check the Hostel Map Location Link is given & it should be valid url
                 let hostelMapLocation = $("#hostelMapLocation").val();
                 // Check if the input is not empty
-                if (hostelMapLocation.trim() === '' || hostelMapLocation.trim() === null || (!isValidUrl(hostelMapLocation))) {
-                    $("#hostelMapLocation").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Map Location Link Should be Provided.</div>');
+                if (hostelMapLocation.trim() === '' || hostelMapLocation.trim() === null) {
+                    $("#hostelMapLocation").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Map Location Link Should be Provided.</div>');
                     e.preventDefault();
                 }
 
-                
                 // If there are no validation errors, proceed with next form request
                 if ($(".addHostelAddressDetailsAlert").length === 0) {
-                    nextStep(3);
+                    nextStep(4);
                 }
+
 
             });
         });
     </script>
     <!-- End of the script to Validate the form (formHostelAddressDetails)-->
+
 
     
     
@@ -1916,6 +1944,7 @@
             $("#btnHostelMetas").click(function(e){
                 $(".HostelMetasAlert").remove();
                 e.preventDefault();
+
                 // To check the Hostel Mess Availability is empty or not
                 let hostelMess = $("#hostelMess").val();
                 if(hostelMess === null || hostelMess.trim() === '' || (hostelMess !== 'available' && hostelMess !== 'unavailable')){
@@ -2056,7 +2085,7 @@
 
                 // If there are no validation errors, proceed with next form request
                 if ($(".HostelMetasAlert").length === 0) {
-                    nextStep(4);
+                    nextStep(5);
                 }
                 
                 
@@ -2071,6 +2100,7 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $("#btnNextPartner").click(function(e){
+                e.preventDefault();
                 $(".PartnerRegisterAlert").remove();
 
                 // To check if either radio button is checked
@@ -2128,7 +2158,7 @@
 
                     // If there are no validation errors, proceed with next form request
                     if ($(".PartnerRegisterAlert").length === 0) {
-                        nextStep(5);
+                        nextStep(6);
                     }
                 }
             });
@@ -2197,7 +2227,7 @@
 
                     // If there are no validation errors, proceed with next form request
                     if ($(".WardenRegisterAlert").length === 0) {
-                        nextStep(6);
+                        nextStep(7);
                     }
                 }
             });
@@ -2218,31 +2248,45 @@
                 var formData1 = new FormData($('#formAddHostel')[0]); // Use FormData for file uploads
 
                 // Collect data from Form 2
-                var formData2 = $('#formHostelAddressDetails').serializeArray();
+                var formData2 = $('#formHostelDetails').serializeArray();
                 
                 // Collect data from Form 3
-                var formData3 = $('#formHostelMetas').serializeArray(); 
+                var formData3 = $('#formHostelAdressDetails').serializeArray();
+
+                // Collect data from Form 3 (Update the variable name to formData4 to avoid conflict)
+                var formData4 = $('#formHostelMetas').serializeArray();
+
                 // Collect data from Form 4
-                var formData4 = $('#formNewPartnerDetails').serializeArray();
+                var formData5 = $('#formNewPartnerDetails').serializeArray();
+
                 // Collect data from Form 5
-                var formData5 = $('#formNewWardenDetails').serializeArray();
+                var formData6 = $('#formNewWardenDetails').serializeArray();
+
                 // Collect data from Form 6
-                var formData6 = $('#formAddFeaturesFacilitiesAmenitiesLuxuries').serializeArray();
+                var formData7 = $('#formAddFeaturesFacilitiesAmenitiesLuxuries').serializeArray();
 
                 // Append data from other forms to FormData
                 $.each(formData2, function (index, field) {
                     formData1.append(field.name, field.value);
                 });
+
                 $.each(formData3, function (index, field) {
                     formData1.append(field.name, field.value);
                 });
+
                 $.each(formData4, function (index, field) {
                     formData1.append(field.name, field.value);
                 });
+
                 $.each(formData5, function (index, field) {
                     formData1.append(field.name, field.value);
                 });
+
                 $.each(formData6, function (index, field) {
+                    formData1.append(field.name, field.value);
+                });
+
+                $.each(formData7, function (index, field) {
                     formData1.append(field.name, field.value);
                 });
 
@@ -2264,7 +2308,7 @@
                             if (response.status === 'success') {
                                 // Reset all forms
                                 $('#formAddHostel')[0].reset();
-                                $('#formHostelAddressDetails')[0].reset();
+                                $('#formHostelDetails')[0].reset();
                                 $('#formHostelMetas')[0].reset();
                                 $('#formNewPartnerDetails')[0].reset();
                                 $('#formNewWardenDetails')[0].reset();
@@ -2280,12 +2324,12 @@
                         error: function (err) {
                             // If there is an error adding the user
                             let error = err.responseJSON;
-                            $(".addHostelAlert").remove();
+                            $(".alert-danger").remove();
                             if (error.hasOwnProperty('errors')) {
-                                document.getElementById('step6').style.display = 'none';
+                                document.getElementById('step7').style.display = 'none';
                                 document.getElementById('step1').style.display = 'block';
                                 $.each(error.errors, function (index, value) {
-                                    $("#" + index).after('<div class="alert alert-danger addHostelAlert">'+value+'</div>');
+                                    $("#" + index).after('<div class="alert alert-danger">'+value+'</div>');
                                 });
                             } else if (error.hasOwnProperty('message')) {
                                 // Display a general error message
@@ -2302,7 +2346,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrN1lnwhavrmfKr2HWruDFDdXJcIfAM1M&callback=initMap&libraries=places" async
         defer></script>
     {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrN1lnwhavrmfKr2HWruDFDdXJcIfAM1M&libraries=places"></script> --}}
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             // Initialize Google Places Autocomplete
             var input = document.getElementById('hostelLocation');
@@ -2315,12 +2359,12 @@
                 $('#longitude').val(place.geometry.location.lng());
             });
         });
-    </script>
+    </script> --}}
     <!-- Start of script for Location using google map -->
 
     <script>
         function initAutocomplete() {
-            const input = document.getElementById('location-column');
+            const input = document.getElementById('hostelLocation');
 
             // Specify componentRestrictions to restrict to a city and state
             const options = {
@@ -2345,17 +2389,21 @@
                 console.log('Selected Place:', place);
 
                 // Populate address input fields
-                document.getElementById('street_no-column').value = place.name;
-                // document.getElementById('city-input').value = place.address_components[2].long_name;
-                // document.getElementById('state-input').value = place.address_components[4].long_name;
-                // document.getElementById('country-input').value = place.address_components[5].long_name;
-                document.getElementById('zipcode').value = place.address_components[6] ? place.address_components[6]
-                    .long_name : '';
-                document.getElementById('map_location-column').value = place.url;
+                document.getElementById('hostelStreetNo').value = place.name;
+                document.getElementById('hostelZipCode').value = place.address_components[6] ? place.address_components[6].long_name : '';
+                document.getElementById('hostelMapLocation').value = place.url;
 
                 // Populate latitude and longitude input fields
                 document.getElementById('latitude').value = place.geometry.location.lat();
                 document.getElementById('longitude').value = place.geometry.location.lng();
+
+                // Add Area Name and Plot Number
+                var areaName = getAreaName(place.address_components);
+                var plotNumber = getPlotNumber(place.address_components);
+
+                // Populate additional input fields
+                document.getElementById('hostelAreaName').value = areaName;
+                document.getElementById('hostelPlotNo').value = plotNumber;
                 // Example: Retrieve latitude and longitude values from cookies
                 var latitudeValue = place.geometry.location.lat() ?? getCookieValue('latitude');
                 var longitudeValue = place.geometry.location.lng() ?? getCookieValue('longitude');
@@ -2445,13 +2493,13 @@
                         var plotNumber = getPlotNumber(results[0].address_components);
                         // Populate address input fields
                         document.getElementById('hostelStreetNo').value = placeName;
-                        document.getElementById('hosteMetalLocation').value = placeName;
+                        document.getElementById('hostelLocation').value = placeName;
                         document.getElementById('hostelAreaName').value = areaName;
                         document.getElementById('hostelPlotNo').value = plotNumber;
                         document.getElementById('hostelZipCode').value = placeZipcode;
                         document.getElementById('hostelMapLocation').value = placeUrl;
-                        document.getElementById('hostelMetaLatitude').value = lat;
-                        document.getElementById('hostelMetalongitude').value = lng;
+                        document.getElementById('latitude').value = lat;
+                        document.getElementById('longitude').value = lng;
                     } else {
                         alert('No results found');
                     }
