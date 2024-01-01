@@ -81,24 +81,26 @@
     @yield('frontEnd-js')
     
 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrN1lnwhavrmfKr2HWruDFDdXJcIfAM1M&libraries=places"></script>
     <script>
-        if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    function(position) {
-                        const latitude = position.coords.latitude;
-                        const longitude = position.coords.longitude;
-                        document.cookie = latitude=${latitude}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/;
-                        document.cookie =
-                            longitude=${longitude}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/;
-                        console.log(Latitude: ${latitude}, Longitude: ${longitude});
-                    },
-                    function(error) {
-                        console.log("Error getting location:", error);
-                    }
-                );
-            } else {
-                console.log("Geolocation is not supported by this browser.");
+      $(document).ready(function() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                document.cookie = `latitude=${latitude}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+                document.cookie = `longitude=${longitude}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+                console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+            },
+            function(error) {
+                console.log("Error getting location:", error);
             }
+        );
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
+});
     </script>
 
 </body>
