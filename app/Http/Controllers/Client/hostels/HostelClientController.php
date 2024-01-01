@@ -123,7 +123,6 @@ class HostelClientController extends Controller
                 'hostelAreaName' => 'required|string',
                 'hostelPlotNo' => 'required|string',
                 'hostelStreetNo' => 'required|string',
-                'hosteMetalLocation' => 'required|string',
                 'hostelMapLocation' => 'required|url',
                 'hostelMess' => 'required|in:available,unavailable',
                 'hostelMessType' => 'required_if:hostelMess,available|in:one_time_mess,two_time_mess,three_time_mess,buffay_time_mess',
@@ -145,6 +144,14 @@ class HostelClientController extends Controller
                 'wardenCnicRadio' => 'required|in:Yes,No',
                 'tags' => 'nullable|array',
                 'tags.*' => 'sometimes|exists:tags,id',
+                'features' => 'nullable|array',
+                'features.*' => 'sometimes|exists:features,id',
+                'facilities' => 'nullable|array',
+                'facilities.*' => 'sometimes|exists:facilities,id',
+                'amenities' => 'nullable|array',
+                'amenities.*' => 'sometimes|exists:amenities,id',
+                'luxuries' => 'nullable|array',
+                'luxuries.*' => 'sometimes|exists:luxuries,id',
             ];
             $partnerAvailability = "";
             if($request->partnerCnicRadio == "Yes"){
@@ -212,11 +219,28 @@ class HostelClientController extends Controller
                     $rules['wardenCnicCheck'] = 'required|numeric|digits:15';
                 }
             }
+            $membershipExistence="";
+            $userMembership = Auth::user();
+            // dd($userMembership);
+            $memberships = Membership::where('cnic',$userMembership->cnic_no)->get();
+            if(count($memberships)>0){
+                $membershipExistence="Yes";
+            }
+            else{
+                $membershipExistence="No";
+                $rules['membershipTypeId'] = 'required|exists:membership_types,id';
+                $rules['transactionNumber'] = 'required|unique:member_ships,transaction_no';
+                if(!empty($request->refferalCnic) && strlen($request->refferalCnic)>0){
+                    $rules['refferalCnic']='required|max:15|min:15|exists:users,cnic_no';
+                }
+            }
+
+            // dd($request->all());
             $this->validate($request,$rules);
             
+            
             // dd($request->all());
-            // dd($request->all());
-            // Generate the initial slug from the title
+            // Generate the initial  hotel slug from the hostel name
             $slug = Str::slug($request->hostelName);
             // Make the slug unique
             $uniqueSlug = $this->makeSlugUnique($slug);
@@ -311,7 +335,7 @@ class HostelClientController extends Controller
             $propertyMetas->area_name = $request->hostelAreaName;
             $propertyMetas->street_no = $request->hostelStreetNo;
             $propertyMetas->plot_no = $request->hostelPlotNo;
-            $propertyMetas->location = $request->hosteMetalLocation;
+            $propertyMetas->location = $request->hostelLocation;
             $propertyMetas->nearby_famous_location = $request->hostelNearestLandmark;
             $propertyMetas->map_location = $request->hostelMapLocation;
             $propertyMetas->mess = $request->hostelMess;
@@ -417,7 +441,7 @@ class HostelClientController extends Controller
                             'message' => 'There is a Problem in Adding Hsotel Partner Form. Kindly Submit Again',
                         ]);
                     }
-                    $wardenUser->assignRole("user");
+                    $wardenUser->assignRole("staff");
                     // In the Partner Table save the author id
                     $propertiesWarden->author_id = $wardenUser->id;
                 }else if($wardenAvailability == "Old"){
@@ -456,33 +480,38 @@ class HostelClientController extends Controller
                 $property->tags()->sync($request->tags);
             }
 
-            $userMembership = Auth::user();
-            $memberships = new Membership();
-            $memberships->name = $userMembership->name;
-            $memberships->cnic = $userMembership->cnic_no;
-            $memberships->membershiptype_id =$request->membershipTypeId;
-            // $memberships->hostelreg_no =;
-            $memberships->transaction_no =$request->transactionNumber;
-            // Determine gender based on the last digit of the CNIC
-            $lastDigit = substr($userMembership->cnic_no, -1);
-            $memberships->gender = ($lastDigit % 2 === 0) ? 'female' : 'male';
-            $memberships->since =$request->since;
-            $memberships->previous_hostel =$request->previousHostel;
-            $memberships->country_id =$request->hostelCountryId;
-            $memberships->city_id =$request->hostelCityId;
-            $memberships->states_id =$request->hostelStatesId;
-            $memberships->area =$request->hostelAreaName;
-            $memberships->property_id =$propertiesId;
-            // Check if referalCnic is not empty
-            if (!empty($request->refferalCnic)) {
-                // Assuming you have a User model and a proper relationship between User and Membership
-                $referralUser = User::where('cnic_no', $request->refferalCnic)->first();
-                $memberships->referal_cnic =$request->refferalCnic;
-                // Set the parent_id with the ID of the referring user
-                $memberships->parent_id = $referralUser->id;
-            }
-            $memberships->save();
 
+            $userMembership = Auth::user();
+            $memberships = Membership::where('cnic',$userMembership->cnic_no)->get();
+            if($membershipExistence=="No"){
+                $memberships = new Membership();
+                $memberships->name = $userMembership->name;
+                $memberships->cnic = $userMembership->cnic_no;
+                $memberships->membershiptype_id =$request->membershipTypeId;
+                // $memberships->hostelreg_no =;
+                $memberships->transaction_no =$request->transactionNumber;
+                // Determine gender based on the last digit of the CNIC
+                $lastDigit = substr($userMembership->cnic_no, -1);
+                $memberships->gender = ($lastDigit % 2 === 0) ? 'female' : 'male';
+                $memberships->since =$request->since;
+                $memberships->previous_hostel =$request->previousHostel;
+                $memberships->country_id =$request->hostelCountryId;
+                $memberships->city_id =$request->hostelCityId;
+                $memberships->states_id =$request->hostelStatesId;
+                $memberships->area =$request->hostelAreaName;
+                $memberships->property_id =$propertiesId;
+                // Check if referalCnic is not empty
+                if (!empty($request->refferalCnic)) {
+                    // Assuming you have a User model and a proper relationship between User and Membership
+                    $referralUser = User::where('cnic_no', $request->refferalCnic)->first();
+                    $memberships->referal_cnic =$request->refferalCnic;
+                    // Set the parent_id with the ID of the referring user
+                    $memberships->parent_id = $referralUser->id;
+                }
+                $memberships->save();    
+            }
+
+           
 
             return response()->json([
                 'status' => 'success',
