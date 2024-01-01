@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\client\hostels;
 
 use Exception;
+use App\Models\Tag;
 use App\Models\User;
 use App\Models\Luxury;
 use App\Models\Amenity;
@@ -41,8 +42,29 @@ class HostelClientController extends Controller
             $luxuries = Luxury::get();      // luxuries
             $features = Feature::get();      // features
             $facilities = Facility::get();  // facilities
-            $membershipTypes = MembershipTypes::all();
+            $membershipTypes = MembershipTypes::all();  // membershipTypes
+            $tags = Tag::all();     // Tags
 
+            $userMembership = Auth::user();
+            $memberships = Membership::where('cnic',$userMembership->cnic_no)->get();
+            // dd($memberships);
+            $membershipExistence="";
+            if(count($memberships)>0){
+                $membershipExistence="Yes";
+                return view('client.hostel.post-hostel') 
+                    ->with(['countries' => $countries,
+                        'categories' => $categories,
+                        'property_types' => $property_types,
+                        'amenities' => $amenities,
+                        'luxuries' => $luxuries,
+                        'features' => $features,
+                        'facilities' => $facilities,
+                        'tags' => $tags,
+                        'membershipExistence' => $membershipExistence,
+                ]);
+            }
+
+            $membershipExistence="No";
             return view('client.hostel.post-hostel') 
                 ->with(['countries' => $countries,
                     'categories' => $categories,
@@ -51,7 +73,9 @@ class HostelClientController extends Controller
                     'luxuries' => $luxuries,
                     'features' => $features,
                     'facilities' => $facilities,
+                    'tags' => $tags,
                     'membershipTypes' => $membershipTypes,
+                    'membershipExistence' => $membershipExistence,
             ]);
         }
         catch(Exception $e){
@@ -119,6 +143,8 @@ class HostelClientController extends Controller
                 'hostelCanteenAvailability' => 'required|in:stand_alone,attached,inside,outside,online,pos,n/a',
                 'partnerCnicRadio' => 'required|in:Yes,No',
                 'wardenCnicRadio' => 'required|in:Yes,No',
+                'tags' => 'nullable|array',
+                'tags.*' => 'sometimes|exists:tags,id',
             ];
             $partnerAvailability = "";
             if($request->partnerCnicRadio == "Yes"){
@@ -423,6 +449,12 @@ class HostelClientController extends Controller
             // Attach selected luxuries to the property
             $property->luxuries()->attach($selectedLuxuryIds);
             //  dd($selectedFeatureIds);
+
+            // Check if 'tags' is present in the request and is an array
+            if ($request->has('tags') && is_array($request->tags)) {
+                // Sync the tags for the property
+                $property->tags()->sync($request->tags);
+            }
 
             $userMembership = Auth::user();
             $memberships = new Membership();
