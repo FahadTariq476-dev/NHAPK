@@ -666,10 +666,10 @@
                                     
                                     <!-- Buttons-->
                                     <div class="form-group mb-2">
-                                        <button type="reset" class="btn btn-info">Reset sfdfgdgg</button>
+                                        <button type="reset" class="btn btn-info">Reset</button>
                                         <button type="button" class="btn btn-success" onclick="prevStep(4)">Previous</button>
                                         {{-- <button type="button" class="btn btn-primary" onclick="nextStep(4)">Next</button> --}}
-                                        <button type="submit" class="btn btn-primary" id="btnHostelMetas">Next afdg</button>
+                                        <button type="submit" class="btn btn-primary" id="btnHostelMetas">Next</button>
                                         {{-- <a href="#" id="btnHostelMetas">Next</a> --}}
                                     </div>
                                     
