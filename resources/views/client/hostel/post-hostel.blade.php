@@ -1,17 +1,13 @@
 @extends('client.layouts.master')
 @section('title','Add Hostel')
 
-{{-- Begin: Addiitonal CSS Section starts Here --}}
 @section('css')
-    {{--  --}}
     <!-- Begin: DataTables CSS and JS -->
     @include('client.layouts.dataTables-links')
     <!-- End: DataTables CSS and JS -->
 
 @endsection
-{{-- End: Addiitonal CSS Section starts Here --}}
 
-{{-- Begin: Main-Content Section  --}}
 @section('content')
 
 
@@ -64,19 +60,20 @@
                             <!-- Hostel Information -->
                             <div class="form-step" id="step1">
                                 <h4>Hostel Information</h4>
-                                <form class="row">
+                                <form class="row" id="formAddHostel" enctype="multipart/form-data">
+                                    @csrf
                                     <!-- Left Column -->
                                     <div class="col-md-6 mb-1">
                                         <!-- Hostel Name -->
                                         <div class="form-group">
                                             <label for="hostelName">Hostel Name:</label>
-                                            <input type="text" class="form-control" id="hostelName" name="hostelName" required>
+                                            <input type="text" class="form-control" id="hostelName" value="" name="hostelName" minlength="3" maxlength="250" placeholder="Enter Your Hostel Name Here:">
                                         </div>
                             
                                         <!-- Hostel Description -->
                                         <div class="form-group">
                                             <label for="hostelDescription">Hostel Description:</label>
-                                            <textarea class="form-control" id="hostelDescription" name="hostelDescription" rows="3"></textarea>
+                                            <textarea class="form-control" id="hostelDescription" name="hostelDescription" rows="3" minlength="5" maxlength="400" placeholder="Enter Your Hostel Description Here:"></textarea>
                                         </div>
                             
                                         <!-- Hostel Country -->
@@ -115,17 +112,14 @@
                                         <!-- Total Number of Rooms -->
                                         <div class="form-group">
                                             <label for="hostelTotalRooms">Total Number of Rooms:</label>
-                                            <input type="number" class="form-control" id="hostelTotalRooms" name="hostelTotalRooms" required>
+                                            <input type="number" class="form-control" value="" id="hostelTotalRooms" name="hostelTotalRooms" placeholder="Enter Total Number of Rooms Here:">
                                         </div>
                             
                                         <!-- Total Number of Bath Rooms -->
                                         <div class="form-group">
                                             <label for="hostelBathRooms">Total Number of Bath Rooms:</label>
-                                            <input type="number" class="form-control" id="hostelBathRooms" name="hostelBathRooms" required>
+                                            <input type="number" class="form-control" value="" id="hostelBathRooms" name="hostelBathRooms" placeholder="Enter Total Number of Bath Rooms Here:">
                                         </div>
-                            
-                                        
-                                        
                                     </div>
                             
                                     <!-- Right Column -->
@@ -133,31 +127,34 @@
                                          <!-- Hostel Location -->
                                          <div class="form-group">
                                             <label for="hostelLocation">Hostel Location:</label>
-                                            <input type="text" class="form-control" id="hostelLocation" name="hostelLocation" required>
+                                            <input type="text" class="form-control" value="" id="hostelLocation" name="hostelLocation" placeholder="Enter Your Hostel Location Here:">
+                                            <input type="text" class="form-control" name="latitude" id="latitude" placeholder="Latitude Here" readonly/>
+                                            <input type="text" class="form-control" name="longitude" id="longitude" placeholder="Latitude Here" readonly/>
+                                       
                                         </div>
 
                                          <!-- Hostel Address -->
                                          <div class="form-group">
                                             <label for="hostelAddress">Hostel Adress:</label>
-                                            <textarea class="form-control" id="hostelAddress" name="hostelAddress" rows="3"></textarea>
+                                            <textarea class="form-control" id="hostelAddress" name="hostelAddress" rows="3" minlength="5" maxlength="400" placeholder="Enter Your Hostel Address Here:"></textarea>
                                         </div>
                             
                                         <!-- Hostel Zip Code -->
                                         <div class="form-group">
                                             <label for="hostelZipCode">Zip Code:</label>
-                                            <input type="text" class="form-control" id="hostelZipCode" name="hostelZipCode" required>
+                                            <input type="text" class="form-control" id="hostelZipCode" value="" name="hostelZipCode" minlength="4" maxlength="255" placeholder="Enter Your Zip Code Here:">
                                         </div>
 
                                         <!-- Hostel Nearest Landmark -->
                                         <div class="form-group">
                                             <label for="hostelNearestLandmark">Nearest Landmark:</label>
-                                            <input type="text" class="form-control" id="hostelNearestLandmark" name="hostelNearestLandmark" required>
+                                            <input type="text" class="form-control" value="" id="hostelNearestLandmark" name="hostelNearestLandmark" placeholder="Enter Your Nearest Landmark Here:">
                                         </div>
 
                                         <!-- Total Number of Floors -->
                                         <div class="form-group">
                                             <label for="hostelTotalFloors">Total Number of Floors:</label>
-                                            <input type="number" class="form-control" id="hostelTotalFloors" name="hostelTotalFloors" required>
+                                            <input type="number" class="form-control" value="" id="hostelTotalFloors" name="hostelTotalFloors" placeholder="Enter Total Number of FLoors Here:">
                                         </div>
                                         
                                         <!-- Hostel Categories-->
@@ -167,7 +164,8 @@
                                                 <option value="" selected disabled >Select Hostel Category</option>
                                                 @if (count($categories)>0)
                                                     @foreach($categories as $category)
-                                                        <option value="{{$category->id}}" @if (old('hostelCategoryId')==$category->id) selected @endif>
+                                                        <option value="{{$category->id}}" @if ($category->id==1) selected @endif>
+                                                        {{-- <option value="{{$category->id}}" @if (old('hostelCategoryId')==$category->id) selected @endif> --}}
                                                             {{$category->name}}
                                                         </option>
                                                     @endforeach
@@ -178,15 +176,19 @@
                                         </div>
                             
                                         <!-- Hostel Images -->
-                                        <div class="form-group">
+                                        <div class="form-group" id="divImages">
                                             <label for="hostelImages">Hostel Images:</label>
-                                            <input type="file" class="form-control" id="hostelImages" name="hostelImages" required>
+                                            <input type="file" class="form-control" id="hostelImages" name="hostelImages[]" multiple accept="image/*" placeholder="Select Your Hostal Images Here:">
+                                            <small class="form-text text-muted">Please Select Hostel Images Here. Only Images will be Selected and size will not be greater than 2 MB.</small>
                                         </div>
                                     </div>
                                     
                                     <div class="form-group">
                                         <button type="reset" class="btn btn-info">Reset</button>
-                                        <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next</button>
+                                        <button type="submit" class="btn btn-primary" id="btnAddHostel">Next</button>
+                                        {{-- <button type="button" class="btn btn-primary" onclick="nextStep(2)" id="btnAddHostel">Next</button> --}}
+                                        {{-- <button type="button" class="btn btn-primary"  id="btnAddHostel">Next</button> --}}
+                                        {{-- <a href="#" id="btnAddHostel">Next</a> --}}
                                     </div>
                                     
                                 </form>
@@ -195,7 +197,7 @@
                             <!-- Hostel Address -->
                             <div class="form-step" id="step2" style="display: none;">
                                 <h4>Hostel Address & Details</h4>
-                                <form class="row">
+                                <form class="row" id="formHostelAddressDetails">
                                     <!-- Left Column -->
                                     <div class="col-md-6 mb-1">
                                        
@@ -203,7 +205,7 @@
                                         <!-- Hostel Slogan -->
                                         <div class="form-group">
                                             <label for="hostelSlogan">Hostel Slogan:</label>
-                                            <input type="text" class="form-control" id="hostelSlogan" name="hostelSlogan" required>
+                                            <input type="text" class="form-control" value="" id="hostelSlogan" name="hostelSlogan" placeholder="Enter Your Hostel Slogan Here:">
                                         </div>
                             
                                         <!-- Hostel For -->
@@ -256,7 +258,7 @@
                                                 <option value="">Select Hostel Type</option>
                                                 @if (count($property_types)>0)
                                                     @foreach ($property_types as $property_type)
-                                                        <option value="{{$property_type->id}}" @if (old('hostelType')==$property_type->id) selected @endif>
+                                                        <option value="{{$property_type->id}}" @if ($property_type->id==1) selected @endif>
                                                             {{$property_type->name}}
                                                         </option>    
                                                     @endforeach
@@ -269,19 +271,20 @@
                                         <!-- Hostel Average Rent Per Seat (Monthly) -->
                                         <div class="form-group">
                                             <label for="hostelAvgRentPerMonth">Hostel Average Rent Per Seat (Monthly):</label>
-                                            <input type="number" class="form-control" id="hostelAvgRentPerMonth" name="hostelAvgRentPerMonth" required>
+                                            <input type="number" class="form-control" value="" id="hostelAvgRentPerMonth" name="hostelAvgRentPerMonth" placeholder="Enter Hostel Average Rent Per Seat (Monthly) Here:">
+                                            <small class="form-text text-muted">Hostel Average Rent Per Seat (Monthly) Should be 10,000/Rs and greater.</small>
                                         </div>
                                         
                                         <!-- Hostel Room Occupancy -->
                                         <div class="form-group">
                                             <label for="hostelRoomOccupancy">Hostel Room Occupancy:</label>
-                                            <input type="number" class="form-control" id="hostelRoomOccupancy" name="hostelRoomOccupancy" required>
+                                            <input type="number" class="form-control" value="" id="hostelRoomOccupancy" name="hostelRoomOccupancy" placeholder="Enter Hostel Room Occupancy Here:">
                                         </div>
                                         
                                         <!-- Hostel Recommended Place -->
                                         <div class="form-group">
                                             <label for="hostelRecommendedPlace">Hostel Recommended Place:</label>
-                                            <input type="text" class="form-control" id="hostelRecommendedPlace" name="hostelRecommendedPlace" required>
+                                            <input type="text" class="form-control" value="" id="hostelRecommendedPlace" name="hostelRecommendedPlace" placeholder="Enter Hostel Recommended Place Here:">
                                         </div>
                                         
                                     </div>
@@ -291,11 +294,11 @@
                                         <!-- Hostel Contact Number -->
                                         <div class="form-group">
                                             <label for="hostelContactNumber">Hostel Contact Number:</label>
-                                            <div class="input-group">
+                                            <div class="input-group" id="divHostelContactNumber">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">+92</span>
                                                 </div>
-                                                <input type="tel" class="form-control" id="hostelContactNumber" name="hostelContactNumber" pattern="[0-9]{10}" maxlength="10" minlength="10" 
+                                                <input type="tel" class="form-control" id="hostelContactNumber" value="" name="hostelContactNumber" pattern="[0-9]{10}" maxlength="10" minlength="10" placeholder="Enter Hostel Contact Number Here:"
                                                 value="{{old('hostelContactNumber')}}" placeholder="Enter Your Mobile Number Here:" onkeyup="validateMobileNumber(this)">
                                             </div>
                                             <small class="form-text text-muted">Please enter a mobile number. Don't add +92</small>
@@ -304,54 +307,60 @@
                                         <!-- Hostel Open Timing -->
                                         <div class="form-group">
                                             <label for="hostelOpenTiming">Hostel Open Timing:</label>
-                                            <input type="time" class="form-control" id="hostelOpenTiming" name="hostelOpenTiming" required>
+                                            <input type="time" class="form-control" value="08:00" id="hostelOpenTiming" name="hostelOpenTiming">
                                         </div>
                             
                                         <!-- Hostel Close Timing -->
                                         <div class="form-group">
                                             <label for="hostelCloseTiming">Hostel Close Timing:</label>
-                                            <input type="time" class="form-control" id="hostelCloseTiming" name="hostelCloseTiming" required>
+                                            <input type="time" class="form-control" value="21:00" id="hostelCloseTiming" name="hostelCloseTiming">
                                         </div>
                                         
                                         <!-- Hostel Youtube Link -->
                                         <div class="form-group">
                                             <label for="hostelYoutubeLink">Hostel Youtube Link:</label>
-                                            <input type="url" class="form-control" id="hostelYoutubeLink" name="hostelYoutubeLink" required>
+                                            <input type="url" class="form-control" id="hostelYoutubeLink" name="hostelYoutubeLink" placeholder="Enter Hostel Youtube Link Here:">
                                         </div>
                             
                                         <!-- Hostel Facebook Link -->
                                         <div class="form-group">
                                             <label for="hostelFacebookLink">Hostel Facebook Link:</label>
-                                            <input type="url" class="form-control" id="hostelFacebookLink" name="hostelFacebookLink" required>
+                                            <input type="url" class="form-control" id="hostelFacebookLink" name="hostelFacebookLink" placeholder="Enter Hostel Facebook Link Here:">
                                         </div>
                             
                                         <!-- Hostel Instagram Link -->
                                         <div class="form-group">
                                             <label for="hostelInstagramLink">Hostel Instagram Link:</label>
-                                            <input type="url" class="form-control" id="hostelInstagramLink" name="hostelInstagramLink" required>
+                                            <input type="url" class="form-control" id="hostelInstagramLink" name="hostelInstagramLink" placeholder="Enter Hostel Instagram Link Here:">
                                         </div>
                                         
                                         <!-- Hostel Area Name -->
                                         <div class="form-group">
                                             <label for="hostelAreaName">Hostel Area Name:</label>
-                                            <input type="text" class="form-control" id="hostelAreaName" name="hostelAreaName" required>
+                                            <input type="text" value="Hostel Area Name" class="form-control" id="hostelAreaName" name="hostelAreaName" placeholder="Enter Hostel Area Name Here:">
                                         </div>
                                         
                                         <!-- Hostel Plot No -->
                                         <div class="form-group">
                                             <label for="hostelPlotNo">Hostel Plot No:</label>
-                                            <input type="text" class="form-control" id="hostelPlotNo" name="hostelPlotNo" required>
+                                            <input type="text" value="N/A" class="form-control" id="hostelPlotNo" name="hostelPlotNo" placeholder="Enter Hostel Plot No Here:">
+                                        </div>
+                                        
+                                        <!-- Hostel Street No -->
+                                        <div class="form-group">
+                                            <label for="hostelPlotNo">Hostel Street No:</label>
+                                            <input type="text" value="N/A" class="form-control" id="hostelStreetNo" name="hostelStreetNo" placeholder="Enter Hostel Street No Here:">
                                         </div>
 
                                         <!-- Hostel Location -->
                                         <div class="form-group">
-                                            <label for="hostelLocation">Hostel Location:</label>
-                                            <input type="text" class="form-control" id="hostelLocation" name="hostelLocation" required>
+                                            <label for="hosteMetalLocation">Hostel Location:</label>
+                                            <input type="text" class="form-control" value="GF85+MQP, Green City, Lahore, Punjab, Pakistan" id="hosteMetalLocation" name="hosteMetalLocation" placeholder="Enter Hostel Location Here:">
                                         </div>
                                         <!-- Hostel Map Location -->
                                         <div class="form-group">
                                             <label for="hostelMapLocation">Hostel Map Location:</label>
-                                            <input type="text" class="form-control" id="hostelMapLocation" name="hostelMapLocation" required>
+                                            <input type="text" class="form-control" value="https://www.google.com/maps/@31.51672154704646,74.45938242712248,15z" id="hostelMapLocation" name="hostelMapLocation" placeholder="Enter Hostel Map Location Here:">
                                         </div>
 
                                     </div>
@@ -361,7 +370,9 @@
                                     <div class="form-group mb-2">
                                         <button type="reset" class="btn btn-info">Reset</button>
                                         <button type="button" class="btn btn-success" onclick="prevStep(2)">Previous</button>
-                                        <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next</button>
+                                        <button type="submit" class="btn btn-primary" id="btnHostelAddressDetails">Next</button>
+                                        {{-- <button type="button" class="btn btn-primary" onclick="nextStep(3)" id="btnHostelAddressDetails">Next</button> --}}
+                                        {{-- <a href="#" id="btnHostelAddressDetails">Next</a> --}}
                                     </div>
                                     
                                 </form>
@@ -371,7 +382,7 @@
                             <div class="form-step" id="step3" style="display: none;">
                                 <h4>Hostel Metas</h4>
                                 
-                                <form class="row">
+                                <form class="row" id="formHostelMetas">
                                     <!-- Left Column -->
                                     <div class="col-md-6 mb-1">
                                         <!-- Hostel Mess -->
@@ -385,7 +396,7 @@
                                         </div>
                                         
                                         <!-- Hostel Mess Type -->
-                                        <div class="form-group">
+                                        <div class="form-group" id="divHostelMessType" style="display: none">
                                             <label for="hostelMessType">Hostel Mess Type:</label>
                                             <select class="form-control" name="hostelMessType" id="hostelMessType">
                                                 <option value="" selected disabled>Select Hostel Mess Type</option>
@@ -508,7 +519,7 @@
                                             <select class="form-control" name="hostelCommonRoomAvailability" id="hostelCommonRoomAvailability">
                                                 <option value="" selected disabled>Select Hostel Common Room Availability</option>
                                                 <option value="24/7">24/7</option>
-                                                <option value="null">N/A</option>
+                                                <option value="n/a">N/A</option>
                                             </select>
                                         </div>
                                         
@@ -518,7 +529,7 @@
                                             <select class="form-control" name="hostelStudyRoomAvailability" id="hostelStudyRoomAvailability">
                                                 <option value="" selected disabled>Select Hostel Study Room Availability</option>
                                                 <option value="24/7">24/7</option>
-                                                <option value="null">N/A</option>
+                                                <option value="n/a">N/A</option>
                                             </select>
                                         </div>
                                         
@@ -532,8 +543,8 @@
                                             </select>
                                         </div>
 
-                                         <!-- Hostel Canteen Availability -->
-                                         <div class="form-group">
+                                        <!-- Hostel Canteen Availability -->
+                                        <div class="form-group">
                                             <label for="hostelCanteenAvailability">Hostel Canteen Availability:</label>
                                             <select class="form-control" name="hostelCanteenAvailability" id="hostelCanteenAvailability">
                                                 <option value="" selected disabled>Select Hostel Canteen Availability</option>
@@ -543,16 +554,64 @@
                                                 <option value="outside">Outside</option>
                                                 <option value="online">Online</option>
                                                 <option value="pos">POS</option>
+                                                <option value="n/a">N/A</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-1">
+                                        <h4>Provide Your Membership Details</h4>
+                                        <!--Select Membership-->
+                                        <!-- Membership Type -->
+                                        <div class="form-group">
+                                            <label for="membershipType">Membership Type:</label>
+                                            <select class="form-control" id="membershipTypeId" name="membershipTypeId">
+                                                <option value="" selected disabled>Select Membership</option>
+                                                @if (count($membershipTypes)>0)
+                                                    @foreach($membershipTypes as $membershipType)
+                                                        <option value="{{ $membershipType->id }}">
+                                                            {{ $membershipType->name }}
+                                                        </option>
+                                                    @endforeach
+                                                @else
+                                                    <option value="" disabled>No Membership Found</option>
+                                                @endif
                                             </select>
                                         </div>
 
+                                        <!--Transaction Number-->
+                                        <div class="form-group">
+                                            <label for="partnerEmail">Transaction Number:</label>
+                                            <input type="text" class="form-control" id="transactionNumber" name="transactionNumber" placeholder="Enter Transaction Number Here:">
+                                        </div> 
+
+                                        <!--Refferal Cnic-->
+                                        <div class="form-group">
+                                            <label for="partnerEmail">Refferal Cnic:</label>
+                                            <input type="text" class="form-control" id="refferalCnic" name="refferalCnic" placeholder="Enter Refferal Cni Here:" minlength="15" maxlength="15">
+                                        </div>
+
+                                         <!-- Since -->
+                                        <div class="form-group">
+                                            <label for="since">Since:</label>
+                                            <input type="date" class="form-control" id="since" name="since">
+                                            <small class="form-text text-muted">Living Since</small>
+                                        </div>
+                    
+                                        <!-- Previous Hostel -->
+                                        <div class="form-group">
+                                            <label for="previousHostel">Previous Hostel:</label>
+                                            <input type="text" class="form-control" id="previousHostel" name="previousHostel" placeholder="Enter your previous hostel registration number here: [Optional]">
+                                        </div> 
                                     </div>
                                     
                                     <!-- Buttons-->
                                     <div class="form-group mb-2">
                                         <button type="reset" class="btn btn-info">Reset</button>
                                         <button type="button" class="btn btn-success" onclick="prevStep(3)">Previous</button>
-                                        <button type="button" class="btn btn-primary" onclick="nextStep(4)">Next</button>
+                                        {{-- <button type="button" class="btn btn-primary" onclick="nextStep(4)">Next</button> --}}
+                                        <button type="submit" class="btn btn-primary" id="btnHostelMetas">Next</button>
+                                        {{-- <a href="#" id="btnHostelMetas">Next</a> --}}
                                     </div>
                                     
                                 </form>
@@ -562,167 +621,138 @@
                             <div class="form-step" id="step4" style="display: none;">
                                 <h4>Partner Details</h4>
                                 <form>
-                                    <div class="form-group">
-                                        <label for="partnerEmail">Do you have partner:</label>
-                                        <input type="radio" class="" id="partnerCnicRadioYes" name="partnerCnicRadio" value="Yes">Yes
-                                        <input type="radio" class="" id="partnerCnicRadioNo" name="partnerCnicRadio" value="No">No
-                                    </div>
-                                    <div class="form-group mb-1">
-                                        <label for="partnerCnicCheck">Partner Cnic:</label>
-                                        <input type="email" class="form-control" id="partnerCnicCheck" name="partnerCnicCheck" minlength="15" maxlength="15">
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <button type="button" class="btn btn-primary">Submit</button>
-                                    </div>
+                                    
                                 </form>
-                                <form>
-                                    <h4>Enter Partner Details</h4>
-                                    <!-- Partner First Name -->
-                                    <div class="form-group">
-                                        <label for="partnerFirstName">Partner First Name:</label>
-                                        <input type="text" class="form-control" id="partnerFirstName" name="partnerFirstName" required>
-                                    </div> 
-                                    
-                                    <!-- Partner Last Name -->
-                                    <div class="form-group">
-                                        <label for="partnerLastName">Partner Last Name:</label>
-                                        <input type="text" class="form-control" id="partnerLastName" name="partnerLastName" required>
-                                    </div> 
-                                    
-                                    <!-- Partner CNIC -->
-                                    <div class="form-group">
-                                        <label for="partnerCnic">Partner CNIC:</label>
-                                        <input type="text" class="form-control" id="partnerCnic" name="partnerCnic" minlength="15" maxlength="15">
-                                    </div> 
-                                    
-                                    <!-- Partner Email -->
-                                    <div class="form-group">
-                                        <label for="partnerEmail">Partner Email:</label>
-                                        <input type="text" class="form-control" id="partnerEmail" name="partnerEmail" required>
-                                    </div> 
-                                    
-                                    <!-- Partner Mobile Number -->
-                                    <div class="form-group" id="divPartnerMobileNumber">
-                                        <label for="partnerMobileNumber">Partner Mobile Number:</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">+92</span>
-                                            </div>
-                                            <input type="tel" class="form-control" id="partnerMobileNumber" name="partnerMobileNumber" pattern="[0-9]{10}" maxlength="10" minlength="10" 
-                                            value="{{old('partnerMobileNumber')}}" placeholder="Enter Your Partner Mobile Number Here:" onkeyup="validateMobileNumber(this)">
+                                <form id="formNewPartnerDetails">
+                                    <div class="form-group mb-1" id="divPartnerRadioButton">
+                                        <label for="partnerEmail">Do you have a partner:</label>
+                                        <div class="form-check form-check-inline">
+                                            <input type="radio" class="form-check-input" id="partnerCnicRadioYes" name="partnerCnicRadio" value="Yes">
+                                            <label class="form-check-label" for="partnerCnicRadioYes">Yes</label>
                                         </div>
-                                        <small class="form-text text-muted">Please enter a mobile number. Don't add +92</small>
-                                    </div> 
+                                        <div class="form-check form-check-inline">
+                                            <input type="radio" class="form-check-input" id="partnerCnicRadioNo" name="partnerCnicRadio" value="No">
+                                            <label class="form-check-label" for="partnerCnicRadioNo">No</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-1" id="divPartnerCnicCheck" style="display: none;">
+                                        <div class="form-group mb-1">
+                                            <label for="partnerCnicCheck">Partner Cnic:</label>
+                                            <input type="email" class="form-control" id="partnerCnicCheck" name="partnerCnicCheck" minlength="15" maxlength="15" placeholder="Enter Partner Cnic Here:">
+                                        </div>
+                                    </div>
+                                    <div id="divEnterPartnerDetails" style="display: none">
+                                        <h4>Enter Partner Details</h4>
+                                        <input type="text" class="form-control" id="partnerAuthorId" name="partnerAuthorId" placeholder="Enter Partner partnerAuthorId Here:" readonly>
+                                        <!-- Partner First Name -->
+                                        <div class="form-group">
+                                            <label for="partnerFirstName">Partner First Name:</label>
+                                            <input type="text" class="form-control" id="partnerFirstName" name="partnerFirstName" placeholder="Enter Partner First Name Here:">
+                                        </div> 
+                                        
+                                        <!-- Partner Last Name -->
+                                        <div class="form-group">
+                                            <label for="partnerLastName">Partner Last Name:</label>
+                                            <input type="text" class="form-control" id="partnerLastName" name="partnerLastName" placeholder="Enter Partner Last Name Here:">
+                                        </div>
+                                        
+                                        <!-- Partner Email -->
+                                        <div class="form-group">
+                                            <label for="partnerEmail">Partner Email:</label>
+                                            <input type="text" class="form-control" id="partnerEmail" name="partnerEmail" placeholder="Enter Partner Email Here:">
+                                        </div> 
+                                        
+                                        <!-- Partner Mobile Number -->
+                                        <div class="form-group" id="partnerMobileNumberDiv">
+                                            <label for="partnerMobileNumber">Partner Mobile Number:</label>
+                                            <div class="input-group" id="divPartnerMobileNumber">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">+92</span>
+                                                </div>
+                                                <input type="tel" class="form-control" id="partnerMobileNumber" name="partnerMobileNumber" pattern="[0-9]{10}" maxlength="10" minlength="10" placeholder="Enter Partner Mobile Number Here:"
+                                                value="{{old('partnerMobileNumber')}}" placeholder="Enter Your Partner Mobile Number Here:" onkeyup="validateMobileNumber(this)">
+                                            </div>
+                                            <small class="form-text text-muted">Please enter a mobile number. Don't add +92</small>
+                                        </div> 
+                                    </div>
+
                                     
-                                    <!-- Partner Password -->
-                                    <div class="form-group">
-                                        <label for="partnerPassword">Partner Password:</label>
-                                        <input type="password" class="form-control" id="partnerPassword" name="partnerPassword" minlength="8" maxlength="8">
-                                    </div> 
-                                    
-                                    <!-- Partner Confirm Password -->
-                                    <div class="form-group mb-1">
-                                        <label for="partnerConfirmPassword">Partner Confirm Password:</label>
-                                        <input type="password" class="form-control" id="partnerConfirmPassword" name="partnerConfirmPassword" minlength="8" maxlength="8">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <input type="checkbox" id="showPasswordPartner"> Show Password
-                                    </div>
-
-                                    <div class="form-group">
-                                        <button type="reset" class="btn btn-info" >Reset</button>
-                                        <button type="button" class="btn btn-success" onclick="prevStep(4)">Previous</button>
-                                        <button type="button" class="btn btn-primary" onclick="nextStep(5)">Next</button>
-                                    </div>
-
                                 </form>
+                                <div class="form-group mb-1">
+                                    <button type="button" class="btn btn-success" onclick="prevStep(4)">Previous</button>
+                                    <button type="submit" class="btn btn-primary" id="btnNextPartner">Next</button>
+                                    {{-- <button type="button" class="btn btn-primary" onclick="nextStep(5)">Next</button> --}}
+                                    {{-- <a href="#" id="btnNextPartner">Next</a> --}}
+                                </div>
                             </div>
         
                             <!-- Warden Details -->
                             <div class="form-step" id="step5" style="display: none;">
                                 <h4>Warden Details</h4>
-                                <form>
-                                    <div class="form-group">
-                                        <label for="wardenEmail">Do you have Warden:</label>
-                                        <input type="radio" class="" id="wardenCnicRadioYes" name="wardenCnicRadio" value="Yes">Yes
-                                        <input type="radio" class="" id="wardenCnicRadioNo" name="wardenCnicRadio" value="No">No
-                                    </div>
-                                    <div class="form-group mb-1">
-                                        <label for="wardenCnicCheck">Warden Cnic:</label>
-                                        <input type="email" class="form-control" id="wardenCnicCheck" name="wardenCnicCheck" minlength="15" maxlength="15">
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <button type="button" class="btn btn-primary">Submit</button>
-                                    </div>
-                                </form>
-                                <form>
-                                    <h4>Enter Warden Details</h4>
-                                    <!-- Warden First Name -->
-                                    <div class="form-group">
-                                        <label for="wardenFirstName">Warden First Name:</label>
-                                        <input type="text" class="form-control" id="wardenFirstName" name="wardenFirstName" required>
-                                    </div> 
-                                    
-                                    <!-- Warden Last Name -->
-                                    <div class="form-group">
-                                        <label for="wardenLastName">Warden Last Name:</label>
-                                        <input type="text" class="form-control" id="wardenLastName" name="wardenLastName" required>
-                                    </div> 
-                                    
-                                    <!-- Warden CNIC -->
-                                    <div class="form-group">
-                                        <label for="wardenCnic">Warden CNIC:</label>
-                                        <input type="text" class="form-control" id="wardenCnic" name="wardenCnic" minlength="15" maxlength="15">
-                                    </div> 
-                                    
-                                    <!-- Warden Email -->
-                                    <div class="form-group">
-                                        <label for="wardenEmail">Warden Email:</label>
-                                        <input type="text" class="form-control" id="wardenEmail" name="wardenEmail" required>
-                                    </div> 
-                                    
-                                    <!-- Warden Mobile Number -->
-                                    <div class="form-group" id="divWardenMobileNumber">
-                                        <label for="wardenMobileNumber">Warden Mobile Number:</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">+92</span>
-                                            </div>
-                                            <input type="tel" class="form-control" id="wardenMobileNumber" name="wardenMobileNumber" pattern="[0-9]{10}" maxlength="10" minlength="10" 
-                                            value="{{old('wardenMobileNumber')}}" placeholder="Enter Your Warden Mobile Number Here:" onkeyup="validateMobileNumber(this)">
+                                <form id="formNewWardenDetails">
+                                    <div class="form-group mb-1" id="divWardenRadioButton">
+                                        <label for="partnerEmail">Do you have Warden:</label>
+                                        <div class="form-check form-check-inline">
+                                            <input type="radio" class="form-check-input" id="wardenCnicRadioYes" name="wardenCnicRadio" value="Yes">
+                                            <label class="form-check-label" for="wardenCnicRadioYes">Yes</label>
                                         </div>
-                                        <small class="form-text text-muted">Please enter a mobile number. Don't add +92</small>
-                                    </div> 
-                                    
-                                    <!-- Warden Password -->
-                                    <div class="form-group">
-                                        <label for="wardenPassword">Warden Password:</label>
-                                        <input type="password" class="form-control" id="wardenPassword" name="wardenPassword" minlength="8" maxlength="8">
-                                    </div> 
-                                    
-                                    <!-- Warden Confirm Password -->
-                                    <div class="form-group mb-1">
-                                        <label for="wardenConfirmPassword">Warden Confirm Password:</label>
-                                        <input type="password" class="form-control" id="wardenConfirmPassword" name="wardenConfirmPassword" minlength="8" maxlength="8">
+                                        <div class="form-check form-check-inline">
+                                            <input type="radio" class="form-check-input" id="wardenCnicRadioNo" name="wardenCnicRadio" value="No">
+                                            <label class="form-check-label" for="wardenCnicRadioNo">No</label>
+                                        </div>
                                     </div>
-
-                                    <div class="form-group">
-                                        <input type="checkbox" id="showPasswordWarden"> Show Password
+                                    <div class="form-group mb-1" id="divWardenCnicCheck" style="display: none;">
+                                        <div class="form-group mb-1">
+                                            <label for="partnerCnicCheck">Warden Cnic:</label>
+                                            <input type="email" class="form-control" id="wardenCnicCheck" name="wardenCnicCheck" minlength="15" maxlength="15" placeholder="Enter Partner Cnic Here:">
+                                        </div>
                                     </div>
-
-                                    <div class="form-group">
-                                        <button type="reset" class="btn btn-info" >Reset</button>
-                                        <button type="button" class="btn btn-success" onclick="prevStep(5)">Previous</button>
-                                        <button type="button" class="btn btn-primary" onclick="nextStep(6)">Next</button>
+                                    <div id="divEnterWardenDetails" style="display: none;">
+                                        <h4>Enter Warden Details</h4>
+                                        <input type="text" class="form-control" id="wardenAuthorId" name="wardenAuthorId" placeholder="Enter Warden wardenAuthorId Here:" readonly>
+                                        <!-- Warden First Name -->
+                                        <div class="form-group">
+                                            <label for="wardenFirstName">Warden First Name:</label>
+                                            <input type="text" class="form-control" id="wardenFirstName" name="wardenFirstName" placeholder="Enter Warden First Name Here:">
+                                        </div> 
+                                        
+                                        <!-- Warden Last Name -->
+                                        <div class="form-group">
+                                            <label for="wardenLastName">Warden Last Name:</label>
+                                            <input type="text" class="form-control" id="wardenLastName" name="wardenLastName" placeholder="Enter Warden Last Name Here:">
+                                        </div> 
+                                        
+                                        <!-- Warden Email -->
+                                        <div class="form-group">
+                                            <label for="wardenEmail">Warden Email:</label>
+                                            <input type="text" class="form-control" id="wardenEmail" name="wardenEmail" placeholder="Enter Warden Email Here:">
+                                        </div> 
+                                        
+                                        <!-- Warden Mobile Number -->
+                                        <div class="form-group" id="divWardenMobileNumber">
+                                            <label for="wardenMobileNumber">Warden Mobile Number:</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">+92</span>
+                                                </div>
+                                                <input type="tel" class="form-control" id="wardenMobileNumber" name="wardenMobileNumber" pattern="[0-9]{10}" maxlength="10" minlength="10" placeholder="Enter Warden Mobile Number Here:"
+                                                value="{{old('wardenMobileNumber')}}" placeholder="Enter Your Warden Mobile Number Here:" onkeyup="validateMobileNumber(this)">
+                                            </div>
+                                            <small class="form-text text-muted">Please enter a mobile number. Don't add +92</small>
+                                        </div> 
                                     </div>
                                 </form>
+                                <button type="button" class="btn btn-success" onclick="prevStep(5)">Previous</button>
+                                {{-- <button type="button" class="btn btn-primary" onclick="nextStep(6)">Next</button> --}}
+                                <button type="button" class="btn btn-primary" id="btnNextWarden">Next</button>
+                                {{-- <a href="#" id="btnNextWarden">Next</a> --}}
                             </div>
 
                             <!--Hostel Features, Facilities, Amenities, Luxuries-->
                             <div class="form-step" id="step6" style="display: none;">
                                 <h4>Hostel Features, Facilities, Amenities, Luxuries</h4>
-                                <form>
+                                <form action="#" method="POST" id="formAddFeaturesFacilitiesAmenitiesLuxuries">
+                                    @csrf
                                     <div class="row">
                                         <!-- Block 1: Hostel Features -->
                                         <div class="col-md-3 border p-3">
@@ -792,11 +822,15 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                        
+                                    </div>
                                     
                                     <div class="form-group">
                                         <button type="reset" class="btn btn-info" >Reset</button>
                                         <button type="button" class="btn btn-success" onclick="prevStep(6)">Previous</button>
-                                        <button type="button" class="btn btn-primary" onclick="nextStep(7)">Next</button>
+                                        <button type="submit" class="btn btn-primary" id="btnSaveHostelAllFroms">Save Hostel</button>
                                     </div>
                                 </form>
                             </div>
@@ -818,14 +852,11 @@
             </div>
         </div>
     </div>
-    <!-- END: Content-->
+    <!-- END: Content   -->
 
 @endsection
-{{-- Begin: Main-Content Section  --}}
 
-{{-- Begin: Script Section Starts Here --}}
 @section('scripts')
-    {{--  --}}
     <script>
         function nextStep(step) {
             document.getElementById('step' + (step - 1)).style.display = 'none';
@@ -835,6 +866,14 @@
         function prevStep(step) {
             document.getElementById('step' + step).style.display = 'none';
             document.getElementById('step' + (step - 1)).style.display = 'block';
+        }
+
+        // Format the URL
+        function isValidUrl(url) {
+            // Regular expression for a simple URL validation
+            // It checks if the URL starts with http://, https://, or www.
+            const urlRegex = /^(http:\/\/www\.|https:\/\/www\.|www\.){1}([0-9A-Za-z]+\.)+[A-Za-z]{2,3}(\/[0-9A-Za-z]+\/?)*(\/?[^\s]*)?$/;
+            return urlRegex.test(url);
         }
     </script>
 
@@ -855,6 +894,120 @@
             }
         </script>
     <!--    End:  To Validate Mobile Number   -->
+
+    <!--  Start of the Script to Verify that Transaction id is uniqe or not -->
+    <script>
+        $(document).ready(function(){
+            $('#transactionNumber').focusout(function(){
+                let transactionNumber = $('#transactionNumber').val();
+                $("#transactionNumberAlertDanger").remove();
+                if(transactionNumber.length>0){
+                    $.ajax({
+                        url:'/checkTransaction_no/'+transactionNumber,
+                        type:"GET",
+                        success:function(response){
+                            if(response==1){    // 1 means true transsction id exist
+                                $("#transactionNumber").after('<div class="alert alert-danger" id="transactionNumberAlertDanger">Transaction Id is already used. Kindly use the new and unique transaction id</div>');
+                                $('#transactionNumber').focus();
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error);
+                        },
+                    });
+                }
+            });
+        });
+    </script>
+    <!--  End of the Script to Verify that Transaction id is uniqe or not -->
+
+    <!--    Begin:  Script to Validate Hostel Mess: Availability    -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#hostelMess").change(function(){
+                $("#alertHostelMessAvailability").remove();
+                let checkHostelMessAvail = $("#hostelMess").val();
+                if(checkHostelMessAvail.trim() === '' || checkHostelMessAvail=== null || (checkHostelMessAvail !== 'available' && checkHostelMessAvail !== 'unavailable') ){
+                    // Focus on the element causing the error
+                    $("#hostelMess").focus();
+                    // Select the first option using prop
+                    $("#hostelMess").prop('selectedIndex', 0);
+                    $("#hostelMess").after('<div class="alert alert-danger" id="alertHostelMessAvailability">Hostel Messs Availability Should be Provided.</div>');
+                    $("#divHostelMessType").hide();
+                    $("#hostelMessType").prop('selectedIndex', 0);
+                    return;
+                }
+                else{
+                    if(checkHostelMessAvail=='available'){
+                        $("#divHostelMessType").show();
+                        $("#hostelMessType").prop('selectedIndex', 0);
+                    }
+                    else{
+                        $("#divHostelMessType").hide();
+                        $("#hostelMessType").prop('selectedIndex', 0);
+                    }
+                }
+            });
+        });
+    </script>
+    <!--    End:  Script to Validate Hostel Mess: Availability    -->
+
+    <!-- Begin: Script to Validate the Open and Close Timing of Hostels -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#hostelOpenTiming').change(function () {
+                let openTiming = $('#hostelOpenTiming').val();
+                let closeTiming = $('#hostelCloseTiming').val();
+                $("#alertTimingOpenClose").remove();
+                // Check if timings are empty
+                if (openTiming.trim() === '' ) {
+                    $("#hostelOpenTiming").after('<div class="alert alert-danger" id="alertTimingOpenClose">Hostel Open Timings are required.</div>');
+                    $("#hostelOpenTiming").focus();
+                } 
+                else if (closeTiming.trim() === '') {
+                    $("#hostelCloseTiming").after('<div class="alert alert-danger" id="alertTimingOpenClose">Hostel Close Timings are required.</div>');
+                    $("#hostelCloseTiming").focus();
+                } 
+                else if (openTiming === closeTiming) {
+                    $("#hostelCloseTiming").after('<div class="alert alert-danger" id="alertTimingOpenClose">Hostel Close timing should be different from open timing.</div>');
+                    $("#hostelCloseTiming").focus();
+                    $('#hostelCloseTiming').val(''); // Clear the close timing input
+                } 
+                else if (closeTiming < openTiming) {
+                    $("#hostelCloseTiming").after('<div class="alert alert-danger" id="alertTimingOpenClose">Hostel Close timing should be after open timing.</div>');
+                    $("#hostelCloseTiming").focus();
+                    $('#hostelCloseTiming').val(''); // Clear the close timing input
+                }
+            });
+            
+            $('#hostelCloseTiming').change(function () {
+                let openTiming = $('#hostelOpenTiming').val();
+                let closeTiming = $('#hostelCloseTiming').val();
+                $("#alertTimingOpenClose").remove();
+                // Check if timings are empty
+                if (openTiming.trim() === '' ) {
+                    $("#hostelOpenTiming").after('<div class="alert alert-danger" id="alertTimingOpenClose">Hostel Open Timings are required.</div>');
+                    $("#hostelOpenTiming").focus();
+                } 
+                else if (closeTiming.trim() === '') {
+                    $("#hostelCloseTiming").after('<div class="alert alert-danger" id="alertTimingOpenClose">Hostel Close Timings are required.</div>');
+                    $("#hostelCloseTiming").focus();
+                } 
+                else if (openTiming === closeTiming) {
+                    $("#hostelCloseTiming").after('<div class="alert alert-danger" id="alertTimingOpenClose">Hostel Close timing should be different from open timing.</div>');
+                    $("#hostelCloseTiming").focus();
+                    $('#hostelCloseTiming').val(''); // Clear the close timing input
+                } 
+                else if (closeTiming < openTiming) {
+                    $("#hostelCloseTiming").after('<div class="alert alert-danger" id="alertTimingOpenClose">Hostel Close timing should be after open timing.</div>');
+                    $("#hostelCloseTiming").focus();
+                    $('#hostelCloseTiming').val(''); // Clear the close timing input
+                }
+            });
+        });
+
+    </script>
+    <!-- End: Script to Validate the Open and Close Timing of Hostels -->
 
     <!-- Begin: Script for CNIC formatting -->
         <script>
@@ -899,19 +1052,14 @@
                 $('#partnerCnicCheck').on('input', function() {
                     formatField($(this));
                 });
-
-                // Format Hostel Partner CNIC on input
-                $('#partnerCnic').on('input', function() {
-                    formatField($(this));
-                });
                 
                 // Format Hostel Wanrden CNIC Check on input
                 $('#wardenCnicCheck').on('input', function() {
                     formatField($(this));
                 });
-
-                // Format Hostel Warden CNIC on input
-                $('#wardenCnic').on('input', function() {
+                
+                // Format Refferal CNIC Check on input
+                $('#refferalCnic').on('input', function() {
                     formatField($(this));
                 });
 
@@ -1015,6 +1163,1115 @@
             });
         </script>
     <!-- End of script to verify the Name of the Hostel -->
+    
+    <!-- Start of script to verify the refferalCnic -->
+        <script>
+            $(document).ready(function(){
+                $('#refferalCnic').focusout(function(){
+                    let refferalCnic = $('#refferalCnic').val();
+                    $("#refferalCnicAlertDanger").remove();
+                    if(refferalCnic.length == 15){
+                        $.ajax({
+                            url:'/checkCNIC/' + refferalCnic,
+                            type:'GET',
+                            success:function(response){
+                                if(response==0){
+                                    $("#refferalCnic").after('<div class="alert alert-danger" id="refferalCnicAlertDanger">Refferal Cnic does not exist in our record. kindly provide the valid cnic.</div>');
+                                    $("#refferalCnic").focus();
+                                }
+                            },
+                            error: function(error) {
+                                console.log(error);
+                            }
+                        });
+                    } else if(refferalCnic.length==0){
+                        return;
+                    }
+                    else{
+                        $("#refferalCnic").after('<div class="alert alert-danger" id="refferalCnicAlertDanger">Refferal Cnic should be provided completely.</div>');
+                        $("#refferalCnic").focus();
+                    }
+                });
+            });
+        </script>
+    <!-- End of script to verify the refferalCnic -->
+
+
+    <!--  Start of Script to check that given email is unique or not -->
+        <script>
+            function isValidEmail(email) {
+                // Regular expression for a simple email validation
+                var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+            function checkEmail(inputFieldId) {
+                let email = $(inputFieldId).val();
+                if(email.length!=0){
+                    if (isValidEmail(email)) {
+                        $.ajax({
+                            url: '/checkEmail/' + email,
+                            type: 'GET',
+                            success: function(response){
+                                if (response == 1) {
+                                    $(inputFieldId).after('<div class="alert alert-danger">'+email+': Email already exists. Kindly use the unique email.</div>');
+                                    // alert(email+": Email already exists");
+                                    $(inputFieldId).val('');
+                                    $(inputFieldId).focus();
+                                    return false;
+                                }
+                                else{
+                                    return true;
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        $(inputFieldId).after('<div class="alert alert-danger">Kindly provide the email in the correct format</div>');
+                        $(inputFieldId).focus();
+                        return false;
+                    }
+                }
+            }
+            $(document).ready(function(){
+                $('#partnerEmail').focusout(function(){
+                    $(".alert-danger").remove();
+                    checkEmail('#partnerEmail');
+                });
+                $('#wardenEmail').focusout(function(){
+                    $(".alert-danger").remove();
+                    checkEmail('#wardenEmail');
+                });
+            });
+        </script>
+    <!--  End of Script to check that given email is unique or not -->
+
+    <!--    Begin: To Verify the Selected Hostel Images -->
+    <script>
+        $(document).ready(function() {
+            $('#hostelImages').change(function() {
+                // Get the selected files
+                let files = $("#hostelImages")[0].files;
+        
+                // Reset validation message
+                $('.alertDivImages').remove('');
+        
+                // Check if files are selected
+                if (files.length > 0) {
+                    // Check file size and type for each selected file
+                    for (let i = 0; i < files.length; i++) {
+                        let file = files[i];
+                        
+                        // Check file size (2 MB limit)
+                        if (file.size > 2 * 1024 * 1024) {
+                            $('#divImages').after('<div class="alert alert-danger alertDivImages">Image size should not exceed 2 MB.</div>');
+                            $(this).val('');  // Clear the file input to prevent submitting oversized files
+                            return;
+                        }
+        
+                        // Check file type (allow only images)
+                        const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+                        if (!allowedExtensions.exec(file.name)) {
+                            $('#divImages').after('<div class="alert alert-danger alertDivImages">Invalid file type. Please select only JPG, JPEG, or PNG images.</div>');
+                            $(this).val('');  // Clear the file input to prevent submitting non-image files
+                            return;
+                        }
+                    }
+                } else {
+                    // No files selected
+                    $('#divImages').after('<div class="alert alert-danger alertDivImages">Please select at least one image.</div>');
+                }
+            });
+        });
+    </script>
+    <!--    End: To Verify the Selected Hostel Images -->
+    
+    <!-- Start of script to verify the cnic of the partner -->
+        <script>
+            $(document).ready(function(){
+                // $('#btnSubmitChkCnic').click(function(e){
+                // $('#partnerCnicCheck').focusout(function(e){
+                $('#partnerCnicCheck').on('keyup', function(e){
+                    e.preventDefault();
+                    let partnerCnicCheck = $('#partnerCnicCheck').val();
+                    $("#divAlertPartnerCnicCheck").remove();
+                    $("#PartnerRegisterAlert").remove();
+                    $("#divEnterPartnerDetails").hide();
+                    $("#partnerFirstName").val('');
+                    $("#partnerLastName").val('');
+                    $("#partnerEmail").val('');
+                    $("#partnerMobileNumber").val('');
+                    $("#partnerAuthorId").val('');
+                    // $("#formNewPartnerDetails").hide();
+                    // $("#formNewPartnerDetails")[0].reset();
+                    if(partnerCnicCheck.length!=0){
+                        if(partnerCnicCheck.length == 15){
+                            $.ajax({
+                                type:'GET',
+                                url:'/checkCnicWithData/' + partnerCnicCheck,
+                                success:function(response){
+                                    $("#divEnterPartnerDetails").show();
+                                    if(response==0){
+                                        $("#partnerCnicCheck").after('<div class="alert alert-info" id="divAlertPartnerCnicCheck">Partner CNIC does not exist in our record. Kindly Provide the Details to Rgister Your Partner.</div>');
+                                        $("#partnerCnic").val(partnerCnicCheck).prop('readonly', true);
+                                        $("#partnerAuthorId").val('').prop('readonly', true);
+                                        $("#partnerFirstName").prop('readonly', false);
+                                        $("#partnerLastName").prop('readonly', false);
+                                        $("#partnerEmail").prop('readonly', false);
+                                        $("#partnerMobileNumber").prop('readonly', false);
+                                        return;
+                                    }
+                                    else{
+                                        $("#partnerCnicCheck").after('<div class="alert alert-success" id="divAlertPartnerCnicCheck">Partner CNIC exist in our record.</div>');
+                                        $("#partnerAuthorId").val(response.id).prop('readonly', true);
+                                        $("#partnerFirstName").val(response.firstname).prop('readonly', true);
+                                        $("#partnerLastName").val(response.lastname).prop('readonly', true);
+                                        $("#partnerEmail").val(response.email).prop('readonly', true);
+                                        // Extracting phone number and skipping first two characters
+                                        let phoneNumber = response.phone_number || '';
+                                        phoneNumber = phoneNumber.length > 2 ? phoneNumber.slice(3) : '';
+                                        $("#partnerMobileNumber").val(phoneNumber).prop('readonly', true);
+                                        return;
+                                    }
+                                },
+                                error: function(error) {
+                                    console.log(error);
+                                }
+                            });
+                        }
+                        else{
+                            $("#partnerCnicCheck").after('<div class="alert alert-danger" id="divAlertPartnerCnicCheck">Partner CNIC length should be provided correctly.</div>');
+                            $("#partnerCnicCheck").focus();
+                            return false;
+                        }
+                    }
+                    else{
+                        return false;
+                    }
+                });
+            });
+        </script>
+    <!-- End of script to verify the cnic of the partner -->
+    
+    <!-- Start of script to verify the cnic of the warden -->
+        <script>
+            $(document).ready(function(){
+                // $('#btnSubmitChkCnicWarden').click(function(e){
+                $('#wardenCnicCheck').on('keyup',function(e){
+                    e.preventDefault();
+                    let wardenCnicCheck = $('#wardenCnicCheck').val();
+                    $("#divAlertWardenCnicCheck").remove();
+                    $("#WardenRegisterAlert").remove();
+                    $("#divEnterWardenDetails").hide();
+                    $("#wardenAuthorId").val('')
+                    $("#wardenFirstName").val('');
+                    $("#wardenLastName").val('');
+                    $("#wardenEmail").val('');
+                    $("#wardenMobileNumber").val('');
+                    // $("#formNewWardenDetails")[0].reset();
+                    if(wardenCnicCheck.length!=0){
+                        if(wardenCnicCheck.length == 15){
+                            $.ajax({
+                                type:'GET',
+                                // url:'/checkCNIC/' + wardenCnicCheck,
+                                url:'/checkCnicWithData/' + wardenCnicCheck,
+                                success:function(response){
+                                    if(response==0){
+                                        $("#wardenCnicCheck").after('<div class="alert alert-info" id="divAlertWardenCnicCheck">Warden CNIC does not exist in our record. Kindly Provide the Details to Rgister Your Partner.</div>');
+                                        $("#wardenAuthorId").val('').prop('readonly', true);
+                                        $("#wardenFirstName").prop('readonly', false);
+                                        $("#wardenLastName").prop('readonly', false);
+                                        $("#wardenEmail").prop('readonly', false);
+                                        $("#wardenMobileNumber").prop('readonly', false);
+                                    }
+                                    else{
+                                        $("#wardenCnicCheck").after('<div class="alert alert-success" id="divAlertWardenCnicCheck">Warden CNIC exist in our record. Kindly Go to Next Form</div>');
+                                        $("#wardenAuthorId").val(response.id).prop('readonly', true);
+                                        $("#wardenFirstName").val(response.firstname).prop('readonly', true);
+                                        $("#wardenLastName").val(response.lastname).prop('readonly', true);
+                                        $("#wardenEmail").val(response.email).prop('readonly', true);
+                                        // Extracting phone number and skipping first three characters
+                                        let phoneNumber = response.phone_number || '';
+                                        phoneNumber = phoneNumber.length > 2 ? phoneNumber.slice(3) : '';
+                                        $("#wardenMobileNumber").val(phoneNumber).prop('readonly', true);
+                                    }
+                                    $("#divEnterWardenDetails").show();
+                                },
+                                error: function(error) {
+                                    console.log(error);
+                                }
+                            });
+                        }
+                        else{
+                            $("#wardenCnicCheck").after('<div class="alert alert-danger" id="divAlertWardenCnicCheck">Partner CNIC length should be provided correctly.</div>');
+                            $("#wardenCnicCheck").focus();
+                            return false;
+                        }
+                    }
+                    else{
+                        return false;
+                    }
+                });
+            });
+        </script>
+    <!-- End of script to verify the cnic of the warden -->
+
+    <!--    Begin:  Script to Show the Partner / Warden Cnic check button and deal with the new suer register form-->
+        <script>
+            $(document).ready(function() {
+                // Partner
+                $("input[name='partnerCnicRadio']").change(function() {
+                    var selectedValue = $(this).val();
+                    $("#partnerCnicCheck").val('');
+                    $("#divAlertPartnerCnicCheck").remove();
+                    $("#PartnerRegisterAlert").remove();
+                    $("#divEnterPartnerDetails").hide();
+                    $("#partnerAuthorId").val('');
+                    $("#partnerFirstName").val('');
+                    $("#partnerLastName").val('');
+                    $("#partnerEmail").val('');
+                    $("#partnerMobileNumber").val('');
+                    if(selectedValue == "Yes"){
+                        $("#divPartnerCnicCheck").show();
+                    }
+                    else if(selectedValue == "No"){
+                        $("#divPartnerCnicCheck").hide();
+                    }
+                    else{
+                        return false;
+                    }
+                });
+                
+                // Warden
+                $("input[name='wardenCnicRadio']").change(function() {
+                    var selectedValue = $(this).val();
+                    $("#wardenCnicCheck").val('');
+                    $("#divAlertWardenCnicCheck").remove();
+                    $("#WardenRegisterAlert").remove();
+                    $("#divEnterWardenDetails").hide();
+                    $("#wardenAuthorId").val('')
+                    $("#wardenFirstName").val('');
+                    $("#wardenLastName").val('');
+                    $("#wardenEmail").val('');
+                    $("#wardenMobileNumber").val('');
+                    if(selectedValue == "Yes"){
+                        $("#divWardenCnicCheck").show();
+                    }
+                    else if(selectedValue == "No"){
+                        $("#divWardenCnicCheck").hide();
+                    }
+                    else{
+                        return false;
+                    }
+                });
+            });
+        </script>
+    <!--    End:  Script to Show the Partner / Warden Cnic check button and deal with the new suer register form-->
+
+    <!-- Begin: Script to Verfiy the Unique Mobile Number   -->
+        <script type="text/javascript">
+            // phone number validation function
+            function validatePhoneNumberLengthType(phoneNumber) {
+                // Check if the phone number starts with 3, consists of digits only, and has a length of 10
+                return /^[3]\d{9}$/.test(phoneNumber) && phoneNumber.length == 10;
+            }
+            $(document).ready(function(){
+                // Begin:   To Verify the Partner Mobile Number
+                $('#partnerMobileNumber').focusout(function(){
+                    let partnerMobileNumber = $('#partnerMobileNumber').val();
+                    $("#divAlertPartnerMobNo").remove();
+                    if(partnerMobileNumber.length!=0){
+                        if(partnerMobileNumber.length == 10 && validatePhoneNumberLengthType(partnerMobileNumber)){
+                            $.ajax({
+                                type:'GET',
+                                url:'/check-phone_number/' + partnerMobileNumber,
+                                success:function(response){
+                                    if(response==1){
+                                        $("#partnerMobileNumberDiv").after('<div class="alert alert-danger" id="divAlertPartnerMobNo">Phone Number Should be Unique.</div>');
+                                        $("#partnerMobileNumber").val('');
+                                        $("#partnerMobileNumber").focus('');
+                                        return true;
+                                    }
+                                },
+                                error: function(error) {
+                                    console.log(error);
+                                }
+                            });
+                        }
+                        else{
+                            $("#partnerMobileNumberDiv").after('<div class="alert alert-danger" id="divAlertPartnerMobNo">Valid Phone Number Should be Provided.</div>');
+                            $("#partnerMobileNumber").focus();
+                            return false;
+                        }
+                    }
+                    else{
+                        return false;
+                    }
+                });
+                
+                // Begin:   To Verify the Warden Mobile Number
+                $('#wardenMobileNumber').focusout(function(){
+                    let wardenMobileNumber = $('#wardenMobileNumber').val();
+                    $("#divAlertWardenMobNo").remove();
+                    if(wardenMobileNumber.length!=0){
+                        if(wardenMobileNumber.length == 10 && validatePhoneNumberLengthType(wardenMobileNumber)){
+                            $.ajax({
+                                type:'GET',
+                                url:'/check-phone_number/' + wardenMobileNumber,
+                                success:function(response){
+                                    if(response==1){
+                                        $("#divWardenMobileNumber").after('<div class="alert alert-danger" id="divAlertWardenMobNo">Phone Number Should be Unique.</div>');
+                                        $("#wardenMobileNumber").val('');
+                                        $("#wardenMobileNumber").focus('');
+                                        return true;
+                                    }
+                                },
+                                error: function(error) {
+                                    console.log(error);
+                                }
+                            });
+                        }
+                        else{
+                            $("#divWardenMobileNumber").after('<div class="alert alert-danger" id="divAlertWardenMobNo">Valid Phone Number Should be Provided.</div>');
+                            $("#wardenMobileNumber").focus();
+                            return false;
+                        }
+                    }
+                    else{
+                        return false;
+                    }
+                });
+            });
+            
+        </script>
+    <!-- End: Script to Verfiy the Unique Mobile Number   -->
+
+    <!-- Start of the script to Validate the form (formAddHostel)-->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#btnAddHostel").click(function(e){
+                e.preventDefault();
+                $(".addHostelAlert").remove();
+
+                // To check the Hostel Name is empty or not
+                let hostelName = $("#hostelName").val();
+                if(hostelName.trim() === '' || hostelName == null ||hostelName.length == 0 || hostelName.length < 3 || hostelName.length > 255){
+                    $("#hostelName").after('<div class="alert alert-danger addHostelAlert">Hostel Name & Unique Hostel Name Should be Provided</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Description is empty or not
+                let hostelDescription = $("#hostelDescription").val();
+                if(hostelDescription.trim() === '' || hostelDescription == null ||  hostelDescription.length < 5 || hostelDescription.length > 400){
+                    $("#hostelDescription").after('<div class="alert alert-danger addHostelAlert">Hostel Description Should be Provided</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Country is empty or not
+                let hostelCountryId = $("#hostelCountryId").val();
+                if(hostelCountryId === null || hostelCountryId.trim() === '' ){
+                    $("#hostelCountryId").after('<div class="alert alert-danger addHostelAlert">Hostel Country Should be Provided</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel State is empty or not
+                let hostelStatesId = $("#hostelStatesId").val();
+                if(hostelStatesId === null || hostelStatesId.trim() === ''){
+                    $("#hostelStatesId").after('<div class="alert alert-danger addHostelAlert">Hostel State Should be Provided</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel City is empty or not
+                let hostelCityId = $("#hostelCityId").val();
+                if(hostelCityId === null || hostelCityId.trim() === '' ){
+                    $("#hostelCityId").after('<div class="alert alert-danger addHostelAlert">Hostel City Should be Provided</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Total Number of Rooms is empty or not
+                let hostelTotalRooms = $("#hostelTotalRooms").val();
+                if(hostelTotalRooms.trim() === ''|| isNaN(hostelTotalRooms) || parseInt(hostelTotalRooms) < 0){
+                    $("#hostelTotalRooms").after('<div class="alert alert-danger addHostelAlert">Hostel Total Number of Rooms Should be Provided</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Total Number of Bath Rooms is empty or not
+                let hostelBathRooms = $("#hostelBathRooms").val();
+                if(hostelBathRooms.trim() === '' ||isNaN(hostelBathRooms) || parseInt(hostelBathRooms) < 0){
+                    $("#hostelBathRooms").after('<div class="alert alert-danger addHostelAlert">Hostel Total Number of Bath Rooms Should be Provided</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Location is empty or not
+                let hostelLocation = $("#hostelLocation").val();
+                if(hostelLocation.trim() === '' || hostelLocation == null ||  hostelDescription.length == 0){
+                    $("#hostelLocation").after('<div class="alert alert-danger addHostelAlert">Hostel Location Should be Provided</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Address is empty or not
+                let hostelAddress = $("#hostelAddress").val();
+                if(hostelAddress.trim() === '' || hostelAddress == null ||  hostelAddress.length < 5 || hostelAddress.length > 400){
+                    $("#hostelAddress").after('<div class="alert alert-danger addHostelAlert">Hostel Address Should be Provided</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Zip Code is empty or not
+                let hostelZipCode = $("#hostelZipCode").val();
+                if(hostelZipCode.trim() === '' || hostelZipCode == null ||  hostelZipCode.length < 5 || hostelZipCode.length > 400){
+                    $("#hostelZipCode").after('<div class="alert alert-danger addHostelAlert">Hostel Zip Code Should be Provided</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Nearest Landmark is empty or not
+                let hostelNearestLandmark = $("#hostelNearestLandmark").val();
+                if(hostelNearestLandmark === null || hostelNearestLandmark.trim() === '' ||  hostelNearestLandmark.length < 5 || hostelNearestLandmark.length > 400){
+                    $("#hostelNearestLandmark").after('<div class="alert alert-danger addHostelAlert">Hostel Nearest Landmark Should be Provided</div>');
+                    e.preventDefault();
+                }
+
+                // To check the Hostel Total Number of Floors is empty or not
+                let hostelTotalFloors = $("#hostelTotalFloors").val();
+                if(hostelTotalFloors.trim() === ''|| isNaN(hostelTotalFloors) || parseInt(hostelTotalFloors) < 0){
+                    $("#hostelTotalFloors").after('<div class="alert alert-danger addHostelAlert">Hostel Total Number of Floors Should be Provided</div>');
+                    e.preventDefault();
+                }
+
+                // To check the Hostel Categories is empty or not
+                let hostelCategoryId = $("#hostelCategoryId").val();
+                if(hostelCategoryId === null || hostelCategoryId.trim() === '' ){
+                    $("#hostelCategoryId").after('<div class="alert alert-danger addHostelAlert">Hostel Categories Should be Provided</div>');
+                    e.preventDefault();
+                }
+
+                // To Check the Hostel Images
+                let files = $("#hostelImages")[0].files;
+                // Reset validation message
+                $('.alertDivImages').remove('');
+                // Check if files are selected
+                if (files.length > 0) {
+                    // Check file size and type for each selected file
+                    for (let i = 0; i < files.length; i++) {
+                        let file = files[i];
+                        
+                        // Check file size (2 MB limit)
+                        if (file.size > 2 * 1024 * 1024) {
+                            $('#divImages').after('<div class="alert alert-danger alertDivImages">Image size should not exceed 2 MB.</div>');
+                            $(this).val('');  // Clear the file input to prevent submitting oversized files
+                            return;
+                        }
+        
+                        // Check file type (allow only images)
+                        const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+                        if (!allowedExtensions.exec(file.name)) {
+                            $('#divImages').after('<div class="alert alert-danger alertDivImages">Invalid file type. Please select only JPG, JPEG, or PNG images.</div>');
+                            $(this).val('');  // Clear the file input to prevent submitting non-image files
+                            return;
+                        }
+                    }
+                } else {
+                    // No files selected
+                    $('#divImages').after('<div class="alert alert-danger alertDivImages">Please select at least one image.</div>');
+                }
+                
+
+                // If there are no validation errors, proceed with next form request
+                if ($(".addHostelAlert").length === 0 && $(".alertDivImages").length === 0) {
+                    nextStep(2);
+                }
+
+
+            });
+        });
+    </script>
+    <!-- End of the script to Validate the form (formAddHostel)-->
+    
+    <!-- Start of the script to Validate the form (formHostelAddressDetails)-->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#btnHostelAddressDetails").click(function(e){
+                e.preventDefault();
+                $(".addHostelAddressDetailsAlert").remove();
+
+                // To check the Hostel Slogan is empty or not
+                let hostelSlogan = $("#hostelSlogan").val();
+                if(hostelSlogan.trim() === '' || hostelSlogan == null ||hostelSlogan.length == 0 || hostelSlogan.length < 3 || hostelSlogan.length > 255){
+                    $("#hostelSlogan").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Slogan Should be Provided.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Gender is empty or not
+                let hostelGender = $("#hostelGender").val();
+                if(hostelGender === null || hostelGender.trim() === '' || (hostelGender !== 'male' && hostelGender !== 'female')){
+                    $("#hostelGender").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Gender Should be Provided.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Stay Type is empty or not
+                let hostelStayType = $("#hostelStayType").val();
+                if(hostelStayType === null || hostelStayType.trim() === '' || (hostelStayType !== 'short_stay' && hostelStayType !== 'long_stay')){
+                    $("#hostelStayType").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Stay Type Should be Provided.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Guest Stay Allow is empty or not
+                let hostelGuestStayAllow = $("#hostelGuestStayAllow").val();
+                if(hostelGuestStayAllow === null || hostelGuestStayAllow.trim() === '' || (hostelGuestStayAllow !== 'Yes' && hostelGuestStayAllow !== 'No')){
+                    $("#hostelGuestStayAllow").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Guest Stay Allow Should be Provided.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Rent Pay Schedule is empty or not
+                let hostelRentPaySchedule = $("#hostelRentPaySchedule").val();
+                if(hostelRentPaySchedule === null || hostelRentPaySchedule.trim() === '' || (hostelRentPaySchedule !== 'Daily' && hostelRentPaySchedule !== 'Weekly' && hostelRentPaySchedule !== 'Monthly' && hostelRentPaySchedule !== 'Quarterly' && hostelRentPaySchedule !== 'Yearly')){
+                    $("#hostelRentPaySchedule").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Rent Pay Schedule Should be Provided.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Type is empty or not
+                let hostelTypeId = $("#hostelTypeId").val();
+                if(hostelTypeId === null || hostelTypeId.trim() === ''){
+                    $("#hostelTypeId").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Type Should be Provided.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Average Rent Per Seat (Monthly) is empty or not
+                let hostelAvgRentPerMonth = $("#hostelAvgRentPerMonth").val();
+                if(hostelAvgRentPerMonth.trim() === ''|| isNaN(hostelAvgRentPerMonth) || parseInt(hostelAvgRentPerMonth) < 10000){
+                    $("#hostelAvgRentPerMonth").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Average Rent Per Seat (Monthly) Should be Provided. And Rent Should not be less than 10,000/Rs.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Room Occupancy is empty or not
+                let hostelRoomOccupancy = $("#hostelRoomOccupancy").val();
+                if(hostelRoomOccupancy.trim() === '' ||isNaN(hostelRoomOccupancy) || parseInt(hostelRoomOccupancy) < 0){
+                    $("#hostelRoomOccupancy").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Room Occupancy Should be Provided.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel hostelRecommendedPlace is empty or not
+                let hostelRecommendedPlace = $("#hostelRecommendedPlace").val();
+                if(hostelRecommendedPlace.trim() === '' || hostelRecommendedPlace == null ||  hostelRecommendedPlace.length <3 ||  hostelRecommendedPlace.length > 255 ){
+                    $("#hostelRecommendedPlace").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Recommended Place Should be Provided</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Contact Number is empty or not
+                let hostelContactNumber = $("#hostelContactNumber").val();
+                if(hostelContactNumber.trim() === '' || hostelContactNumber == null ||  hostelContactNumber.length != 10){
+                    $("#divHostelContactNumber").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Contact Number Should be Provided.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Open And Close Timing is empty or not
+                let openTiming = $('#hostelOpenTiming').val();
+                let closeTiming = $('#hostelCloseTiming').val();
+                $(".alertTimingOpenClose").remove();
+                // Check if timings are empty
+                if (openTiming.trim() === '' ) {
+                    $("#hostelOpenTiming").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Open Timings are required.</div>');
+                    e.preventDefault();
+                } 
+                
+
+                if (closeTiming.trim() === '') {
+                    $("#hostelCloseTiming").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Close Timings are required.</div>');
+                    e.preventDefault();
+                } 
+                else if (openTiming === closeTiming) {
+                    $("#hostelCloseTiming").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Close timing should be different from open timing.</div>');
+                    e.preventDefault();
+                } 
+                else if (closeTiming < openTiming) {
+                    $("#hostelCloseTiming").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Close timing should be after open timing.</div>');
+                    e.preventDefault();
+                }
+            
+
+                // To check the Hostel Youtube Link is given if it is given then it should be valid url
+                let hostelYoutubeLink = $("#hostelYoutubeLink").val();
+                // Check if the input is not empty
+                if (hostelYoutubeLink.trim() !== '' || hostelYoutubeLink.length > 1) {
+                    // Validate the URL using a regular expression
+                    if (!isValidUrl(hostelYoutubeLink)) {
+                        $("#hostelYoutubeLink").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Youtube Link Should be Provided.</div>');
+                        e.preventDefault();
+                    }
+                }
+                
+                // To check the Hostel Facebook Link is given if it is given then it should be valid url
+                let hostelFacebookLink = $("#hostelFacebookLink").val();
+                // Check if the input is not empty
+                if (hostelFacebookLink.trim() !== '' || hostelFacebookLink.length > 1) {
+                    // Validate the URL using a regular expression
+                    if (!isValidUrl(hostelFacebookLink)) {
+                        $("#hostelFacebookLink").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Facebook Link Should be Provided.</div>');
+                        e.preventDefault();
+                    }
+                }
+
+                // To check the Hostel Youtube Link is given if it is given then it should be valid url
+                let hostelInstagramLink = $("#hostelInstagramLink").val();
+                // Check if the input is not empty
+                if (hostelInstagramLink.trim() !== '' || hostelInstagramLink.length > 1) {
+                    // Validate the URL using a regular expression
+                    if (!isValidUrl(hostelInstagramLink)) {
+                        $("#hostelInstagramLink").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Instagram Link Should be Provided.</div>');
+                        e.preventDefault();
+                    }
+                }
+
+                // To check the Hostel Area Name is empty or not
+                let hostelAreaName = $("#hostelAreaName").val();
+                if(hostelAreaName === null || hostelAreaName.trim() === ''){
+                    $("#hostelAreaName").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Area Name Should be Provided.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Plot No is empty or not
+                let hostelPlotNo = $("#hostelPlotNo").val();
+                if(hostelPlotNo === null || hostelPlotNo.trim() === ''){
+                    $("#hostelPlotNo").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Plot No Should be Provided.If Plot Number is not available then enter N/A.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Street No is empty or not
+                let hostelStreetNo = $("#hostelStreetNo").val();
+                if(hostelStreetNo === null || hostelStreetNo.trim() === ''){
+                    $("#hostelStreetNo").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Street No Should be Provided.If Street Number is not available then enter N/A.</div>');
+                    e.preventDefault();
+                }
+
+                // To check the Hostel Location is empty or not
+                let hosteMetalLocation = $("#hosteMetalLocation").val();
+                if(hosteMetalLocation.trim() === ''|| hosteMetalLocation === null){
+                    $("#hosteMetalLocation").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Location Should be Provided.</div>');
+                    e.preventDefault();
+                }
+
+                // To check the Hostel Map Location Link is given & it should be valid url
+                let hostelMapLocation = $("#hostelMapLocation").val();
+                // Check if the input is not empty
+                if (hostelMapLocation.trim() === '' || hostelMapLocation.trim() === null || (!isValidUrl(hostelMapLocation))) {
+                    $("#hostelMapLocation").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Map Location Link Should be Provided.</div>');
+                    e.preventDefault();
+                }
+
+                
+                // If there are no validation errors, proceed with next form request
+                if ($(".addHostelAddressDetailsAlert").length === 0) {
+                    nextStep(3);
+                }
+
+            });
+        });
+    </script>
+    <!-- End of the script to Validate the form (formHostelAddressDetails)-->
+
+    
+    
+    <!-- Start of the script to Validate the form HostelMetas-->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#btnHostelMetas").click(function(e){
+                $(".HostelMetasAlert").remove();
+                e.preventDefault();
+                // To check the Hostel Mess Availability is empty or not
+                let hostelMess = $("#hostelMess").val();
+                if(hostelMess === null || hostelMess.trim() === '' || (hostelMess !== 'available' && hostelMess !== 'unavailable')){
+                    $("#hostelMess").after('<div class="alert alert-danger HostelMetasAlert">Hostel Mess Availability Should be Selected.</div>');
+                    e.preventDefault();
+                }
+                else{
+                    if(hostelMess=='available'){
+                        // To check the Hostel Mess Type is empty or not
+                        let hostelMessType = $("#hostelMessType").val();
+                        if(hostelMessType === null || hostelMessType.trim() === '' || (hostelMessType !== 'one_time_mess' && hostelMessType !== 'two_time_mess' && hostelMessType !== 'three_time_mess' && hostelMessType !== 'buffay_time_mess')){
+                            $("#hostelMessType").after('<div class="alert alert-danger HostelMetasAlert">Hostel Mess Type  Should be Selected.</div>');
+                            $("#divHostelMessType").show();
+                            e.preventDefault();
+                        }
+                    }
+                }
+
+                // To check the Hostel Utility Bills is empty or not
+                let hostelUtilityBills = $("#hostelUtilityBills").val();
+                if(hostelUtilityBills === null || hostelUtilityBills.trim() === '' || (hostelUtilityBills !== 'included_in_rent' && hostelUtilityBills !== 'not_included_in_rent')){
+                    $("#hostelUtilityBills").after('<div class="alert alert-danger HostelMetasAlert">Hostel Utility Bills Should be Selected.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Security System is empty or not
+                let hostelSecuritySystem = $("#hostelSecuritySystem").val();
+                if(hostelSecuritySystem === null || hostelSecuritySystem.trim() === '' || (hostelSecuritySystem !== 'cctv' && hostelSecuritySystem !== 'bio_metric' && hostelSecuritySystem !== 'face_recognizer')){
+                    $("#hostelSecuritySystem").after('<div class="alert alert-danger HostelMetasAlert">Hostel Security System Should be Selected.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Security Guard is empty or not
+                let hostelSecurityGuard = $("#hostelSecurityGuard").val();
+                if(hostelSecurityGuard === null || hostelSecurityGuard.trim() === '' || (hostelSecurityGuard !== '24/7' && hostelSecurityGuard !== 'day_time' && hostelSecurityGuard !== 'night_watchman')){
+                    $("#hostelSecurityGuard").after('<div class="alert alert-danger HostelMetasAlert">Hostel Security Guard Should be Selected.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Doorman Type is empty or not
+                let hostelDoormanType = $("#hostelDoormanType").val();
+                if(hostelDoormanType === null || hostelDoormanType.trim() === '' || (hostelDoormanType !== 'male' && hostelDoormanType !== 'female')){
+                    $("#hostelDoormanType").after('<div class="alert alert-danger HostelMetasAlert">Hostel Doorman Type Should be Selected.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Doorman Availability  is empty or not
+                let hostelDoormanAvailability = $("#hostelDoormanAvailability").val();
+                if(hostelDoormanAvailability === null || hostelDoormanAvailability.trim() === '' || (hostelDoormanAvailability !== 'day_time' && hostelDoormanAvailability !== 'IoT_Device')){
+                    $("#hostelDoormanAvailability").after('<div class="alert alert-danger HostelMetasAlert">Hostel Doorman Availability Should be Selected.</div>');
+                    e.preventDefault();
+                } 
+                
+                // To check the Hostel Parking Availability  is empty or not
+                let hostelParkingAvailability = $("#hostelParkingAvailability").val();
+                if(hostelParkingAvailability === null || hostelParkingAvailability.trim() === '' || (hostelParkingAvailability !== 'indoor' && hostelParkingAvailability !== 'outdoor')){
+                    $("#hostelParkingAvailability").after('<div class="alert alert-danger HostelMetasAlert">Hostel Parking Availability Should be Selected.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Made Type is empty or not
+                let hostelMadeType = $("#hostelMadeType").val();
+                if(hostelMadeType === null || hostelMadeType.trim() === '' || (hostelMadeType !== 'male' && hostelMadeType !== 'female')){
+                    $("#hostelMadeType").after('<div class="alert alert-danger HostelMetasAlert">Hostel Made Type Should be Selected.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Made Availability is empty or not
+                let hostelMadeAvailability = $("#hostelMadeAvailability").val();
+                if(hostelMadeAvailability === null || hostelMadeAvailability.trim() === '' || (hostelMadeAvailability !== '24/7' && hostelMadeAvailability !== 'office_time')){
+                    $("#hostelMadeAvailability").after('<div class="alert alert-danger HostelMetasAlert">Hostel Made Availability Should be Selected.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Warden Type is empty or not
+                let hostelWardenType = $("#hostelWardenType").val();
+                if(hostelWardenType === null || hostelWardenType.trim() === '' || (hostelWardenType !== 'male' && hostelWardenType !== 'female')){
+                    $("#hostelWardenType").after('<div class="alert alert-danger HostelMetasAlert">Hostel Warden Type Should be Selected.</div>');
+                    e.preventDefault();
+                }
+
+                // To check the Hostel Warden Availability is empty or not
+                let hostelWardenAvailability = $("#hostelWardenAvailability").val();
+                if(hostelWardenAvailability === null || hostelWardenAvailability.trim() === '' || (hostelWardenAvailability !== '24/7' && hostelWardenAvailability !== 'office_time')){
+                    $("#hostelWardenAvailability").after('<div class="alert alert-danger HostelMetasAlert">Hostel Warden Availability Should be Selected.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Common Room Availability is empty or not
+                let hostelCommonRoomAvailability = $("#hostelCommonRoomAvailability").val();
+                if(hostelCommonRoomAvailability === null || hostelCommonRoomAvailability.trim() === '' || (hostelCommonRoomAvailability !== '24/7' && hostelCommonRoomAvailability !== 'n/a')){
+                    $("#hostelCommonRoomAvailability").after('<div class="alert alert-danger HostelMetasAlert">Hostel Common Room Availability Should be Selected.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Study Room Availability is empty or not
+                let hostelStudyRoomAvailability = $("#hostelStudyRoomAvailability").val();
+                if(hostelStudyRoomAvailability === null || hostelStudyRoomAvailability.trim() === '' || (hostelStudyRoomAvailability !== '24/7' && hostelStudyRoomAvailability !== 'n/a')){
+                    $("#hostelStudyRoomAvailability").after('<div class="alert alert-danger HostelMetasAlert">Hostel Study Room Availability Should be Selected.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Prayer Area is empty or not
+                let hostelPrayerArea = $("#hostelPrayerArea").val();
+                if(hostelPrayerArea === null || hostelPrayerArea.trim() === '' || (hostelPrayerArea !== 'yes' && hostelPrayerArea !== 'no')){
+                    $("#hostelPrayerArea").after('<div class="alert alert-danger HostelMetasAlert">Hostel Prayer Area Should be Selected.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the Hostel Canteen Availability is empty or not
+                let hostelCanteenAvailability = $("#hostelCanteenAvailability").val();
+                if(hostelCanteenAvailability === null || hostelCanteenAvailability.trim() === '' || (hostelCanteenAvailability !== 'stand_alone' && hostelCanteenAvailability !== 'attached'&& hostelCanteenAvailability !== 'inside' && hostelCanteenAvailability !== 'outside' && hostelCanteenAvailability !== 'online' && hostelCanteenAvailability !== 'pos' && hostelCanteenAvailability !== 'n/a')){
+                    $("#hostelCanteenAvailability").after('<div class="alert alert-danger HostelMetasAlert">Hostel Canteen Availability Should be Selected.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the membershipTypeId is empty or not
+                let membershipTypeId = $("#membershipTypeId").val();
+                if(membershipTypeId === null || membershipTypeId.trim() === '' ){
+                    $("#membershipTypeId").after('<div class="alert alert-danger HostelMetasAlert">Membership Should be Selected.</div>');
+                    e.preventDefault();
+                }
+                
+                // To check the transactionNumber is empty or not
+                let transactionNumber = $("#transactionNumber").val();
+                if(transactionNumber === null || transactionNumber.trim() === '' ){
+                    $("#transactionNumber").after('<div class="alert alert-danger HostelMetasAlert">Transaction Number Should be Selected.</div>');
+                    e.preventDefault();
+                }
+                // To check the refferalCnic is given then it's length will be 15
+                let refferalCnic = $("#refferalCnic").val();
+                if((refferalCnic.length>0) && refferalCnic.length!=15 ){
+                    $("#refferalCnic").after('<div class="alert alert-danger HostelMetasAlert">Valid Refferal Cnic Should be Selected.</div>');
+                    e.preventDefault();
+                }
+
+                // If there are no validation errors, proceed with next form request
+                if ($(".HostelMetasAlert").length === 0) {
+                    nextStep(4);
+                }
+                
+                
+
+            });
+        });
+    </script>
+    <!-- End of the script to Validate the form HostelMetas-->
+
+
+    <!-- Start of the script to Validate the form of Register New Partner-->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#btnNextPartner").click(function(e){
+                $(".PartnerRegisterAlert").remove();
+
+                // To check if either radio button is checked
+                let partnerCnicRadio = $("input[name='partnerCnicRadio']:checked").val();
+                if (!partnerCnicRadio) {
+                    $("#divPartnerRadioButton").after('<div class="alert alert-danger PartnerRegisterAlert">Kindly select whether you have a partner or not.</div>');
+                    e.preventDefault();
+                } else {
+                    // If 'Yes' is checked, show alert for 'Yes'
+                    if (partnerCnicRadio === 'Yes') {
+                        let partnerCnicCheck = $("#partnerCnicCheck").val();
+                        if(partnerCnicCheck.trim()===''||partnerCnicCheck === null ||partnerCnicCheck.length!=15){
+                            $("#partnerCnicCheck").after('<div class="alert alert-danger PartnerRegisterAlert">Partner Cnic Should be Provided.</div>');
+                            e.preventDefault();
+                        }
+                        else{
+                            let partnerAuthorId = $("#partnerAuthorId").val();
+                            if(partnerAuthorId.trim() === '' || partnerAuthorId === null || partnerAuthorId.length==0){
+                                // It means that partner is new
+
+                                // To check First Name is empty or not
+                                let partnerFirstName = $("#partnerFirstName").val();
+                                if(partnerFirstName.trim() === ''|| partnerFirstName === null){
+                                    $("#partnerFirstName").after('<div class="alert alert-danger PartnerRegisterAlert">Partner First Name Should be Provided.</div>');
+                                    e.preventDefault();
+                                }
+
+                                // To check Last Name is empty or not
+                                let partnerLastName = $("#partnerLastName").val();
+                                if(partnerLastName.trim() === ''|| partnerLastName === null){
+                                    $("#partnerLastName").after('<div class="alert alert-danger PartnerRegisterAlert">Partner Last Name Should be Provided.</div>');
+                                    e.preventDefault();
+                                }
+                                
+                                // To check Partner Email is empty or not
+                                let partnerEmail = $("#partnerEmail").val();
+                                if(partnerEmail.trim() === ''|| partnerEmail === null || !(isValidEmail(partnerEmail))){
+                                    $("#partnerEmail").after('<div class="alert alert-danger PartnerRegisterAlert">Partner Valid Email Should be Provided.</div>');
+                                    e.preventDefault();
+                                }
+                                
+                                // To check Partner Mobile Number is empty or not
+                                let partnerMobileNumber = $("#partnerMobileNumber").val();
+                                if(partnerMobileNumber.trim() === ''|| partnerMobileNumber === null || partnerMobileNumber.length !=10){
+                                    $("#partnerMobileNumberDiv").after('<div class="alert alert-danger PartnerRegisterAlert">Partner Valid Mobile Number Should be Provided.</div>');
+                                    e.preventDefault();
+                                }
+                            }
+                        }
+                        
+                    } else {
+                        // If 'No' is checked, show alert for 'No'
+                    }
+
+
+                    // If there are no validation errors, proceed with next form request
+                    if ($(".PartnerRegisterAlert").length === 0) {
+                        nextStep(5);
+                    }
+                }
+            });
+        });
+    </script>
+    <!-- End of the script to Validate the form Register New Partner-->
+
+    <!-- Start of the script to Validate the form Register New Warden -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#btnNextWarden").click(function(e){
+                $(".WardenRegisterAlert").remove();
+
+                // To check if either radio button is checked
+                let wardenCnicRadio = $("input[name='wardenCnicRadio']:checked").val();
+                if (!wardenCnicRadio) {
+                    $("#divWardenRadioButton").after('<div class="alert alert-danger WardenRegisterAlert">Kindly select whether you have a Warden or not.</div>');
+                    e.preventDefault();
+                } else {
+                    // If 'Yes' is checked, show alert for 'Yes'
+                    if (wardenCnicRadio === 'Yes') {
+                        let wardenCnicCheck =$("#wardenCnicCheck").val();
+                        if(wardenCnicCheck.trim()=== '' || wardenCnicCheck === null || wardenCnicCheck.length != 15){
+                            $("#wardenCnicCheck").after('<div class="alert alert-danger WardenRegisterAlert">Warden CnicShould be Provided.</div>');
+                            $("#wardenCnicCheck").focus();
+                            e.preventDefault();
+                        }
+                        else{
+                            let wardenAuthorId = $("#wardenAuthorId").val();
+                            if(wardenAuthorId.trim() === '' || wardenAuthorId === null || wardenAuthorId.length==0){
+                                // It means that partner is new
+
+                                // To check Warden First Name is empty or not
+                                let wardenFirstName = $("#wardenFirstName").val();
+                                if(wardenFirstName.trim() === ''|| wardenFirstName === null){
+                                    $("#wardenFirstName").after('<div class="alert alert-danger WardenRegisterAlert">Warden First Name Should be Provided.</div>');
+                                    e.preventDefault();
+                                }
+
+                                // To check Warden Last Name is empty or not
+                                let wardenLastName = $("#wardenLastName").val();
+                                if(wardenLastName.trim() === ''|| wardenLastName === null){
+                                    $("#wardenLastName").after('<div class="alert alert-danger WardenRegisterAlert">Warden Last Name Should be Provided.</div>');
+                                    e.preventDefault();
+                                }
+                                
+                                // To check Warden Email is empty or not
+                                let wardenEmail = $("#wardenEmail").val();
+                                if(wardenEmail.trim() === ''|| wardenEmail === null || !(isValidEmail(wardenEmail))){
+                                    $("#wardenEmail").after('<div class="alert alert-danger WardenRegisterAlert">Warden Valid Email Should be Provided.</div>');
+                                    e.preventDefault();
+                                }
+                                
+                                // To check Warden Mobile Number is empty or not
+                                let wardenMobileNumber = $("#wardenMobileNumber").val();
+                                if(wardenMobileNumber.trim() === ''|| wardenMobileNumber === null || wardenMobileNumber.length !=10){
+                                    $("#divWardenMobileNumber").after('<div class="alert alert-danger WardenRegisterAlert">Warden Valid Mobile Number Should be Provided.</div>');
+                                    e.preventDefault();
+                                }
+                            }
+                        }
+                        
+                    } else {
+                        // If 'No' is checked, show alert for 'No'
+                    }
+
+                    // If there are no validation errors, proceed with next form request
+                    if ($(".WardenRegisterAlert").length === 0) {
+                        nextStep(6);
+                    }
+                }
+            });
+        });
+    </script>
+    <!-- End of the script to Validate the form Register New Warden -->
+
+    <!-- Start of the script to validate the Membership Form -->
+    <!-- End of the script to validate the Membership Form -->
+    
+    <!-- Start of the script to Save all the btnSaveHostelAllFroms -->
+    <script>
+        $(document).ready(function(){
+            $("#btnSaveHostelAllFroms").click(function(e){
+                e.preventDefault();
+
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                var formData1 = new FormData($('#formAddHostel')[0]); // Use FormData for file uploads
+
+                // Collect data from Form 2
+                var formData2 = $('#formHostelAddressDetails').serializeArray();
+                
+                // Collect data from Form 3
+                var formData3 = $('#formHostelMetas').serializeArray(); 
+                // Collect data from Form 4
+                var formData4 = $('#formNewPartnerDetails').serializeArray();
+                // Collect data from Form 5
+                var formData5 = $('#formNewWardenDetails').serializeArray();
+                // Collect data from Form 6
+                var formData6 = $('#formAddFeaturesFacilitiesAmenitiesLuxuries').serializeArray();
+
+                // Append data from other forms to FormData
+                $.each(formData2, function (index, field) {
+                    formData1.append(field.name, field.value);
+                });
+                $.each(formData3, function (index, field) {
+                    formData1.append(field.name, field.value);
+                });
+                $.each(formData4, function (index, field) {
+                    formData1.append(field.name, field.value);
+                });
+                $.each(formData5, function (index, field) {
+                    formData1.append(field.name, field.value);
+                });
+                $.each(formData6, function (index, field) {
+                    formData1.append(field.name, field.value);
+                });
+
+                // Add CSRF token to FormData
+                formData1.append('_token', csrfToken);
+
+                // To Save the Hostel Data
+                var formAddHostelData = new FormData($("#formAddHostel")[0]);
+                
+                
+                    $.ajax({
+                        type: 'POST',  // Adjust the type as needed (e.g., 'GET' or 'POST')
+                        url: '/client/hostels/storeHostel',    // Adjust the action
+                        data: formData1,
+                        contentType: false, // Important: prevent jQuery from setting content type
+                        processData: false, // Important: prevent jQuery from processing the data
+    
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                // Reset all forms
+                                $('#formAddHostel')[0].reset();
+                                $('#formHostelAddressDetails')[0].reset();
+                                $('#formHostelMetas')[0].reset();
+                                $('#formNewPartnerDetails')[0].reset();
+                                $('#formNewWardenDetails')[0].reset();
+                                $('#formAddFeaturesFacilitiesAmenitiesLuxuries')[0].reset();
+
+                                // Redirect to the home route
+                                window.location.href = '/client/dashboard';
+                                Swal.fire('Success', response.message, 'success');
+                            } else {
+                                Swal.fire('Error', response.message, 'error');
+                            }
+                        },
+                        error: function (err) {
+                            // If there is an error adding the user
+                            let error = err.responseJSON;
+                            $(".addHostelAlert").remove();
+                            if (error.hasOwnProperty('errors')) {
+                                document.getElementById('step6').style.display = 'none';
+                                document.getElementById('step1').style.display = 'block';
+                                $.each(error.errors, function (index, value) {
+                                    $("#" + index).after('<div class="alert alert-danger addHostelAlert">'+value+'</div>');
+                                });
+                            } else if (error.hasOwnProperty('message')) {
+                                // Display a general error message
+                                Swal.fire('Error', error.message, 'error');
+                            }
+                        }
+                    });
+            });
+        });
+    </script>
+    <!-- End of the script to Save all the btnSaveHostelAllFroms -->
+
+    <!-- Start of script for Location using google map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrN1lnwhavrmfKr2HWruDFDdXJcIfAM1M&libraries=places"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize Google Places Autocomplete
+            var input = document.getElementById('hostelLocation');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            // Event listener for place selection
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var place = autocomplete.getPlace();
+                // Display latitude and longitude
+                $('#latitude').val(place.geometry.location.lat());
+                $('#longitude').val(place.geometry.location.lng());
+            });
+        });
+    </script>
+    <!-- Start of script for Location using google map -->
+
 @endsection
-<!-- End: Script Section Starts Here -->
 

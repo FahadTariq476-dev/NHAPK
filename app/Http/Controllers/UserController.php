@@ -28,6 +28,17 @@ class UserController extends Controller
             return 0;   //CNIC does not exist
         }
     }
+
+    public function uniqueCnicWithData($cnic)
+    {
+        $exists = User::where('cnic_no', $cnic)->exists();
+        if ($exists) {
+            return User::where('cnic_no', $cnic)->first();   // CNIC exists
+        } else {
+            return 0;   // CNIC does not exist
+        }
+    }
+
     public function index(Request $request)
     {
           
