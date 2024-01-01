@@ -89,4 +89,9 @@ class Properties extends Model
         return $this->belongsToMany(Feature::class, 'property_features', 'property_id','feature_id');
     }
     // End: Function to defina relationship with features
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'property_tags', 'property_id', 'tag_id');
+    }
 }

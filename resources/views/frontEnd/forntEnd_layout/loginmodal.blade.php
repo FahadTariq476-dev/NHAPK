@@ -394,7 +394,7 @@
                                 return;
                             }
                             else{
-                                $("#divPhone_number").after('<div class="alert alert-info">Your mob no doesnt mathced with you cnicn kindly provide the correct cnic.</div>');
+                                $("#divPhone_number").after('<div class="alert alert-info">Your phone number not matched with provided CNIC. Please try again.</div>');
                                 $('#OtpModal').modal('hide');
                                 $('#MobModal').modal('show');
                                 $('#passwordModal').modal('hide');

@@ -6,6 +6,17 @@
     @include('client.layouts.dataTables-links')
     <!-- End: DataTables CSS and JS -->
 
+<!-- Include Select2 CSS without integrity -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+
+{{-- <!-- Include jQuery without integrity -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+
+<!-- Include Select2 JS without integrity -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+
+
 @endsection
 
 @section('content')
@@ -355,15 +366,20 @@
                                         <!-- Hostel Location -->
                                         <div class="form-group">
                                             <label for="hosteMetalLocation">Hostel Location:</label>
-                                            <input type="text" class="form-control" value="GF85+MQP, Green City, Lahore, Punjab, Pakistan" id="hosteMetalLocation" name="hosteMetalLocation" placeholder="Enter Hostel Location Here:">
+                                            <input type="text" class="form-control"  id="hosteMetalLocation" name="hosteMetalLocation" placeholder="Enter Hostel Location Here:">
                                         </div>
                                         <!-- Hostel Map Location -->
                                         <div class="form-group">
                                             <label for="hostelMapLocation">Hostel Map Location:</label>
-                                            <input type="text" class="form-control" value="https://www.google.com/maps/@31.51672154704646,74.45938242712248,15z" id="hostelMapLocation" name="hostelMapLocation" placeholder="Enter Hostel Map Location Here:">
+                                            <input type="text" class="form-control" id="hostelMapLocation" name="hostelMapLocation" placeholder="Enter Hostel Map Location Here:">
+                                            <span class="text-danger map_location_err"></span>
+                                            <input type="text" name="hostelMetaLatitude" id="hostelMetaLatitude" />
+                                    <input type="text" name="hostelMetalongitude" id="hostelMetalongitude" />
                                         </div>
 
                                     </div>
+                                    
+                                <div id="map" style="height: 450px;"></div>
 
 
                                     <!-- Buttons-->
@@ -558,52 +574,77 @@
                                             </select>
                                         </div>
                                     </div>
-
-                                    <div class="col-md-6 mb-1">
-                                        <h4>Provide Your Membership Details</h4>
-                                        <!--Select Membership-->
-                                        <!-- Membership Type -->
-                                        <div class="form-group">
-                                            <label for="membershipType">Membership Type:</label>
-                                            <select class="form-control" id="membershipTypeId" name="membershipTypeId">
-                                                <option value="" selected disabled>Select Membership</option>
-                                                @if (count($membershipTypes)>0)
-                                                    @foreach($membershipTypes as $membershipType)
-                                                        <option value="{{ $membershipType->id }}">
-                                                            {{ $membershipType->name }}
-                                                        </option>
-                                                    @endforeach
-                                                @else
-                                                    <option value="" disabled>No Membership Found</option>
-                                                @endif
-                                            </select>
-                                        </div>
-
-                                        <!--Transaction Number-->
-                                        <div class="form-group">
-                                            <label for="partnerEmail">Transaction Number:</label>
-                                            <input type="text" class="form-control" id="transactionNumber" name="transactionNumber" placeholder="Enter Transaction Number Here:">
-                                        </div> 
-
-                                        <!--Refferal Cnic-->
-                                        <div class="form-group">
-                                            <label for="partnerEmail">Refferal Cnic:</label>
-                                            <input type="text" class="form-control" id="refferalCnic" name="refferalCnic" placeholder="Enter Refferal Cni Here:" minlength="15" maxlength="15">
-                                        </div>
-
-                                         <!-- Since -->
-                                        <div class="form-group">
-                                            <label for="since">Since:</label>
-                                            <input type="date" class="form-control" id="since" name="since">
-                                            <small class="form-text text-muted">Living Since</small>
-                                        </div>
-                    
-                                        <!-- Previous Hostel -->
-                                        <div class="form-group">
-                                            <label for="previousHostel">Previous Hostel:</label>
-                                            <input type="text" class="form-control" id="previousHostel" name="previousHostel" placeholder="Enter your previous hostel registration number here: [Optional]">
-                                        </div> 
+                                    <div class="form-group mb-4">
+                                        <label class="form-label" for="tagsId">Tags</label>
+                                        <select class="form-control select2" name="tags[]" multiple="multiple" id="tagsId">
+                                            <option value="" disabled>Select Property Tags</option>
+                                            @if (count($tags) > 0)
+                                                @foreach($tags as $tag)
+                                                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                                @endforeach
+                                            @else
+                                                <option value="" disabled>No Property Tags Found</option>
+                                            @endif
+                                        </select>
                                     </div>
+                                    <script>
+                                        var $jq = jQuery.noConflict();
+                                        $jq(document).ready(function() {
+                                            $jq('#tagsId').select2({
+                                                placeholder: 'Select Property Tags',
+                                                allowClear: true, // Add an option to clear the selection
+                                                width: '100%', // Set the width to 100%
+                                            });
+                                        });
+                                    </script>
+                                    
+                                    @if ($membershipExistence=="No")
+                                        <div class="col-md-6 mb-1">
+                                            <h4>Provide Your Membership Details</h4>
+                                            <!--Select Membership-->
+                                            <!-- Membership Type -->
+                                            <div class="form-group">
+                                                <label for="membershipType">Membership Type:</label>
+                                                <select class="form-control" id="membershipTypeId" name="membershipTypeId">
+                                                    <option value="" selected disabled>Select Membership</option>
+                                                    @if (count($membershipTypes)>0)
+                                                        @foreach($membershipTypes as $membershipType)
+                                                            <option value="{{ $membershipType->id }}">
+                                                                {{ $membershipType->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    @else
+                                                        <option value="" disabled>No Membership Found</option>
+                                                    @endif
+                                                </select>
+                                            </div>
+
+                                            <!--Transaction Number-->
+                                            <div class="form-group">
+                                                <label for="partnerEmail">Transaction Number:</label>
+                                                <input type="text" class="form-control" id="transactionNumber" name="transactionNumber" placeholder="Enter Transaction Number Here:">
+                                            </div> 
+
+                                            <!--Refferal Cnic-->
+                                            <div class="form-group">
+                                                <label for="partnerEmail">Refferal Cnic:</label>
+                                                <input type="text" class="form-control" id="refferalCnic" name="refferalCnic" placeholder="Enter Refferal Cni Here:" minlength="15" maxlength="15">
+                                            </div>
+
+                                            <!-- Since -->
+                                            <div class="form-group">
+                                                <label for="since">Since:</label>
+                                                <input type="date" class="form-control" id="since" name="since">
+                                                <small class="form-text text-muted">Living Since</small>
+                                            </div>
+                        
+                                            <!-- Previous Hostel -->
+                                            <div class="form-group">
+                                                <label for="previousHostel">Previous Hostel:</label>
+                                                <input type="text" class="form-control" id="previousHostel" name="previousHostel" placeholder="Enter your previous hostel registration number here: [Optional]">
+                                            </div> 
+                                        </div>
+                                    @endif
                                     
                                     <!-- Buttons-->
                                     <div class="form-group mb-2">
@@ -1552,126 +1593,126 @@
                 e.preventDefault();
                 $(".addHostelAlert").remove();
 
-                // To check the Hostel Name is empty or not
-                let hostelName = $("#hostelName").val();
-                if(hostelName.trim() === '' || hostelName == null ||hostelName.length == 0 || hostelName.length < 3 || hostelName.length > 255){
-                    $("#hostelName").after('<div class="alert alert-danger addHostelAlert">Hostel Name & Unique Hostel Name Should be Provided</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Name is empty or not
+                // let hostelName = $("#hostelName").val();
+                // if(hostelName.trim() === '' || hostelName == null ||hostelName.length == 0 || hostelName.length < 3 || hostelName.length > 255){
+                //     $("#hostelName").after('<div class="alert alert-danger addHostelAlert">Hostel Name & Unique Hostel Name Should be Provided</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Description is empty or not
-                let hostelDescription = $("#hostelDescription").val();
-                if(hostelDescription.trim() === '' || hostelDescription == null ||  hostelDescription.length < 5 || hostelDescription.length > 400){
-                    $("#hostelDescription").after('<div class="alert alert-danger addHostelAlert">Hostel Description Should be Provided</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Description is empty or not
+                // let hostelDescription = $("#hostelDescription").val();
+                // if(hostelDescription.trim() === '' || hostelDescription == null ||  hostelDescription.length < 5 || hostelDescription.length > 400){
+                //     $("#hostelDescription").after('<div class="alert alert-danger addHostelAlert">Hostel Description Should be Provided</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Country is empty or not
-                let hostelCountryId = $("#hostelCountryId").val();
-                if(hostelCountryId === null || hostelCountryId.trim() === '' ){
-                    $("#hostelCountryId").after('<div class="alert alert-danger addHostelAlert">Hostel Country Should be Provided</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Country is empty or not
+                // let hostelCountryId = $("#hostelCountryId").val();
+                // if(hostelCountryId === null || hostelCountryId.trim() === '' ){
+                //     $("#hostelCountryId").after('<div class="alert alert-danger addHostelAlert">Hostel Country Should be Provided</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel State is empty or not
-                let hostelStatesId = $("#hostelStatesId").val();
-                if(hostelStatesId === null || hostelStatesId.trim() === ''){
-                    $("#hostelStatesId").after('<div class="alert alert-danger addHostelAlert">Hostel State Should be Provided</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel State is empty or not
+                // let hostelStatesId = $("#hostelStatesId").val();
+                // if(hostelStatesId === null || hostelStatesId.trim() === ''){
+                //     $("#hostelStatesId").after('<div class="alert alert-danger addHostelAlert">Hostel State Should be Provided</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel City is empty or not
-                let hostelCityId = $("#hostelCityId").val();
-                if(hostelCityId === null || hostelCityId.trim() === '' ){
-                    $("#hostelCityId").after('<div class="alert alert-danger addHostelAlert">Hostel City Should be Provided</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel City is empty or not
+                // let hostelCityId = $("#hostelCityId").val();
+                // if(hostelCityId === null || hostelCityId.trim() === '' ){
+                //     $("#hostelCityId").after('<div class="alert alert-danger addHostelAlert">Hostel City Should be Provided</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Total Number of Rooms is empty or not
-                let hostelTotalRooms = $("#hostelTotalRooms").val();
-                if(hostelTotalRooms.trim() === ''|| isNaN(hostelTotalRooms) || parseInt(hostelTotalRooms) < 0){
-                    $("#hostelTotalRooms").after('<div class="alert alert-danger addHostelAlert">Hostel Total Number of Rooms Should be Provided</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Total Number of Rooms is empty or not
+                // let hostelTotalRooms = $("#hostelTotalRooms").val();
+                // if(hostelTotalRooms.trim() === ''|| isNaN(hostelTotalRooms) || parseInt(hostelTotalRooms) < 0){
+                //     $("#hostelTotalRooms").after('<div class="alert alert-danger addHostelAlert">Hostel Total Number of Rooms Should be Provided</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Total Number of Bath Rooms is empty or not
-                let hostelBathRooms = $("#hostelBathRooms").val();
-                if(hostelBathRooms.trim() === '' ||isNaN(hostelBathRooms) || parseInt(hostelBathRooms) < 0){
-                    $("#hostelBathRooms").after('<div class="alert alert-danger addHostelAlert">Hostel Total Number of Bath Rooms Should be Provided</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Total Number of Bath Rooms is empty or not
+                // let hostelBathRooms = $("#hostelBathRooms").val();
+                // if(hostelBathRooms.trim() === '' ||isNaN(hostelBathRooms) || parseInt(hostelBathRooms) < 0){
+                //     $("#hostelBathRooms").after('<div class="alert alert-danger addHostelAlert">Hostel Total Number of Bath Rooms Should be Provided</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Location is empty or not
-                let hostelLocation = $("#hostelLocation").val();
-                if(hostelLocation.trim() === '' || hostelLocation == null ||  hostelDescription.length == 0){
-                    $("#hostelLocation").after('<div class="alert alert-danger addHostelAlert">Hostel Location Should be Provided</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Location is empty or not
+                // let hostelLocation = $("#hostelLocation").val();
+                // if(hostelLocation.trim() === '' || hostelLocation == null ||  hostelDescription.length == 0){
+                //     $("#hostelLocation").after('<div class="alert alert-danger addHostelAlert">Hostel Location Should be Provided</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Address is empty or not
-                let hostelAddress = $("#hostelAddress").val();
-                if(hostelAddress.trim() === '' || hostelAddress == null ||  hostelAddress.length < 5 || hostelAddress.length > 400){
-                    $("#hostelAddress").after('<div class="alert alert-danger addHostelAlert">Hostel Address Should be Provided</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Address is empty or not
+                // let hostelAddress = $("#hostelAddress").val();
+                // if(hostelAddress.trim() === '' || hostelAddress == null ||  hostelAddress.length < 5 || hostelAddress.length > 400){
+                //     $("#hostelAddress").after('<div class="alert alert-danger addHostelAlert">Hostel Address Should be Provided</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Zip Code is empty or not
-                let hostelZipCode = $("#hostelZipCode").val();
-                if(hostelZipCode.trim() === '' || hostelZipCode == null ||  hostelZipCode.length < 5 || hostelZipCode.length > 400){
-                    $("#hostelZipCode").after('<div class="alert alert-danger addHostelAlert">Hostel Zip Code Should be Provided</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Zip Code is empty or not
+                // let hostelZipCode = $("#hostelZipCode").val();
+                // if(hostelZipCode.trim() === '' || hostelZipCode == null ||  hostelZipCode.length < 5 || hostelZipCode.length > 400){
+                //     $("#hostelZipCode").after('<div class="alert alert-danger addHostelAlert">Hostel Zip Code Should be Provided</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Nearest Landmark is empty or not
-                let hostelNearestLandmark = $("#hostelNearestLandmark").val();
-                if(hostelNearestLandmark === null || hostelNearestLandmark.trim() === '' ||  hostelNearestLandmark.length < 5 || hostelNearestLandmark.length > 400){
-                    $("#hostelNearestLandmark").after('<div class="alert alert-danger addHostelAlert">Hostel Nearest Landmark Should be Provided</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Nearest Landmark is empty or not
+                // let hostelNearestLandmark = $("#hostelNearestLandmark").val();
+                // if(hostelNearestLandmark === null || hostelNearestLandmark.trim() === '' ||  hostelNearestLandmark.length < 5 || hostelNearestLandmark.length > 400){
+                //     $("#hostelNearestLandmark").after('<div class="alert alert-danger addHostelAlert">Hostel Nearest Landmark Should be Provided</div>');
+                //     e.preventDefault();
+                // }
 
-                // To check the Hostel Total Number of Floors is empty or not
-                let hostelTotalFloors = $("#hostelTotalFloors").val();
-                if(hostelTotalFloors.trim() === ''|| isNaN(hostelTotalFloors) || parseInt(hostelTotalFloors) < 0){
-                    $("#hostelTotalFloors").after('<div class="alert alert-danger addHostelAlert">Hostel Total Number of Floors Should be Provided</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Total Number of Floors is empty or not
+                // let hostelTotalFloors = $("#hostelTotalFloors").val();
+                // if(hostelTotalFloors.trim() === ''|| isNaN(hostelTotalFloors) || parseInt(hostelTotalFloors) < 0){
+                //     $("#hostelTotalFloors").after('<div class="alert alert-danger addHostelAlert">Hostel Total Number of Floors Should be Provided</div>');
+                //     e.preventDefault();
+                // }
 
-                // To check the Hostel Categories is empty or not
-                let hostelCategoryId = $("#hostelCategoryId").val();
-                if(hostelCategoryId === null || hostelCategoryId.trim() === '' ){
-                    $("#hostelCategoryId").after('<div class="alert alert-danger addHostelAlert">Hostel Categories Should be Provided</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Categories is empty or not
+                // let hostelCategoryId = $("#hostelCategoryId").val();
+                // if(hostelCategoryId === null || hostelCategoryId.trim() === '' ){
+                //     $("#hostelCategoryId").after('<div class="alert alert-danger addHostelAlert">Hostel Categories Should be Provided</div>');
+                //     e.preventDefault();
+                // }
 
-                // To Check the Hostel Images
-                let files = $("#hostelImages")[0].files;
-                // Reset validation message
-                $('.alertDivImages').remove('');
-                // Check if files are selected
-                if (files.length > 0) {
-                    // Check file size and type for each selected file
-                    for (let i = 0; i < files.length; i++) {
-                        let file = files[i];
+                // // To Check the Hostel Images
+                // let files = $("#hostelImages")[0].files;
+                // // Reset validation message
+                // $('.alertDivImages').remove('');
+                // // Check if files are selected
+                // if (files.length > 0) {
+                //     // Check file size and type for each selected file
+                //     for (let i = 0; i < files.length; i++) {
+                //         let file = files[i];
                         
-                        // Check file size (2 MB limit)
-                        if (file.size > 2 * 1024 * 1024) {
-                            $('#divImages').after('<div class="alert alert-danger alertDivImages">Image size should not exceed 2 MB.</div>');
-                            $(this).val('');  // Clear the file input to prevent submitting oversized files
-                            return;
-                        }
+                //         // Check file size (2 MB limit)
+                //         if (file.size > 2 * 1024 * 1024) {
+                //             $('#divImages').after('<div class="alert alert-danger alertDivImages">Image size should not exceed 2 MB.</div>');
+                //             $(this).val('');  // Clear the file input to prevent submitting oversized files
+                //             return;
+                //         }
         
-                        // Check file type (allow only images)
-                        const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-                        if (!allowedExtensions.exec(file.name)) {
-                            $('#divImages').after('<div class="alert alert-danger alertDivImages">Invalid file type. Please select only JPG, JPEG, or PNG images.</div>');
-                            $(this).val('');  // Clear the file input to prevent submitting non-image files
-                            return;
-                        }
-                    }
-                } else {
-                    // No files selected
-                    $('#divImages').after('<div class="alert alert-danger alertDivImages">Please select at least one image.</div>');
-                }
+                //         // Check file type (allow only images)
+                //         const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+                //         if (!allowedExtensions.exec(file.name)) {
+                //             $('#divImages').after('<div class="alert alert-danger alertDivImages">Invalid file type. Please select only JPG, JPEG, or PNG images.</div>');
+                //             $(this).val('');  // Clear the file input to prevent submitting non-image files
+                //             return;
+                //         }
+                //     }
+                // } else {
+                //     // No files selected
+                //     $('#divImages').after('<div class="alert alert-danger alertDivImages">Please select at least one image.</div>');
+                // }
                 
 
                 // If there are no validation errors, proceed with next form request
@@ -1692,169 +1733,169 @@
                 e.preventDefault();
                 $(".addHostelAddressDetailsAlert").remove();
 
-                // To check the Hostel Slogan is empty or not
-                let hostelSlogan = $("#hostelSlogan").val();
-                if(hostelSlogan.trim() === '' || hostelSlogan == null ||hostelSlogan.length == 0 || hostelSlogan.length < 3 || hostelSlogan.length > 255){
-                    $("#hostelSlogan").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Slogan Should be Provided.</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Slogan is empty or not
+                // let hostelSlogan = $("#hostelSlogan").val();
+                // if(hostelSlogan.trim() === '' || hostelSlogan == null ||hostelSlogan.length == 0 || hostelSlogan.length < 3 || hostelSlogan.length > 255){
+                //     $("#hostelSlogan").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Slogan Should be Provided.</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Gender is empty or not
-                let hostelGender = $("#hostelGender").val();
-                if(hostelGender === null || hostelGender.trim() === '' || (hostelGender !== 'male' && hostelGender !== 'female')){
-                    $("#hostelGender").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Gender Should be Provided.</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Gender is empty or not
+                // let hostelGender = $("#hostelGender").val();
+                // if(hostelGender === null || hostelGender.trim() === '' || (hostelGender !== 'male' && hostelGender !== 'female')){
+                //     $("#hostelGender").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Gender Should be Provided.</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Stay Type is empty or not
-                let hostelStayType = $("#hostelStayType").val();
-                if(hostelStayType === null || hostelStayType.trim() === '' || (hostelStayType !== 'short_stay' && hostelStayType !== 'long_stay')){
-                    $("#hostelStayType").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Stay Type Should be Provided.</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Stay Type is empty or not
+                // let hostelStayType = $("#hostelStayType").val();
+                // if(hostelStayType === null || hostelStayType.trim() === '' || (hostelStayType !== 'short_stay' && hostelStayType !== 'long_stay')){
+                //     $("#hostelStayType").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Stay Type Should be Provided.</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Guest Stay Allow is empty or not
-                let hostelGuestStayAllow = $("#hostelGuestStayAllow").val();
-                if(hostelGuestStayAllow === null || hostelGuestStayAllow.trim() === '' || (hostelGuestStayAllow !== 'Yes' && hostelGuestStayAllow !== 'No')){
-                    $("#hostelGuestStayAllow").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Guest Stay Allow Should be Provided.</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Guest Stay Allow is empty or not
+                // let hostelGuestStayAllow = $("#hostelGuestStayAllow").val();
+                // if(hostelGuestStayAllow === null || hostelGuestStayAllow.trim() === '' || (hostelGuestStayAllow !== 'Yes' && hostelGuestStayAllow !== 'No')){
+                //     $("#hostelGuestStayAllow").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Guest Stay Allow Should be Provided.</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Rent Pay Schedule is empty or not
-                let hostelRentPaySchedule = $("#hostelRentPaySchedule").val();
-                if(hostelRentPaySchedule === null || hostelRentPaySchedule.trim() === '' || (hostelRentPaySchedule !== 'Daily' && hostelRentPaySchedule !== 'Weekly' && hostelRentPaySchedule !== 'Monthly' && hostelRentPaySchedule !== 'Quarterly' && hostelRentPaySchedule !== 'Yearly')){
-                    $("#hostelRentPaySchedule").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Rent Pay Schedule Should be Provided.</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Rent Pay Schedule is empty or not
+                // let hostelRentPaySchedule = $("#hostelRentPaySchedule").val();
+                // if(hostelRentPaySchedule === null || hostelRentPaySchedule.trim() === '' || (hostelRentPaySchedule !== 'Daily' && hostelRentPaySchedule !== 'Weekly' && hostelRentPaySchedule !== 'Monthly' && hostelRentPaySchedule !== 'Quarterly' && hostelRentPaySchedule !== 'Yearly')){
+                //     $("#hostelRentPaySchedule").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Rent Pay Schedule Should be Provided.</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Type is empty or not
-                let hostelTypeId = $("#hostelTypeId").val();
-                if(hostelTypeId === null || hostelTypeId.trim() === ''){
-                    $("#hostelTypeId").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Type Should be Provided.</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Type is empty or not
+                // let hostelTypeId = $("#hostelTypeId").val();
+                // if(hostelTypeId === null || hostelTypeId.trim() === ''){
+                //     $("#hostelTypeId").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Type Should be Provided.</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Average Rent Per Seat (Monthly) is empty or not
-                let hostelAvgRentPerMonth = $("#hostelAvgRentPerMonth").val();
-                if(hostelAvgRentPerMonth.trim() === ''|| isNaN(hostelAvgRentPerMonth) || parseInt(hostelAvgRentPerMonth) < 10000){
-                    $("#hostelAvgRentPerMonth").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Average Rent Per Seat (Monthly) Should be Provided. And Rent Should not be less than 10,000/Rs.</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Average Rent Per Seat (Monthly) is empty or not
+                // let hostelAvgRentPerMonth = $("#hostelAvgRentPerMonth").val();
+                // if(hostelAvgRentPerMonth.trim() === ''|| isNaN(hostelAvgRentPerMonth) || parseInt(hostelAvgRentPerMonth) < 10000){
+                //     $("#hostelAvgRentPerMonth").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Average Rent Per Seat (Monthly) Should be Provided. And Rent Should not be less than 10,000/Rs.</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Room Occupancy is empty or not
-                let hostelRoomOccupancy = $("#hostelRoomOccupancy").val();
-                if(hostelRoomOccupancy.trim() === '' ||isNaN(hostelRoomOccupancy) || parseInt(hostelRoomOccupancy) < 0){
-                    $("#hostelRoomOccupancy").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Room Occupancy Should be Provided.</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Room Occupancy is empty or not
+                // let hostelRoomOccupancy = $("#hostelRoomOccupancy").val();
+                // if(hostelRoomOccupancy.trim() === '' ||isNaN(hostelRoomOccupancy) || parseInt(hostelRoomOccupancy) < 0){
+                //     $("#hostelRoomOccupancy").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Room Occupancy Should be Provided.</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel hostelRecommendedPlace is empty or not
-                let hostelRecommendedPlace = $("#hostelRecommendedPlace").val();
-                if(hostelRecommendedPlace.trim() === '' || hostelRecommendedPlace == null ||  hostelRecommendedPlace.length <3 ||  hostelRecommendedPlace.length > 255 ){
-                    $("#hostelRecommendedPlace").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Recommended Place Should be Provided</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel hostelRecommendedPlace is empty or not
+                // let hostelRecommendedPlace = $("#hostelRecommendedPlace").val();
+                // if(hostelRecommendedPlace.trim() === '' || hostelRecommendedPlace == null ||  hostelRecommendedPlace.length <3 ||  hostelRecommendedPlace.length > 255 ){
+                //     $("#hostelRecommendedPlace").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Recommended Place Should be Provided</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Contact Number is empty or not
-                let hostelContactNumber = $("#hostelContactNumber").val();
-                if(hostelContactNumber.trim() === '' || hostelContactNumber == null ||  hostelContactNumber.length != 10){
-                    $("#divHostelContactNumber").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Contact Number Should be Provided.</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Contact Number is empty or not
+                // let hostelContactNumber = $("#hostelContactNumber").val();
+                // if(hostelContactNumber.trim() === '' || hostelContactNumber == null ||  hostelContactNumber.length != 10){
+                //     $("#divHostelContactNumber").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Contact Number Should be Provided.</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Open And Close Timing is empty or not
-                let openTiming = $('#hostelOpenTiming').val();
-                let closeTiming = $('#hostelCloseTiming').val();
-                $(".alertTimingOpenClose").remove();
-                // Check if timings are empty
-                if (openTiming.trim() === '' ) {
-                    $("#hostelOpenTiming").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Open Timings are required.</div>');
-                    e.preventDefault();
-                } 
+                // // To check the Hostel Open And Close Timing is empty or not
+                // let openTiming = $('#hostelOpenTiming').val();
+                // let closeTiming = $('#hostelCloseTiming').val();
+                // $(".alertTimingOpenClose").remove();
+                // // Check if timings are empty
+                // if (openTiming.trim() === '' ) {
+                //     $("#hostelOpenTiming").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Open Timings are required.</div>');
+                //     e.preventDefault();
+                // } 
                 
 
-                if (closeTiming.trim() === '') {
-                    $("#hostelCloseTiming").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Close Timings are required.</div>');
-                    e.preventDefault();
-                } 
-                else if (openTiming === closeTiming) {
-                    $("#hostelCloseTiming").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Close timing should be different from open timing.</div>');
-                    e.preventDefault();
-                } 
-                else if (closeTiming < openTiming) {
-                    $("#hostelCloseTiming").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Close timing should be after open timing.</div>');
-                    e.preventDefault();
-                }
+                // if (closeTiming.trim() === '') {
+                //     $("#hostelCloseTiming").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Close Timings are required.</div>');
+                //     e.preventDefault();
+                // } 
+                // else if (openTiming === closeTiming) {
+                //     $("#hostelCloseTiming").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Close timing should be different from open timing.</div>');
+                //     e.preventDefault();
+                // } 
+                // else if (closeTiming < openTiming) {
+                //     $("#hostelCloseTiming").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Close timing should be after open timing.</div>');
+                //     e.preventDefault();
+                // }
             
 
-                // To check the Hostel Youtube Link is given if it is given then it should be valid url
-                let hostelYoutubeLink = $("#hostelYoutubeLink").val();
-                // Check if the input is not empty
-                if (hostelYoutubeLink.trim() !== '' || hostelYoutubeLink.length > 1) {
-                    // Validate the URL using a regular expression
-                    if (!isValidUrl(hostelYoutubeLink)) {
-                        $("#hostelYoutubeLink").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Youtube Link Should be Provided.</div>');
-                        e.preventDefault();
-                    }
-                }
+                // // To check the Hostel Youtube Link is given if it is given then it should be valid url
+                // let hostelYoutubeLink = $("#hostelYoutubeLink").val();
+                // // Check if the input is not empty
+                // if (hostelYoutubeLink.trim() !== '' || hostelYoutubeLink.length > 1) {
+                //     // Validate the URL using a regular expression
+                //     if (!isValidUrl(hostelYoutubeLink)) {
+                //         $("#hostelYoutubeLink").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Youtube Link Should be Provided.</div>');
+                //         e.preventDefault();
+                //     }
+                // }
                 
-                // To check the Hostel Facebook Link is given if it is given then it should be valid url
-                let hostelFacebookLink = $("#hostelFacebookLink").val();
-                // Check if the input is not empty
-                if (hostelFacebookLink.trim() !== '' || hostelFacebookLink.length > 1) {
-                    // Validate the URL using a regular expression
-                    if (!isValidUrl(hostelFacebookLink)) {
-                        $("#hostelFacebookLink").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Facebook Link Should be Provided.</div>');
-                        e.preventDefault();
-                    }
-                }
+                // // To check the Hostel Facebook Link is given if it is given then it should be valid url
+                // let hostelFacebookLink = $("#hostelFacebookLink").val();
+                // // Check if the input is not empty
+                // if (hostelFacebookLink.trim() !== '' || hostelFacebookLink.length > 1) {
+                //     // Validate the URL using a regular expression
+                //     if (!isValidUrl(hostelFacebookLink)) {
+                //         $("#hostelFacebookLink").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Facebook Link Should be Provided.</div>');
+                //         e.preventDefault();
+                //     }
+                // }
 
-                // To check the Hostel Youtube Link is given if it is given then it should be valid url
-                let hostelInstagramLink = $("#hostelInstagramLink").val();
-                // Check if the input is not empty
-                if (hostelInstagramLink.trim() !== '' || hostelInstagramLink.length > 1) {
-                    // Validate the URL using a regular expression
-                    if (!isValidUrl(hostelInstagramLink)) {
-                        $("#hostelInstagramLink").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Instagram Link Should be Provided.</div>');
-                        e.preventDefault();
-                    }
-                }
+                // // To check the Hostel Youtube Link is given if it is given then it should be valid url
+                // let hostelInstagramLink = $("#hostelInstagramLink").val();
+                // // Check if the input is not empty
+                // if (hostelInstagramLink.trim() !== '' || hostelInstagramLink.length > 1) {
+                //     // Validate the URL using a regular expression
+                //     if (!isValidUrl(hostelInstagramLink)) {
+                //         $("#hostelInstagramLink").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Instagram Link Should be Provided.</div>');
+                //         e.preventDefault();
+                //     }
+                // }
 
-                // To check the Hostel Area Name is empty or not
-                let hostelAreaName = $("#hostelAreaName").val();
-                if(hostelAreaName === null || hostelAreaName.trim() === ''){
-                    $("#hostelAreaName").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Area Name Should be Provided.</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Area Name is empty or not
+                // let hostelAreaName = $("#hostelAreaName").val();
+                // if(hostelAreaName === null || hostelAreaName.trim() === ''){
+                //     $("#hostelAreaName").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Area Name Should be Provided.</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Plot No is empty or not
-                let hostelPlotNo = $("#hostelPlotNo").val();
-                if(hostelPlotNo === null || hostelPlotNo.trim() === ''){
-                    $("#hostelPlotNo").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Plot No Should be Provided.If Plot Number is not available then enter N/A.</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Plot No is empty or not
+                // let hostelPlotNo = $("#hostelPlotNo").val();
+                // if(hostelPlotNo === null || hostelPlotNo.trim() === ''){
+                //     $("#hostelPlotNo").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Plot No Should be Provided.If Plot Number is not available then enter N/A.</div>');
+                //     e.preventDefault();
+                // }
                 
-                // To check the Hostel Street No is empty or not
-                let hostelStreetNo = $("#hostelStreetNo").val();
-                if(hostelStreetNo === null || hostelStreetNo.trim() === ''){
-                    $("#hostelStreetNo").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Street No Should be Provided.If Street Number is not available then enter N/A.</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Street No is empty or not
+                // let hostelStreetNo = $("#hostelStreetNo").val();
+                // if(hostelStreetNo === null || hostelStreetNo.trim() === ''){
+                //     $("#hostelStreetNo").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Street No Should be Provided.If Street Number is not available then enter N/A.</div>');
+                //     e.preventDefault();
+                // }
 
-                // To check the Hostel Location is empty or not
-                let hosteMetalLocation = $("#hosteMetalLocation").val();
-                if(hosteMetalLocation.trim() === ''|| hosteMetalLocation === null){
-                    $("#hosteMetalLocation").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Location Should be Provided.</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Location is empty or not
+                // let hosteMetalLocation = $("#hosteMetalLocation").val();
+                // if(hosteMetalLocation.trim() === ''|| hosteMetalLocation === null){
+                //     $("#hosteMetalLocation").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Hostel Location Should be Provided.</div>');
+                //     e.preventDefault();
+                // }
 
-                // To check the Hostel Map Location Link is given & it should be valid url
-                let hostelMapLocation = $("#hostelMapLocation").val();
-                // Check if the input is not empty
-                if (hostelMapLocation.trim() === '' || hostelMapLocation.trim() === null || (!isValidUrl(hostelMapLocation))) {
-                    $("#hostelMapLocation").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Map Location Link Should be Provided.</div>');
-                    e.preventDefault();
-                }
+                // // To check the Hostel Map Location Link is given & it should be valid url
+                // let hostelMapLocation = $("#hostelMapLocation").val();
+                // // Check if the input is not empty
+                // if (hostelMapLocation.trim() === '' || hostelMapLocation.trim() === null || (!isValidUrl(hostelMapLocation))) {
+                //     $("#hostelMapLocation").after('<div class="alert alert-danger addHostelAddressDetailsAlert">Valid Hostel Map Location Link Should be Provided.</div>');
+                //     e.preventDefault();
+                // }
 
                 
                 // If there are no validation errors, proceed with next form request
@@ -1991,6 +2032,7 @@
                     e.preventDefault();
                 }
                 
+                @if($membershipExistence == "No")
                 // To check the membershipTypeId is empty or not
                 let membershipTypeId = $("#membershipTypeId").val();
                 if(membershipTypeId === null || membershipTypeId.trim() === '' ){
@@ -2010,6 +2052,7 @@
                     $("#refferalCnic").after('<div class="alert alert-danger HostelMetasAlert">Valid Refferal Cnic Should be Selected.</div>');
                     e.preventDefault();
                 }
+                @endif
 
                 // If there are no validation errors, proceed with next form request
                 if ($(".HostelMetasAlert").length === 0) {
@@ -2272,6 +2315,206 @@
         });
     </script>
     <!-- Start of script for Location using google map -->
+
+    <script>
+        function initAutocomplete() {
+            const input = document.getElementById('location-column');
+
+            // Specify componentRestrictions to restrict to a city and state
+            const options = {
+                componentRestrictions: {
+                    country: 'PK'
+                }, // 'PK' is the country code for Pakistan
+            };
+
+            const autocomplete = new google.maps.places.Autocomplete(input, options);
+
+            // Listen for the place_changed event using addEventListener
+            autocomplete.addListener('place_changed', function() {
+                const place = autocomplete.getPlace();
+
+                // Use the 'place' object to access address components, geometry, etc.
+                if (!place.geometry) {
+                    console.log('No geometry available for this place');
+                    return;
+                }
+
+                // Access place details, such as address components
+                console.log('Selected Place:', place);
+
+                // Populate address input fields
+                document.getElementById('street_no-column').value = place.name;
+                // document.getElementById('city-input').value = place.address_components[2].long_name;
+                // document.getElementById('state-input').value = place.address_components[4].long_name;
+                // document.getElementById('country-input').value = place.address_components[5].long_name;
+                document.getElementById('zipcode').value = place.address_components[6] ? place.address_components[6]
+                    .long_name : '';
+                document.getElementById('map_location-column').value = place.url;
+
+                // Populate latitude and longitude input fields
+                document.getElementById('latitude').value = place.geometry.location.lat();
+                document.getElementById('longitude').value = place.geometry.location.lng();
+                // Example: Retrieve latitude and longitude values from cookies
+                var latitudeValue = place.geometry.location.lat() ?? getCookieValue('latitude');
+                var longitudeValue = place.geometry.location.lng() ?? getCookieValue('longitude');
+                // Set initial map coordinates
+                var initialLocation = {
+                    lat: parseFloat(latitudeValue),
+                    lng: parseFloat(longitudeValue)
+                };
+                // Create a map centered at the initial location
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: initialLocation,
+                    zoom: 14
+                });
+
+                // Add a marker to the initial location
+                marker = new google.maps.Marker({
+                    position: initialLocation,
+                    map: map,
+                    draggable: true
+                });
+
+                // Add event listener to update marker position when dragged
+                google.maps.event.addListener(marker, 'dragend', function(event) {
+                    updateLatLng(marker.getPosition().lat(), marker.getPosition().lng());
+                });
+            });
+        }
+
+        // Initialize the Autocomplete when the Google Maps API is loaded
+        window.addEventListener('load', initAutocomplete);
+    </script>
+    
+    <script>
+        $(document).ready(function() {
+            var latitudeValue = getCookieValue('latitude');
+            var longitudeValue = getCookieValue('longitude');
+            updateLatLng(parseFloat(latitudeValue), parseFloat(longitudeValue));
+        });
+    </script>
+    <script>
+        var map;
+        var marker;
+
+        function initMap() {
+            // Example: Retrieve latitude and longitude values from cookies
+            var latitudeValue = getCookieValue('latitude');
+            var longitudeValue = getCookieValue('longitude');
+            // Set initial map coordinates
+            var initialLocation = {
+                lat: parseFloat(latitudeValue),
+                lng: parseFloat(longitudeValue)
+            };
+            // Create a map centered at the initial location
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: initialLocation,
+                zoom: 14
+            });
+
+            // Add a marker to the initial location
+            marker = new google.maps.Marker({
+                position: initialLocation,
+                map: map,
+                draggable: true
+            });
+
+            // Add event listener to update marker position when dragged
+            google.maps.event.addListener(marker, 'dragend', function(event) {
+                updateLatLng(marker.getPosition().lat(), marker.getPosition().lng());
+            });
+        }
+
+        function updateLatLng(lat, lng) {
+            var latLng = new google.maps.LatLng(lat, lng);
+
+            // Use the Geocoding API to get additional information
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({
+                'location': latLng
+            }, function(results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        console.log("results", results[0]);
+                        var placeName = results[0].formatted_address;
+                        var placeUrl = getPlaceUrl(lat, lng);
+                        var placeZipcode = getZipcodeFromAddress(results[0].address_components);
+                        var areaName = getAreaName(results[0].address_components);
+                        var plotNumber = getPlotNumber(results[0].address_components);
+                        // Populate address input fields
+                        document.getElementById('hostelStreetNo').value = placeName;
+                        document.getElementById('hosteMetalLocation').value = placeName;
+                        document.getElementById('hostelAreaName').value = areaName;
+                        document.getElementById('hostelPlotNo').value = plotNumber;
+                        document.getElementById('hostelZipCode').value = placeZipcode;
+                        document.getElementById('hostelMapLocation').value = placeUrl;
+                        document.getElementById('hostelMetaLatitude').value = lat;
+                        document.getElementById('hostelMetalongitude').value = lng;
+                    } else {
+                        alert('No results found');
+                    }
+                } else {
+                    alert('Geocoder failed due to: ' + status);
+                }
+            });
+        }
+
+        function getZipcodeFromAddress(addressComponents) {
+            for (var i = 0; i < addressComponents.length; i++) {
+                var types = addressComponents[i].types;
+                if (types.includes('postal_code')) {
+                    return addressComponents[i].long_name;
+                }
+            }
+            return 'N/A';
+        }
+
+        function getAreaName(addressComponents) {
+            // Extract the area name from address components
+            for (var i = 0; i < addressComponents.length; i++) {
+                var types = addressComponents[i].types;
+                if (types.includes('neighborhood') || types.includes('sublocality')) {
+                    return addressComponents[i].long_name;
+                }
+            }
+            return 'N/A';
+        }
+
+        function getPlotNumber(addressComponents) {
+            // Extract the plot number from address components
+            for (var i = 0; i < addressComponents.length; i++) {
+                var types = addressComponents[i].types;
+                if (types.includes('street_number')) {
+                    return addressComponents[i].long_name;
+                }
+            }
+            return 'N/A';
+        }
+
+        function getPlaceUrl(lat, lng) {
+            // Construct a Google Maps URL based on the latitude and longitude
+            return 'https://www.google.com/maps/@' + lat + ',' + lng + ',15z';
+        }
+
+        function getCookieValue(key) {
+            // Split the cookies into an array
+            var cookies = document.cookie.split(';');
+
+            // Iterate through the cookies to find the one with the specified key
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim(); // Remove leading and trailing spaces
+
+                // Check if the cookie starts with the specified key
+                if (cookie.indexOf(key + '=') === 0) {
+                    // Return the value of the cookie
+                    return cookie.substring(key.length + 1);
+                }
+            }
+
+            // Return null if the cookie with the specified key is not found
+            return null;
+        }
+    </script>
 
 @endsection
 

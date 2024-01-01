@@ -28,18 +28,23 @@ class LoginClientController extends Controller
 
     // Begin: Function to check the credentails and logged in the client user
     public function login_credentials(Request $req){
-        // dd($req->toArray());
         try{
-            // 
-            // $users = User::where('phone_number','+923'.$req->phone_number_login)->first();
             $users = User::where('phone_number','+92'.$req->phone_number_login)->where('cnic_no',$req->cnic_no_login)->first();
-            // dd($users);
             if(!($users)){
-                // return redirect()->route('Home')->with('error', 'Invalid Credentials');
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Invalid Credentials',
                 ]);
+            }
+            $userRoles = $users->getRoleNames(); 
+            // dd($userRoles);
+            if ($userRoles->contains('nhapk_admin')) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid Roles',
+                ]);
+            } else if (!$userRoles->contains('nhapk_client')) {
+                $users->assignRole("nhapk_client");
             }
             $email =$users->email;
             $password=$req->password;
@@ -47,33 +52,15 @@ class LoginClientController extends Controller
             $credentials = ['email' => $email, 'password' => $password];
             // Attempt to authenticate the user
             if (Auth::attempt($credentials)) {
-                /// Check the user's role after successful login
-                $userRoles = Auth::user()->getRoleNames();
-    
-                if ($userRoles->contains('nhapk_client')) {
-                    // dd("Yes Client");
-                    // Redirect to the desired route for nhapk_client role
-                    if($users->nhapk_verified == 0){
-                        $users->nhapk_verified = 1;
-                        $users->save();
-                    }
-                    
-                    // return redirect()->route('client.dashboard.index')->with('success',"Successfully Logged in Now!");
-                    return response()->json([
-                        'status' => 'success',
-                        'message' => 'Successfully Logged in Now!',
-                        'redirect' => route('client.dashboard.index'), // Adjust this to your dashboard route
-                    ]);
-                } 
-                
-                else {
-                    Auth::logout();
-                    // return redirect()->route('Home')->with('error', 'Invalid Credentials');
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'Invalid Credentials',
-                    ]);
+                if($users->nhapk_verified == 0){
+                    $users->nhapk_verified = 1;
+                    $users->save();
                 }
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Successfully Logged in Now!',
+                    'redirect' => route('client.dashboard.index'), // Adjust this to your dashboard route
+                ]);
             } else {
                 // return redirect()->route('Home')->with('error', 'Invalid Credentials');
                 return response()->json([
@@ -83,11 +70,9 @@ class LoginClientController extends Controller
             }
         }
         catch(Exception $e){
-            dd($e->getMessage());
-            // return redirect()->route('Home')->with('error','Your Exception is:'.$e->getMessage());
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to add user'.$e->getMessage(),
+                'message' => 'Failed to login the user'.$e->getMessage(),
             ], 500);
         }
     }
