@@ -2299,7 +2299,9 @@
     <!-- End of the script to Save all the btnSaveHostelAllFroms -->
 
     <!-- Start of script for Location using google map -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrN1lnwhavrmfKr2HWruDFDdXJcIfAM1M&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrN1lnwhavrmfKr2HWruDFDdXJcIfAM1M&callback=initMap&libraries=places" async
+        defer></script>
+    {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrN1lnwhavrmfKr2HWruDFDdXJcIfAM1M&libraries=places"></script> --}}
     <script>
         $(document).ready(function() {
             // Initialize Google Places Autocomplete
