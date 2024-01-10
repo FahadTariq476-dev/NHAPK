@@ -103,3 +103,6 @@
     </div>
     <!--====== Modal Responsive Menu Area End ======-->
 
+    
+    @include('frontEnd.forntEnd_layout.loginmodal')
+

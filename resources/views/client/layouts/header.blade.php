@@ -98,7 +98,7 @@
                             <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Hostel</span></a>
                             <ul class="menu-content">
                                 <li>
-                                    <a class="d-flex align-items-center" href=""><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed">List Hostel</span></a>
+                                    <a class="d-flex align-items-center" href="{{route('client.hostels.listHostels')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed">List Hostel</span></a>
                                 </li>
                                 <li>
                                     <a class="d-flex align-items-center" href="{{ route('client.hostels.index') }}"><i data-feather="heart"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Add Hostel</span></a>

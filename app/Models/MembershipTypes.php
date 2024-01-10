@@ -15,5 +15,12 @@ class MembershipTypes extends Model
     public function memberships(){
         return $this->hasMany(Membership::class, 'membershiptype_id');
     }
+
+    /**
+     * Set the relationship of Membership_Types with roles
+    */
+    public function roles(){
+        return $this->hasMany(Role::class, 'id');
+    }
     
 }

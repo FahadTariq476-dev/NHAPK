@@ -1,4 +1,4 @@
-<button class="btn btnn" data-toggle="modal" data-target="#cnicModal">login</button>
+{{-- <button class="btn btnn" data-toggle="modal" data-target="#cnicModal">login</button> --}}
 
 <!-- End Zero Modal cnicModal-->
     <div class="modal fade" id="cnicModal" tabindex="-1" role="dialog" aria-labelledby="cnicModalModalLabel" aria-hidden="true" style="height: auto;">

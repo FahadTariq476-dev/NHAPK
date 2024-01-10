@@ -74,8 +74,8 @@
                                         <th>Country</th>
                                         <th>State</th>
                                         <th>City</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -97,8 +97,8 @@
                                         <th>Country</th>
                                         <th>State</th>
                                         <th>City</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -151,20 +151,31 @@
                     { data: 'country_name' },
                     { data: 'state_name' },
                     { data: 'city_name' },
-                    // Edit button
                     {
-                        data: null,
+                            data: 'status',
+                            render: function (data, type, row) {
+                                if (data === 'pending') {
+                                    return '<span class="badge rounded-pill bg-primary">Pending</span>';
+                                } else if (data === 'approve') {
+                                    return '<span class="badge rounded-pill bg-success">Approved</span>';
+                                } else if (data === 'cancel'){
+                                    return '<span class="badge rounded-pill bg-danger">Cancelled</span>';
+                                }
+                            }
+                    },
+                    // Action column
+                    { 
+                        data: null, // Placeholder for the action column
                         render: function(data, type, row) {
-                            return '<button class="btn btn-primary btn-sm edit-btn" data-id="' + row.id + '">Edit</button>';
+                            // Render the select button for the action column
+                            return '<select class="status-select form-select form-select-sm" id="changeStatus" data-id="' + row.id + '">' +
+                                    '<option value="" disabled>Select</option>'+
+                                    '<option value="pending" ' + (row.status === 'pending' ? 'selected' : '') + '>Pending</option>' +
+                                    '<option value="approve" ' + (row.status === 'approve' ? 'selected' : '') + '>Approved</option>' +
+                                    '<option value="cancel" ' + (row.status === 'cancel' ? 'selected' : '') + '>Cancelled</option>' +
+                                '</select>';
                         }
                     },
-                    // Delete button
-                    {
-                        data: null,
-                        render: function(data, type, row) {
-                            return '<button class="btn btn-warning btn-sm delete-btn" data-id="' + row.id + '">Status</button>';
-                        }
-                    }
                 ],
                 serverSide: true,
                 responsive: true,
@@ -199,34 +210,14 @@
 
             // Event delegation for dynamically generated elements
         jq('#memberhsipTable')
-            .on('click', '.edit-btn', function() {
-                var dataId = jq(this).data('id');
-                // Navigate to the editBlogView route
-                // window.location.href = '/admin/editMembership/' + dataId;
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You want to edit the Membership of: " + dataId + "?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Proceed with your action here
-                        Swal.fire("Success", "Membership Updated", "success");
-                    } else {
-                        Swal.fire("Cancelled", "You pressed Cancel!", "info");
-                    }
-                });
-            })
-            .on('click', '.delete-btn', function() {
+            .on('change', '#changeStatus', function() {
+                var selectedValue = jq(this).val();
                 var dataId = jq(this).data('id');
 
                 // Show SweetAlert confirmation dialog
                 Swal.fire({
                     title: "Are you sure?",
-                    text: "You want to delte the membership of: " + dataId + "?",
+                    text: "You want to change the membership. ?",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
@@ -235,10 +226,28 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Proceed with your action here
-                        Swal.fire("Success", "Membership Deleted", "info");
+                        jq.ajax({
+                            url: '/admin/memberships/update-status/' + dataId + '/' + selectedValue,
+                            type: 'get',
+                            success: function (response) {
+                                if (response.status == 'error') {
+                                    Swal.fire("Error", response.message, response.status);
+                                }
+                                else if (response.status == 'success') {
+                                    Swal.fire("Success", response.message, response.status);
+                                }
+                                else if (response.status == 'invalid') {
+                                    Swal.fire("Invalid", response.message, 'warning');
+                                }
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            },
+                        });
                     } else {
                         Swal.fire("Cancelled", "You pressed Cancel!", "info");
                     }
+                    dataTable.ajax.reload();
                 });
             });
     });

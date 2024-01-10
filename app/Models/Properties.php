@@ -94,4 +94,10 @@ class Properties extends Model
     {
         return $this->belongsToMany(Tag::class, 'property_tags', 'property_id', 'tag_id');
     }
+
+    // Begin: Function to create realtionship of properties with catgeories
+    public function category(){
+        return $this->hasOne(Category::class,'id', 'category_id');
+    }
+    // End: Function to create realtionship of properties with catgeories
 }

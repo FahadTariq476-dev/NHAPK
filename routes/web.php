@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\ComplaintAdminController;
 use App\Http\Controllers\Admin\ContactUsAdminController;
 use App\Http\Controllers\Admin\NewsFeedsAdminController;
 use App\Http\Controllers\Admin\MembershipAdminController;
+use App\Http\Controllers\Admin\MembershipTypes\MembershipTypeAdminController;
 use App\Http\Controllers\Client\DashboardClientController;
 use App\Http\Controllers\Client\hostels\HostelClientController;
 use App\Http\Controllers\Client\membership\MembershipClientController;
@@ -139,10 +140,28 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth']], function () {
     Route::get('/admin/list-memebership',[MembershipAdminController::class,'indexMembership'])->name('admin.list-memebership');
     // Route to dislpay the membership on listMembership page using datable
     Route::get('/admin/get-membershipList',[MembershipAdminController::class,'adminListingMemebership'])->name('admin.get-membershipList');
+    // Route to updateMembershipStatus
+    Route::get('/admin/memberships/update-status/{membershipId}/{membershipStatus}',[MembershipAdminController::class,'updateMembershipStatus'])->name('admin.memmbership.updateMembershipStatus');
     // Rute for admin to display the edit membership view from list-memebrship page having id of membership
     Route::get('/admin/editMembership/{id}',[MembershipAdminController::class,'editMemebershipView'])->name('admin.editMemebershipView');
     // Route for admin to update the membership in controller 
     Route::post('/admin/updateMembership',[MembershipAdminController::class,'updateMembership'])->name('admin.updateMembership');
+        // Route for Membership Types
+            // Route to list Membership Types
+            Route::get('/admin/memberships/membership-types/list',[MembershipTypeAdminController::class,'index'])->name('admin.membership.membershipTypes.list');
+            // Route to post Membership Types
+            Route::get('/admin/memberships/membership-types/store',[MembershipTypeAdminController::class,'post'])->name('admin.membership.membershipTypes.post');
+            // storeMembershipTypes
+            Route::post('/admin/memberships/membership-types/store',[MembershipTypeAdminController::class,'storeMembershipTypes'])->name('admin.membership.membershipTypes.store');
+            // editMembershipTypes
+            Route::get('/admin/memberships/membership-types/edit/{membershipTypesId}',[MembershipTypeAdminController::class,'editMembershipTypes'])->name('admin.membership.membershipTypes.editMembershipTypes');
+            // updateMembershipTypes
+            Route::post('/admin/memberships/membership-types/update',[MembershipTypeAdminController::class,'updateMembershipTypes'])->name('admin.membership.membershipTypes.updateMembershipTypes');
+            // deleteMembershipType
+            Route::delete('/admin/memberships/membership-types/delete/{membershipTypesId}',[MembershipTypeAdminController::class,'deleteMembershipType'])->name('admin.membership.membershipTypes.deleteMembershipType');
+            // uniqueMembershipTypeName
+            Route::get('/admin/memberships/membership-types/unique-name/{name}',[MembershipTypeAdminController::class, 'uniqueMembershipTypeName'])->name('admin.membership.membershipTypes.uniqueMembershipTypeName');
+        // Route for Membership Types
     // End: Routes for Membership
 
     // Begin: Route for Contact Us 
@@ -269,7 +288,7 @@ Route::get('/membership/registration', [MembershipController::class, 'show'])->n
 // Route for the frontEnd to show the membership registration form having encrypted atuhor_id in the token
 Route::get('/membership/registration/referral/{token}', [MembershipController::class, 'show_membership_referal'])->name('membership.registration.refferal');
 // Route for the frontEnd to store the membership registration form data from the post-memebrship-refferal.blade.ph
-Route::post('//membership/registration/referral', [MembershipController::class, 'store_memebership_refferal'])->name('frontEnd.memebrship.registration.refferal.store');
+Route::post('/membership/registration/referral', [MembershipController::class, 'store_memebership_refferal'])->name('frontEnd.memebrship.registration.refferal.store');
 // Route for the frontEnd to store the membership registration form data
 Route::post('/addMembership', [MembershipController::class, 'addMembership'])->name('frontEnd.memebrship.store');
 // Route to check the CNIC in Membership table
@@ -353,6 +372,10 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth']], function () {
         Route::get('/client/hostels/add',[HostelClientController::class,'index'])->name('client.hostels.index');
         // Route to storeHostel
         Route::post('/client/hostels/storeHostel',[HostelClientController::class,'storeHostel'])->name('client.hostels.storeHostel');
+        // Route to listHostels
+        Route::get('/client/hostels/list',[HostelClientController::class,'listHostels'])->name('client.hostels.listHostels');
+        // Route to editHostel
+        Route::get('/client/hostels/edit/{hostelId}',[HostelClientController::class,'editHostel'])->name('client.hostels.editHostel');
     // End: Hostels
 
 });

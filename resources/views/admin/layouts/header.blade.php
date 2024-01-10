@@ -91,14 +91,14 @@
                     <a class="d-flex align-items-center" href="#">
                         <i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Menus</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">8</span>
                     </a>
-                    {{-- Begin: Complaints --}}
+                    <!-- Begin: Complaints -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Complaints</span></a>
                         <ul class="menu-content">
                             <li>
                                 <a class="d-flex align-items-center" href="{{route('admin.ListComplaintView')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Complaint List</span></a>
                             </li>
-                            {{-- Begin: Complaint_Types --}}
+                            <!-- Begin: Complaint_Types -->
                             <li class="nav-item">
                                 <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Complaint Types</span></a>
                                 <ul class="menu-content">
@@ -110,12 +110,12 @@
                                     </li>
                                 </ul>
                             </li>
-                            {{-- End: Complaint_Types --}}
+                            <!-- End: Complaint_Types -->
                         </ul>
                     </li>
-                    {{-- End: Complaints --}}
+                    <!-- End: Complaints -->
 
-                    {{-- Begin: Blogs (News Feed) --}}
+                    <!-- Begin: Blogs (News Feed) -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Blogs (News Feed)</span></a>
                         <ul class="menu-content">
@@ -127,9 +127,9 @@
                             </li>
                         </ul>
                     </li>
-                    {{-- End: Blogs (News Feed) --}}
+                    <!-- End: Blogs (News Feed) -->
                     
-                    {{-- Begin: NewsFeeds --}}
+                    <!-- Begin: NewsFeeds -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">News & Media</span></a>
                         <ul class="menu-content">
@@ -141,20 +141,33 @@
                             </li>
                         </ul>
                     </li>
-                    {{-- End: NewsFeeds --}}
+                    <!-- End: NewsFeeds -->
 
-                    {{-- Begin: Membership --}}
+                    <!-- Begin: Membership -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Membership</span></a>
                         <ul class="menu-content">
                             <li>
                                 <a class="d-flex align-items-center" href="{{route('admin.list-memebership')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Membership</span></a>
                             </li>
+                            <!-- Begin: Membership Types -->
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Membership Types</span></a>
+                                <ul class="menu-content">
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{route('admin.membership.membershipTypes.post')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post Membership Types</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{route('admin.membership.membershipTypes.list')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Membership Types</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- End: Membership Types -->
                         </ul>
                     </li>
-                    {{-- End: Membership --}}
+                    <!-- End: Membership -->
                     
-                    {{-- Begin: Contact Us --}}
+                    <!-- Begin: Contact Us -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Contact Us</span></a>
                         <ul class="menu-content">
@@ -163,8 +176,8 @@
                             </li>
                         </ul>
                     </li>
-                    {{-- End: Contact Us --}}
-                    {{-- Begin: FAQ's--}}
+                    <!-- End: Contact Us -->
+                    <!-- Begin: FAQ's -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">FAQ's</span></a>
                         <ul class="menu-content">
@@ -176,9 +189,9 @@
                             </li>
                         </ul>
                     </li>
-                    {{-- End: FAQ's --}}
+                    <!-- End: FAQ's -->
 
-                    {{-- Begin: SOP's & Legal Documentation --}}
+                    <!-- Begin: SOP's & Legal Documentation -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">SOP's & Legal Documentation</span></a>
                         <ul class="menu-content">
@@ -190,10 +203,10 @@
                             </li>
                         </ul>
                     </li>
-                    {{-- End: SOP's & Legal Documentation --}}
+                    <!-- End: SOP's & Legal Documentation -->
                     
                     
-                    {{-- Begin: Users --}}
+                   <!-- Begin: Users -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Users</span></a>
                         <ul class="menu-content">
@@ -202,10 +215,10 @@
                             </li>
                         </ul>
                     </li>
-                    {{-- End: Users --}}
+                    <!-- End: Users -->
                 </li>
             </ul>
         </div>
         
     </div> 
-    <!-- END: Main Menu-->
+    <!-- END: Main Menu -->
