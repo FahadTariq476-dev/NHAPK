@@ -29,12 +29,13 @@ use App\Http\Controllers\Admin\ComplaintAdminController;
 use App\Http\Controllers\Admin\ContactUsAdminController;
 use App\Http\Controllers\Admin\NewsFeedsAdminController;
 use App\Http\Controllers\Admin\MembershipAdminController;
-use App\Http\Controllers\Admin\MembershipTypes\MembershipTypeAdminController;
 use App\Http\Controllers\Client\DashboardClientController;
-use App\Http\Controllers\Client\hostels\HostelClientController;
-use App\Http\Controllers\Client\membership\MembershipClientController;
 use App\Http\Controllers\Client\sops\SopsClientController;
+use App\Http\Controllers\Client\hostels\HostelClientController;
 use App\Http\Controllers\Frontend\Client\LoginClientController;
+use App\Http\Controllers\Client\hostelites\HostelitesController;
+use App\Http\Controllers\Client\membership\MembershipClientController;
+use App\Http\Controllers\Admin\MembershipTypes\MembershipTypeAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -377,6 +378,11 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth']], function () {
         // Route to editHostel
         Route::get('/client/hostels/edit/{hostelId}',[HostelClientController::class,'editHostel'])->name('client.hostels.editHostel');
     // End: Hostels
+
+    // Hostwelites & Metas 
+    Route::get('/hostel-contact-and-author/{hostelId}',[HostelitesController::class,'hostelContactAndAuthor'])->name('client.hostelContactAndAuthor');
+    // storeHosteliteMetas
+    Route::post('/cleint/hostelite-metas/store',[HostelitesController::class,'storeHosteliteMetas'])->name('client.storeHosteliteMetas');
 
 });
 // End: Route for Client

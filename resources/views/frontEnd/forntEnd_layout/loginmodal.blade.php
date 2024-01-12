@@ -89,7 +89,6 @@
                     <label for="password" class="form-label">
                         <h5 style="color: #7367f0; font-family: inherit;">Enter Your Password</h5>
                     </label>
-                    {{-- @csrf --}}
                     <div style="border-top: none;">
                         <input type="hidden" class="form-control" id="phone_number_login" name="phone_number_login" maxlength="10" minlength="10" placeholder="Enter Your Mobile Number Here:" readonly>
                         <input type="hidden" class="form-control" id="cnic_no_login" name="cnic_no_login" maxlength="15" minlength="15" readonly>
@@ -99,7 +98,7 @@
                 </div>
                 <div class="col-8 mb-2">
                     <div class="modal-footer" style="border-top: none;">
-                        <button class="btn " type="submit" id="btn-password" data-toggle="modal" data-target="">Submit</button>
+                        <button class="btn " type="button" id="btn-password" data-toggle="modal" data-target="">Submit</button>
                     </div>
                 </div>
             </form>
@@ -163,11 +162,10 @@
                 <div class="box text-dark">
                     <h4 class="px-5 pb-2" style="color: #7367f0; font-family: inherit;">
                         Enter Your Information</h4>
-                        {{-- method="POST" action="{{ route('front-end.storeNewUser') }}" --}}
                     <form  id="m_form_register" class="px-5">
                         @csrf
                         
-                        {{-- First Name --}}
+                        <!-- First Name -->
                         <div class="form-group">
                             <input type="text" id="firstname" class="form-control error mt-2" name="firstname"
                                 placeholder="Enter your first name" value="{{old('firstname')}}"
@@ -177,7 +175,7 @@
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
 
-                        {{-- Last Name --}}
+                        <!-- Last Name -->
                         <div class="form-group">
                             <input type="text" id="lastname" class="form-control error mt-2" name="lastname"
                                 placeholder="Enter your last name" value="{{old('lastname')}}"
@@ -187,7 +185,7 @@
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
 
-                        {{-- Email --}}
+                        <!-- Email -->
                         <div class="form-group">
                             <input type="email" id="email" class="form-control error mt-2" name="email"
                                 placeholder="Enter your email" value="{{old('email')}}"
@@ -197,7 +195,7 @@
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
 
-                        {{-- CNIC Number --}}
+                        <!-- CNIC Number -->
                         <div class="form-group" style="display: none">
                             <input type="text" id="cnic_no" class="form-control error mt-2" name="cnic_no" minlength="15" maxlength="15"
                                 placeholder="Enter your CNIC number" value="{{old('cnic_no')}}" readonly
@@ -207,7 +205,7 @@
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
 
-                        {{-- Mobile Number --}}
+                        <!-- Mobile Number -->
                         <div class="form-group" id="div_new_phone_number" style="display: none">
                             <div class="input-group w-100" style="border-top: none;">
                                 <div class="input-group">
@@ -224,7 +222,21 @@
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
 
-                        {{-- Password --}}
+                        <!-- Membership Roles -->
+                        <div class="form-group">
+                            <select id="roleId" name="roleId" class="form-control" style="border-radius: 0px !important; height: 55px !important; background-color: #eeeeee !important;">
+                                <option selected disabled>Please Identify Your Self</option>
+                                @if (isset($roles) && count($roles) > 0)
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                    @endforeach
+                                @else
+                                    <option disabled>No Role Found.</option>
+                                @endif
+                            </select>
+                        </div>
+
+                        <!-- Password -->
                         <div class="form-group">
                             <input type="password" name="password" id="password" class="form-control error mt-2" minlength="8" maxlength="8"
                                 placeholder="Enter your password" 
@@ -234,7 +246,7 @@
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
 
-                        {{-- Confirm Password --}}
+                        <!-- Confirm Password -->
                         <div class="form-group">
                             <input type="password" id="confirmPassword" name="confirmPassword" minlength="8" maxlength="8"
                                 class="form-control error mt-2" placeholder="Confirm your password"
@@ -432,8 +444,6 @@
                 return;
             }
             else{
-                // window.location.href = '/admin/faqs/editfaqs/' + dataId;
-                e.preventDefault();
                 $.ajax({
                 type: 'POST',
                 url: 'client/login',
@@ -454,10 +464,13 @@
                         Swal.fire('Error', response.message, 'error');
                     }
                 },
-                error: function (err) {
-                    // If there is an error adding the user
-                    let error = err.responseJSON;
-                    Swal.fire('Console Error', error.message, 'error');
+                error: function (error) {
+                    console.log(error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred: ' + error.responseJSON.message,
+                    });
                 }
             });
 
@@ -676,6 +689,13 @@
                         $("#lastname").after('<div class="alert alert-danger">Last Name Should be Provided.</div>');
                     }
                     
+                    // To check the roleId is empty or not
+                    let roleId = $("#roleId").val();
+                    if(roleId ==null || roleId.trim()===''){
+                        e.preventDefault();
+                        $("#roleId").after('<div class="alert alert-danger">Please Identify Yourself.</div>');
+                    }
+                    
                     // To check the email is valid or not
                     let email = $("#email").val();
                     if(!(isValidEmail(email))){
@@ -761,7 +781,8 @@
                                 $("#" + index).after('<div class="alert alert-danger">'+value+'</div>');
                             }
                         });
-                    } else if (error.hasOwnProperty('message')) {
+                    } 
+                    else if (error.hasOwnProperty('message')) {
                         // Display a general error message
                         Swal.fire('Error', error.message, 'error');
                     }

@@ -1,17 +1,16 @@
 @extends('client.layouts.master')
 @section('title','Your title here')
 
-{{-- Begin: Addiitonal CSS Section starts Here --}}
+<!-- Begin: Addiitonal CSS Section starts Here -->
 @section('css')
-    {{--  --}}
     <!-- Begin: DataTables CSS and JS -->
     @include('client.layouts.dataTables-links')
     <!-- End: DataTables CSS and JS -->
 
 @endsection
-{{-- End: Addiitonal CSS Section starts Here --}}
+<!-- End: Addiitonal CSS Section starts Here -->
 
-{{-- Begin: Main-Content Section  --}}
+<!-- Begin: Main-Content Section  -->
 @section('content')
 
 
@@ -98,11 +97,11 @@
     <!-- END: Content-->
 
 @endsection
-{{-- Begin: Main-Content Section  --}}
+<!-- Begin: Main-Content Section  -->
 
-{{-- Begin: Script Section Starts Here --}}
+<!-- Begin: Script Section Starts Here -->
 @section('scripts')
-    {{--  --}}
+
 @endsection
-{{-- End: Script Section Starts Here --}}
+<!-- End: Script Section Starts Here -->
 

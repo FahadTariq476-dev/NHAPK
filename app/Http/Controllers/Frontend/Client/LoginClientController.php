@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Frontend\Client;
 
 use Exception;
+use App\Models\Role;
 use App\Models\User;
+use App\Models\Membership;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\MembershipTypes;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +33,7 @@ class LoginClientController extends Controller
     // Begin: Function to check the credentails and logged in the client user
     public function login_credentials(Request $req){
         try{
+            // dd("Yes");
             $users = User::where('phone_number','+92'.$req->phone_number_login)->where('cnic_no',$req->cnic_no_login)->first();
             if(!($users)){
                 return response()->json([
@@ -133,13 +138,12 @@ class LoginClientController extends Controller
             try{
                 // 
                 // dd($request->new_phone_number);
+                DB::beginTransaction();
                 $rules = [
                     'firstname' => 'required|string|max:255',
                     'lastname' => 'required|string|max:255',
                     'email' => 'required|email|unique:users,email',
                     'cnic_no' => 'required|string|max:15|min:15|unique:users,cnic_no',
-                    // 'new_phone_number' => 'required|string|required|regex:/^[0-9]{9}$/',
-                    // 'mob_no' => 'required|numeric|digits:10|regex:/^3\d{9}$/',
                     'new_phone_number' => [
                         'required',
                         'numeric',
@@ -150,17 +154,20 @@ class LoginClientController extends Controller
                             $query->where('phone_number', '+92' . $request->new_phone_number);
                         }),
                     ],
+                    'roleId' =>['required', Rule::exists('roles', 'id')->where(function ($query) {
+                        $query->where('nhapk_register', 1);
+                    }),
+                ],
                     'password' => 'required|string|required|max:8|min:8',
                     'confirmPassword' => 'required|string|required|max:8|min:8|required_with:password|same:password',
                 ];
                 $this->validate($request,$rules);
+                // dd($request->all());
                 // Generate the initial slug from the title
                 $name = $request->firstname." ".$request->lastname;
                 $slug = Str::slug($name);
                 // Make the slug unique
                 $uniqueSlug = $this->makeSlugUnique($slug);
-                // dd($request->toArray());
-                // 'password' => Hash::make($data['password']),
                 $user = new User();
                 $user->name = $name;
                 $user->firstname = $request->firstname;
@@ -175,20 +182,43 @@ class LoginClientController extends Controller
                 // Save the user
                 $results = $user->save();
 
+                $roles= Role::find($request->roleId);
                 // Assign role only if the user is successfully saved
                 if ($results) {
+                    $user->assignRole($roles->name);
                     $user->assignRole("nhapk_client");
-                        Auth::login($user);
+                    $membershipTypes = MembershipTypes::where('role_id', $request->roleId)->first();
+                    $membership = new Membership();
+                    $membership->name = $name;
+                    $membership->cnic = $request->cnic_no;
+                    $membership->membershiptype_id = $membershipTypes->id;
+                    $cnic_no = $request->cnic_no;
+                    $last_digit = substr($cnic_no, -1);
+
+                    if (intval($last_digit) % 2 == 0) {
+                        $membership->gender = 'female';
+                    } else {
+                        $membership->gender = 'male';
+                    }
+                    $membership->since = now();
+                    $resultMemberships = $membership->save();
+                    if(!$resultMemberships){
+                        DB::rollBack();
+                        DB::commit();
                         return response()->json([
-                            'status' => 'success',
-                            'message' => 'User added successfully',
-                            'redirect' => route('client.dashboard.index'), // Adjust this to your dashboard route
+                            'status' => 'error',
+                            'message' => 'There is an error while saving the user. Try again',
                         ]);
-                    // return response()->json([
-                    //     'status' => 'success',
-                    //     'message' => 'User added successfully',
-                    // ]);
+                    }
+                    DB::commit();
+                    Auth::login($user);
+                    return response()->json([
+                        'status' => 'success',
+                        'message' => 'User added successfully',
+                        'redirect' => route('client.dashboard.index'), // Adjust this to your dashboard route
+                    ]);
                 } else {
+                    DB::commit();
                     return response()->json([
                         'status' => 'error',
                         'message' => 'User Not saved successfully',
@@ -196,13 +226,13 @@ class LoginClientController extends Controller
                 }
             }
             catch(ValidationException $vaildationExceptionErrors){
-                Log::error($vaildationExceptionErrors->errors());
                 return response()->json([
                     'status' => 'error',
                     'errors' => $vaildationExceptionErrors->validator->getMessageBag(),
                 ], 422);
             }
             catch(Exception $e){
+                DB::rollBack();
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Failed to add user',
