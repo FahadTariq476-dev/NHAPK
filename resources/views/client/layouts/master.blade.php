@@ -66,9 +66,9 @@
 
         @include('client.layouts.header')
         
-        {{-- Begin: To Show sett alert with respect to message --}}
+        <!-- Begin: To Show sett alert with respect to message -->
         @include('client.layouts.compulsory-sweetalert')
-        {{-- End: To Show sett alert with respect to message --}}
+        <!-- End: To Show sett alert with respect to message -->
 
         @include('client.layouts.main')
 

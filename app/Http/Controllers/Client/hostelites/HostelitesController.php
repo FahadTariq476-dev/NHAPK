@@ -8,6 +8,7 @@ use App\Models\Membership;
 use App\Models\Properties;
 use Illuminate\Http\Request;
 use App\Models\HosteliteMeta;
+use App\Models\MembershipTypes;
 use App\Models\PropertiesMetas;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -86,6 +87,24 @@ class HostelitesController extends Controller
                 return redirect()->back()->with('error','There is an error While Saving the Data. Kindly Try Again');
             }
             $memberships = Membership::where('cnic',$userCnicNo)->first();
+            if(!($memberships)){
+                $memberships = new Membership();
+                $userDetails = Auth::user();
+                $rolesUserDetails = $userDetails->roles;
+                $roleIds = $rolesUserDetails->pluck('id')->toArray();
+                $membershipTypes = MembershipTypes::whereIn('role_id', $roleIds)->first();
+                $memberships->name = $userDetails->name;
+                $memberships->cnic = $userDetails->cnic_no;
+                $memberships->membershiptype_id = $membershipTypes->id;
+                $cnic_no = $userDetails->cnic_no;
+                $last_digit = substr($cnic_no, -1);
+
+                if (intval($last_digit) % 2 == 0) {
+                    $memberships->gender = 'female';
+                } else {
+                    $memberships->gender = 'male';
+                }
+            }
             $memberships -> hostelreg_no = $request->hostelId;
             $memberships -> referal_cnic = $request->referralCnic;
             $memberships -> transaction_no = $request->transactionNo;
@@ -97,15 +116,13 @@ class HostelitesController extends Controller
             $memberships -> property_id = $request->hostelId;
             $userReferal = User::where('cnic_no', $request->referralCnic)->first();
             $memberships -> parent_id = $userReferal->id;
-            $resultMemberships = $memberships->save();
+            $resultMemberships = $memberships->save();   
             if(!($resultMemberships)){
                 DB::rollBack();
-                DB::commit();
                 return redirect()->back()->with('error','There is an error While Saving the Data. Kindly Try Again');
             }
             DB::commit();
             return redirect()->route('client.dashboard.index')->with('success','Data Succesfully Saved Now');
-            // dd($request->all());
         }
         catch(ValidationException $validationError){
             return redirect()->back()->withErrors($validationError->validator->getMessageBag())->withInput();

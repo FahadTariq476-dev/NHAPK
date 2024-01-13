@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\ContactUsAdminController;
 use App\Http\Controllers\Admin\NewsFeedsAdminController;
 use App\Http\Controllers\Admin\MembershipAdminController;
 use App\Http\Controllers\Client\DashboardClientController;
+use App\Http\Controllers\Client\profile\ProfileController;
 use App\Http\Controllers\Client\sops\SopsClientController;
 use App\Http\Controllers\Client\hostels\HostelClientController;
 use App\Http\Controllers\Frontend\Client\LoginClientController;
@@ -346,43 +347,48 @@ Route::middleware('guest')->group(function () {
 // End: Login Route for Client
 
 // Begin: Route for Client
-Route::group(['middleware' => ['role:nhapk_client', 'auth']], function () {
-    // Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.ShowDashboard');
-    // Route::get('/admin/dashboard',[DashboardController::class,'showAdminDashboard'])->name('admin.ShowDashboard');
+Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasFieldData'], 'prefix' => '/client'], function () {
 
-    Route::get('/client/dashboard',[DashboardClientController::class,'index'])->name('client.dashboard.index');
+    Route::get('/dashboard',[DashboardClientController::class,'index'])->name('client.dashboard.index');
     
     // Route for client to logout
-    Route::get('client/logout',[LogoutClientController::class,'logout'])->name('client.logout');
+    Route::get('/logout',[LogoutClientController::class,'logout'])->name('client.logout');
 
     // Begin: Membership
-        Route::get('client/membership/index',[MembershipClientController::class,'index'])->name('client.membership.index');
+        Route::get('/membership/index',[MembershipClientController::class,'index'])->name('client.membership.index');
         // Route for client to show referal link of membership
-        Route::get('/client/memebership/referal',[MembershipClientController::class,'show_refferal'])->name('client.membership.show_refferal');
+        Route::get('/memebership/referal',[MembershipClientController::class,'show_refferal'])->name('client.membership.show_refferal');
     // End: Membership
 
     // Begin: SOPS
         // Route for client to list and download the sops
-        Route::get('/client/sops/list',[SopsClientController::class,'list_sops'])->name('client.sops.list_sops');
+        Route::get('/sops/list',[SopsClientController::class,'list_sops'])->name('client.sops.list_sops');
         // Route for the the client to get description of sops using the id
-        Route::get('/client/sops/list/get-description/{id}',[SopAdminController::class,'get_description'])->name('client.sops.get_description');
+        Route::get('/sops/list/get-description/{id}',[SopAdminController::class,'get_description'])->name('client.sops.get_description');
     // End: SOPS
 
     // Begin: Hostels
         // Route to show post-hostel.blade.php
-        Route::get('/client/hostels/add',[HostelClientController::class,'index'])->name('client.hostels.index');
+        Route::get('/hostels/add',[HostelClientController::class,'index'])->name('client.hostels.index');
         // Route to storeHostel
-        Route::post('/client/hostels/storeHostel',[HostelClientController::class,'storeHostel'])->name('client.hostels.storeHostel');
+        Route::post('/hostels/storeHostel',[HostelClientController::class,'storeHostel'])->name('client.hostels.storeHostel');
         // Route to listHostels
-        Route::get('/client/hostels/list',[HostelClientController::class,'listHostels'])->name('client.hostels.listHostels');
+        Route::get('/hostels/list',[HostelClientController::class,'listHostels'])->name('client.hostels.listHostels');
         // Route to editHostel
-        Route::get('/client/hostels/edit/{hostelId}',[HostelClientController::class,'editHostel'])->name('client.hostels.editHostel');
+        Route::get('/hostels/edit/{hostelId}',[HostelClientController::class,'editHostel'])->name('client.hostels.editHostel');
     // End: Hostels
 
     // Hostwelites & Metas 
     Route::get('/hostel-contact-and-author/{hostelId}',[HostelitesController::class,'hostelContactAndAuthor'])->name('client.hostelContactAndAuthor');
     // storeHosteliteMetas
-    Route::post('/cleint/hostelite-metas/store',[HostelitesController::class,'storeHosteliteMetas'])->name('client.storeHosteliteMetas');
+    Route::post('/hostelite-metas/store',[HostelitesController::class,'storeHosteliteMetas'])->name('client.storeHosteliteMetas');
+    // Route for Profile
+    Route::group(['prefix' => '/profile'],function(){
+        Route::get('/view',[ProfileController::class,'viewProfile'])->name('client.viewProfile');
+        // updateProfile
+        Route::post('/update',[ProfileController::class,'updateProfile'])->name('client.updateProfile');
+    });
+
 
 });
 // End: Route for Client

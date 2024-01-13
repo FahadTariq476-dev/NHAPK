@@ -63,7 +63,7 @@
                                         <option value="" selected disabled>Select Country</option>
                                         @if (count($countries)>0)
                                             @foreach ($countries as $country)
-                                                <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                <option value="{{ $country->id }}" @if (old('countryId')==$country->id) selected @endif >{{ $country->name }}</option>
                                             @endforeach
                                         @else
                                             <option value="" disabled>No Country Found</option>
@@ -110,19 +110,19 @@
                                     <!-- Hostel Contact Number-->
                                     <div class="form-group">
                                         <label for="hostelContactNumber">Hostel Contact Number</label>
-                                        <input type="text" name="hostelContactNumber" id="hostelContactNumber" class="form-control" placeholder="Enter Hostel Contact Number Here" readonly>
+                                        <input type="text" name="hostelContactNumber" id="hostelContactNumber" class="form-control" value="{{old('hostelContactNumber')}}" placeholder="Enter Hostel Contact Number Here" readonly>
                                     </div>
                                     <!-- Hostel Owner Name / Incharge Name -->
                                     <div class="form-group">
                                         <label for="hostelOwnerName">Hostel Owner Name / Incharge Name</label>
-                                        <input type="text" name="hostelOwnerName" id="hostelOwnerName" class="form-control" placeholder="Enter Hostel Owner Name / Incharge Name Here" readonly>
+                                        <input type="text" name="hostelOwnerName" id="hostelOwnerName" class="form-control" value="{{old('hostelOwnerName')}}" placeholder="Enter Hostel Owner Name / Incharge Name Here" readonly>
                                     </div>
                                 </div>
                                 
                                 <!-- How long you been in this Hostel -->
                                 <div class="form-group">
                                     <label for="livingSince">How long you been in this Hostel</label>
-                                    <input type="date" name="livingSince" id="livingSince" class="form-control">
+                                    <input type="date" name="livingSince" id="livingSince" class="form-control" value="{{old('livingSince')}}">
                                 </div>
                                 @error('livingSince')
                                     <div class="alert alert-danger">{{ $message }}</div>
@@ -131,7 +131,7 @@
                                 <!--  Previous Hostel If any (if yes) -->
                                 <div class="form-group">
                                     <label for="previousHostel">Previous Hostel If any (if yes)</label>
-                                    <input type="text" name="previousHostel" id="previousHostel" class="form-control" placeholder="Previous Hostel If any (if yes)">
+                                    <input type="text" name="previousHostel" id="previousHostel" class="form-control" value="{{old('previousHostel')}}" placeholder="Previous Hostel If any (if yes)">
                                 </div>
 
                                 <!-- Referral CNIC -->
@@ -333,7 +333,7 @@
                 let hostelId = $("#hostelId").val();
                 if(hostelId != null){
                     $.ajax({
-                        url:'/hostel-contact-and-author/'+hostelId,
+                        url:'/cleint/hostel-contact-and-author/'+hostelId,
                         get:'GET',
                         success:function(response){
                             $("#hostelContactNumber").val('');
