@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\HosteliteMeta;
+use App\Models\Membership;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,8 @@ class DashboardClientController extends Controller
     public function index(){
         try{
             $roles = Auth::user()->roles;
+            $referalNo = Membership::where('parent_id',Auth::id())->count();
+            // dd($referalNo);
             // Use pluck to get an array of role names
             $roleNames = $roles->pluck('name')->toArray();
             $allowedRoleNames = [
@@ -34,6 +37,7 @@ class DashboardClientController extends Controller
                     $hosteliteMetasFieldData = "Filled";
                     return view('client.index')->with([
                         'hosteliteMetasFieldData' => $hosteliteMetasFieldData,
+                        'referalNo' => $referalNo,
                     ]);
                 }
                 else{
@@ -42,6 +46,7 @@ class DashboardClientController extends Controller
                     return view('client.hostelites.post-hostelites')->with([
                         'countries' => $countries,
                         'hosteliteMetasFieldData' => $hosteliteMetasFieldData,
+                        'referalNo' => $referalNo,
                     ]);
                 }
             }
@@ -49,6 +54,7 @@ class DashboardClientController extends Controller
                 $hosteliteMetasFieldData = "NotRequired";
                 return view('client.index')->with([
                     'hosteliteMetasFieldData' => $hosteliteMetasFieldData,
+                    'referalNo' => $referalNo,
                 ]);
             }
             

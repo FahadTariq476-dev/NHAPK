@@ -333,7 +333,7 @@
                 let hostelId = $("#hostelId").val();
                 if(hostelId != null){
                     $.ajax({
-                        url:'/cleint/hostel-contact-and-author/'+hostelId,
+                        url:'/client/hostel-contact-and-author/'+hostelId,
                         get:'GET',
                         success:function(response){
                             $("#hostelContactNumber").val('');
@@ -438,40 +438,40 @@
             //  To Verify the form before submit
                 $("#formHostelitesMetas").submit(function(e){
                     $(".alert-danger").remove();
-                    // // To Check City is selected or not
-                    // let cityId = $("#cityId").val();
-                    // if(cityId == null || cityId.length==0){
-                    //     $("#cityId").after('<div class="alert alert-danger">City Should be Selected.</div>');
-                    //     e.preventDefault();
-                    // }
+                    // To Check City is selected or not
+                    let cityId = $("#cityId").val();
+                    if(cityId == null || cityId.length==0){
+                        $("#cityId").after('<div class="alert alert-danger">City Should be Selected.</div>');
+                        e.preventDefault();
+                    }
                     
-                    // // To Check Hostel is selected or not
-                    // let hostelId = $("#hostelId").val();
-                    // if(hostelId == null || hostelId.length==0){
-                    //     $("#hostelId").after('<div class="alert alert-danger">Hostel Should be Selected.</div>');
-                    //     e.preventDefault();
-                    // }
+                    // To Check Hostel is selected or not
+                    let hostelId = $("#hostelId").val();
+                    if(hostelId == null || hostelId.length==0){
+                        $("#hostelId").after('<div class="alert alert-danger">Hostel Should be Selected.</div>');
+                        e.preventDefault();
+                    }
                     
-                    // // To Check livingSince is empty or not
-                    // let livingSince = $("#livingSince").val();
-                    // if(livingSince == null || livingSince.length==0){
-                    //     $("#livingSince").after('<div class="alert alert-danger">Living Since Should be Selected.</div>');
-                    //     e.preventDefault();
-                    // }
+                    // To Check livingSince is empty or not
+                    let livingSince = $("#livingSince").val();
+                    if(livingSince == null || livingSince.length==0){
+                        $("#livingSince").after('<div class="alert alert-danger">Living Since Should be Selected.</div>');
+                        e.preventDefault();
+                    }
                     
-                    // // To Check referralCnic is empty or not
-                    // let referralCnic = $("#referralCnic").val();
-                    // if(referralCnic.trim() === '' || referralCnic == null || referralCnic.length==0 || referralCnic.length!=15){
-                    //     $("#referralCnic").after('<div class="alert alert-danger">Referral Cnic Since Should be Given & Cnic Should be valid.</div>');
-                    //     e.preventDefault();
-                    // }
+                    // To Check referralCnic is empty or not
+                    let referralCnic = $("#referralCnic").val();
+                    if(referralCnic.length>0 && referralCnic.length<15){
+                        $("#referralCnic").after('<div class="alert alert-danger">Referral Cnic Since Should be Given & Cnic Should be valid.</div>');
+                        e.preventDefault();
+                    }
                     
-                    // // To Check transactionNo is empty or not
-                    // let transactionNo = $("#transactionNo").val();
-                    // if(transactionNo.trim() === '' || transactionNo == null || transactionNo.length<4 ){
-                    //     $("#transactionNo").after('<div class="alert alert-danger">Transaction No Since Should be Given.</div>');
-                    //     e.preventDefault();
-                    // }
+                    // To Check transactionNo is empty or not
+                    let transactionNo = $("#transactionNo").val();
+                    if(transactionNo.trim() === '' || transactionNo == null || transactionNo.length<4 ){
+                        $("#transactionNo").after('<div class="alert alert-danger">Transaction No Since Should be Given.</div>');
+                        e.preventDefault();
+                    }
                 });
         });
     </script>

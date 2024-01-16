@@ -216,6 +216,20 @@
                         </ul>
                     </li>
                     <!-- End: Users -->
+                    
+                    <!-- Begin: Referral Levels -->
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Referral Levels</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.referralLevels.postReferralLevel')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Post Referral Levels</span></a>
+                            </li>
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.referralLevels.listReferralLevel')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Referral Levels</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- End: Referral Levels -->
                 </li>
             </ul>
         </div>

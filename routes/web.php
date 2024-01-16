@@ -37,6 +37,7 @@ use App\Http\Controllers\Frontend\Client\LoginClientController;
 use App\Http\Controllers\Client\hostelites\HostelitesController;
 use App\Http\Controllers\Client\membership\MembershipClientController;
 use App\Http\Controllers\Admin\MembershipTypes\MembershipTypeAdminController;
+use App\Http\Controllers\Admin\ReferralLevels\ReferralLevelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,162 +84,189 @@ Route::middleware('guest')->group(function () {
 
 // Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
 
-Route::group(['middleware' => ['role:nhapk_admin', 'auth']], function () {
+Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'], function () {
     // Admin Front Routes
-    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.ShowDashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.ShowDashboard');
     // Route::get('/admin/dashboard',[DashboardController::class,'showAdminDashboard'])->name('admin.ShowDashboard');
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
 
     // Begin: Route for Complaint
     // Route to Show List Complaint View
-    Route::get('/admin/listComplaint', [ComplaintAdminController::class, 'adminListComplaintView'])->name('admin.ListComplaintView');
+    Route::get('/listComplaint', [ComplaintAdminController::class, 'adminListComplaintView'])->name('admin.ListComplaintView');
     // Route for admin to list complaint
     Route::get('/get-adminListingComplaint', [ComplaintAdminController::class, 'adminListingComplaint'])->name('admin.adminListingComplaint');
     // Route for admin to update the complaint status
     Route::get('/complaint/update-status/{status}/{complaintId}', [ComplaintAdminController::class, 'updateComplaintStatus'])->name('admin.updateComplaintStatus');
     // Route to get the complaint details using complaint id
-    Route::get('/admin/complaint/list-complaint/get-details/{id}',[ComplaintAdminController::class,'get_details'])->name('admin.complaints.get-details');
+    Route::get('/complaint/list-complaint/get-details/{id}',[ComplaintAdminController::class,'get_details'])->name('admin.complaints.get-details');
     // End: Route for Complaint
 
     // Begin: Route for Complaint_Types
     // Route for the admin to show the post-complaint_types.bldae.php
-    Route::get('/admin/complaint-types/post',[CompliantTypeController::class,'index'])->name('admin.complaint-types.index');
+    Route::get('/complaint-types/post',[CompliantTypeController::class,'index'])->name('admin.complaint-types.index');
     // Route for the admin to post the complaint_types in the db
-    Route::post('/admin/complaint-types/post',[CompliantTypeController::class,'store'])->name('admin.complaint-types.store');
+    Route::post('/complaint-types/post',[CompliantTypeController::class,'store'])->name('admin.complaint-types.store');
     // Route for the admin to show the edit-complaint-types.blade.php with complaints
-    Route::get('/admin/complaint-types/edit-complaint-types/{id}',[CompliantTypeController::class,'edit'])->name('admin.complaint-types.edit');
+    Route::get('/complaint-types/edit-complaint-types/{id}',[CompliantTypeController::class,'edit'])->name('admin.complaint-types.edit');
     // Route for the admin to update the full complaint-types
-    Route::post('/admin/complaint-types/update',[CompliantTypeController::class,'update'])->name('admin.complaint-types.update');
+    Route::post('/complaint-types/update',[CompliantTypeController::class,'update'])->name('admin.complaint-types.update');
     // Route for the admin to show the list-complaint-types.blade.php
-    Route::get('/admin/complaint-types/list-complaint-types',[CompliantTypeController::class,'list'])->name('admin.complaint-types.list');
+    Route::get('/complaint-types/list-complaint-types',[CompliantTypeController::class,'list'])->name('admin.complaint-types.list');
     // Route for the admin to show the list-complaint-types.blade.php
-    Route::get('/admin/complaint-types/list-complaint-types/get-complaint-types',[CompliantTypeController::class,'get_complaint_types'])->name('admin.complaint-types.get-complaint-types');
+    Route::get('/complaint-types/list-complaint-types/get-complaint-types',[CompliantTypeController::class,'get_complaint_types'])->name('admin.complaint-types.get-complaint-types');
     // Route to update_status from active to inactive or vice verse 
-    Route::get('/admin/complaint_types/list-complaint-types/update-status/{statu}/{id}',[CompliantTypeController::class,'update_status'])->name('admin.complaint-types.update-status');
+    Route::get('/complaint_types/list-complaint-types/update-status/{statu}/{id}',[CompliantTypeController::class,'update_status'])->name('admin.complaint-types.update-status');
     // Route for the admin to get the full description of complaint_types using complaint_types id
-    Route::get('/admin/complaint-types/list-complaint-types/description/{id}',[CompliantTypeController::class,'get_description'])->name('admin.complaint-types.get_description');
+    Route::get('/complaint-types/list-complaint-types/description/{id}',[CompliantTypeController::class,'get_description'])->name('admin.complaint-types.get_description');
     // End: Route for Complaint_Types
 
     // Route to show post-blogs page
-    Route::get('/admin/post-blogs',[PostBlogsController::class, 'index'])->name('admin.post-blogs');
+    Route::get('/post-blogs',[PostBlogsController::class, 'index'])->name('admin.post-blogs');
     // Route to save the blog post
-    Route::post('/admin/saveBlogPost',[PostBlogsController::class, 'saveBlogPost'])->name('admin.saveBlogPost');
+    Route::post('/saveBlogPost',[PostBlogsController::class, 'saveBlogPost'])->name('admin.saveBlogPost');
     // Route to show the list-blog page
-    Route::get('/admin/list-blogs',[PostBlogsController::class,'listBlogView'])->name('admin.list-blogs');
+    Route::get('/list-blogs',[PostBlogsController::class,'listBlogView'])->name('admin.list-blogs');
     // Rote display or list the all posted blogs
-    Route::get('/admin/get-blogList',[PostBlogsController::class,'adminListingPostedBlogs'])->name('admin.get-blogList');
+    Route::get('/get-blogList',[PostBlogsController::class,'adminListingPostedBlogs'])->name('admin.get-blogList');
     // Route for admin to update the posted blog status
-    Route::get('/admin/blogs/update-status/{status}/{complaintId}',[PostBlogsController::class,'updatePostStatus'])->name('admin.updatePostStatus');
+    Route::get('/blogs/update-status/{status}/{complaintId}',[PostBlogsController::class,'updatePostStatus'])->name('admin.updatePostStatus');
     // Route for admin to delete the posted blog
-    Route::get('/admin/deleteBlog/{id}',[PostBlogsController::class,'deleteBlog'])->name('admin.deleteBlog');
+    Route::get('/deleteBlog/{id}',[PostBlogsController::class,'deleteBlog'])->name('admin.deleteBlog');
     // Route for admin to load the edit blog from lis-blog page
-    Route::get('/admin/editBlog/{id}',[PostBlogsController::class,'editBlogView'])->name('admin.editBlogView');
+    Route::get('/editBlog/{id}',[PostBlogsController::class,'editBlogView'])->name('admin.editBlogView');
     // Route for admin to update the full blog from edit blog page
-    Route::post('/admin/updateBlog',[PostBlogsController::class,'updateFullBlog'])->name('admin.updateFullBlog');
+    Route::post('/updateBlog',[PostBlogsController::class,'updateFullBlog'])->name('admin.updateFullBlog');
 
 
     // Begin: Routes for Membership
     // Route for admin to show the lis-mmebrship blade
-    Route::get('/admin/list-memebership',[MembershipAdminController::class,'indexMembership'])->name('admin.list-memebership');
+    Route::get('/list-memebership',[MembershipAdminController::class,'indexMembership'])->name('admin.list-memebership');
     // Route to dislpay the membership on listMembership page using datable
-    Route::get('/admin/get-membershipList',[MembershipAdminController::class,'adminListingMemebership'])->name('admin.get-membershipList');
+    Route::get('/get-membershipList',[MembershipAdminController::class,'adminListingMemebership'])->name('admin.get-membershipList');
     // Route to updateMembershipStatus
-    Route::get('/admin/memberships/update-status/{membershipId}/{membershipStatus}',[MembershipAdminController::class,'updateMembershipStatus'])->name('admin.memmbership.updateMembershipStatus');
+    Route::get('/memberships/update-status/{membershipId}/{membershipStatus}',[MembershipAdminController::class,'updateMembershipStatus'])->name('admin.memmbership.updateMembershipStatus');
     // Rute for admin to display the edit membership view from list-memebrship page having id of membership
-    Route::get('/admin/editMembership/{id}',[MembershipAdminController::class,'editMemebershipView'])->name('admin.editMemebershipView');
+    Route::get('/editMembership/{id}',[MembershipAdminController::class,'editMemebershipView'])->name('admin.editMemebershipView');
     // Route for admin to update the membership in controller 
-    Route::post('/admin/updateMembership',[MembershipAdminController::class,'updateMembership'])->name('admin.updateMembership');
+    Route::post('/updateMembership',[MembershipAdminController::class,'updateMembership'])->name('admin.updateMembership');
         // Route for Membership Types
             // Route to list Membership Types
-            Route::get('/admin/memberships/membership-types/list',[MembershipTypeAdminController::class,'index'])->name('admin.membership.membershipTypes.list');
+            Route::get('/memberships/membership-types/list',[MembershipTypeAdminController::class,'index'])->name('admin.membership.membershipTypes.list');
             // Route to post Membership Types
-            Route::get('/admin/memberships/membership-types/store',[MembershipTypeAdminController::class,'post'])->name('admin.membership.membershipTypes.post');
+            Route::get('/memberships/membership-types/store',[MembershipTypeAdminController::class,'post'])->name('admin.membership.membershipTypes.post');
             // storeMembershipTypes
-            Route::post('/admin/memberships/membership-types/store',[MembershipTypeAdminController::class,'storeMembershipTypes'])->name('admin.membership.membershipTypes.store');
+            Route::post('/memberships/membership-types/store',[MembershipTypeAdminController::class,'storeMembershipTypes'])->name('admin.membership.membershipTypes.store');
             // editMembershipTypes
-            Route::get('/admin/memberships/membership-types/edit/{membershipTypesId}',[MembershipTypeAdminController::class,'editMembershipTypes'])->name('admin.membership.membershipTypes.editMembershipTypes');
+            Route::get('/memberships/membership-types/edit/{membershipTypesId}',[MembershipTypeAdminController::class,'editMembershipTypes'])->name('admin.membership.membershipTypes.editMembershipTypes');
             // updateMembershipTypes
-            Route::post('/admin/memberships/membership-types/update',[MembershipTypeAdminController::class,'updateMembershipTypes'])->name('admin.membership.membershipTypes.updateMembershipTypes');
+            Route::post('/memberships/membership-types/update',[MembershipTypeAdminController::class,'updateMembershipTypes'])->name('admin.membership.membershipTypes.updateMembershipTypes');
             // deleteMembershipType
-            Route::delete('/admin/memberships/membership-types/delete/{membershipTypesId}',[MembershipTypeAdminController::class,'deleteMembershipType'])->name('admin.membership.membershipTypes.deleteMembershipType');
+            Route::delete('/memberships/membership-types/delete/{membershipTypesId}',[MembershipTypeAdminController::class,'deleteMembershipType'])->name('admin.membership.membershipTypes.deleteMembershipType');
             // uniqueMembershipTypeName
-            Route::get('/admin/memberships/membership-types/unique-name/{name}',[MembershipTypeAdminController::class, 'uniqueMembershipTypeName'])->name('admin.membership.membershipTypes.uniqueMembershipTypeName');
+            Route::get('/memberships/membership-types/unique-name/{name}',[MembershipTypeAdminController::class, 'uniqueMembershipTypeName'])->name('admin.membership.membershipTypes.uniqueMembershipTypeName');
         // Route for Membership Types
     // End: Routes for Membership
 
     // Begin: Route for Contact Us 
     // Route for Contact Us to show the list of  list-contactus blade file
-    Route::get('/admin/list-contctUs',[ContactUsAdminController::class,'index'])->name('admin.contactUs.list-contactus');
+    Route::get('/list-contctUs',[ContactUsAdminController::class,'index'])->name('admin.contactUs.list-contactus');
     // Route for admin to get the list of cantact us using ajax request
-    Route::get('/admin/get-contactus',[ContactUsAdminController::class,'adminListContactUs'])->name('admin.contactUs.get-contactUs');
+    Route::get('/get-contactus',[ContactUsAdminController::class,'adminListContactUs'])->name('admin.contactUs.get-contactUs');
     // Route for the the admin to get message of contct us using the id
-    Route::get('/admin/contactus/get-message/{id}',[ContactUsAdminController::class,'get_message'])->name('admin.contactus.get-message');
+    Route::get('/contactus/get-message/{id}',[ContactUsAdminController::class,'get_message'])->name('admin.contactus.get-message');
     // End: Route for Contact Us 
     
 
     // Begin: Route for News & Feeds
     // Route for admin to show the post news and feed page
-    Route::get('/admin/post-newsfeeds',[NewsFeedsAdminController::class,'index'])->name('admin.newsfeeds.post-newsfeeds');
+    Route::get('/post-newsfeeds',[NewsFeedsAdminController::class,'index'])->name('admin.newsfeeds.post-newsfeeds');
     // Route for admin to save the news and feed
-    Route::post('/admin/saveNewsfeeds',[NewsFeedsAdminController::class,'saveNewsfeeds'])->name('admin.saveNewsfeeds');
+    Route::post('/saveNewsfeeds',[NewsFeedsAdminController::class,'saveNewsfeeds'])->name('admin.saveNewsfeeds');
     // Route for admin to show the news & feeeds listing page
-    Route::get('/admin/list-newsfeeds',[NewsFeedsAdminController::class, 'listNewsfeedsView'])->name('admin.newsfeeds.list-newsfeeds');
+    Route::get('/list-newsfeeds',[NewsFeedsAdminController::class, 'listNewsfeedsView'])->name('admin.newsfeeds.list-newsfeeds');
     // Route for admin to get the list of newsfeeds to show them in the data table
-    Route::get('/admin/get-newfeedList',[NewsFeedsAdminController::class,'adminListingNewsfeeds'])->name('admin.newsfeeds.get-newsfeedList');
+    Route::get('/get-newfeedList',[NewsFeedsAdminController::class,'adminListingNewsfeeds'])->name('admin.newsfeeds.get-newsfeedList');
     // Route for admin to update the status of new feed from the listing page using ajax request
-    Route::get('/admin/newsfeeds/update-status/{status}/{newsId}',[NewsFeedsAdminController::class,'updateNewsfeedStatus'])->name('admin.newsfeeds.updateNewsfeedStatus');
+    Route::get('/newsfeeds/update-status/{status}/{newsId}',[NewsFeedsAdminController::class,'updateNewsfeedStatus'])->name('admin.newsfeeds.updateNewsfeedStatus');
     // Route for admin to delete the newsfeed at listin page using newsId
-    Route::get('/admin/delete-newsfeeds/{newsId}',[NewsFeedsAdminController::class,'deleteNewsfeed'])->name(('admin.newsfeeds.deleteNewsfeed'));
+    Route::get('/delete-newsfeeds/{newsId}',[NewsFeedsAdminController::class,'deleteNewsfeed'])->name(('admin.newsfeeds.deleteNewsfeed'));
     // Route for admin to show the edit-news veiw page with news
-    Route::get('/admin/editNewsfeeds/{newsId}',[NewsFeedsAdminController::class,'editNewsfeedView'])->name('admin.newsfeed.editNewsfeedView');
+    Route::get('/editNewsfeeds/{newsId}',[NewsFeedsAdminController::class,'editNewsfeedView'])->name('admin.newsfeed.editNewsfeedView');
     // Route for admin to update the full news from edi-newsfeeds page
-    Route::post('/admin/updateNewsfeeeds',[NewsFeedsAdminController::class,'updateFullNewsfeed'])->name('admin.newsfeeds.updateFullNewsfeed');
+    Route::post('/updateNewsfeeeds',[NewsFeedsAdminController::class,'updateFullNewsfeed'])->name('admin.newsfeeds.updateFullNewsfeed');
     // End: Route for News & Feeds
 
     // Begin: Route for FAQ's
     // Route for admin to show the post faqs page
-    Route::get('/admin/post-faqs',[FaqAdminController::class,'index'])->name('admin.faqs.post-faqs');
+    Route::get('/post-faqs',[FaqAdminController::class,'index'])->name('admin.faqs.post-faqs');
     // Route for the admin to save the faq's
-    Route::post('/admin/storeFaqs',[FaqAdminController::class,'storeFaqs'])->name('admin.faqs.storeFaqs');
+    Route::post('/storeFaqs',[FaqAdminController::class,'storeFaqs'])->name('admin.faqs.storeFaqs');
     // Route for the admin to get the list of faqs and show them in the data table
-    Route::get('/admin/get-faqs',[FaqAdminController::class,'adminListingFaqs'])->name('admin.faqs.adminListingFaqs');
+    Route::get('/get-faqs',[FaqAdminController::class,'adminListingFaqs'])->name('admin.faqs.adminListingFaqs');
     // Route for admin to update the status  of faqs from the listing page using ajax request
-    Route::get('/admin/faqs/update-status/{status}/{faqsId}',[FaqAdminController::class,'updateFaqsStatus'])->name('admin.faqs.updateFaqsStatus');
+    Route::get('/faqs/update-status/{status}/{faqsId}',[FaqAdminController::class,'updateFaqsStatus'])->name('admin.faqs.updateFaqsStatus');
     // Route for the admin to show the edit-faqs with faqs's requested from listing
-    Route::get('/admin/faqs/editfaqs/{id}',[FaqAdminController::class,'editFaqsView'])->name('admin.faqs.editFaqsView');
+    Route::get('/faqs/editfaqs/{id}',[FaqAdminController::class,'editFaqsView'])->name('admin.faqs.editFaqsView');
     // Route for the admin to update the full faq's from the edit view
-    Route::post('/admin/faqs/update',[FaqAdminController::class,'updateFullFaqs'])->name('admin.faqs.updateFullFaqs');
+    Route::post('/faqs/update',[FaqAdminController::class,'updateFullFaqs'])->name('admin.faqs.updateFullFaqs');
     // Route for admin to show the FAQ's listing page
-    Route::get('/admin/list-faqs',[FaqAdminController::class, 'listFaqsView'])->name('admin.faqs.list-faqs');
+    Route::get('/list-faqs',[FaqAdminController::class, 'listFaqsView'])->name('admin.faqs.list-faqs');
     // Route for the the admin to get answer of FAQ's using the id
-    Route::get('/admin/faqs/list-faqs/get-answer/{id}',[FaqAdminController::class,'get_answer'])->name('admin.faqs.get_answer');
+    Route::get('/faqs/list-faqs/get-answer/{id}',[FaqAdminController::class,'get_answer'])->name('admin.faqs.get_answer');
     // Route for admin to delete the FAQ's from listing page
-    Route::get('/admin/faqs/delete-faqs/{id}',[FaqAdminController::class,'delFaqs'])->name('admin.faqs.delFaqs');
+    Route::get('/faqs/delete-faqs/{id}',[FaqAdminController::class,'delFaqs'])->name('admin.faqs.delFaqs');
     // End: Route for FAQ's
 
     // Begin: Route for SOP's & Legal Documentation
     // Route for admin to show the post sops page
-    Route::get('/admin/sops/post-sops',[SopAdminController::class,'index'])->name('admin.sops.post-sops');
+    Route::get('/sops/post-sops',[SopAdminController::class,'index'])->name('admin.sops.post-sops');
     // Route for admin to save the SOP's in database
-    Route::post('/admin/sops/storeSops',[SopAdminController::class,'storeSops'])->name('admin.sops.storeSops');
+    Route::post('/sops/storeSops',[SopAdminController::class,'storeSops'])->name('admin.sops.storeSops');
     // Route for admin to list the SOP's page
-    Route::get('/admin/sops/list-sops',[SopAdminController::class,'listSopsView'])->name('admin.sops.list-sops');
+    Route::get('/sops/list-sops',[SopAdminController::class,'listSopsView'])->name('admin.sops.list-sops');
     // Route for admin to get the list of sops and show them in the data table
-    Route::get('/admin/sops/get-list',[SopAdminController::class,'getSops'])->name('admin.sops.getSops');
+    Route::get('/sops/get-list',[SopAdminController::class,'getSops'])->name('admin.sops.getSops');
     // ROute for admin to show the edit-sops having sopsId from listing page
-    Route::get('/admin/sops/edit-sops/{sopsId}',[SopAdminController::class,'editSops'])->name('admin.sops.editSops');
+    Route::get('/sops/edit-sops/{sopsId}',[SopAdminController::class,'editSops'])->name('admin.sops.editSops');
     // Route for admin to update the full sops requested from edit-sops page
-    Route::post('/admin/sops/update-sops',[SopAdminController::class,'updateSops'])->name('admin.sops.updateSops');
+    Route::post('/sops/update-sops',[SopAdminController::class,'updateSops'])->name('admin.sops.updateSops');
     // Route for admin to delete the sops requested from list-sops page
-    Route::get('/admin/sops/delete-sops/{sopsId}',[SopAdminController::class,'deleteSops'])->name('admin.sops.deleteSops');
+    Route::get('/sops/delete-sops/{sopsId}',[SopAdminController::class,'deleteSops'])->name('admin.sops.deleteSops');
     // Route for the the admin to get description of sops using the id
-    Route::get('/admin/sops/list-sops/get-description/{id}',[SopAdminController::class,'get_description'])->name('admin.sops.get_description');
+    Route::get('/sops/list-sops/get-description/{id}',[SopAdminController::class,'get_description'])->name('admin.sops.get_description');
     // End: Route for SOP's & Legal Documentation
 
     // Begin: Route for Users
     // Route for admin to list the users
-    Route::get('/admin/users/list',[UserAdminController::class,'index'])->name('admin.users.list-users');
+    Route::get('/users/list',[UserAdminController::class,'index'])->name('admin.users.list-users');
     // End: Route for Users
+
+    /*
+    |--------------------------------------------------------------------------
+    | Referral Level Routes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::group(['prefix' => '/referral-levels'], function(){
+        // postReferralLevel
+        Route::get('/post',[ReferralLevelController::class,'postReferralLevel'])->name('admin.referralLevels.postReferralLevel');
+        // saveReferralLevel
+        Route::post('/save',[ReferralLevelController::class,'saveReferralLevel'])->name('admin.referralLevels.saveReferralLevel');
+        // listReferralLevel
+        Route::get('/list',[ReferralLevelController::class,'listReferralLevel'])->name('admin.referralLevels.listReferralLevel');
+        // changeStatus
+        Route::get('/list/change/status/{referralLevelId}',[ReferralLevelController::class,'changeStatus'])->name('admin.referralLevels.changeStatus');
+        // deleteReferralLevel
+        Route::get('/list/delete/{referralLevelId}',[ReferralLevelController::class,'deleteReferralLevel'])->name('admin.referralLevels.deleteReferralLevel');
+        // editReferralLevel
+        Route::get('/list/edit/{referralLevelId}',[ReferralLevelController::class,'editReferralLevel'])->name('admin.referralLevels.editReferralLevel');
+        // updateReferralLevel
+        Route::post('/list/update',[ReferralLevelController::class,'updateReferralLevel'])->name('admin.referralLevels.updateReferralLevel');
+
+        // uniqueTitle
+        Route::get('/unique-title/{title}',[ReferralLevelController::class,'uniqueTitle'])->name('admin.referralLevels.uniqueTitle');
+    });
+    
 
 
 });

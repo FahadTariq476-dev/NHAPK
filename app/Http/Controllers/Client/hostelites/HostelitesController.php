@@ -71,7 +71,7 @@ class HostelitesController extends Controller
                 'cityId' => 'required|exists:cities,id',
                 'hostelId' => 'required|exists:properties,id',
                 'livingSince' => 'required|date',
-                'referralCnic' => 'required|exists:users,cnic_no',
+                'referralCnic' => 'sometimes|exists:users,cnic_no',
                 'transactionNo' => 'required|unique:users,id',
             ];
             $this->validate($request,$rules);
@@ -98,7 +98,6 @@ class HostelitesController extends Controller
                 $memberships->membershiptype_id = $membershipTypes->id;
                 $cnic_no = $userDetails->cnic_no;
                 $last_digit = substr($cnic_no, -1);
-
                 if (intval($last_digit) % 2 == 0) {
                     $memberships->gender = 'female';
                 } else {
@@ -106,7 +105,6 @@ class HostelitesController extends Controller
                 }
             }
             $memberships -> hostelreg_no = $request->hostelId;
-            $memberships -> referal_cnic = $request->referralCnic;
             $memberships -> transaction_no = $request->transactionNo;
             $memberships -> since = $request->livingSince;
             $memberships -> previous_hostel = $request->previousHostel;
@@ -114,8 +112,16 @@ class HostelitesController extends Controller
             $memberships -> states_id = $request->stateId;
             $memberships -> city_id = $request->cityId;
             $memberships -> property_id = $request->hostelId;
-            $userReferal = User::where('cnic_no', $request->referralCnic)->first();
-            $memberships -> parent_id = $userReferal->id;
+            if(empty($request->referralCnic)){
+                $userOwnerClient = User::where('email', 'nhapk_client@hostel.com')->first();
+                $memberships -> referal_cnic = $userOwnerClient->cnic_no;
+                $memberships -> parent_id = $userOwnerClient->id;
+            }
+            else{
+                $memberships -> referal_cnic = $request->referralCnic;
+                $userReferal = User::where('cnic_no', $request->referralCnic)->first();
+                $memberships -> parent_id = $userReferal->id;
+            }
             $resultMemberships = $memberships->save();   
             if(!($resultMemberships)){
                 DB::rollBack();

@@ -68,6 +68,7 @@
     <body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
 
         @include('admin.layouts.header')
+        @include('admin.layouts.compulsory-sweetalert')
 
         @yield('main-container')
 
