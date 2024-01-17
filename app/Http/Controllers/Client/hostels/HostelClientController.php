@@ -42,45 +42,11 @@ class HostelClientController extends Controller
             $countries = Country::all();
             $categories = Category::all();  // Hostel Categories
             $property_types = PropertyType::all();      // Hostel Property Types
-            $amenities = Amenity::get();    // amenities
-            $luxuries = Luxury::get();      // luxuries
-            $features = Feature::get();      // features
-            $facilities = Facility::get();  // facilities
-            $membershipTypes = MembershipTypes::all();  // membershipTypes
-            $tags = Tag::all();     // Tags
-
-            $userMembership = Auth::user();
-            $memberships = Membership::where('cnic',$userMembership->cnic_no)->get();
-            // dd($memberships);
-            $membershipExistence="";
-            if(count($memberships)>0){
-                $membershipExistence="Yes";
-                return view('client.hostel.post-hostel') 
+            return view('client.hostel.post-hostel') 
                     ->with(['countries' => $countries,
                         'categories' => $categories,
                         'property_types' => $property_types,
-                        'amenities' => $amenities,
-                        'luxuries' => $luxuries,
-                        'features' => $features,
-                        'facilities' => $facilities,
-                        'tags' => $tags,
-                        'membershipExistence' => $membershipExistence,
                 ]);
-            }
-
-            $membershipExistence="No";
-            return view('client.hostel.post-hostel') 
-                ->with(['countries' => $countries,
-                    'categories' => $categories,
-                    'property_types' => $property_types,
-                    'amenities' => $amenities,
-                    'luxuries' => $luxuries,
-                    'features' => $features,
-                    'facilities' => $facilities,
-                    'tags' => $tags,
-                    'membershipTypes' => $membershipTypes,
-                    'membershipExistence' => $membershipExistence,
-            ]);
         }
         catch(Exception $e){
             return redirect()->back()->with('error','Your Exception is: '.$e->getMessage());
@@ -153,70 +119,18 @@ class HostelClientController extends Controller
         try{
             
             $rules = [
-                'hostelName'=> 'required|string|max:255|min:3|unique:properties,name',
-                'hostelDescription'=> 'required|string|max:400|min:3',
                 'hostelCountryId' => 'required|exists:countries,id',
                 'hostelStatesId' => 'required|exists:states,id',
                 'hostelCityId' => 'required|exists:cities,id',
-                'hostelTotalRooms' => 'required|integer|min:1',
-                'hostelBathRooms' => 'required|integer|min:1',
-                'hostelLocation' => 'required|string',
-                'latitude' => 'required',
-                'longitude' => 'required',
-                'hostelAddress'=> 'required|string|max:500|min:3',
-                'hostelZipCode'=> 'required|string',
-                'hostelNearestLandmark'=> 'required|string|max:255|min:3',
-                'hostelTotalFloors' => 'required|integer|min:1',
-                'hostelCategoryId'=>'required|exists:categories,id',
-                'hostelImages.*' => 'image|mimes:jpeg,png,jpg,JPEG,PNG,JPG|max:2048',
-                'hostelSlogan'=> 'required|string|max:255|min:3',
-                'hostelGender'=> 'required|in:male,female',
-                'hostelStayType'=> 'required|in:short_stay,long_stay',
-                'hostelGuestStayAllow'=> 'required|in:Yes,No',
-                'hostelRentPaySchedule'=> 'required|in:Daily,Weekly,Monthly,Quarterly,Yearly',
                 'hostelTypeId'=> 'required|exists:property_type,id',
-                'hostelAvgRentPerMonth'=> 'required',
+                'hostelTotalRooms' => 'required|integer|min:1',
                 'hostelRoomOccupancy' => 'required|integer|min:1',
-                'hostelRecommendedPlace'=> 'required|string|max:255|min:3',
+                'hostelName'=> 'required|string|max:255|min:3|unique:properties,name',
                 'hostelContactNumber' => 'required|numeric|digits:10|regex:/^3\d{9}$/',
-                'hostelOpenTiming' => 'required',
-                'hostelCloseTiming' => 'required',
-                'hostelYoutubeLink' => 'nullable|url',
-                'hostelFacebookLink' => 'nullable|url',
-                'hostelInstagramLink' => 'nullable|url',
-                'hostelAreaName' => 'required|string',
-                'hostelPlotNo' => 'required|string',
-                'hostelStreetNo' => 'required|string',
-                'hostelMapLocation' => 'required|url',
-                'hostelMess' => 'required|in:available,unavailable',
-                'hostelMessType' => 'required_if:hostelMess,available|in:one_time_mess,two_time_mess,three_time_mess,buffay_time_mess',
-                'hostelUtilityBills' => 'required|in:included_in_rent,not_included_in_rent',
-                'hostelSecuritySystem' => 'required|in:cctv,bio_metric,face_recognizer',
-                'hostelSecurityGuard' => 'required|in:24/7,day_time,night_watchman',
-                'hostelDoormanType' => 'required|in:male,female',
-                'hostelDoormanAvailability' => 'required|in:day_time,IoT_Device',
-                'hostelParkingAvailability' => 'required|in:indoor,outdoor',
-                'hostelMadeType' => 'required|in:male,female',
-                'hostelMadeAvailability' => 'required|in:24/7,office_time', 
-                'hostelWardenType' => 'required|in:male,female',
-                'hostelWardenAvailability' => 'required|in:24/7,office_time',
-                'hostelCommonRoomAvailability' => 'required|in:24/7,n/a',
-                'hostelStudyRoomAvailability' => 'required|in:24/7,n/a',
-                'hostelPrayerArea' => 'required|in:yes,no',
-                'hostelCanteenAvailability' => 'required|in:stand_alone,attached,inside,outside,online,pos,n/a',
-                'partnerCnicRadio' => 'required|in:Yes,No',
-                'wardenCnicRadio' => 'required|in:Yes,No',
-                'tags' => 'nullable|array',
-                'tags.*' => 'sometimes|exists:tags,id',
-                'features' => 'nullable|array',
-                'features.*' => 'sometimes|exists:features,id',
-                'facilities' => 'nullable|array',
-                'facilities.*' => 'sometimes|exists:facilities,id',
-                'amenities' => 'nullable|array',
-                'amenities.*' => 'sometimes|exists:amenities,id',
-                'luxuries' => 'nullable|array',
-                'luxuries.*' => 'sometimes|exists:luxuries,id',
+                'hostelAddress'=> 'required|string|max:500|min:3',
+                'hostelCategoryId'=>'required|exists:categories,id',
             ];
+            // dd($request->all());
             $partnerAvailability = "";
             if($request->partnerCnicRadio == "Yes"){
                 $partnerCnicCheck = $request->partnerCnicCheck;
@@ -281,23 +195,14 @@ class HostelClientController extends Controller
                     $rules['wardenCnicCheck'] = 'required|numeric|digits:15';
                 }
             }
-            $membershipExistence="";
-            $userMembership = Auth::user();
-            $memberships = Membership::where('cnic',$userMembership->cnic_no)->get();
-            if(count($memberships)>0){
-                $membershipExistence="Yes";
-            }
-            else{
-                $membershipExistence="No";
-                $rules['membershipTypeId'] = 'required|exists:membership_types,id';
-                $rules['transactionNumber'] = 'required|unique:member_ships,transaction_no';
-                if(!empty($request->refferalCnic) && strlen($request->refferalCnic)>0){
-                    $rules['refferalCnic']='required|max:15|min:15|exists:users,cnic_no';
-                }
-            }
 
-            // dd($request->all());
+            // return response()->json([
+            //     'status' => 'success',
+            //     'message' => 'Hostel created successfully',
+            // ]);
             $this->validate($request,$rules);
+            
+            // dd($request->all());
             
             
             // Generate the initial  hotel slug from the hostel name
@@ -305,22 +210,6 @@ class HostelClientController extends Controller
             // Make the slug unique
             $uniqueSlug = $this->makeSlugUnique($slug);
             
-            
-
-           // Begin: To save the images
-            $timestamp = now()->timestamp;
-            $imagePaths = [];
-
-            foreach ($request->file('hostelImages') as $index => $image) {
-                $imageFileName = $timestamp . '_' . $index . '.' . $image->getClientOriginalExtension();
-                $imagePath = "storage/hostelImages/" . $imageFileName;
-                $image->storeAs('public/hostelImages/', $imageFileName);
-                $imagePaths[] = $imagePath;
-            }
-            // End: To save the images
-
-            // Convert the array to a JSON string
-            $jsonImagePaths = json_encode($imagePaths);
 
             // Get the authenticated user's ID
             $userId = Auth::id();
@@ -333,19 +222,12 @@ class HostelClientController extends Controller
             DB::beginTransaction();
             $property = new Properties();
             $property->name = $request->hostelName;
-            $property->description = $request->hostelDescription;
-            $property->location = $request->hostelLocation;
-            $property->latitude = $request->latitude;
-            $property->longitude = $request->longitude;
             $property->number_bedroom = $request->hostelTotalRooms;
-            $property->number_bathroom = $request->hostelBathRooms;
-            $property->number_floor = $request->hostelTotalFloors;
             $property->state_id = $request->hostelStatesId;
             $property->city_id = $request->hostelCityId;
             $property->author_id = $userId;
             $property->author_type = $roleName;
             $property->category_id = $request->hostelCategoryId;
-            $property->images = $jsonImagePaths;
             $property->slug = $uniqueSlug;
             $property->nhapk_register = 1;
             $result = $property->save();
@@ -366,10 +248,6 @@ class HostelClientController extends Controller
             $propertyAddresses->city_id = $request->hostelCityId;
             $propertyAddresses->state_id = $request->hostelStatesId;
             $propertyAddresses->country_id = $request->hostelCountryId;
-            $propertyAddresses->latitude = $request->latitude;
-            $propertyAddresses->longitude = $request->longitude;
-            $propertyAddresses->zipcode = $request->hostelZipCode;
-            $propertyAddresses->nearest_landmark = $request->hostelNearestLandmark;
             $resultPropertiesAddresses = $propertyAddresses->save();
             if(!$resultPropertiesAddresses){
                 DB::commit();
@@ -382,48 +260,10 @@ class HostelClientController extends Controller
             // Save the data into the Property_Metas Table
             $propertyMetas = new PropertiesMetas();
             $propertyMetas->property_id = $propertiesId;
-            $propertyMetas->slogan = $request->hostelSlogan;
-            $propertyMetas->hostel_for = $request->hostelGender;
             $propertyMetas->property_type = $request->hostelTypeId;
-            $propertyMetas->opening_time = $request->hostelOpenTiming;
-            $propertyMetas->closing_time = $request->hostelCloseTiming;
-            $propertyMetas->avg_rent_per_month = $request->hostelAvgRentPerMonth;
-            $propertyMetas->rent_pay_schedule = $request->hostelRentPaySchedule;
-            $propertyMetas->stay_type = $request->hostelStayType;
-            $propertyMetas->guest_stay_allow = $request->hostelGuestStayAllow;
             $propertyMetas->total_room = $request->hostelTotalRooms;
             $propertyMetas->room_occupany = $request->hostelRoomOccupancy;
             $propertyMetas->contact_number = "+92".$request->hostelContactNumber;
-            $propertyMetas->area_name = $request->hostelAreaName;
-            $propertyMetas->street_no = $request->hostelStreetNo;
-            $propertyMetas->plot_no = $request->hostelPlotNo;
-            $propertyMetas->location = $request->hostelLocation;
-            $propertyMetas->nearby_famous_location = $request->hostelNearestLandmark;
-            $propertyMetas->map_location = $request->hostelMapLocation;
-            $propertyMetas->mess = $request->hostelMess;
-            if($request->hostelMess == "available"){
-                $propertyMetas->mess_type = $request->hostelMessType;
-            }
-            $propertyMetas->utility_bill = $request->hostelUtilityBills;
-            $propertyMetas->security_guard_availability = $request->hostelSecurityGuard;
-            $propertyMetas->security_system_availability = $request->hostelSecuritySystem;
-            $propertyMetas->warden_availability = $request->hostelWardenAvailability;
-            $propertyMetas->warden_availability_gender = $request->hostelWardenType;
-            $propertyMetas->doorman_availability = $request->hostelDoormanAvailability;
-            $propertyMetas->doorman_availability_gender = $request->hostelDoormanType;
-            $propertyMetas->made_availability = $request->hostelMadeAvailability;
-            $propertyMetas->made_availability_gender = $request->hostelMadeType;
-            if($request->hostelCanteenAvailability != "n/a"){
-                $propertyMetas->canteen_availability = $request->hostelCanteenAvailability;
-            }
-            $propertyMetas->common_room_availability = $request->hostelCommonRoomAvailability;
-            $propertyMetas->study_room_availability = $request->hostelStudyRoomAvailability;
-            $propertyMetas->prayer_area_availability = $request->hostelPrayerArea;
-            $propertyMetas->parking_availability = $request->hostelParkingAvailability;
-            $propertyMetas->recommended_place = $request->hostelRecommendedPlace;
-            $propertyMetas->youtube_link = $request->hostelYoutubeLink;
-            $propertyMetas->facebook_link = $request->hostelFacebookLink;
-            $propertyMetas->instagram_link = $request->hostelInstagramLink;
             $resultPropertyMetas = $propertyMetas->save();
             if(!$resultPropertyMetas){
                 DB::commit();
@@ -522,68 +362,7 @@ class HostelClientController extends Controller
                     ]);
                 }
             }
-
-            // Save the luxuries,amenities,features,facilities
-            $selectedFeatureIds = $request->input('features', []);
-            // Attach selected features to the property
-            $property->features()->attach($selectedFeatureIds);
-
-            $selectedFacilityIds = $request->input('facilities', []);
-            // Attach selected facilities to the property
-            $property->facilities()->attach($selectedFacilityIds);
-
-            $selectedAmenityIds = $request->input('amenities', []);
-            // Attach selected amenities to the property
-            $property->amenities()->attach($selectedAmenityIds);
-
-            $selectedLuxuryIds = $request->input('luxuries', []);
-            // Attach selected luxuries to the property
-            $property->luxuries()->attach($selectedLuxuryIds);
-            //  dd($selectedFeatureIds);
-
-            // Check if 'tags' is present in the request and is an array
-            if ($request->has('tags') && is_array($request->tags)) {
-                // Sync the tags for the property
-                $property->tags()->sync($request->tags);
-            }
-
-
-            $userMembership = Auth::user();
-            $memberships = Membership::where('cnic',$userMembership->cnic_no)->get();
-            if($membershipExistence=="No"){
-                $memberships = new Membership();
-                $memberships->name = $userMembership->name;
-                $memberships->cnic = $userMembership->cnic_no;
-                $memberships->membershiptype_id =$request->membershipTypeId;
-                // $memberships->hostelreg_no =;
-                $memberships->transaction_no =$request->transactionNumber;
-                // Determine gender based on the last digit of the CNIC
-                $lastDigit = substr($userMembership->cnic_no, -1);
-                $memberships->gender = ($lastDigit % 2 === 0) ? 'female' : 'male';
-                $memberships->since =$request->since;
-                $memberships->previous_hostel =$request->previousHostel;
-                $memberships->country_id =$request->hostelCountryId;
-                $memberships->city_id =$request->hostelCityId;
-                $memberships->states_id =$request->hostelStatesId;
-                $memberships->area =$request->hostelAreaName;
-                $memberships->property_id =$propertiesId;
-                // Check if referalCnic is not empty
-                if (!empty($request->refferalCnic)) {
-                    // Assuming you have a User model and a proper relationship between User and Membership
-                    $referralUser = User::where('cnic_no', $request->refferalCnic)->first();
-                    $memberships->referal_cnic =$request->refferalCnic;
-                    // Set the parent_id with the ID of the referring user
-                    $memberships->parent_id = $referralUser->id;
-                }
-                if(!($memberships->save())){
-                    DB::commit();
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'There is a Problem in Saving Membership Details Form. Kindly Submit Again',
-                    ]);
-                } 
-            }
-
+            DB::commit();
             return response()->json([
                 'status' => 'success',
                 'message' => 'Hostel created successfully',

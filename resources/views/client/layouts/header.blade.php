@@ -96,25 +96,8 @@
                         <span class="menu-title text-truncate" data-i18n="Page Layouts">Menu</span>
                         <span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span>
                     </a>
-                    @if ($hosteliteMetasFieldData=="Filled" || $hosteliteMetasFieldData=="NotRequired")
-                        <ul class="menu-content">
-                            <!--    Begin:  Hostel Menus    -->
-                            <li class="nav-item">
-                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Hostel</span></a>
-                                <ul class="menu-content">
-                                    <li>
-                                        <a class="d-flex align-items-center" href="{{route('client.hostels.listHostels')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed">List Hostel</span></a>
-                                    </li>
-                                    <li>
-                                        <a class="d-flex align-items-center" href="{{ route('client.hostels.index') }}"><i data-feather="heart"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Add Hostel</span></a>
-                                    </li>
-                                    <li>
-                                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">View</span></a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <!--    End:  Hostel Menus    -->
-                            
+                    <ul class="menu-content">
+                        @if ($hosteliteMetasFieldData=="Filled" || $hosteliteMetasFieldData=="NotRequired")
                             <!-- Begin: Menu Memebership  -->
                             <li class="nav-item">
                                 <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Memebership</span></a>
@@ -187,9 +170,27 @@
                                 </ul>
                             </li>
                             <!-- Begin: SOP Menu  -->
-                        </ul>
-                    @endif
-                    
+                        @endif
+                        <!--    Begin:  Hostel Menus    -->
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Hostel</span></a>
+                            <ul class="menu-content">
+                                <li>
+                                    <a class="d-flex align-items-center" href="{{route('client.hostels.listHostels')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed">List Hostel</span></a>
+                                </li>
+                                <li>
+                                    <a class="d-flex align-items-center" href="{{ route('client.hostels.index') }}"><i data-feather="heart"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Add Hostel</span></a>
+                                </li>
+                                <li>
+                                    <a class="d-flex align-items-center" href="{{ route('client.hostels.index') }}"><i data-feather="heart"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Add New Hostel</span></a>
+                                </li>
+                                <li>
+                                    <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">View</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!--    End:  Hostel Menus    -->
+                    </ul>
                 </li>
                 <!-- End: Menus Here -->
             </ul>
