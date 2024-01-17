@@ -21,12 +21,16 @@
                             </span>
                         </div>
                             <span class="avatar">
-                                <img class="round" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40">
+                                @if (auth()->user()->picture_path)
+                                    <img class="round" src="{{ Storage::url(auth()->user()->picture_path) }}" alt="avatar" height="40" width="40">
+                                @else
+                                    <img class="round" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40">
+                                @endif
                                 <span class="avatar-status-online"></span>
                             </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
-                        <a class="dropdown-item" href="#"><i class="me-50" data-feather="user"></i> Profile</a>
+                        <a class="dropdown-item" href="{{route('client.viewProfile')}}"><i class="me-50" data-feather="user"></i> Profile</a>
                         <a class="dropdown-item" href="#"><i class="me-50" data-feather="mail"></i> Inbox</a>
                         <a class="dropdown-item" href="#"><i class="me-50" data-feather="check-square"></i> Task</a>
                         <a class="dropdown-item" href="#"><i class="me-50" data-feather="message-square"></i> Chats</a>
@@ -85,107 +89,109 @@
                         <span class="menu-title text-truncate" data-i18n="Home">Home</span>
                     </a>
                 </li>
-                {{-- Begin: Menus Here --}}
+                <!-- Begin: Menus Here -->
                 <li class="nav-item has-sub open">
                     <a class="d-flex align-items-center" href="#">
                         <i data-feather="menu"></i>
                         <span class="menu-title text-truncate" data-i18n="Page Layouts">Menu</span>
                         <span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span>
                     </a>
-                    <ul class="menu-content">
-                        <!--    Begin:  Hostel Menus    -->
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Hostel</span></a>
-                            <ul class="menu-content">
-                                <li>
-                                    <a class="d-flex align-items-center" href=""><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed">List Hostel</span></a>
-                                </li>
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{ route('client.hostels.index') }}"><i data-feather="heart"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Add Hostel</span></a>
-                                </li>
-                                <li>
-                                    <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">View</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                        <!--    End:  Hostel Menus    -->
-                        
-                        {{-- Begin: Menu Memebership  --}}
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Memebership</span></a>
-                            <ul class="menu-content">
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{ route('client.membership.show_refferal') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Refferal Link</span></a>
-                                </li>
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{ route('client.membership.index') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Post</span></a>
-                                </li>
-                                <li>
-                                    <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">View</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                        {{-- End: Menu Memebership  --}}
+                    @if ($hosteliteMetasFieldData=="Filled" || $hosteliteMetasFieldData=="NotRequired")
+                        <ul class="menu-content">
+                            <!--    Begin:  Hostel Menus    -->
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Hostel</span></a>
+                                <ul class="menu-content">
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{route('client.hostels.listHostels')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed">List Hostel</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{ route('client.hostels.index') }}"><i data-feather="heart"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Add Hostel</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">View</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!--    End:  Hostel Menus    -->
+                            
+                            <!-- Begin: Menu Memebership  -->
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Memebership</span></a>
+                                <ul class="menu-content">
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{ route('client.membership.show_refferal') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Refferal Link</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{ route('client.membership.index') }}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Post</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">View</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- End: Menu Memebership  -->
 
-                        {{-- Begin: Menu A  --}}
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Menu A</span></a>
-                            <ul class="menu-content">
-                                <li>
-                                    <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Post</span></a>
-                                </li>
-                                <li>
-                                    <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Layout">List</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                        {{-- Begin: Menu A  --}}
+                            <!-- Begin: Menu A  -->
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Menu A</span></a>
+                                <ul class="menu-content">
+                                    <li>
+                                        <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Post</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Layout">List</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!--- Begin: Menu A  -->
 
-                        {{-- Begin: Menu B  --}}
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Menu B</span></a>
-                            <ul class="menu-content">
-                                <li>
-                                    <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Post</span></a>
-                                </li>
-                                <li>
-                                    <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Layout">List</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                        {{-- Begin: Menu B  --}}
+                            <!-- Begin: Menu B  -->
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Menu B</span></a>
+                                <ul class="menu-content">
+                                    <li>
+                                        <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Post</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Layout">List</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- Begin: Menu B  -->
 
-                        {{-- Begin: Menu C  --}}
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Menu C</span></a>
-                            <ul class="menu-content">
-                                <li>
-                                    <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Post</span></a>
-                                </li>
-                                <li>
-                                    <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Layout">List</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                        {{-- Begin: Menu C  --}}
+                            <!-- Begin: Menu C -->
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Menu C</span></a>
+                                <ul class="menu-content">
+                                    <li>
+                                        <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Post</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Layout">List</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!--- Begin: Menu C  -->
 
-                        {{-- Begin: SOP Menu  --}}
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">SOP's</span></a>
-                            <ul class="menu-content">
-                                <li>
-                                    <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Post</span></a>
-                                </li>
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{route('client.sops.list_sops')}}"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Layout">List SOP's</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                        {{-- Begin: SOP Menu  --}}
-                    </ul>
+                            <!--- Begin: SOP Menu  -->
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">SOP's</span></a>
+                                <ul class="menu-content">
+                                    <li>
+                                        <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Post</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{route('client.sops.list_sops')}}"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Layout">List SOP's</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- Begin: SOP Menu  -->
+                        </ul>
+                    @endif
                     
                 </li>
-                {{-- End: Menus Here --}}
+                <!-- End: Menus Here -->
             </ul>
         </div>
     </div>

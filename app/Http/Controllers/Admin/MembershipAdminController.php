@@ -65,6 +65,40 @@ class MembershipAdminController extends Controller
         return abort(403, 'Unathorized action');
     }
 
+    /**
+     * Begin: Function to Update the Membership Status
+    */
+    public function updateMembershipStatus($membershipId,$membershipStatus){
+        $validStatuses = ['pending', 'approve', 'cancel'];
+        // Check if the given $status is in the array of valid statuses
+        if (!(in_array($membershipStatus, $validStatuses))) {
+            return response()->json([
+                'status' => 'invalid',
+                'message' => 'You are accessing invalid status. Kindly use the valid status.',
+            ]);
+        }
+        $memberships = Membership::find($membershipId);
+        if(!($memberships)){
+            return response()->json([
+                'status' => 'invalid',
+                'message' => 'You are accessing invalid memebrship. Kindly use the valid one.',
+            ]);
+        }
+        $memberships->status= $membershipStatus;
+        $resultMembershipStatus = $memberships->save();
+        if(!$resultMembershipStatus){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'There is an error while updating the membership status.',
+            ]);
+        }
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Succesfully! Membership Status Updated now.',
+        ]);
+
+    }
+
     // 
     public function editMemebershipView($id){
         // 

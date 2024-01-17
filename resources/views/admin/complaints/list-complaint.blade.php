@@ -251,7 +251,7 @@ jq(document).ready(function() {
             [10, 25, 50, 100, 200, "All"]
         ],
         "ajax": {
-            url: "/get-adminListingComplaint",
+            url: "/admin/get-adminListingComplaint",
             type: "GET",
             data: function(d) {
                 d.institute_id = '<?= $Institute_id ?? '' ?>';
@@ -281,7 +281,7 @@ jq(document).ready(function() {
                 if (result.isConfirmed) {
                     // Proceed with your action here
                     jq.ajax({
-                        url:'/complaint/update-status/'+selectedValue+'/'+dataId,
+                        url:'/admin/complaint/update-status/'+selectedValue+'/'+dataId,
                         type:'get',
                         success:function(response){
                             if(response=='error'){

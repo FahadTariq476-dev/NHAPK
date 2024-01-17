@@ -64,7 +64,7 @@
                 <!-- Begin: Add Hostel -->
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Add Hostel</h4>
+                        <h4 class="card-title">Edit Hostel</h4>
                     </div>
                     <div class="card-body">
                         <div id="form-container">
@@ -78,13 +78,13 @@
                                         <!-- Hostel Name -->
                                         <div class="form-group">
                                             <label for="hostelName">Hostel Name:</label>
-                                            <input type="text" class="form-control" id="hostelName" value="" name="hostelName" minlength="3" maxlength="250" placeholder="Enter Your Hostel Name Here:">
+                                            <input type="text" class="form-control" id="hostelName" value="{{$properties->name}}" name="hostelName" minlength="3" maxlength="250" placeholder="Enter Your Hostel Name Here:">
                                         </div>
                             
                                         <!-- Hostel Description -->
                                         <div class="form-group">
                                             <label for="hostelDescription">Hostel Description:</label>
-                                            <textarea class="form-control" id="hostelDescription" name="hostelDescription" rows="3" minlength="5" maxlength="400" placeholder="Enter Your Hostel Description Here:"></textarea>
+                                            <textarea class="form-control" id="hostelDescription" name="hostelDescription" rows="3" minlength="5" maxlength="400" placeholder="Enter Your Hostel Description Here:">{{$properties->description}}</textarea>
                                         </div>
                             
                                         <!-- Hostel Country -->
@@ -109,6 +109,15 @@
                                             <label for="hostelStatesId">State:</label>
                                             <select class="form-control" id="hostelStatesId" name="hostelStatesId">
                                                 <option value="" selected disabled>Select State</option>
+                                                @if (count($states)>0)
+                                                @foreach($states as $state)
+                                                    <option value="{{ $state->id }}" @if ($properties->state_id==$state->id) selected @endif >
+                                                        {{ $state->name }}
+                                                    </option>
+                                                @endforeach
+                                                @else
+                                                    <option value="" disabled>No State Found</option>
+                                                @endif
                                             </select>
                                         </div>
                             
@@ -117,13 +126,22 @@
                                             <label for="hostelCityId">City:</label>
                                             <select class="form-control" id="hostelCityId" name="hostelCityId">
                                                 <option value="" selected disabled>Select City</option>
+                                                @if (count($cities)>0)
+                                                @foreach($cities as $city)
+                                                    <option value="{{ $city->id }}" @if ($properties->city_id==$city->id) selected @endif >
+                                                        {{ $city->name }}
+                                                    </option>
+                                                @endforeach
+                                                @else
+                                                    <option value="" disabled>No City Found</option>
+                                                @endif
                                             </select>
                                         </div>
 
                                         <!-- Total Number of Rooms -->
                                         <div class="form-group">
                                             <label for="hostelTotalRooms">Total Number of Rooms:</label>
-                                            <input type="number" class="form-control" value="" id="hostelTotalRooms" name="hostelTotalRooms" placeholder="Enter Total Number of Rooms Here:">
+                                            <input type="number" class="form-control" value="{{$properties->number_bedroom}}" id="hostelTotalRooms" name="hostelTotalRooms" placeholder="Enter Total Number of Rooms Here:">
                                         </div>
                             
                                         
@@ -136,7 +154,7 @@
                                          <!-- Hostel Address -->
                                          <div class="form-group">
                                             <label for="hostelAddress">Hostel Adress:</label>
-                                            <textarea class="form-control" id="hostelAddress" name="hostelAddress" rows="3" minlength="5" maxlength="400" placeholder="Enter Your Hostel Address Here:"></textarea>
+                                            <textarea class="form-control" id="hostelAddress" name="hostelAddress" rows="3" minlength="5" maxlength="400" placeholder="Enter Your Hostel Address Here:">{{$properties->name}}</textarea>
                                         </div>
                             
                                        
@@ -144,19 +162,19 @@
                                         <!-- Hostel Nearest Landmark -->
                                         <div class="form-group">
                                             <label for="hostelNearestLandmark">Nearest Landmark:</label>
-                                            <input type="text" class="form-control" value="" id="hostelNearestLandmark" name="hostelNearestLandmark" placeholder="Enter Your Nearest Landmark Here:">
+                                            <input type="text" class="form-control" value="{{$properties->name}}" id="hostelNearestLandmark" name="hostelNearestLandmark" placeholder="Enter Your Nearest Landmark Here:">
                                         </div>
 
                                         <!-- Total Number of Floors -->
                                         <div class="form-group">
                                             <label for="hostelTotalFloors">Total Number of Floors:</label>
-                                            <input type="number" class="form-control" value="" id="hostelTotalFloors" name="hostelTotalFloors" placeholder="Enter Total Number of FLoors Here:">
+                                            <input type="number" class="form-control" value="{{$properties->number_floor}}" id="hostelTotalFloors" name="hostelTotalFloors" placeholder="Enter Total Number of FLoors Here:">
                                         </div>
 
                                         <!-- Total Number of Bath Rooms -->
                                         <div class="form-group">
                                             <label for="hostelBathRooms">Total Number of Bath Rooms:</label>
-                                            <input type="number" class="form-control" value="" id="hostelBathRooms" name="hostelBathRooms" placeholder="Enter Total Number of Bath Rooms Here:">
+                                            <input type="number" class="form-control" value="{{$properties->number_bathroom}}" id="hostelBathRooms" name="hostelBathRooms" placeholder="Enter Total Number of Bath Rooms Here:">
                                         </div>
                                         
                                         <!-- Hostel Categories-->
@@ -166,7 +184,7 @@
                                                 <option value="" selected disabled >Select Hostel Category</option>
                                                 @if (count($categories)>0)
                                                     @foreach($categories as $category)
-                                                        <option value="{{$category->id}}">
+                                                        <option value="{{$category->id}}" @if ($properties->category_id==$category->id) selected @endif>
                                                             {{$category->name}}
                                                         </option>
                                                     @endforeach
@@ -175,21 +193,10 @@
                                                 @endif
                                             </select>
                                         </div>
-                            
-                                        <!-- Hostel Images -->
-                                        <div class="form-group" id="divImages">
-                                            <label for="hostelImages">Hostel Images:</label>
-                                            <input type="file" class="form-control" id="hostelImages" name="hostelImages[]" multiple accept="image/*" placeholder="Select Your Hostal Images Here:">
-                                            <small class="form-text text-muted">Please Select Hostel Images Here. Only Images will be Selected and size will not be greater than 2 MB.</small>
-                                        </div>
                                     </div>
                                     
                                     <div class="form-group">
-                                        <button type="reset" class="btn btn-info">Reset</button>
                                         <button type="submit" class="btn btn-primary" id="btnAddHostel">Next</button>
-                                        {{-- <button type="button" class="btn btn-primary" onclick="nextStep(2)" id="btnAddHostel">Next</button> --}}
-                                        {{-- <button type="button" class="btn btn-primary"  id="btnAddHostel">Next</button> --}}
-                                        {{-- <a href="#" id="btnAddHostel">Next</a> --}}
                                     </div>
                                     
                                 </form>
@@ -206,7 +213,7 @@
                                         <!-- Hostel Slogan -->
                                         <div class="form-group">
                                             <label for="hostelSlogan">Hostel Slogan:</label>
-                                            <input type="text" class="form-control" value="" id="hostelSlogan" name="hostelSlogan" placeholder="Enter Your Hostel Slogan Here:">
+                                            <input type="text" class="form-control" value="{{$properties->name}}" id="hostelSlogan" name="hostelSlogan" placeholder="Enter Your Hostel Slogan Here:">
                                         </div>
                             
                                         <!-- Hostel For -->
@@ -615,54 +622,6 @@
                                             });
                                         });
                                     </script>
-                                    
-                                    @if ($membershipExistence=="No")
-                                        <div class="col-md-6 mb-1">
-                                            <h4>Provide Your Membership Details</h4>
-                                            <!--Select Membership-->
-                                            <!-- Membership Type -->
-                                            <div class="form-group">
-                                                <label for="membershipType">Membership Type:</label>
-                                                <select class="form-control" id="membershipTypeId" name="membershipTypeId">
-                                                    <option value="" selected disabled>Select Membership</option>
-                                                    @if (count($membershipTypes)>0)
-                                                        @foreach($membershipTypes as $membershipType)
-                                                            <option value="{{ $membershipType->id }}">
-                                                                {{ $membershipType->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    @else
-                                                        <option value="" disabled>No Membership Found</option>
-                                                    @endif
-                                                </select>
-                                            </div>
-
-                                            <!--Transaction Number-->
-                                            <div class="form-group">
-                                                <label for="partnerEmail">Transaction Number:</label>
-                                                <input type="text" class="form-control" id="transactionNumber" name="transactionNumber" placeholder="Enter Transaction Number Here:">
-                                            </div> 
-
-                                            <!--Refferal Cnic-->
-                                            <div class="form-group">
-                                                <label for="partnerEmail">Refferal Cnic:</label>
-                                                <input type="text" class="form-control" id="refferalCnic" name="refferalCnic" placeholder="Enter Refferal Cni Here:" minlength="15" maxlength="15">
-                                            </div>
-
-                                            <!-- Since -->
-                                            <div class="form-group">
-                                                <label for="since">Since:</label>
-                                                <input type="date" class="form-control" id="since" name="since">
-                                                <small class="form-text text-muted">Living Since</small>
-                                            </div>
-                        
-                                            <!-- Previous Hostel -->
-                                            <div class="form-group">
-                                                <label for="previousHostel">Previous Hostel:</label>
-                                                <input type="text" class="form-control" id="previousHostel" name="previousHostel" placeholder="Enter your previous hostel registration number here: [Optional]">
-                                            </div> 
-                                        </div>
-                                    @endif
                                     
                                     <!-- Buttons-->
                                     <div class="form-group mb-2">
@@ -2060,28 +2019,6 @@
                     $("#hostelCanteenAvailability").after('<div class="alert alert-danger HostelMetasAlert">Hostel Canteen Availability Should be Selected.</div>');
                     e.preventDefault();
                 }
-                
-                @if($membershipExistence == "No")
-                // To check the membershipTypeId is empty or not
-                let membershipTypeId = $("#membershipTypeId").val();
-                if(membershipTypeId === null || membershipTypeId.trim() === '' ){
-                    $("#membershipTypeId").after('<div class="alert alert-danger HostelMetasAlert">Membership Should be Selected.</div>');
-                    e.preventDefault();
-                }
-                
-                // To check the transactionNumber is empty or not
-                let transactionNumber = $("#transactionNumber").val();
-                if(transactionNumber === null || transactionNumber.trim() === '' ){
-                    $("#transactionNumber").after('<div class="alert alert-danger HostelMetasAlert">Transaction Number Should be Selected.</div>');
-                    e.preventDefault();
-                }
-                // To check the refferalCnic is given then it's length will be 15
-                let refferalCnic = $("#refferalCnic").val();
-                if((refferalCnic.length>0) && refferalCnic.length!=15 ){
-                    $("#refferalCnic").after('<div class="alert alert-danger HostelMetasAlert">Valid Refferal Cnic Should be Selected.</div>');
-                    e.preventDefault();
-                }
-                @endif
 
                 // If there are no validation errors, proceed with next form request
                 if ($(".HostelMetasAlert").length === 0) {

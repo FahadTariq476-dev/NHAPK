@@ -107,9 +107,8 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            {{-- <a href="{{ route('front-end.client.login') }}" class="nav-link">Login</a> --}}
+                            <a href="#" class="btn nav-link" data-toggle="modal" data-target="#cnicModal">Login</a>
                             <!-- Button trigger modal -->
-                            @include('frontEnd.forntEnd_layout.loginmodal')
                         </li>
                     @endif
                 </ul>
