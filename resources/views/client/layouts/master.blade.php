@@ -66,12 +66,13 @@
 
         @include('client.layouts.header')
         
+        
         <!-- Begin: To Show sett alert with respect to message -->
         @include('client.layouts.compulsory-sweetalert')
         <!-- End: To Show sett alert with respect to message -->
 
         @include('client.layouts.main')
-
+        
         @include('client.layouts.footer')
 
         <!-- BEGIN: Vendor JS-->
