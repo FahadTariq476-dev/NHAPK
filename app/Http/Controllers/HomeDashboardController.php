@@ -11,7 +11,17 @@ class HomeDashboardController extends Controller
 {
     //
     public function index(){
-        $roles = Role::where('nhapk_register',1)->get();
+        $allwoedrulesforLogin = 
+        [
+            'Who did not  decided  role yet',
+            'I am Hostelites',
+            'Hostel Working Staff eg. Made,  Helper, Doormen / Guard',
+            'Admin / Manager / Cook / Warden',
+            'Staff or Team Member of NHAP',
+            'Sponsor / Supporter of NHAP',
+            'Private Hostel Owner/ Antiusist',
+        ];
+        $roles = Role::where('nhapk_register',1)->whereIn('name',$allwoedrulesforLogin)->get();
         $blogs = Blog::where('status','published')->where('featured_post',1)->latest()->take(6)->get();
         $news = NewsFeed::where('status','published')->where('featured_post',1)->latest()->take(6)->get();
         return view('frontEnd.index')->with([

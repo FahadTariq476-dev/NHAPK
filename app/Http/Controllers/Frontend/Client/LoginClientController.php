@@ -136,8 +136,16 @@ class LoginClientController extends Controller
      */
         public function storeNewUser(Request $request){
             try{
-                // 
-                // dd($request->new_phone_number);
+                $allwoedrulesforLogin = 
+                [
+                    'Who did not  decided  role yet',
+                    'I am Hostelites',
+                    'Hostel Working Staff eg. Made,  Helper, Doormen / Guard',
+                    'Admin / Manager / Cook / Warden',
+                    'Staff or Team Member of NHAP',
+                    'Sponsor / Supporter of NHAP',
+                    'Private Hostel Owner/ Antiusist',
+                ];
                 DB::beginTransaction();
                 $rules = [
                     'firstname' => 'required|string|max:255',
@@ -154,8 +162,8 @@ class LoginClientController extends Controller
                             $query->where('phone_number', '+92' . $request->new_phone_number);
                         }),
                     ],
-                    'roleId' =>['required', Rule::exists('roles', 'id')->where(function ($query) {
-                        $query->where('nhapk_register', 1);
+                    'roleId' =>['required', Rule::exists('roles', 'id')->where(function ($query) use ($allwoedrulesforLogin) {
+                        $query->where('nhapk_register', 1)->whereIn('name',$allwoedrulesforLogin);
                     }),
                 ],
                     'password' => 'required|string|required|max:8|min:8',

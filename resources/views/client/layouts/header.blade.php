@@ -171,25 +171,29 @@
                             </li>
                             <!-- Begin: SOP Menu  -->
                         @endif
-                        <!--    Begin:  Hostel Menus    -->
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Hostel</span></a>
-                            <ul class="menu-content">
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{route('client.hostels.listHostels')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed">List Hostel</span></a>
-                                </li>
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{ route('client.hostels.index') }}"><i data-feather="heart"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Add Hostel</span></a>
-                                </li>
-                                <li>
-                                    <a class="d-flex align-items-center" href="{{ route('client.hostels.index') }}"><i data-feather="heart"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Add New Hostel</span></a>
-                                </li>
-                                <li>
-                                    <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">View</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                        <!--    End:  Hostel Menus    -->
+                        {{-- @dd((Auth::user()->roles)->all()) --}}
+                        @php
+                            $users = Auth::user();
+                            $userRoles = $users->getRoleNames(); 
+                        @endphp
+                        @if (($userRoles)->contains('I am Hostelites'))
+                            <!--    Begin:  Hostel Menus    -->
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Hostel</span></a>
+                                <ul class="menu-content">
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{route('client.hostels.listHostels')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed">List Hostel</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{ route('client.hostels.index') }}"><i data-feather="heart"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Add New Hostel</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">View</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!--    End:  Hostel Menus    -->
+                        @endif
                     </ul>
                 </li>
                 <!-- End: Menus Here -->
