@@ -68,9 +68,8 @@
                                         <th>Featured Post</th>
                                         <th>Status</th>
                                         <th>Created At</th>
+                                        <th>Status</th>
                                         <th>Action</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -86,9 +85,8 @@
                                         <th>Featured Post</th>
                                         <th>Status</th>
                                         <th>Created At</th>
+                                        <th>Status</th>
                                         <th>Action</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -133,11 +131,13 @@
                         data: 'short_description',
                         render: function(data, type, row) {
                             // Show only the first 100 characters with an ellipsis at the end
-                            var truncatedDescription = data.length > 100 ? data.substring(0, 100) + '  __...' : data;
+                            var truncatedDescription = data.length > 10 ? data.substring(0, 10) + '  __...' : data;
                             return truncatedDescription;
                         }
                     },
-                    { data: 'image_path' },
+                    { 
+                        data: 'image_path',
+                    },
                     { data: 'thumbnail_image_path' },
                     { 
                         data: 'featured_post', 
@@ -168,7 +168,6 @@
                         data: null, // Placeholder for the action column
                         render: function(data, type, row) {
                             // Render the select button for the action column
-                            // form-select
                             return '<select class="status-select form-select form-select-sm" data-id="' + row.id + '">' +
                                     '<option value="" disabled>Select</option>'+
                                     '<option value="pending" ' + (row.status === 'pending' ? 'selected' : '') + '>Pending</option>' +
@@ -176,20 +175,14 @@
                                 '</select>';
                         }
                     },
-                    // Edit button
+                    // Edit button, Delete Button
                     {
                         data: null,
                         render: function(data, type, row) {
-                            return '<button class="btn btn-primary btn-sm edit-btn" data-id="' + row.id + '">Edit</button>';
+                            return '<div class="btn-group"><button class="btn btn-primary btn-sm edit-btn" data-id="' + row.id + '">Edit</button>'+
+                            '<button class="btn btn-danger btn-sm delete-btn" data-id="' + row.id + '">Delete</button></div>';
                         }
                     },
-                    // Delete button
-                    {
-                        data: null,
-                        render: function(data, type, row) {
-                            return '<button class="btn btn-danger btn-sm delete-btn" data-id="' + row.id + '">Delete</button>';
-                        }
-                    }
                 ],
                 serverSide: true,
                 responsive: true,

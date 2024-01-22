@@ -67,8 +67,7 @@
                                         <th style="text-transform: unset">Title</th>
                                         <th style="text-transform: unset">Description</th>
                                         <th style="text-transform: unset">Created Date</th>
-                                        <th style="text-transform: unset">Show</th>
-                                        <th style="text-transform: unset">Download</th>
+                                        <th style="text-transform: unset">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -82,8 +81,7 @@
                                         <th style="text-transform: unset">Title</th>
                                         <th style="text-transform: unset">Description</th>
                                         <th style="text-transform: unset">Created Date</th>
-                                        <th style="text-transform: unset">Show</th>
-                                        <th style="text-transform: unset">Download</th>
+                                        <th style="text-transform: unset">Action</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -149,7 +147,7 @@
                         data: 'description', 
                         render: function(data, type, row) {
                             // Show only the first 100 characters with an ellipsis at the end
-                            var truncatedDescription = data.length > 100 ? data.substring(0, 100) + '  __...' : data;
+                            var truncatedDescription = data.length > 10 ? data.substring(0, 10) + '  __...' : data;
                             return truncatedDescription;
                         }
                     },
@@ -164,15 +162,10 @@
                     {
                         data: 'null',
                         render: function (data, type, row) {
-                            return '<a href="#" data-id="' + row.id + '" class="btn btn-primary btn-sm showDesc-btn">Show</a>';
-                        }
-                    },
-                    {
-                        data: 'null',
-                        render: function (data, type, row) {
                             var assetPath = '{{ asset('') }}'; // Assuming Laravel's asset function is available in your Blade template
                             var sopsFilePath = assetPath + row.file_path;
-                            return '<a href="#" data-id="' + row.id + '" data-file="' + sopsFilePath + '" class="btn btn-success btn-sm downloadSop">Download</a>';
+                            return '<div class="btn-group"><a href="#" data-id="' + row.id + '" class="btn btn-primary btn-sm showDesc-btn">Show</a>'+
+                            '<a href="#" data-id="' + row.id + '" data-file="' + sopsFilePath + '" class="btn btn-success btn-sm downloadSop">Download</a></div>';
                         }
                     },
                 ],

@@ -65,10 +65,8 @@
                                         <th>Answer</th>
                                         <th>Status</th>
                                         <th>Date & Time</th>
+                                        <th>Status</th>
                                         <th>Action</th>
-                                        <th>Show</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -81,10 +79,8 @@
                                         <th>Answer</th>
                                         <th>Status</th>
                                         <th>Date & Time</th>
+                                        <th>Status</th>
                                         <th>Action</th>
-                                        <th>Show</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -149,7 +145,7 @@
                         data: 'answer',
                         render: function(data, type, row) {
                             // Show only the first 100 characters with an ellipsis at the end
-                            var truncatedDescription = data.length > 100 ? data.substring(0, 100) + '  __...' : data;
+                            var truncatedDescription = data.length > 10 ? data.substring(0, 10) + '  __...' : data;
                             return truncatedDescription;
                         }
                     },
@@ -158,7 +154,8 @@
                         render: function(data, type, row) {
                             // Display the status in a span with Bootstrap styles
                             var statusClass = data === 'inactive' ? 'badge bg-warning' : 'badge bg-success';
-                            return '<span class="' + statusClass + '">' + data + '</span>';
+                            var statusData = data === 'inactive' ? 'Inactive' : 'Active';
+                            return '<span class="' + statusClass + '">' + statusData + '</span>';
                         }
                     },
                     { 
@@ -183,26 +180,15 @@
                                 '</select>';
                         }
                     },
-                    // Show button
+                    // Show button, Edit button, Delete button
                     {
                         data: null,
                         render: function(data, type, row) {
-                            return '<button class="btn btn-success btn-sm show-btn" data-id="' + row.id + '">Show</button>';
-                        }
-                    },// Edit button
-                    {
-                        data: null,
-                        render: function(data, type, row) {
-                            return '<button class="btn btn-primary btn-sm edit-btn" data-id="' + row.id + '">Edit</button>';
+                            return '<div class="btn-group"><button class="btn btn-success btn-sm show-btn" data-id="' + row.id + '">Show</button>'+
+                                '<button class="btn btn-primary btn-sm edit-btn" data-id="' + row.id + '">Edit</button>'+
+                                '<button class="btn btn-danger btn-sm delete-btn" data-id="' + row.id + '">Delete</button></div>';
                         }
                     },
-                    // Delete button
-                    {
-                        data: null,
-                        render: function(data, type, row) {
-                            return '<button class="btn btn-danger btn-sm delete-btn" data-id="' + row.id + '">Delete</button>';
-                        }
-                    }
                 ],
                 serverSide: true,
                 responsive: true,

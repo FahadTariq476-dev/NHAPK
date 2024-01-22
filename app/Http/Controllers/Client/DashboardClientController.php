@@ -26,7 +26,11 @@ class DashboardClientController extends Controller
                 'I am Hostelites',
                 'Hostel Working Staff eg. Made,  Helper, Doormen / Guard',
                 'Admin / Manager / Cook / Warden',
+                'Staff or Team Member of NHAP',
+                'Sponsor / Supporter of NHAP',
+                'Private Hostel Owner/ Antiusist',
             ];
+            
             // Check if user has any of the allowed roles
             $hasAllowedRole = count(array_intersect($roleNames, $allowedRoleNames)) > 0;
             // Output the array of role names

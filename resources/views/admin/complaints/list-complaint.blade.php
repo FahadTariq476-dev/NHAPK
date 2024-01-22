@@ -159,7 +159,7 @@ jq(document).ready(function() {
                 data: 'complaint_details',
                 render: function(data, type, row) {
                     // Show only the first 100 characters with an ellipsis at the end
-                    var truncatedDescription = data.length > 100 ? data.substring(0, 50) + '  __...' : data;
+                    var truncatedDescription = data.length > 10 ? data.substring(0, 10) + '  __...' : data;
                     return truncatedDescription;
                 }
             },

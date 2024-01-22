@@ -70,7 +70,7 @@
                           @endif
                           <!-- Your form fields here -->
                           @csrf
-                          <input type="text" class="form-control" id="membershipTypesId" name="membershipTypesId" value="{{ $membershipTypes->id }}" placeholder="membershipTypesId here" readonly>
+                          <input type="hidden" class="form-control" id="membershipTypesId" name="membershipTypesId" value="{{ $membershipTypes->id }}" placeholder="membershipTypesId here" readonly>
                           <div class="form-group mb-1">
                             <label for="name">Membership Types Name:</label>
                             <input type="text" class="form-control" id="name" name="name" value="{{ $membershipTypes->name }}" placeholder="Enter the name" autofocus>
@@ -104,8 +104,7 @@
                             <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <button type="reset" class="btn btn-success btn-block">Reset</button>
-                          <button type="submit" class="btn btn-primary btn-block">Submit Membership Types</button>
+                          <button type="submit" class="btn btn-primary btn-block">Update</button>
                         </form>
                       </div>
                 </div>
