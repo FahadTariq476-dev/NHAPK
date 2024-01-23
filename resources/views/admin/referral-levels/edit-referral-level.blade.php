@@ -45,7 +45,7 @@
                                 <!-- formReferralLevel -->
                                 <form action="{{ route('admin.referralLevels.updateReferralLevel') }}" method="POST" id="formReferralLevel">
                                     @csrf
-                                    <input type="text" id="referralLevelId" name="referralLevelId" class="form-control" value="{{$referralLevel->id}}" placeholder="Enter Id of Referral Level Here:" />
+                                    <input type="hidden" id="referralLevelId" name="referralLevelId" class="form-control" value="{{$referralLevel->id}}" placeholder="Enter Id of Referral Level Here:" readonly/>
                                     <!-- Title -->
                                     <div class="form-group">
                                         <label>Title:</label>

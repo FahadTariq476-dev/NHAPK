@@ -171,12 +171,11 @@
                             </li>
                             <!-- Begin: SOP Menu  -->
                         @endif
-                        {{-- @dd((Auth::user()->roles)->all()) --}}
                         @php
                             $users = Auth::user();
                             $userRoles = $users->getRoleNames(); 
                         @endphp
-                        @if (($userRoles)->contains('I am Hostelites'))
+                        @if (($userRoles)->contains('Private Hostel Owner/ Antiusist'))
                             <!--    Begin:  Hostel Menus    -->
                             <li class="nav-item">
                                 <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Hostel</span></a>

@@ -158,7 +158,6 @@
                             }
 
                             return '<div class="btn-group"><button class="'+statusClass+' btnChangeStatus" data-id="' + row.id + '">'+statusText+'</button>' +
-                            // return '<button class="'+statusClass+' btnChangeStatus" data-id="' + row.id + '">'+statusText+'</button>' +
                                 '<button class="btn btn-primary btn-sm edit-btn" data-id="' + row.id + '">Edit</button>' +
                                 '<button class="btn btn-danger btn-sm delete-btn" data-id="' + row.id + '">Delete</button></div>';
                         }

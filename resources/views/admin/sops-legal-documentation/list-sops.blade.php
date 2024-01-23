@@ -66,9 +66,7 @@
                                         <th>File Path</th>
                                         <th>File Type</th>
                                         <th>Date & Time</th>
-                                        <th>Detail</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -82,9 +80,7 @@
                                         <th>File Path</th>
                                         <th>File Type</th>
                                         <th>Date & Time</th>
-                                        <th>Detail</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
+                                        <th>Action</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -149,7 +145,7 @@
                         data: 'description', 
                         render: function(data, type, row) {
                             // Show only the first 100 characters with an ellipsis at the end
-                            var truncatedDescription = data.length > 100 ? data.substring(0, 100) + '  __...' : data;
+                            var truncatedDescription = data.length > 10 ? data.substring(0, 10) + '  __...' : data;
                             return truncatedDescription;
                         }
                     },
@@ -165,22 +161,13 @@
                             return data;
                         }
                     },
+                    // View, Edit, Delete button
                     { 
                         data: null,
                          render: function(data, type, row) {
-                            return '<button class="btn btn-primary btn-sm showDesc-btn" data-id="' + row.id + '">View</button>';
-                        }
-                    },
-                    { 
-                        data: null,
-                         render: function(data, type, row) {
-                            return '<button class="btn btn-success btn-sm edit-btn" data-id="' + row.id + '">Edit</button>';
-                        }
-                    },
-                    { 
-                        data: null,
-                         render: function(data, type, row) {
-                            return '<button class="btn btn-danger btn-sm delete-btn" data-id="' + row.id + '">Delete</button>';
+                            return '<div class="btn-group"><button class="btn btn-primary btn-sm showDesc-btn" data-id="' + row.id + '">View</button>'+
+                            '<button class="btn btn-success btn-sm edit-btn" data-id="' + row.id + '">Edit</button>'+
+                            '<button class="btn btn-danger btn-sm delete-btn" data-id="' + row.id + '">Delete</button></div>';
                         }
                     },
                 ],

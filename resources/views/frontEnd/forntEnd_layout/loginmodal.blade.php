@@ -83,7 +83,6 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            {{-- <form class="row g-3 d-flex justify-content-center" action="{{route('front-end.client.login_credentials')}}" method="POST" id="passwordFrom"> --}}
             <form class="row g-3 d-flex justify-content-center" id="passwordFrom">
                 <div class="col-8 mb-2">
                     <label for="password" class="form-label">

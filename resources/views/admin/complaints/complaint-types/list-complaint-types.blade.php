@@ -66,9 +66,8 @@
                                         <th>Title</th>
                                         <th>Description</th>
                                         <th>Status</th>
+                                        <th>Change</th>
                                         <th>Action</th>
-                                        <th>Edit</th>
-                                        <th>Show</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -80,9 +79,8 @@
                                         <th>Title</th>
                                         <th>Description</th>
                                         <th>Status</th>
+                                        <th>Change</th>
                                         <th>Action</th>
-                                        <th>Edit</th>
-                                        <th>Show</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -148,7 +146,7 @@
                         data: 'description',
                         render: function(data, type, row) {
                             // Show only the first 100 characters with an ellipsis at the end
-                            var truncatedDescription = data.length > 100 ? data.substring(0, 100) + '  __...' : data;
+                            var truncatedDescription = data.length > 10 ? data.substring(0, 10) + '  __...' : data;
                             return truncatedDescription;
                         }
                     },
@@ -173,20 +171,14 @@
                             return statusSelect;
                         }
                     },
-                    // Edit button
+                    // Edit button, Show Description button
                     {
                         data: null,
                         render: function(data, type, row) {
-                            return '<button class="btn btn-primary btn-sm edit-btn" data-id="' + row.id + '">Edit</button>';
+                            return '<div class="btn-group"><button class="btn btn-primary btn-sm edit-btn" data-id="' + row.id + '">Edit</button>'+
+                                '<button class="btn btn-success btn-sm show-btn" data-id="' + row.id + '">Show</button></div>';
                         }
                     },
-                    // Show Description button
-                    {
-                        data: null,
-                        render: function(data, type, row) {
-                            return '<button class="btn btn-success btn-sm show-btn" data-id="' + row.id + '">Show</button>';
-                        }
-                    }
                 ],
                 serverSide: true,
                 responsive: true,

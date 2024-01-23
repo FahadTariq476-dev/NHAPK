@@ -68,10 +68,8 @@
                                         <th>Featured Post</th>
                                         <th>Status</th>
                                         <th>Created At</th>
+                                        <th>Status</th>
                                         <th>Action</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
-                                    </tr>
                                 </thead>
                                 <tbody>
                                 </tbody>
@@ -86,9 +84,8 @@
                                         <th>Featured Post</th>
                                         <th>Status</th>
                                         <th>Created At</th>
+                                        <th>Staus</th>
                                         <th>Action</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -133,7 +130,7 @@
                         data: 'short_description',
                         render: function(data, type, row) {
                             // Show only the first 100 characters with an ellipsis at the end
-                            var truncatedDescription = data.length > 100 ? data.substring(0, 100) + '  __...' : data;
+                            var truncatedDescription = data.length > 10 ? data.substring(0, 10) + '  __...' : data;
                             return truncatedDescription;
                         }
                     },
@@ -176,20 +173,14 @@
                                 '</select>';
                         }
                     },
-                    // Edit button
+                    // Edit button, Delete button
                     {
                         data: null,
                         render: function(data, type, row) {
-                            return '<button class="btn btn-primary btn-sm edit-btn" data-id="' + row.id + '">Edit</button>';
+                            return '<div class="btn-group"><button class="btn btn-primary btn-sm edit-btn" data-id="' + row.id + '">Edit</button>'+
+                                '<button class="btn btn-danger btn-sm delete-btn" data-id="' + row.id + '">Delete</button></div>';
                         }
                     },
-                    // Delete button
-                    {
-                        data: null,
-                        render: function(data, type, row) {
-                            return '<button class="btn btn-danger btn-sm delete-btn" data-id="' + row.id + '">Delete</button>';
-                        }
-                    }
                 ],
                 serverSide: true,
                 responsive: true,

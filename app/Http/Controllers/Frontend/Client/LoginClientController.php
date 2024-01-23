@@ -22,7 +22,6 @@ class LoginClientController extends Controller
     //
     public function index(){
         try{
-            // 
             return view('frontEnd.client.login-client');
         }
         catch(Exception $e){
@@ -33,7 +32,6 @@ class LoginClientController extends Controller
     // Begin: Function to check the credentails and logged in the client user
     public function login_credentials(Request $req){
         try{
-            // dd("Yes");
             $users = User::where('phone_number','+92'.$req->phone_number_login)->where('cnic_no',$req->cnic_no_login)->first();
             if(!($users)){
                 return response()->json([
@@ -42,7 +40,6 @@ class LoginClientController extends Controller
                 ]);
             }
             $userRoles = $users->getRoleNames(); 
-            // dd($userRoles);
             if ($userRoles->contains('nhapk_admin')) {
                 return response()->json([
                     'status' => 'error',
@@ -67,7 +64,6 @@ class LoginClientController extends Controller
                     'redirect' => route('client.dashboard.index'), // Adjust this to your dashboard route
                 ]);
             } else {
-                // return redirect()->route('Home')->with('error', 'Invalid Credentials');
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Invalid Credentials',
@@ -110,9 +106,7 @@ class LoginClientController extends Controller
     */
     public function cnicCheckPhoneNumber($cnic_no,$phone_number){
         try{
-            // 
             $users = User::where('phone_number','+92'.$phone_number)->where('cnic_no',$cnic_no)->first();
-            // dd($users->toArray());
             if(($users)){
                 if($users->nhapk_verified==0){
                     return -1;      // It means that user exist but it is not verified it will verify the otp here
