@@ -18,3 +18,8 @@
             Swal.fire({ title: 'Warning!',  text: "{{ session('warning') }}",   icon: 'warning' });
         </script>
     @endif
+    @if (session('invalid'))
+        <script>
+            Swal.fire({ title: 'Invalid!',  text: "{{ session('invalid') }}",   icon: 'warning' });
+        </script>
+    @endif

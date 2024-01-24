@@ -230,6 +230,33 @@
                         </ul>
                     </li>
                     <!-- End: Referral Levels -->
+
+                    <!-- Begin: Elections -->
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Elections</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.elections.post')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Post Elections</span></a>
+                            </li>
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.elections.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Elections</span></a>
+                            </li>
+                            <!-- Begin: Elections Category -->
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Elections Category</span></a>
+                                <ul class="menu-content">
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{route('admin.electionCategeories.post')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post Elections Category</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{route('admin.electionCategeories.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Elections Category</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- End: Elections Category -->
+                        </ul>
+                    </li>
+                    <!-- End: Elections -->
                 </li>
             </ul>
         </div>

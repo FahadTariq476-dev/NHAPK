@@ -32,12 +32,14 @@ use App\Http\Controllers\Admin\MembershipAdminController;
 use App\Http\Controllers\Client\DashboardClientController;
 use App\Http\Controllers\Client\profile\ProfileController;
 use App\Http\Controllers\Client\sops\SopsClientController;
+use App\Http\Controllers\Admin\Elections\ElectionController;
 use App\Http\Controllers\Client\hostels\HostelClientController;
 use App\Http\Controllers\Frontend\Client\LoginClientController;
 use App\Http\Controllers\Client\hostelites\HostelitesController;
+use App\Http\Controllers\Admin\ReferralLevels\ReferralLevelController;
 use App\Http\Controllers\Client\membership\MembershipClientController;
 use App\Http\Controllers\Admin\MembershipTypes\MembershipTypeAdminController;
-use App\Http\Controllers\Admin\ReferralLevels\ReferralLevelController;
+use App\Http\Controllers\Admin\Elections\ElectionsCategory\ElectionsCategroyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -268,6 +270,58 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
     });
     
 
+    /*
+    |--------------------------------------------------------------------------
+    | Election
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::group(['prefix' =>'/elections'], function (){
+        // post
+        Route::get('/save',[ElectionController::class, 'post'])->name('admin.elections.post');
+        // store
+        Route::post('/save',[ElectionController::class, 'store'])->name('admin.elections.store');
+        // index
+        Route::get('/list',[ElectionController::class, 'index'])->name('admin.elections.index');
+        // edit
+        Route::get('/edit/{electionId}',[ElectionController::class, 'edit'])->name('admin.elections.edit');
+        // update
+        Route::post('/update',[ElectionController::class, 'update'])->name('admin.elections.update');
+        // delete
+        Route::delete('/delete/{electionId}',[ElectionController::class, 'delete'])->name('admin.elections.delete');
+        // changeStatus
+        Route::put('/change-status/{electionId}/{status}',[ElectionController::class, 'changeStatus'])->name('admin.elections.changeStatus');
+        // uniqueName
+        Route::get('/unique-name/{electionName}',[ElectionController::class, 'uniqueName'])->name('admin.elections.uniqueName');
+    });
+
+
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Election Category
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::group(['prefix' => '/election/category'],function(){
+        // post
+        Route::get('/save',[ElectionsCategroyController::class,'post'])->name('admin.electionCategeories.post');
+        // store
+        Route::post('/save',[ElectionsCategroyController::class,'store'])->name('admin.electionCategeories.store');
+        // index
+        Route::get('/list',[ElectionsCategroyController::class,'index'])->name('admin.electionCategeories.index');
+        // edit
+        Route::get('/edit/{electionCategoryId}',[ElectionsCategroyController::class,'edit'])->name('admin.electionCategeories.edit');
+        // update
+        Route::post('/update',[ElectionsCategroyController::class,'update'])->name('admin.electionCategeories.update');
+        // uniqueName
+        Route::get('/unique-name/{electionCategoryName}',[ElectionsCategroyController::class,'uniqueName'])->name('admin.electionCategeories.uniqueName');
+        // delete
+        Route::delete('/delete/{electionCategoryId}',[ElectionsCategroyController::class,'delete'])->name('admin.electionCategeories.delete');
+        // changeStatus
+        Route::put('/change-status/{electionCategoryId}',[ElectionsCategroyController::class,'changeStatus'])->name('admin.electionCategeories.changeStatus');
+        
+    });
 
 });
 
