@@ -13,7 +13,7 @@
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{route('admin.ShowDashboard')}}">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="#">Elections</a></li>
+                                    <li class="breadcrumb-item"><a href="{{route('admin.elections.index')}}">Elections</a></li>
                                     <li class="breadcrumb-item active">Post Elections</li>
                                 </ol>
                             </div>
@@ -158,8 +158,7 @@
 
                 // Validate the form
                 $("#btnSubmit").click(function (e) { 
-                    // e.preventDefault();
-                    $("#alertDangerName").remove();
+                  /*  $("#alertDangerName").remove();
                     $(".alert-danger").remove();
 
                     // to check the Election Category Name is Empty or Not
@@ -267,6 +266,7 @@
                             $("#endDate").after('<div class="alert alert-danger">Election End Date Should be greater than Start Date Provided.</div>');
                         }
                     }
+                    */
 
 
                 });

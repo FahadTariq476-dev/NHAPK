@@ -13,8 +13,9 @@
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{route('admin.ShowDashboard')}}">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="{{route('admin.elections.post')}}">Elections</a></li>
-                                    <li class="breadcrumb-item active">List Elections</li>
+                                    <li class="breadcrumb-item"><a href="#">Elections</a></li>
+                                    <li class="breadcrumb-item"><a href="{{route('admin.electionCategeories.post')}}">Candidate Nomination</a></li>
+                                    <li class="breadcrumb-item active">Candidate Nomination List</li>
                                 </ol>
                             </div>
                         </div>
@@ -35,21 +36,25 @@
                 <!-- Page layout -->
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">List Elections</h4>
+                        <h4 class="card-title">Candidate Nomination List</h4>
                     </div>
                     <div class="card-body">
                         <div class="card-text">
                             <!-- Begin: Data Table for Listing User -->
-                            <table class="table mb-0 dataTable" id="nhapkElectionsTable" style="background-color: #f2f2f2; color: #333;">
+                            <table class="table mb-0 dataTable" id="nhapkCandidateTable" style="background-color: #f2f2f2; color: #333;">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Apply Date</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
+                                        <th>Cnic</th>
+                                        <th>Mob No</th>
+                                        <th>State</th>
+                                        <th>City</th>
+                                        <th>Election Category</th>
+                                        <th>Election</th>
                                         <th>Status</th>
+                                        <th>Referral</th>
+                                        <th>Stars</th>
                                         <th>Created At</th>
                                         <th>Action</th>
                                     </tr>
@@ -60,12 +65,14 @@
                                 <tfoot>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Apply Date</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
+                                        <th>User Id</th>
+                                        <th>State</th>
+                                        <th>City</th>
+                                        <th>Election Category</th>
+                                        <th>Election</th>
                                         <th>Status</th>
+                                        <th>Referral</th>
+                                        <th>Stars</th>
                                         <th>Created At</th>
                                         <th>Action</th>
                                     </tr>
@@ -102,32 +109,35 @@
         var jq = jQuery.noConflict();
     
         jq(document).ready(function() {
-            var dataTable = jq('#nhapkElectionsTable').DataTable({
+            var dataTable = jq('#nhapkCandidateTable').DataTable({
                 columns: [
                     { data: 'id' },
-                    { data: 'name' },
-                    { data: 'description'},
-                    { data: 'lastDate'},
-                    { data: 'startDate'},
-                    { data: 'endDate'},
+                    { data: 'user_name' },
+                    { data: 'user_cnic_no' },
+                    { data: 'user_phone_number' },
+                    { data: 'state_name'},
+                    { data: 'city_name'},
+                    { data: 'election_category_name'},
+                    { data: 'election_name'},
                     { 
                         data: 'status',
                         render: function(data, type, row) {
                             // Display the status in a span with Bootstrap styles
-                            if(data === 'on'){
-                                return '<span class="badge bg-success">On</span>';
+                            if(data == 'pending'){
+                                return '<span class="badge bg-primary">Pending</span>';
+                            }else if(data == 'working'){
+                                return '<span class="badge bg-info">Working</span>';
+                            }else if(data == 'approved'){
+                                return '<span class="badge bg-success">Approved</span>';
+                            } else if(data == 'objection'){
+                                return '<span class="badge bg-warning">Objection</span>';
+                            }else if(data == 'rejected'){
+                                return '<span class="badge bg-danger">Rejected</span>';
                             }
-                            else if(data === 'off'){
-                                return '<span class="badge bg-danger">Off</span>';
-                            }
-                            else if(data === 'expired'){
-                                return '<span class="badge bg-warning">Exxpired</span>';
-                            }
-                            // var statusClass = data === '1' ? 'badge bg-danger' : 'badge bg-success';
-                            // var statusText = data == '1' ? 'Block' : 'Active';
-                            // return '<span class="' + statusClass + '">' + statusText + '</span>';
                         }
                     },
+                    { data: 'referralCount'},
+                    { data: 'stars'},
                     { 
                         data: 'created_at', 
                         render: function(data, type, row) {
@@ -141,26 +151,19 @@
                     { 
                         data: null, // Placeholder for the action column
                         render: function(data, type, row) {
-                            // Render the button for the action column
-                            var statusText = '';
-                            var statusClass = '';
-
-                            if (data.status === 'off') {
-                                statusText = 'On';
-                                statusClass = 'btn btn-success btn-sm';
-                            } else if (data.status === 'on') {
-                                statusText = 'Off';
-                                statusClass = 'btn btn-danger btn-sm';
-                            } else if (data.status === 'expired') {
-                                statusText = 'Expired';
-                                statusClass = 'btn btn-warning btn-sm disabled';
-                            }
-
-                            return '<form id="statusForm">@csrf<div class="btn-group"><button class="'+statusClass+' btnChangeStatus" data-id="' + row.id + '">'+statusText+'</button>' +
-                                '<button class="btn btn-primary btn-sm edit-btn" data-id="' + row.id + '">Edit</button>' +
-                                '<button class="btn btn-danger btn-sm delete-btn" data-id="' + row.id + '">Delete</button></div></form>';
+                            var selectHtml = '<form id="statusForm">@csrf<select class="form-control btnChangeStatus" data-id="' + row.id + '">'+
+                                '<option disabled>Select Status</option>'+
+                                '<option value="pending" ' + (row.status === 'pending' ? 'selected' : '') + '>Pending</option>'+
+                                '<option value="working" ' + (row.status === 'working' ? 'selected' : '') + '>Working</option>'+
+                                '<option value="approved" ' + (row.status === 'approved' ? 'selected' : '') + '>Approved</option>'+
+                                '<option value="objection" ' + (row.status === 'objection' ? 'selected' : '') + '>Objection</option>'+
+                                '<option value="rejected" ' + (row.status === 'rejected' ? 'selected' : '') + '>Rejected</option>'+
+                                '</select></form>';
+                                
+                            return selectHtml;
                         }
                     },
+                    
                 ],
                 serverSide: true,
                 responsive: true,
@@ -181,7 +184,7 @@
                     [10, 25, 50, 100, 200, "All"]
                 ],
                 ajax: {
-                    url: "/admin/elections/list",
+                    url: "/admin/candidate/nomination/list",
                     type: "GET",
                     data: function(d) {
                         // Add any additional parameters you need
@@ -194,10 +197,11 @@
             });
 
             // Event delegation for dynamically generated elements
-                jq('#nhapkElectionsTable').on('click', '.btnChangeStatus', function(e) {
+                jq('#nhapkCandidateTable').on('change', '.btnChangeStatus', function(e) {
                     e.preventDefault();
                     //  code for handling status change
                     var dataId = jq(this).data('id');
+                    var dataVal = jq(this).val();
 
                     // Show a confirmation SweetAlert
                     Swal.fire({
@@ -213,11 +217,8 @@
                         if (result.isConfirmed) {
                             var csrfToken = $('#statusForm input[name="_token"]').val();
                             jq.ajax({
-                                url: '/admin/elections/change-status/' + dataId ,
-                                type: 'PUT',
-                                data: {
-                                    "_token": csrfToken,
-                                },
+                                url: '/admin/candidate/nomination/change-status/' + dataId+ "/"+dataVal,
+                                type: 'get',
                                 success: function(response) {
                                     dataTable.ajax.reload();
                                     if (response.status == 'error') {
@@ -264,78 +265,6 @@
                     });
                 });
 
-
-            jq('#nhapkElectionsTable').on('click', '.edit-btn', function(e) {
-                e.preventDefault();
-                var dataId = jq(this).data('id');
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You wan\'t to edit this Referal Level?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Proceed with your action here
-                        window.location.href = '/admin/elections/edit/' + dataId;
-                    } else {
-                        Swal.fire("Cancelled", "You pressed Cancel!", "info");
-                    }
-                });
-            });
-
-
-            jq('#nhapkElectionsTable').on('click', '.delete-btn', function(e) {
-                e.preventDefault();
-                var dataId = jq(this).data('id');
-                // Show SweetAlert confirmation dialog
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'You won\'t be able to revert this!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            var csrfToken = $('#statusForm input[name="_token"]').val();
-                            // Proceed with delete action
-                            jq.ajax({
-                                url: '/admin/elections/delete/' + dataId,
-                                type: 'delete',
-                                data: {
-                                    "_token": csrfToken,
-                                },
-                                success: function(response) {
-                                    dataTable.ajax.reload();
-                                    if (response.status == 'error') {
-                                        Swal.fire('Error', response.message, response.status);
-                                    }
-                                    else if (response.status == 'success') {
-                                        Swal.fire('Success', response.message, response.status);
-                                    }
-                                    else if (response.status == 'invalid') {
-                                        Swal.fire('Invalid', response.message, 'warning');
-                                    }
-                                },
-                                error: function(error) {
-                                    console.log(error);
-                                    Swal.fire({
-                                        icon:'error',
-                                        title:'Error',
-                                        text:'An Error occured:'+error.responseJSON.message,
-                                    });
-                                }
-                            });
-                        }
-                        else{
-                            Swal.fire("Cancelled", "You pressed Cancel!", "info");
-                        }
-                    });
-            });
         });
     
 

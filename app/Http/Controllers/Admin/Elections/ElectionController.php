@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
+use Yajra\DataTables\Facades\DataTables;
 
 class ElectionController extends Controller
 {
@@ -30,7 +31,17 @@ class ElectionController extends Controller
     public function index(Request $request){
         try{
             if($request->ajax()){
-
+                $currentTime = now()->setTimezone('Asia/Karachi')->toDateTimeString();
+                $elections = Election::latest()->get();
+                if($elections){
+                    foreach($elections as $election){
+                        if($currentTime >= $election->endDate){
+                            $election->status = 'expired';
+                            $election->save();
+                        }
+                    }
+                }
+                return DataTables::of($elections)->addIndexColumn()->make(true);
             }
             return view('admin.elections.list-elections');
         }
@@ -46,24 +57,28 @@ class ElectionController extends Controller
         try{
             DB::beginTransaction();
             // dd($request->all());
+            $currentTime = now()->setTimezone('Asia/Karachi')->toDateTimeString();
+            $minimumStartDate = now()->setTimezone('Asia/Karachi')->addDay()->toDateTimeString();
+            $maximumEndDate = now()->setTimezone('Asia/Karachi')->parse($request->input('startDate'))->subDays(5)->toDateTimeString();
             $rules = [
                 'name' => 'required|string|min:3|max:255|unique:nhapk_elections,name',
                 'description' => 'required|string|min:3|max:255',
                 'startDate' => [
                     'required',
                     'date',
-                    'after_or_equal:' . now()->toDateTimeString(),
+                    'after_or_equal:' . $minimumStartDate,
                 ],
                 'lastDate' => [ 'required', 'date',
-                    'after_or_equal:' . now()->addHours(24)->toDateTimeString(),
+                'before_or_equal:' . $maximumEndDate,
                 ],
                 'endDate' => [
                     'required',
                     'date',
-                    'after:start_date', // endDate must be after startDate
+                    'after:startDate', // endDate must be after startDate
                 ],
             ];
             $this->validate($request,$rules);
+            // dd($request->all());
             $election = new Election();
             $election->name = $request->name;
             $election->description = $request->description;
@@ -94,9 +109,11 @@ class ElectionController extends Controller
         try{
             $elections = Election::find($electionId);
             if(!($elections)){
-                return redirect()->back()->with('invalid','You are accessing invalid elections. Kindly access the valid one.');
+                return redirect()->route('admin.elections.index')->with('invalid','You are accessing invalid elections. Kindly access the valid one.');
             }
-            return view('admin.elections.edit-elections');
+            return view('admin.elections.edit-elections')->with([
+                'elections' => $elections ,
+            ]);
         }
         catch(Exception $e){
             return redirect()->back()->with('error', 'Your Exception is: '.$e->getMessage());
@@ -108,28 +125,30 @@ class ElectionController extends Controller
     public function update(Request $request){
         try{
             DB::beginTransaction();
-            dd($request->all());
+            // dd($request->all());
             $electionId = $request->electionId;
             $elections = Election::find($electionId);
             if(!($elections)){
                 DB::commit();
-                return redirect()->back()->with('invalid','You are accessing invalid elections. Kindly access the valid one.');
+                return redirect()->route('admin.elections.index')->with('invalid','You are accessing invalid elections. Kindly access the valid one.');
             }
+            $minimumStartDate = now()->setTimezone('Asia/Karachi')->addDay()->toDateTimeString();
+            $maximumEndDate = now()->setTimezone('Asia/Karachi')->parse($request->input('startDate'))->subDays(5)->toDateTimeString();
             $rules = [
                 'name' => ['required','string','min:3','max:255', Rule::unique('nhapk_elections', 'name')->ignore($electionId),],
                 'description' => 'required|string|min:3|max:255',
-                'lastDate' => [ 'required', 'date',
-                    'after_or_equal:' . now()->addHours(24)->toDateTimeString(),
-                ],
                 'startDate' => [
                     'required',
                     'date',
-                    'after_or_equal:' . now()->toDateTimeString(),
+                    'after_or_equal:' . $minimumStartDate,
+                ],
+                'lastDate' => [ 'required', 'date',
+                'before_or_equal:' . $maximumEndDate,
                 ],
                 'endDate' => [
                     'required',
                     'date',
-                    'after:start_date', // endDate must be after startDate
+                    'after:startDate', // endDate must be after startDate
                 ],
             ];
             $this->validate($request,$rules);
@@ -138,13 +157,14 @@ class ElectionController extends Controller
             $elections->lastDate = $request->lastDate;
             $elections->startDate = $request->startDate;
             $elections->endDate = $request->endDate;
+            $elections->status = 'off';
             $result = $elections->save();
             if(!($result)){
                 DB::commit();
                 return redirect()->back()->with('error','There is an error while updating the elections. Kidnly try again.');
             }
             DB::commit();
-            return redirect()->back()->with('success','Successfully! Election updated now.');
+            return redirect()->route('admin.elections.index')->with('success','Successfully! Election updated now.');
         }
         catch(ValidationException $validationError){
             return redirect()->back()->withErrors($validationError->validator->getMessageBag())->withInput();
@@ -227,7 +247,7 @@ class ElectionController extends Controller
     /**
      * Function to change status of election
     */
-    public function changeStatus($electionId, $status){
+    public function changeStatus($electionId){
         try{
             DB::beginTransaction();
             $election = Election::find($electionId);
@@ -238,15 +258,19 @@ class ElectionController extends Controller
                     'message' => 'You are accessing invalid elections. Kindly access the valid one.',
                 ]);
             }
-            $allowedStatus = ['on','off','expired'];
-            if((!in_array($election->status, $allowedStatus))){
+            if($election->status == 'on'){
+                $election->status = 'off';
+            }
+            else if ($election->status == 'off'){
+                $election->status = 'on';
+            }
+            else{
                 DB::commit();
                 return response()->json([
                     'status' => 'invalid',
                     'message' => 'You are accessing invalid elections status. Kindly access the valid one.',
                 ]);
             }
-            $election->status = $status;
             $result = $election->save();
             if(!($result)){
                 DB::commit();

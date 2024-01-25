@@ -26,18 +26,10 @@
                             <h2 class="content-header-title float-start mb-0">Membership Menu</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item">
-                                        <a href="{{ route('client.dashboard.index') }}">Home</a>
-                                    </li>
-                                    <li class="breadcrumb-item">
-                                        <a href="#">Menus</a>
-                                    </li>
-                                    <li class="breadcrumb-item">
-                                        <a href="#">Membership</a>
-                                    </li>
-                                    <li class="breadcrumb-item active">
-                                        View Membership
-                                    </li>
+                                    <li class="breadcrumb-item"><a href="{{ route('client.dashboard.index') }}">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="#">Menus</a></li>
+                                    <li class="breadcrumb-item"><a href="#">Membership</a></li>
+                                    <li class="breadcrumb-item active">View Membership</li>
                                 </ol>
                             </div>
                         </div>

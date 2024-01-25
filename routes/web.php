@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\SopAdminController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PostBlogsController;
 use App\Http\Controllers\Admin\UserAdminController;
+use App\Http\Controllers\Client\Votes\VoteController;
 use App\Http\Controllers\HostelRegistrationController;
 use App\Http\Controllers\Admin\CompliantTypeController;
 use App\Http\Controllers\Client\LogoutClientController;
@@ -29,6 +30,7 @@ use App\Http\Controllers\Admin\ComplaintAdminController;
 use App\Http\Controllers\Admin\ContactUsAdminController;
 use App\Http\Controllers\Admin\NewsFeedsAdminController;
 use App\Http\Controllers\Admin\MembershipAdminController;
+use App\Http\Controllers\Admin\Votes\VoteAdminController;
 use App\Http\Controllers\Client\DashboardClientController;
 use App\Http\Controllers\Client\profile\ProfileController;
 use App\Http\Controllers\Client\sops\SopsClientController;
@@ -39,7 +41,10 @@ use App\Http\Controllers\Client\hostelites\HostelitesController;
 use App\Http\Controllers\Admin\ReferralLevels\ReferralLevelController;
 use App\Http\Controllers\Client\membership\MembershipClientController;
 use App\Http\Controllers\Admin\MembershipTypes\MembershipTypeAdminController;
+use App\Http\Controllers\Client\CandidateNomination\CandidateNominationController;
 use App\Http\Controllers\Admin\Elections\ElectionsCategory\ElectionsCategroyController;
+use App\Http\Controllers\Admin\Elections\CandidateNomination\CandidateNominationAdminController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -290,7 +295,7 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
         // delete
         Route::delete('/delete/{electionId}',[ElectionController::class, 'delete'])->name('admin.elections.delete');
         // changeStatus
-        Route::put('/change-status/{electionId}/{status}',[ElectionController::class, 'changeStatus'])->name('admin.elections.changeStatus');
+        Route::put('/change-status/{electionId}',[ElectionController::class, 'changeStatus'])->name('admin.elections.changeStatus');
         // uniqueName
         Route::get('/unique-name/{electionName}',[ElectionController::class, 'uniqueName'])->name('admin.elections.uniqueName');
     });
@@ -320,8 +325,33 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
         Route::delete('/delete/{electionCategoryId}',[ElectionsCategroyController::class,'delete'])->name('admin.electionCategeories.delete');
         // changeStatus
         Route::put('/change-status/{electionCategoryId}',[ElectionsCategroyController::class,'changeStatus'])->name('admin.electionCategeories.changeStatus');
-        
     });
+
+    /*
+    |--------------------------------------------------------------------------
+    | CandidateNomination
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::group(['prefix' => '/candidate/nomination'], function (){
+        // CandidateNomination
+        Route::get('/list',[CandidateNominationAdminController::class,'index'])->name('admin.CandidateNomination.index');
+        // changeStatus
+        Route::get('/change-status/{candidateId}/{status}',[CandidateNominationAdminController::class,'changeStatus'])->name('admin.CandidateNomination.changeStatus');
+    });
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Votes
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::group(['prefix' => '/vote'], function (){
+        // list
+        Route::get('/list',[VoteAdminController::class,'list'])->name('admin.Vote.list');
+    });
+
+    
 
 });
 
@@ -469,6 +499,34 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
         Route::get('/view',[ProfileController::class,'viewProfile'])->name('client.viewProfile');
         // updateProfile
         Route::post('/update',[ProfileController::class,'updateProfile'])->name('client.updateProfile');
+    });
+
+
+    /*
+        |--------------------------------------------------------------------------
+        | Election Nomination Routes
+        |--------------------------------------------------------------------------
+        |
+    */
+    Route::group(['prefix' =>'/election/nomination'], function (){
+        Route::get('/save',[CandidateNominationController::class,'post'])->name('client.electionNomination.post');
+        // store
+        Route::post('/save',[CandidateNominationController::class,'store'])->name('client.electionNomination.store');
+        // viewNomination
+        Route::get('/view',[CandidateNominationController::class,'viewNomination'])->name('client.electionNomination.viewNomination');
+    });
+
+
+     /*
+        |--------------------------------------------------------------------------
+        | Vote Route for Client 
+        |--------------------------------------------------------------------------
+        |
+    */
+    Route::group(['prefix' => '/vote'], function(){
+        Route::get('/post',[VoteController::class,'post'])->name('client.vote.post');
+        // store
+        Route::post('/save',[VoteController::class,'store'])->name('client.vote.store');
     });
 
 

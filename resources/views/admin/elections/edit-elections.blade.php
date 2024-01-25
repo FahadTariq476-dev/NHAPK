@@ -13,7 +13,7 @@
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{route('admin.ShowDashboard')}}">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="#">Elections</a></li>
+                                    <li class="breadcrumb-item"><a href="{{route('admin.elections.index')}}">Elections</a></li>
                                     <li class="breadcrumb-item active">Edit Elections</li>
                                 </ol>
                             </div>
@@ -39,21 +39,54 @@
                     </div>
                     <div class="card-body">
                         <div class="card-text">
-                            <!-- Form to Save Election Category -->
-                            <form id="formElectionCategory" method="POST" action="{{route('admin.electionCategeories.update')}}">
+                            <!-- Form to Save Election -->
+                            <form id="formElectionCategory" method="POST" action="{{route('admin.elections.update')}}">
                                 @csrf
-                                <input type="hidden" class="form-control" id="electionCategoryId" name="electionCategoryId" value="{{$electionCategories->id}}" placeholder="Election Category Id Here:" readonly/>
-                                <!-- Election Category Name -->
+                                <input type="hidden" class="form-control" id="electionId" name="electionId" value="{{$elections->id}}" placeholder="Election Id Here:" />
+                                <!-- Election Name -->
                                 <div class="form-group mb-2">
-                                    <label>Election Category Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" minlength="3" value="{{$electionCategories->name}}" maxlength="255" placeholder="Election Category Name Here:" autofocus />
+                                    <label>Election Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" minlength="3" value="{{$elections->name}}" maxlength="255" placeholder="Election Name Here:" autofocus />
                                 </div>
+                                @error('name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                                 
-                                <!-- Election Category Description -->
+                                <!-- Election Description -->
                                 <div class="form-group mb-2">
-                                    <label>Election Category Description</label>
-                                    <textarea class="form-control" id="description" name="description" minlength="3" maxlength="255" placeholder="Election Category Description Here:" autofocus>{{$electionCategories->name}}</textarea>
+                                    <label>Election Description</label>
+                                    <textarea class="form-control" id="description" name="description" minlength="3" maxlength="255" placeholder="Election Description Here:" autofocus>{{$elections->name}}</textarea>
                                 </div>
+                                @error('description')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                                
+                                <!-- Election Starting Date -->
+                                <div class="form-group mb-2">
+                                    <label>Election Starting Date</label>
+                                    <input type="datetime-local" class="form-control" id="startDate" name="startDate" value="{{$elections->startDate}}" autofocus />
+                                </div>
+                                @error('startDate')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                                
+                                <!-- Election Last Date -->
+                                <div class="form-group mb-2">
+                                    <label>Election Last Date to Apply</label>
+                                    <input type="datetime-local" class="form-control" id="lastDate" name="lastDate" value="{{$elections->lastDate}}" autofocus />
+                                </div>
+                                @error('lastDate')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                                
+                                <!-- Election Ending Date -->
+                                <div class="form-group mb-2">
+                                    <label>Election Ending Date</label>
+                                    <input type="datetime-local" class="form-control" id="endDate" name="endDate" value="{{$elections->endDate}}" autofocus />
+                                </div>
+                                @error('endDate')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
 
                                 <!-- Action Button -->
                                 <div class="form-group">
@@ -76,17 +109,20 @@
     @endsection
 
     @section('js')
+    @php
+        $decodedName = html_entity_decode($elections->name);
+    @endphp
         <script type="text/javascript">
             $(document).ready(function () {
                 
-                // Function to check that Category Name is unique or Not
+                // Function to check that Election Name is unique or Not
                 function checkUniqueName(name) {
                     $.ajax({
                         type: "GET",
-                        url: "/admin/election/category/unique-name/"+name,
+                        url: "/admin/elections/unique-name/"+name,
                         success: function (response) {
                             if(response.status == 1){
-                                $("#name").after('<div class="alert alert-danger" id="alertDanegerName">Election Category Name Should be unique.</div>');
+                                $("#name").after('<div class="alert alert-danger" id="alertDangerName">Election Name Should be unique.</div>');
                                 $("#name").focus();
                                 $("#name").val();
                                 return true;
@@ -109,30 +145,30 @@
                 // On Focus out to check that Category Name is unique or Not
                 $("#name").focusout(function(){
                     let name = $("#name").val();
-                    $("#alertDanegerName").remove();
+                    $("#alertDangerName").remove();
                     if(name.trim() === '' || name == null || name.length == 0){
                         return true;
                     }
                     else if(name.length <3 || name.length >255){
-                        $("#name").after('<div class="alert alert-danger" id="alertDanegerName">Election Category Name Should be greater than 3 characters and less than 255.</div>');
+                        $("#name").after('<div class="alert alert-danger" id="alertDangerName">Election Name Should be greater than 3 characters and less than 255.</div>');
                         $("#name").focus();
                     }
                     else{
-                        oldName = '{{$electionCategories->name}}';
+                        let oldName = "{!! addslashes($decodedName) !!}";
                         if(name != oldName){
                             checkUniqueName(name);
                         }
                     }
                 });
 
+
                 // Validate the form
-                $("#btnSubmit").click(function (e) { 
-                    // e.preventDefault();
+                $("#btnSubmit").click(function (e) {  
+                    $("#alertDangerName").remove();
                     $(".alert-danger").remove();
 
                     // to check the Election Category Name is Empty or Not
                     let name = $("#name").val();
-                    $("#alertDanegerName").remove();
                     if(name.trim() === '' || name == null || name.length == 0){
                         e.preventDefault();
                         $("#name").after('<div class="alert alert-danger">Election Category Name Should be Provided.</div>');
@@ -144,15 +180,100 @@
                     
                     // to check the Election Category description is Empty or Not
                     let description = $("#description").val();
-                    $("#alertDanegerName").remove();
                     if(description.trim() === '' || description == null || description.length == 0){
                         e.preventDefault();
-                        $("#description").after('<div class="alert alert-danger">Election Category Description Should be Provided.</div>');
+                        $("#description").after('<div class="alert alert-danger">Election Description Should be Provided.</div>');
                     }
                     else if(description.length <3 || description.length >255){
                         e.preventDefault();
-                        $("#description").after('<div class="alert alert-danger">Election Category Description Should be greater than 3 characters and less than 255.</div>');
+                        $("#description").after('<div class="alert alert-danger">Election Description Should be greater than 3 characters and less than 255.</div>');
                     }
+
+                    
+                    // Get the current date and time
+                    let currentDate = new Date();
+
+                    // Extract individual components
+                    let year = currentDate.getFullYear();
+                    let month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+                    let day = String(currentDate.getDate()).padStart(2, '0');
+                    let hours = String(currentDate.getHours()).padStart(2, '0');
+                    let minutes = String(currentDate.getMinutes()).padStart(2, '0');
+
+                    // Format the date as a string
+                    let currentDateString = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+                    console.log(currentDateString);
+
+                    // To check that the Election startDate is empty or not
+                    let startDate = $("#startDate").val();
+                    console.log("Start Date is:"+startDate);
+                    if (startDate.trim() === '') {
+                        e.preventDefault();
+                        $("#startDate").after('<div class="alert alert-danger">Election Start Date Should be Provided.</div>');
+                    } 
+                    else{
+                        let selectedStartDate = new Date(startDate);
+                        console.log("Select Start Date is "+selectedStartDate);
+
+                        // Check if the selected start date is greater than or equal to the current date
+                        if (selectedStartDate <= currentDate) {
+                            e.preventDefault();
+                            $("#startDate").after('<div class="alert alert-danger">Election Start Date Should be Greater Than the Current Date.</div>');
+                        } else {
+                            // Continue with your code if the validation passes
+                        }
+                    }
+                    
+                    // To check that the Election lastDate is empty or not
+                    let lastDate = $("#lastDate").val();
+                    console.log("lastDate is:"+lastDate);
+                    if (lastDate.trim() === '') {
+                        e.preventDefault();
+                        $("#lastDate").after('<div class="alert alert-danger">Election Last Date to Apply Should be Provided.</div>');
+                    } 
+                    else{
+                        // Convert the selected last date to a JavaScript Date object
+                        let selectedLastDate = new Date(lastDate);
+                        console.log("Select Last Date: "+selectedLastDate);
+
+                        let selectedStartDate = new Date(startDate);
+                        // Calculate the difference in milliseconds
+                        let timeDifferenceLast = selectedStartDate.getTime() - selectedLastDate.getTime();
+                        console.log("timeDifferenceLast: "+timeDifferenceLast);
+
+                        // Calculate the difference in days
+                        let daysDifference = timeDifferenceLast / (1000 * 60 * 60 * 24);
+                        console.log("daysDifference: "+daysDifference);
+
+                        // Set the minimum number of days
+                        let minimumDays = 5;
+
+                        // Check if the selected last date is at least minimumDays smaller than the start date
+                        if (daysDifference < minimumDays) {
+                            e.preventDefault();
+                            $("#lastDate").after('<div class="alert alert-danger">Election Last Date must be at least ' + minimumDays + ' days before the Election Start Date.</div>');
+                        }
+                    }
+
+                    // To check that the Election startDate is empty or not
+                    let endDate = $("#endDate").val();
+                    console.log("endDate Date is:"+endDate);
+                    if (endDate.trim() === '') {
+                        e.preventDefault();
+                        $("#endDate").after('<div class="alert alert-danger">Election End Date Should be Provided.</div>');
+                    } 
+                    else{
+                        let selectedStartDate = new Date(startDate);
+                        let selectedEndtDate = new Date(endDate);
+                        console.log(selectedEndtDate);
+                        if(selectedEndtDate <= selectedStartDate){
+                            e.preventDefault();
+                            $("#endDate").after('<div class="alert alert-danger">Election End Date Should be greater than Start Date Provided.</div>');
+                        }
+                    }
+
+
                 });
 
             });

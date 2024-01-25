@@ -254,9 +254,31 @@
                                 </ul>
                             </li>
                             <!-- End: Elections Category -->
+                            
+                            <!-- Begin: Candidate Nomination -->
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Candidate Nomination</span></a>
+                                <ul class="menu-content">
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{route('admin.CandidateNomination.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Candidate Nomination</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- End: Elections Category -->
                         </ul>
                     </li>
                     <!-- End: Elections -->
+
+                    <!-- Begin: Vote -->
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Vote</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.Vote.list')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Vote</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- End: Vote -->
                 </li>
             </ul>
         </div>
