@@ -143,19 +143,25 @@
                             </li>
                             <!-- Begin: Menu B  -->
 
-                            <!-- Begin: Menu C -->
+                            <!-- Begin: Election Nomination -->
                             <li class="nav-item">
-                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Menu C</span></a>
+                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Election Nomination</span></a>
                                 <ul class="menu-content">
                                     <li>
-                                        <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Post</span></a>
+                                        <a class="d-flex align-items-center" href="{{route('client.electionNomination.post')}}"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Apply Election Nomination</span></a>
                                     </li>
                                     <li>
-                                        <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Layout">List</span></a>
+                                        <a class="d-flex align-items-center" href="{{route('client.electionNomination.viewNomination')}}"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Layout">View Election Nomination</span></a>
                                     </li>
                                 </ul>
                             </li>
-                            <!--- Begin: Menu C  -->
+                            <!--- Begin: Election Nomination   -->
+                            
+                            <!-- Begin: Vote Now -->
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" href="{{route('client.vote.post')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Vote Now</span></a>
+                            </li>
+                            <!--- Begin: Vote Now  -->
 
                             <!--- Begin: SOP Menu  -->
                             <li class="nav-item">
