@@ -49,6 +49,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Vote Now</h4>
+                        <a href="#" id="viewCandidateListLink">View Candidate List Here:</a>
                     </div>
                     <div class="card-body">
                         <div class="card-text">
@@ -77,17 +78,48 @@
                                     <select id="candidateId" name="candidateId" class="form-control">
                                         <option value="" selected disabled>Select Candidate</option>
                                         @if (count($candidates)>0)
-                                            @foreach ($candidates as $candidate)
-                                                <option value="{{ $candidate->id }}" @if (old('candidateId')==$candidate->id) selected @endif >{{ $candidate->user->name }}</option>
-                                            @endforeach
+                                        @foreach ($candidates as $candidate)
+                                            <option value="{{ $candidate->id }}" data-image="{{ Storage::url($candidate->user->picture_path) }}">
+                                                {{ $candidate->user->name }}
+                                            </option>
+                                        @endforeach
                                         @else
                                             <option value="" disabled>No Candidate Found</option>
                                         @endif
                                     </select>
+                                    <div id="selectedCandidate">
+                                        <!-- Selected candidate info will be displayed here -->
+                                    </div>
                                 </div>
                                 @error('candidateId')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
+
+
+                                <script>
+                                    // Add an event listener to the dropdown
+                                    document.getElementById('candidateId').addEventListener('change', function () {
+                                        var selectedOption = this.options[this.selectedIndex];
+                                        var selectedCandidateDiv = document.getElementById('selectedCandidate');
+
+                                        // Check if an option is selected
+                                        if (selectedOption.value !== "") {
+                                            // Display the selected candidate's information, including the image
+                                            var candidateName = selectedOption.text;
+                                            var candidateImage = selectedOption.getAttribute('data-image');
+                                            var html = '<p>' + candidateName + '</p>';
+                                            if (candidateImage) {
+                                                html += '<img src="' + candidateImage + '" alt="' + candidateName + '" style="max-height: 120px; max-width: 120px; margin-left: 10px;">';
+                                            }
+                                            selectedCandidateDiv.innerHTML = html;
+                                        } else {
+                                            // Clear the selected candidate's information if no option is selected
+                                            selectedCandidateDiv.innerHTML = '';
+                                        }
+                                    });
+                                </script>
+
+                               
                                 
                                 <!-- Select electionCategories -->
                                 <div class="form-group">
@@ -141,6 +173,7 @@
         </div>
     </div>
     <!-- END: Content-->
+ 
 
 @endsection
 <!-- Begin: Main-Content Section  -->
@@ -178,7 +211,11 @@
                
             });
         });
+
+        
     </script>
+    
+    @include('client.vote.view-candidate-detials-modal')
 @endsection
 <!-- End: Script Section Starts Here -->
 

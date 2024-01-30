@@ -41,6 +41,7 @@ use App\Http\Controllers\Client\hostelites\HostelitesController;
 use App\Http\Controllers\Admin\ReferralLevels\ReferralLevelController;
 use App\Http\Controllers\Client\membership\MembershipClientController;
 use App\Http\Controllers\Admin\MembershipTypes\MembershipTypeAdminController;
+use App\Http\Controllers\Client\CandidateNomination\NominationListController;
 use App\Http\Controllers\Client\CandidateNomination\CandidateNominationController;
 use App\Http\Controllers\Admin\Elections\ElectionsCategory\ElectionsCategroyController;
 use App\Http\Controllers\Admin\Elections\CandidateNomination\CandidateNominationAdminController;
@@ -528,7 +529,11 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
         // store
         Route::post('/save',[VoteController::class,'store'])->name('client.vote.store');
     });
+    Route::get('/viewCandidateDetails/{id}',[CandidateNominationController::class,'viewCandidateDetails'])->name('viewCandidateDetails');
 
+    Route::group(['prefix' => '/nomination'], function(){
+        Route::get('/list',[NominationListController::class,'list'])->name('client.NominationList.list');
+    });
 
 });
 // End: Route for Client

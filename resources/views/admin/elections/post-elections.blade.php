@@ -68,6 +68,24 @@
                                 @error('startDate')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
+
+                                <!-- Election Ending Date -->
+                                <div class="form-group mb-2">
+                                    <label>Election Ending Date</label>
+                                    <input type="datetime-local" class="form-control" id="endDate" name="endDate" value="{{old('endDate')}}" autofocus />
+                                </div>
+                                @error('endDate')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                                
+                                <!-- Election Apply Start Date -->
+                                <div class="form-group mb-2">
+                                    <label>Election Apply Start Date to Apply</label>
+                                    <input type="datetime-local" class="form-control" id="applyStartDate" name="applyStartDate" value="{{old('applyStartDate')}}" autofocus />
+                                </div>
+                                @error('applyStartDate')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                                 
                                 <!-- Election Last Date -->
                                 <div class="form-group mb-2">
@@ -78,14 +96,7 @@
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                                 
-                                <!-- Election Ending Date -->
-                                <div class="form-group mb-2">
-                                    <label>Election Ending Date</label>
-                                    <input type="datetime-local" class="form-control" id="endDate" name="endDate" value="{{old('endDate')}}" autofocus />
-                                </div>
-                                @error('endDate')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
+                                
 
                                 <!-- Action Button -->
                                 <div class="form-group">
@@ -158,7 +169,7 @@
 
                 // Validate the form
                 $("#btnSubmit").click(function (e) { 
-                  /*  $("#alertDangerName").remove();
+                    $("#alertDangerName").remove();
                     $(".alert-danger").remove();
 
                     // to check the Election Category Name is Empty or Not
@@ -249,6 +260,39 @@
                             $("#lastDate").after('<div class="alert alert-danger">Election Last Date must be at least ' + minimumDays + ' days before the Election Start Date.</div>');
                         }
                     }
+                    
+                    
+                    // To check that the Election applyStartDate is empty or not
+                    let applyStartDate = $("#applyStartDate").val();
+                    console.log("applyStartDate is:"+applyStartDate);
+                    if (applyStartDate.trim() === '') {
+                        e.preventDefault();
+                        $("#applyStartDate").after('<div class="alert alert-danger">Election Apply Start Date to Apply Should be Provided.</div>');
+                    } 
+                    else{
+                        // Convert the selected ApplyStart date to a JavaScript Date object
+                        let selectedApplyStartDate = new Date(applyStartDate);
+                        console.log("Select ApplyStart Date: "+selectedApplyStartDate);
+
+                        let selectedApplyLastDate = new Date(lastDate);
+                        console.log("Select selectedApplyLastDate Date: "+selectedApplyLastDate);
+                        // Calculate the difference in milliseconds
+                        let timeDifferenceLast = selectedApplyLastDate.getTime() - selectedApplyStartDate.getTime();
+                        console.log("timeDifferenceLast: "+timeDifferenceLast);
+
+                        // Calculate the difference in days
+                        let daysDifference = timeDifferenceLast / (1000 * 60 * 60 * 24);
+                        console.log("daysDifference: "+daysDifference);
+
+                        // Set the minimum number of days
+                        let minimumDays = 1;
+
+                        // Check if the selected last date is at least minimumDays smaller than the start date
+                        if (daysDifference < minimumDays) {
+                            e.preventDefault();
+                            $("#applyStartDate").after('<div class="alert alert-danger">Election Apply Start Date must be at least ' + minimumDays + ' days before the Election Appy Last Date.</div>');
+                        }
+                    }
 
                     // To check that the Election startDate is empty or not
                     let endDate = $("#endDate").val();
@@ -266,7 +310,6 @@
                             $("#endDate").after('<div class="alert alert-danger">Election End Date Should be greater than Start Date Provided.</div>');
                         }
                     }
-                    */
 
 
                 });

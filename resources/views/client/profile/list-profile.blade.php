@@ -1,5 +1,5 @@
 @extends('client.layouts.master')
-@section('title','Your title here')
+@section('title','Profile')
 
 <!-- Begin: Addiitonal CSS Section starts Here -->
 @section('css')
@@ -7,6 +7,8 @@
     @include('client.layouts.dataTables-links')
     <!-- End: DataTables CSS and JS -->
 
+    <!-- Include Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 @endsection
 <!-- End: Addiitonal CSS Section starts Here -->
 
@@ -109,6 +111,68 @@
                                 @error('userCnicNo')
                                     <div class="alert alert-danger">{{$message}}</div>
                                 @enderror
+
+                                
+                                 <!-- Select Country -->
+                                 <div class="form-group">
+                                    <label for="countryId">Select Country</label>
+                                    <select id="countryId" name="countryId" class="form-control select2">
+                                        <option value="" selected disabled>Select Country</option>
+                                        @if (count($countriesAll)>0)
+                                            @foreach ($countriesAll as $country)
+                                                <option value="{{ $country->id }}" @if ( $users->countryId == $country->id) selected @endif >{{ $country->name }}</option>
+                                            @endforeach
+                                        @else
+                                            <option value="" disabled>No Country Found</option>
+                                        @endif
+                                    </select>
+                                </div>
+                                @error('countryId')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+
+                               
+                                
+                                <!-- Select State -->
+                                <div class="form-group">
+                                    <label for="stateId">Select State</label>
+                                    <select id="stateId" name="stateId" class="form-control select2">
+                                        <option value="" selected disabled>Select State</option>
+                                        @if (!empty($userCountry))
+                                            @if (count($statesAll)>0)
+                                            @foreach ($statesAll as $state)
+                                                <option value="{{ $state->id }}" @if ( $users->stateId == $state->id) selected @endif >{{ $state->name }}</option>
+                                            @endforeach
+                                            @else
+                                                <option value="" disabled>No State Found</option>
+                                            @endif
+                                        @endif
+                                    </select>
+                                </div>
+                                @error('stateId')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                                
+                                <!-- Select City -->
+                                <div class="form-group">
+                                    <label for="cityId">Select City</label>
+                                    <select id="cityId" name="cityId" class="form-control select2">
+                                        <option value="" selected disabled>Select City</option>
+                                        @if (!empty($userCountry))
+                                            @if (count($citiesAll)>0)
+                                            @foreach ($citiesAll as $city)
+                                                <option value="{{ $city->id }}" @if ( $users->cityId == $city->id) selected @endif >{{ $city->name }}</option>
+                                            @endforeach
+                                            @else
+                                                <option value="" disabled>No City Found</option>
+                                            @endif
+                                        @endif
+                                        
+                                    </select>
+                                </div>
+                                @error('cityId')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                                 
                                 <!-- User Addres -->
                                 <div class="form-group">
@@ -176,6 +240,75 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function(){
+            // Initialize Select2 on the city dropdown
+            $('#cityId').select2({
+                placeholder: 'Select City',
+                allowClear: true,
+                width: '100%' // Set the width as per your requirement
+            });
+
+            // To Get the state using country id
+            $("#countryId").change(function(){
+                let countryId = $("#countryId").val();
+                    $('#stateId').empty();
+                    $('#stateId').append('<option value="" disabled selected>Select State</option>');
+                    $('#cityId').empty();
+                    $('#cityId').append('<option value="" disabled selected>Select City</option>');
+                if(countryId !=null){
+                    $.ajax({
+                        url:'/get-states/'+countryId,
+                        type:'GET',
+                        success:function(response){
+                            if (!response || (Array.isArray(response) && response.length === 0)) {
+                                $('#stateId').append('<option value="" disabled>No State Found</option>');
+                            } else {
+                                $.each(response, function(key, value) {
+                                    $('#stateId').append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
+                            }
+                        },
+                        error:function(error){
+                            console.log(error);
+                            Swal.fire({
+                                icon:'error',
+                                title:'Error',
+                                text: 'An error occured: '+error.responseJSON.message,
+                            });
+                        }
+                    });
+                }
+            });
+                
+            //  To get Cities for the Given State
+            $("#stateId").change(function(){
+                let stateId = $("#stateId").val();
+                    $('#cityId').empty();
+                    $('#cityId').append('<option value="" disabled selected>Select City</option>');
+                if(stateId !=null){
+                    $.ajax({
+                        url:'/get-cities/'+stateId,
+                        type:'GET',
+                        success:function(response){
+                            if (!response || (Array.isArray(response) && response.length === 0)) {
+                                $('#cityId').append('<option value="" disabled>No City Found</option>');
+                            } else {
+                                $.each(response, function(key, value) {
+                                    $('#cityId').append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
+                            }
+                        },
+                        error:function(error){
+                            console.log(error);
+                            Swal.fire({
+                                icon:'error',
+                                title:'Error',
+                                text: 'An error occured: '+error.responseJSON.message,
+                            });
+                        }
+                    });
+                }
+            });
+
             $("#btnSubmit").click(function (e) { 
                 $(".alert-danger").remove();
                  
@@ -214,8 +347,29 @@
                     $("#userDob").after('<div class="alert alert-danger">Date of Birth Should be Provided.</div>');
                 }
 
-                 // Check the file userProfileImage
-                 let imageInput = $('#userProfileImage')[0];
+                //  To Check countryId  is empty or not
+                let countryId = $("#countryId").val();
+                if(countryId == null || countryId.trim()=== ''){
+                    e.preventDefault();
+                    $("#countryId").after('<div class="alert alert-danger">Country Should be Provided.</div>');
+                }
+                
+                //  To Check stateId  is empty or not
+                let stateId = $("#stateId").val();
+                if(stateId == null || stateId.trim()=== ''){
+                    e.preventDefault();
+                    $("#stateId").after('<div class="alert alert-danger">State Should be Provided.</div>');
+                }
+                
+                //  To Check cityId  is empty or not
+                let cityId = $("#cityId").val();
+                if(cityId == null || cityId.trim()=== ''){
+                    e.preventDefault();
+                    $("#cityId").after('<div class="alert alert-danger">City Should be Provided.</div>');
+                }
+
+                // Check the file userProfileImage
+                let imageInput = $('#userProfileImage')[0];
 
                 if (imageInput.files.length === 1) {
                     // Check file extension
@@ -238,6 +392,9 @@
             });
         });
     </script>
+
+    <!-- Include Select2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 @endsection
 <!-- End: Script Section Starts Here -->
 

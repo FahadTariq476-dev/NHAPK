@@ -66,4 +66,22 @@ class User extends Authenticatable
         return $this->belongsToMany(Properties::class, 'properties_warden', 'author_id', 'properties_id');
     }
     // End: Function to define the relationship of warden-user with properties
+
+    public function country()
+    {
+        // Define the relationship to the Country model
+        return $this->belongsTo(Country::class, 'countryId');
+    }
+
+    public function state()
+    {
+        // Define the relationship to the State model
+        return $this->belongsTo(State::class, 'stateId');
+    }
+    
+    public function city()
+    {
+        // Define the relationship to the City model
+        return $this->belongsTo(City::class, 'cityId');
+    }
 }

@@ -129,19 +129,16 @@
                             </li>
                             <!--- Begin: Menu A  -->
 
-                            <!-- Begin: Menu B  -->
+                            <!-- Begin: Nominee List  -->
                             <li class="nav-item">
-                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Menu B</span></a>
+                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Nominee List</span></a>
                                 <ul class="menu-content">
                                     <li>
-                                        <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Post</span></a>
-                                    </li>
-                                    <li>
-                                        <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Layout">List</span></a>
+                                        <a class="d-flex align-items-center" href="{{route('client.NominationList.list')}}"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Layout">View Nominee List</span></a>
                                     </li>
                                 </ul>
                             </li>
-                            <!-- Begin: Menu B  -->
+                            <!-- Begin: Nominee List  -->
 
                             <!-- Begin: Election Nomination -->
                             <li class="nav-item">

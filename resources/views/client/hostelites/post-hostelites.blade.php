@@ -235,7 +235,7 @@
                         $("#hostelContactNumber").val('');
                         $("#hostelOwnerName").val('');
                         $("#hostelDetails").hide();
-                    if(cityId !=null){
+                    if(countryId !=null){
                         $.ajax({
                             url:'/get-states/'+countryId,
                             type:'GET',
@@ -270,7 +270,7 @@
                         $("#hostelContactNumber").val('');
                         $("#hostelOwnerName").val('');
                         $("#hostelDetails").hide();
-                    if(cityId !=null){
+                    if(stateId !=null){
                         $.ajax({
                             url:'/get-cities/'+stateId,
                             type:'GET',

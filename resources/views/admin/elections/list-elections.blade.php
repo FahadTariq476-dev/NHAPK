@@ -46,7 +46,8 @@
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Description</th>
-                                        <th>Apply Date</th>
+                                        <th>Apply Start Date</th>
+                                        <th>Apply Last Date</th>
                                         <th>Start Date</th>
                                         <th>End Date</th>
                                         <th>Status</th>
@@ -62,7 +63,8 @@
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Description</th>
-                                        <th>Apply Date</th>
+                                        <th>Apply Start Date</th>
+                                        <th>Apply Last Date</th>
                                         <th>Start Date</th>
                                         <th>End Date</th>
                                         <th>Status</th>
@@ -107,6 +109,7 @@
                     { data: 'id' },
                     { data: 'name' },
                     { data: 'description'},
+                    { data: 'applyStartDate'},
                     { data: 'lastDate'},
                     { data: 'startDate'},
                     { data: 'endDate'},
@@ -123,9 +126,9 @@
                             else if(data === 'expired'){
                                 return '<span class="badge bg-warning">Exxpired</span>';
                             }
-                            // var statusClass = data === '1' ? 'badge bg-danger' : 'badge bg-success';
-                            // var statusText = data == '1' ? 'Block' : 'Active';
-                            // return '<span class="' + statusClass + '">' + statusText + '</span>';
+                            else{
+                                return data;
+                            }
                         }
                     },
                     { 
