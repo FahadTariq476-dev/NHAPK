@@ -9,13 +9,14 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Home</h2>
+                            <h2 class="content-header-title float-start mb-0">List Organogram Designation</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{route('admin.ShowDashboard')}}">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="#">Elections</a></li>
-                                    <li class="breadcrumb-item"><a href="{{route('admin.electionCategeories.post')}}">Elections Category</a></li>
-                                    <li class="breadcrumb-item active">Elections Category List</li>
+                                    <li class="breadcrumb-item"><a href="{{route('admin.ShowDashboard')}}">Menus</a></li>
+                                    <li class="breadcrumb-item"><a href="#">Organogram</a></li>
+                                    <li class="breadcrumb-item"><a href="{{route('admin.organogramDesignation.post')}}">Organogram Designation</a></li>
+                                    <li class="breadcrumb-item active">Post Organogram Designation</li>
                                 </ol>
                             </div>
                         </div>
@@ -36,18 +37,17 @@
                 <!-- Page layout -->
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Election Category List</h4>
+                        <h4 class="card-title">Organogram Designation List</h4>
                     </div>
                     <div class="card-body">
                         <div class="card-text">
-                            <!-- Begin: Data Table for Listing User -->
-                            <table class="table mb-0 dataTable" id="nhapkElectionCategoryTable" style="background-color: #f2f2f2; color: #333;">
+                            <!-- Begin: Data Table for Listing -->
+                            <table class="table mb-0 dataTable" id="nhapkOrganogramDesignationTable" style="background-color: #f2f2f2; color: #333;">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
                                         <th>Title</th>
                                         <th>Description</th>
-                                        <th>Status</th>
                                         <th>Created At</th>
                                         <th>Action</th>
                                     </tr>
@@ -60,13 +60,12 @@
                                         <th>ID</th>
                                         <th>Title</th>
                                         <th>Description</th>
-                                        <th>Status</th>
                                         <th>Created At</th>
                                         <th>Action</th>
                                     </tr>
                                 </tfoot>
                             </table>
-                            <!-- End: Data Table for Listing User -->
+                            <!-- End: Data Table for Listing -->
                         </div>
                     </div>
                 </div>
@@ -97,23 +96,11 @@
         var jq = jQuery.noConflict();
     
         jq(document).ready(function() {
-            var dataTable = jq('#nhapkElectionCategoryTable').DataTable({
+            var dataTable = jq('#nhapkOrganogramDesignationTable').DataTable({
                 columns: [
                     { data: 'id' },
-                    { data: 'name' },
+                    { data: 'title' },
                     { data: 'description'},
-                    { 
-                        data: 'status',
-                        render: function(data, type, row) {
-                            // Display the status in a span with Bootstrap styles
-                            if(data == 0){
-                                return '<span class="badge bg-danger">Block</span>';
-                            }
-                            else{
-                                return '<span class="badge bg-success">Active</span>';
-                            }
-                        }
-                    },
                     { 
                         data: 'created_at', 
                         render: function(data, type, row) {
@@ -127,20 +114,7 @@
                     { 
                         data: null, // Placeholder for the action column
                         render: function(data, type, row) {
-                            // Render the button for the action column
-                            var statusText = '';
-                            var statusClass = '';
-
-                            if (data.status === 0) {
-                                statusText = 'Active';
-                                statusClass = 'btn btn-success btn-sm';
-                            } else {
-                                statusText = 'Block';
-                                statusClass = 'btn btn-danger btn-sm';
-                            }
-
-                            return '<form id="statusForm">@csrf<div class="btn-group"><button class="'+statusClass+' btnChangeStatus" data-id="' + row.id + '">'+statusText+'</button>' +
-                                '<button class="btn btn-primary btn-sm edit-btn" data-id="' + row.id + '">Edit</button>' +
+                            return '<form id="statusForm">@csrf<div class="btn-group"><button class="btn btn-primary btn-sm edit-btn" data-id="' + row.id + '">Edit</button>' +
                                 '<button class="btn btn-danger btn-sm delete-btn" data-id="' + row.id + '">Delete</button></div></form>';
                         }
                     },
@@ -164,7 +138,7 @@
                     [10, 25, 50, 100, 200, "All"]
                 ],
                 ajax: {
-                    url: "/admin/election/category/list",
+                    url: "/admin/organogram-designation/list",
                     type: "GET",
                     data: function(d) {
                         // Add any additional parameters you need
@@ -176,84 +150,14 @@
                 },
             });
 
-            // Event delegation for dynamically generated elements
-                jq('#nhapkElectionCategoryTable').on('click', '.btnChangeStatus', function(e) {
-                    e.preventDefault();
-                    //  code for handling status change
-                    var dataId = jq(this).data('id');
+            // Event delegation for dynamically generated element
 
-                    // Show a confirmation SweetAlert
-                    Swal.fire({
-                        title: "Are you sure?",
-                        text: "Are you sure you want to change the status?",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#3085d6",
-                        cancelButtonColor: "#d33",
-                        confirmButtonText: "Yes, change it!",
-                    }).then((result) => {
-                        // Check user's choice
-                        if (result.isConfirmed) {
-                            var csrfToken = $('#statusForm input[name="_token"]').val();
-                            jq.ajax({
-                                url: '/admin/election/category/change-status/' + dataId,
-                                type: 'PUT',
-                                data: {
-                                    "_token": csrfToken,
-                                },
-                                success: function(response) {
-                                    dataTable.ajax.reload();
-                                    if (response.status == 'error') {
-                                        Swal.fire({
-                                            title: "Error",
-                                            text: response.message,
-                                            icon: response.status,
-                                        });
-                                    }
-                                    if (response.status == 'success') {
-                                        Swal.fire({
-                                            title: "Success",
-                                            text: response.message,
-                                            icon: response.status,
-                                        });
-                                    }
-                                    if (response.status == 'invalid') {
-                                        Swal.fire({
-                                            title: "Invalid",
-                                            text: response.message,
-                                            icon: 'warning',
-                                        });
-                                    }
-                                },
-                                error: function(error) {
-                                    console.log(error);
-                                    Swal.fire({
-                                        icon:'error',
-                                        title:'Error',
-                                        text:'An Error occured:'+error.responseJSON.message,
-                                    });
-                                }
-                            });
-                        } else {
-                            dataTable.ajax.reload();
-                            // User pressed Cancel
-                            Swal.fire({
-                                title: "Cancelled",
-                                text: "You pressed Cancel!",
-                                icon: "info",
-                            });
-                            
-                        }
-                    });
-                });
-
-
-            jq('#nhapkElectionCategoryTable').on('click', '.edit-btn', function(e) {
+            jq('#nhapkOrganogramDesignationTable').on('click', '.edit-btn', function(e) {
                 e.preventDefault();
                 var dataId = jq(this).data('id');
                 Swal.fire({
                     title: "Are you sure?",
-                    text: "You wan\'t to edit this Referal Level?",
+                    text: "You wan\'t to edit this Organogram Designation?",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
@@ -262,7 +166,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Proceed with your action here
-                        window.location.href = '/admin/election/category/edit/' + dataId;
+                        window.location.href = '/admin/organogram-designation/edit/' + dataId;
                     } else {
                         Swal.fire("Cancelled", "You pressed Cancel!", "info");
                     }
@@ -270,7 +174,7 @@
             });
 
 
-            jq('#nhapkElectionCategoryTable').on('click', '.delete-btn', function(e) {
+            jq('#nhapkOrganogramDesignationTable').on('click', '.delete-btn', function(e) {
                 e.preventDefault();
                 var dataId = jq(this).data('id');
                 // Show SweetAlert confirmation dialog
@@ -287,7 +191,7 @@
                             var csrfToken = $('#statusForm input[name="_token"]').val();
                             // Proceed with delete action
                             jq.ajax({
-                                url: '/admin/election/category/delete/' + dataId,
+                                url: '/admin/organogram-designation/delete/' + dataId,
                                 type: 'delete',
                                 data: {
                                     "_token": csrfToken,

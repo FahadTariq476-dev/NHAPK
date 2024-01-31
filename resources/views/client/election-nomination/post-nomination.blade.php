@@ -131,7 +131,7 @@
                                         <option value="" selected disabled>Select Election</option>
                                         @if (count($elections)>0)
                                             @foreach ($elections as $elections)
-                                                <option value="{{ $elections->id }}" @if (old('countryId')==$elections->id) selected @endif >{{ $elections->name }}</option>
+                                                <option value="{{ $elections->id }}" @if (old('electionId')==$elections->id) selected @endif >{{ $elections->name }}</option>
                                             @endforeach
                                         @else
                                             <option value="" disabled>No Election Found</option>

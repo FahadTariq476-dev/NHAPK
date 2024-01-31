@@ -40,11 +40,15 @@ use App\Http\Controllers\Frontend\Client\LoginClientController;
 use App\Http\Controllers\Client\hostelites\HostelitesController;
 use App\Http\Controllers\Admin\ReferralLevels\ReferralLevelController;
 use App\Http\Controllers\Client\membership\MembershipClientController;
+use App\Http\Controllers\Admin\Elections\ElectionsResultAdminController;
 use App\Http\Controllers\Admin\MembershipTypes\MembershipTypeAdminController;
 use App\Http\Controllers\Client\CandidateNomination\NominationListController;
+use App\Http\Controllers\Client\ElectionSuggestion\ElectionSuggestionController;
 use App\Http\Controllers\Client\CandidateNomination\CandidateNominationController;
+use App\Http\Controllers\Admin\ElectionSuggestion\ElectionSuggestionAdminController;
 use App\Http\Controllers\Admin\Elections\ElectionsCategory\ElectionsCategroyController;
 use App\Http\Controllers\Admin\Elections\CandidateNomination\CandidateNominationAdminController;
+use App\Http\Controllers\Admin\Organogram\OrganogramDesignation\OrganogramDesignationAdminController;
 
 
 /*
@@ -352,6 +356,53 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
         Route::get('/list',[VoteAdminController::class,'list'])->name('admin.Vote.list');
     });
 
+    /*
+        |--------------------------------------------------------------------------
+        | Election Suggestion Route for Admin 
+        |--------------------------------------------------------------------------
+        |
+    */
+    Route::group(['prefix' => '/election-suggestion'], function(){
+        Route::get('/list',[ElectionSuggestionAdminController::class,'list'])->name('admin.electionSuggestion.list');
+        // changeStatus
+        Route::get('/change-status/{electionSuggestionId}/{status}',[ElectionSuggestionAdminController::class,'changeStatus'])->name('admin.electionSuggestion.changeStatus');
+    });
+    
+    /*
+        |--------------------------------------------------------------------------
+        | Election Result Route for Admin 
+        |--------------------------------------------------------------------------
+        |
+    */
+    Route::group(['prefix' => '/election/result'], function(){
+        Route::get('/view',[ElectionsResultAdminController::class,'index'])->name('admin.electionsResult.index');
+        // calculateResult
+        Route::post('/calculate',[ElectionsResultAdminController::class,'calculateResult'])->name('admin.electionsResult.calculateResult');
+    });
+    
+    /*
+        |--------------------------------------------------------------------------
+        | Organogram Designation Route for Admin 
+        |--------------------------------------------------------------------------
+        |
+    */
+    Route::group(['prefix' => '/organogram-designation'], function(){
+        // list
+        Route::get('/list',[OrganogramDesignationAdminController::class,'list'])->name('admin.organogramDesignation.list');
+        // post
+        Route::get('/post',[OrganogramDesignationAdminController::class,'post'])->name('admin.organogramDesignation.post');
+        // store
+        Route::post('/store',[OrganogramDesignationAdminController::class,'store'])->name('admin.organogramDesignation.store');
+        // edit
+        Route::get('/edit/{organogramDesignationId}',[OrganogramDesignationAdminController::class,'edit'])->name('admin.organogramDesignation.edit');
+        // update
+        Route::put('/update',[OrganogramDesignationAdminController::class,'update'])->name('admin.organogramDesignation.update');
+        // delete
+        Route::delete('/delete/{organogramDesignationId}',[OrganogramDesignationAdminController::class,'delete'])->name('admin.organogramDesignation.delete');
+        // uniqueTitle
+        Route::get('/unique-title/{organogramDesignationTitle}',[OrganogramDesignationAdminController::class,'uniqueTitle'])->name('admin.organogramDesignation.uniqueTitle');
+    });
+
     
 
 });
@@ -531,8 +582,26 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
     });
     Route::get('/viewCandidateDetails/{id}',[CandidateNominationController::class,'viewCandidateDetails'])->name('viewCandidateDetails');
 
+    /*
+        |--------------------------------------------------------------------------
+        | Nomination List Route for Client 
+        |--------------------------------------------------------------------------
+        |
+    */
     Route::group(['prefix' => '/nomination'], function(){
         Route::get('/list',[NominationListController::class,'list'])->name('client.NominationList.list');
+
+    });
+    
+    /*
+        |--------------------------------------------------------------------------
+        | Election Suggestion Route for Client 
+        |--------------------------------------------------------------------------
+        |
+    */
+    Route::group(['prefix' => '/election-suggestion'], function(){
+        Route::post('/save',[ElectionSuggestionController::class,'post'])->name('client.electionSuggestion.post');
+        
     });
 
 });

@@ -47,11 +47,12 @@
                 <!-- Begin: Kick start -->
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Kick start your next project 🚀</h4>
+                        <h4 class="card-title">Nominee List</h4>
                     </div>
                     <div class="card-body">
                         <div class="card-text">
-                            <form action="#" method="POST">
+                            <form action="{{route('client.electionSuggestion.post')}}" method="POST" enctype="multipart/form-data">
+                                @csrf
                                 <!-- Select Candidate -->
                                 <div class="form-group mb-1">
                                     <label for="viewCandidateId">Select Your Candidate</label>
@@ -59,7 +60,7 @@
                                         <option value="" selected disabled>Select Candidate</option>
                                         @if (count($candidates)>0)
                                         @foreach ($candidates as $candidate)
-                                            <option value="{{ $candidate->id }}">
+                                            <option value="{{ $candidate->id }}" @if (old('viewCandidateId') == $candidate->id) selected @endif>
                                                 {{ $candidate->user->name }}
                                             </option>
                                         @endforeach
@@ -68,73 +69,97 @@
                                         @endif
                                     </select>
                                 </div>
+                                @error('viewCandidateId')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+
                                 <!-- Candidate Details -->
-                                <div style="display: none" id="candidateDetailsDiv">
+                                <div id="candidateDetailsDiv">
                                     <!-- Candidate Picture-->
                                     <div class="form-group">
                                         <label for="viewCandidateImage">Candidate Picture</label><br>
-                                        <img class="round" id="viewCandidateImage" name="viewCandidateImage" src="" alt="avatar" height="140" width="140">
+                                        <img class="round" id="viewCandidateImage" name="viewCandidateImage" src="{{old('viewCandidateImage')}}" alt="avatar" height="140" width="140">
                                     </div>
             
                                     <!-- Candidate Cnic -->
                                     <div class="form-group">
                                         <label for="viewCandidateCnic">Candidate Cnic</label>
-                                        <input type="text" id="viewCandidateCnic" name="viewCandidateCnic" value="" class="form-control" readonly>
+                                        <input type="text" id="viewCandidateCnic" name="viewCandidateCnic" value="{{old('viewCandidateCnic')}}" class="form-control" readonly>
                                     </div>
                                     
                                     <!-- Candidate Mobile No -->
                                     <div class="form-group">
                                         <label for="viewCandidateMobileNo">Candidate Mobile No</label>
-                                        <input type="text" id="viewCandidateMobileNo" name="viewCandidateMobileNo" value="" class="form-control" readonly>
+                                        <input type="text" id="viewCandidateMobileNo" name="viewCandidateMobileNo" value="{{old('viewCandidateMobileNo')}}" class="form-control" readonly>
                                     </div>
                                     
                                     <!-- Candidate Country-->
                                     <div class="form-group">
                                         <label for="viewCandidateCountryName">Candidate Country</label>
-                                        <input type="text" id="viewCandidateCountryName" name="viewCandidateCountryName" value="" class="form-control" readonly>
+                                        <input type="text" id="viewCandidateCountryName" name="viewCandidateCountryName" value="{{old('viewCandidateCountryName')}}" class="form-control" readonly>
                                     </div>
                                     
                                     <!-- Candidate State-->
                                     <div class="form-group">
                                         <label for="viewCandidateStateName">Candidate State</label>
-                                        <input type="text" id="viewCandidateStateName" name="viewCandidateStateName" value="" class="form-control" readonly>
+                                        <input type="text" id="viewCandidateStateName" name="viewCandidateStateName" value="{{old('viewCandidateStateName')}}" class="form-control" readonly>
                                     </div>
                                     
                                     <!-- Candidate City-->
                                     <div class="form-group">
                                         <label for="viewCandidateCityName">Candidate City</label>
-                                        <input type="text" id="viewCandidateCityName" name="viewCandidateCityName" value="" class="form-control" readonly>
+                                        <input type="text" id="viewCandidateCityName" name="viewCandidateCityName" value="{{old('viewCandidateCityName')}}" class="form-control" readonly>
                                     </div>
                                     
                                     <!-- Candidate Address-->
                                     <div class="form-group">
                                         <label for="viewCandidateAddress">Candidate Address</label>
-                                        <input type="text" id="viewCandidateAddress" name="viewCandidateAddress" value="" class="form-control" readonly>
+                                        <input type="text" id="viewCandidateAddress" name="viewCandidateAddress" value="{{old('viewCandidateAddress')}}" class="form-control" readonly>
                                     </div>
                                     
                                     <!-- Candidate Description-->
                                     <div class="form-group">
                                         <label for="viewCandidateDescription">Candidate Description</label>
-                                        <textarea id="viewCandidateDescription" name="viewCandidateDescription" class="form-control" readonly></textarea>
+                                        <textarea id="viewCandidateDescription" name="viewCandidateDescription" class="form-control" readonly>{{old('viewCandidateDescription')}}</textarea>
                                     </div>
             
                                     <!-- Select electionCategory -->
                                     <div class="form-group">
                                         <label for="viewElectionCategoryId">Election Category</label>
-                                        <input type="text" id="viewElectionCategoryId" name="viewElectionCategoryId" value="" class="form-control" readonly>
+                                        <input type="text" id="viewElectionCategoryId" name="viewElectionCategoryId" value="{{old('viewElectionCategoryId')}}" class="form-control" readonly>
                                     </div>
                                     
                                     <!-- Select elections -->
-                                    <div class="form-group mb-1">
+                                    <div class="form-group">
                                         <label for="viewElectionId">Election</label>
-                                        <input type="text" id="viewElectionId" name="viewElectionId" value="" class="form-control" readonly>
+                                        <input type="text" id="viewElectionId" name="viewElectionId" value="{{old('viewElectionId')}}" class="form-control" readonly>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label>Select Suggestion / Objection</label>
+                                        <select name="suggestionType" id="suggestionType" class="form-control">
+                                            <option value="" selected disabled>Select Your Choice</option>
+                                            <option value="suggestion" @if (old('suggestionType') == "suggestion") selected @endif >Suggestion</option>
+                                            <option value="objection" @if (old('suggestionType') == "objection") selected @endif>Objection</option>
+                                        </select>
+                                    </div>
+                                    @error('suggestionType')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+
+                                    <div class="form-group mb-1">
+                                        <label>Your Any Suggestion / Objection</label>
+                                        <input type="text" id="suggestionTypeText" name="suggestionTypeText" value="{{old('suggestionTypeText')}}" class="form-control" placeholder="Enter Your Sugggestion / Objection Here" />
+                                    </div>
+                                    @error('suggestionTypeText')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                     
                                     <!-- Actions Button -->
                                     <div class="form-group mb-1">
-                                        <button type="button" class="btn btn-warning" id="objectionBtn">Objection</button>
-                                        <button type="button" class="btn btn-success" id="suggestionBtn">Suggest</button>
+                                        <button type="submit" class="btn btn-success" id="btnSave">Save</button>
                                     </div>
+
                                 </div>
                                 
                                 <div class="form-group">
@@ -170,7 +195,6 @@
     $(document).ready(function () {
 
         function resetFields(){
-            $("#candidateDetailsDiv").hide();
             $("#viewCandidateCnic").val('');
             $("#viewCandidateMobileNo").val('');
             $("#viewCandidateCountryName").val('');
@@ -180,6 +204,8 @@
             $("#viewCandidateDescription").val('');
             $("#viewElectionCategoryId").val('');
             $("#viewElectionId").val('');
+            $("#suggestionType").val('');
+            $("#suggestionTypeText").val('');
 
             // Update candidate picture
             $("#viewCandidateImage").attr("src", "");
@@ -209,7 +235,6 @@
                             });
                         }
                         else{
-                            $("#candidateDetailsDiv").show();
                             $("#viewCandidateCnic").val(response.user.cnic_no);
                             $("#viewCandidateMobileNo").val(response.user.phone_number);
                             $("#viewCandidateCountryName").val(response.country.name);
@@ -235,6 +260,32 @@
                     },
                 });
             }
+        });
+
+        $("#btnSave").click(function (e) { 
+            $(".alert-danger").remove();
+
+            // //  To check viewCandidateId is empty or not
+            // let viewCandidateId = $("#viewCandidateId").val();
+            // if( viewCandidateId == null || viewCandidateId.trim()===''){
+            //     e.preventDefault();
+            //     $("#viewCandidateId").after('<div class="alert alert-danger">Candidate  Should be Provided.</div>');
+            // }
+            
+            // //  To check suggestionType is empty or not
+            // let suggestionType = $("#suggestionType").val();
+            // if( suggestionType == null || suggestionType.trim()===''){
+            //     e.preventDefault();
+            //     $("#suggestionType").after('<div class="alert alert-danger">Suggestion Type Should be Provided.</div>');
+            // }
+            
+            // //  To check suggestionTypeText is empty or not
+            // let suggestionTypeText = $("#suggestionTypeText").val();
+            // if( suggestionTypeText == null || suggestionTypeText.trim()==='' || suggestionTypeText.length == 0){
+            //     e.preventDefault();
+            //     $("#suggestionTypeText").after('<div class="alert alert-danger">Your Suggestion / Objection Should be Provided.</div>');
+            // }
+            
         });
 
     });
