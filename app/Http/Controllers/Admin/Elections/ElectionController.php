@@ -60,6 +60,8 @@ class ElectionController extends Controller
             $currentTime = now()->setTimezone('Asia/Karachi')->toDateTimeString();
             $minimumStartDate = now()->setTimezone('Asia/Karachi')->addDay()->toDateTimeString();
             $maximumEndDate = now()->setTimezone('Asia/Karachi')->parse($request->input('startDate'))->subDays(5)->toDateTimeString();
+            $maximumaAplyStartDateDate = now()->setTimezone('Asia/Karachi')->parse($request->input('lastDate'))->subDays(1)->toDateTimeString();
+            // return $maximumaAplyStartDateDate;
             $rules = [
                 'name' => 'required|string|min:3|max:255|unique:nhapk_elections,name',
                 'description' => 'required|string|min:3|max:255',
@@ -70,6 +72,9 @@ class ElectionController extends Controller
                 ],
                 'lastDate' => [ 'required', 'date',
                 'before_or_equal:' . $maximumEndDate,
+                ],
+                'applyStartDate' => [ 'required', 'date',
+                'before_or_equal:' . $maximumaAplyStartDateDate,
                 ],
                 'endDate' => [
                     'required',
@@ -85,6 +90,7 @@ class ElectionController extends Controller
             $election->lastDate = $request->lastDate;
             $election->startDate = $request->startDate;
             $election->endDate = $request->endDate;
+            $election->applyStartDate = $request->applyStartDate;
             $result = $election->save();
             if(!($result)){
                 DB::commit();
@@ -134,6 +140,7 @@ class ElectionController extends Controller
             }
             $minimumStartDate = now()->setTimezone('Asia/Karachi')->addDay()->toDateTimeString();
             $maximumEndDate = now()->setTimezone('Asia/Karachi')->parse($request->input('startDate'))->subDays(5)->toDateTimeString();
+            $maximumaAplyStartDateDate = now()->setTimezone('Asia/Karachi')->parse($request->input('lastDate'))->subDays(1)->toDateTimeString();
             $rules = [
                 'name' => ['required','string','min:3','max:255', Rule::unique('nhapk_elections', 'name')->ignore($electionId),],
                 'description' => 'required|string|min:3|max:255',
@@ -144,6 +151,9 @@ class ElectionController extends Controller
                 ],
                 'lastDate' => [ 'required', 'date',
                 'before_or_equal:' . $maximumEndDate,
+                ],
+                'applyStartDate' => [ 'required', 'date',
+                'before_or_equal:' . $maximumaAplyStartDateDate,
                 ],
                 'endDate' => [
                     'required',
@@ -157,6 +167,7 @@ class ElectionController extends Controller
             $elections->lastDate = $request->lastDate;
             $elections->startDate = $request->startDate;
             $elections->endDate = $request->endDate;
+            $elections->applyStartDate = $request->applyStartDate;
             $elections->status = 'off';
             $result = $elections->save();
             if(!($result)){

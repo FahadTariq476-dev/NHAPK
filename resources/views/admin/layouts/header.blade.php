@@ -269,6 +269,17 @@
                     </li>
                     <!-- End: Elections -->
 
+                    <!-- Begin: Election Suggestion / Objection -->
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Election Suggestion / Objection</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.electionSuggestion.list')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Election Suggestion / Objection</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- End: Election Suggestion / Objection -->
+                    
                     <!-- Begin: Vote -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Vote</span></a>
@@ -279,6 +290,44 @@
                         </ul>
                     </li>
                     <!-- End: Vote -->
+                    
+                    <!-- Begin: Election Result -->
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Election Result</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.electionsResult.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">View Election Result</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- End: Election Result -->
+
+                    <!-- Begin: Organogram -->
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Organogram</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.elections.post')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Post Organogram</span></a>
+                            </li>
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.elections.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Organogram</span></a>
+                            </li>
+                            <!-- Begin: Organogram Designation -->
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Organogram Designation</span></a>
+                                <ul class="menu-content">
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{route('admin.organogramDesignation.post')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post Organogram Designation</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{route('admin.organogramDesignation.list')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Organogram Designation</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- End: Organogram Designation -->
+                        </ul>
+                    </li>
+                    <!-- End: Organogram -->
                 </li>
             </ul>
         </div>

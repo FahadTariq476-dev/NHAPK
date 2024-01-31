@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Client\profile;
 
 use Exception;
 use App\Models\User;
+use App\Models\Country;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\City;
+use App\Models\State;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -19,10 +22,22 @@ class ProfileController extends Controller
     public function viewProfile(){
         try{
             $users = Auth::user();
+            // dd($users->toArray());
             $userRoles = $users->roles;
+            $userCountry = $users->countryId;
+            $userState = $users->stateId;   
+            $userCity = $users->cityId;
+            $countriesAll = Country::all();
+            $statesAll = State::where('country_id',$userCountry)->get();
+            $citiesAll = City::where('states_id',$userState)->get();
+            
             return view('client.profile.list-profile')->with([
                 'users' => $users,
                 'userRoles' => $userRoles,
+                'countriesAll' => $countriesAll,
+                'statesAll' => $statesAll,
+                'citiesAll' => $citiesAll,
+                'userCountry' => $userCountry,
             ]);
         }
         catch(Exception $e){
@@ -37,7 +52,6 @@ class ProfileController extends Controller
         try{
             DB::beginTransaction();
             $userOldInfo = Auth::user();
-            // dd($userOldInfo->toArray());
             $oldUserProfile = $userOldInfo->picture_path;
             
             $rules = [
@@ -46,6 +60,9 @@ class ProfileController extends Controller
                 'shortDescription' =>'required|string|min:3|max:255',
                 'userAddress' =>'required|string|min:3|max:255',
                 'userDob' =>'required|date',
+                'countryId' =>'required|exists:countries,id',
+                'stateId' =>'required|exists:states,id',
+                'cityId' =>'required|exists:cities,id',
             ];
             if($oldUserProfile == null){
                 $rules['userProfileImage']='required|image|mimes:jpeg,png,jpg,JPEG,PNG,JPG|max:2048';
@@ -54,6 +71,7 @@ class ProfileController extends Controller
                 $rules['userProfileImage']='sometimes|image|mimes:jpeg,png,jpg,JPEG,PNG,JPG|max:2048';
             }
             $this->validate($request,$rules);
+        
             $name = $request->firstName." ".$request->lastName;
             $slug = Str::slug($name);
             // Make the slug unique
@@ -89,6 +107,9 @@ class ProfileController extends Controller
                 $user->picture_path = $newProfileImagePath;
             }
             $user->slug = $uniqueSlug;
+            $user->countryId = $request->countryId;
+            $user->stateId = $request->stateId;
+            $user->cityId = $request->cityId;
             $results = $user->save();
             if(!$results){
                 DB::commit();

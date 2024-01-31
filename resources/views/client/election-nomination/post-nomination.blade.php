@@ -53,62 +53,58 @@
                         <div class="card-text">
                            <form id="formApplyElectionNomination" action="{{route('client.electionNomination.store')}}" method="POST" enctype="multipart/form-data">
                                 @csrf
+                                <!-- Candidate Picture-->
+                                <div class="form-group">
+                                    <label>Candidate Picture</label><br>
+                                    <img class="round" src="{{ Storage::url($usersAll->picture_path) }}" alt="avatar" height="140" width="140">
+                                </div>
+
                                 <!-- Candidate Name -->
                                 <div class="form-group">
                                     <label>Candidate Name</label>
-                                    <input type="text" id="candidateName" name="candidateName" value="{{Auth::user()->name}}" class="form-control" readonly>
+                                    <input type="text" id="candidateName" name="candidateName" value="{{$usersAll->name}}" class="form-control" readonly>
                                 </div>
                                 <!-- Candidate Cnic -->
                                 <div class="form-group">
                                     <label>Candidate Cnic</label>
-                                    <input type="text" id="candidateCnic" name="candidateCnic" value="{{Auth::user()->cnic_no}}" class="form-control" readonly>
+                                    <input type="text" id="candidateCnic" name="candidateCnic" value="{{$usersAll->cnic_no}}" class="form-control" readonly>
                                 </div>
                                 
                                 <!-- Candidate Mobile No -->
                                 <div class="form-group">
                                     <label>Candidate Mobile No</label>
-                                    <input type="text" id="candidateMobileNo" name="candidateMobileNo" value="{{Auth::user()->phone_number}}" class="form-control" readonly>
+                                    <input type="text" id="candidateMobileNo" name="candidateMobileNo" value="{{$usersAll->phone_number}}" class="form-control" readonly>
                                 </div>
-
-                                <!-- Select Country -->
-                                <div class="form-group">
-                                    <label for="countryId">Select Country</label>
-                                    <select id="countryId" name="countryId" class="form-control select2">
-                                        <option value="" selected disabled>Select Country</option>
-                                        @if (count($countries)>0)
-                                            @foreach ($countries as $country)
-                                                <option value="{{ $country->id }}" @if (old('countryId')==$country->id) selected @endif >{{ $country->name }}</option>
-                                            @endforeach
-                                        @else
-                                            <option value="" disabled>No Country Found</option>
-                                        @endif
-                                    </select>
-                                </div>
-                                @error('countryId')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
                                 
-                                <!-- Select State -->
+                                <!-- Candidate Country-->
                                 <div class="form-group">
-                                    <label for="stateId">Select State</label>
-                                    <select id="stateId" name="stateId" class="form-control select2">
-                                        <option value="" selected disabled>Select State</option>
-                                    </select>
+                                    <label>Candidate Country</label>
+                                    <input type="text" id="candidateCountryName" name="candidateCountryName" value="{{$usersAll->country->name}}" class="form-control" readonly>
                                 </div>
-                                @error('stateId')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
                                 
-                                <!-- Select City -->
+                                <!-- Candidate State-->
                                 <div class="form-group">
-                                    <label for="cityId">Select City</label>
-                                    <select id="cityId" name="cityId" class="form-control select2">
-                                        <option value="" selected disabled>Select City</option>
-                                    </select>
+                                    <label>Candidate State</label>
+                                    <input type="text" id="candidateStateName" name="candidateStateName" value="{{$usersAll->state->name}}" class="form-control" readonly>
                                 </div>
-                                @error('cityId')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
+                                
+                                <!-- Candidate City-->
+                                <div class="form-group">
+                                    <label>Candidate City</label>
+                                    <input type="text" id="candidateCityName" name="candidateCityName" value="{{$usersAll->city->name}}" class="form-control" readonly>
+                                </div>
+                                
+                                <!-- Candidate Address-->
+                                <div class="form-group">
+                                    <label>Candidate Address</label>
+                                    <input type="text" id="candidateAddress" name="candidateAddress" value="{{$usersAll->city->name}}" class="form-control" readonly>
+                                </div>
+                                
+                                <!-- Candidate Description-->
+                                <div class="form-group">
+                                    <label>Candidate Description</label>
+                                    <textarea id="candidateDescription" name="candidateDescription" class="form-control" readonly>{{$usersAll->short_description}}</textarea>
+                                </div>
 
                                 <!-- Select electionCategory -->
                                 <div class="form-group">
@@ -135,7 +131,7 @@
                                         <option value="" selected disabled>Select Election</option>
                                         @if (count($elections)>0)
                                             @foreach ($elections as $elections)
-                                                <option value="{{ $elections->id }}" @if (old('countryId')==$elections->id) selected @endif >{{ $elections->name }}</option>
+                                                <option value="{{ $elections->id }}" @if (old('electionId')==$elections->id) selected @endif >{{ $elections->name }}</option>
                                             @endforeach
                                         @else
                                             <option value="" disabled>No Election Found</option>
@@ -179,101 +175,12 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function () {
-            // Initialize Select2 on the city dropdown
-            $('#cityId').select2({
-                placeholder: 'Select City',
-                allowClear: true,
-                width: '100%' // Set the width as per your requirement
-            });
-
-
-            //  To get States for the Given Country
-            $("#countryId").change(function(){
-                    let countryId = $("#countryId").val();
-                        $('#stateId').empty();
-                        $('#stateId').append('<option value="" disabled selected>Select State</option>');
-                        $('#cityId').empty();
-                        $('#cityId').append('<option value="" disabled selected>Select City</option>');
-                    if(cityId !=null){
-                        $.ajax({
-                            url:'/get-states/'+countryId,
-                            type:'GET',
-                            success:function(response){
-                                if (!response || (Array.isArray(response) && response.length === 0)) {
-                                    $('#stateId').append('<option value="" disabled>No State Found</option>');
-                                } else {
-                                    $.each(response, function(key, value) {
-                                        $('#stateId').append('<option value="' + value.id + '">' + value.name + '</option>');
-                                    });
-                                }
-                            },
-                            error:function(error){
-                                console.log(error);
-                                Swal.fire({
-                                    icon:'error',
-                                    title:'Error',
-                                    text: 'An error occured: '+error.responseJSON.message,
-                                });
-                            }
-                        });
-                    }
-                });
-                
-            //  To get Cities for the Given State
-                $("#stateId").change(function(){
-                    let stateId = $("#stateId").val();
-                        $('#cityId').empty();
-                        $('#cityId').append('<option value="" disabled selected>Select City</option>');
-                    if(cityId !=null){
-                        $.ajax({
-                            url:'/get-cities/'+stateId,
-                            type:'GET',
-                            success:function(response){
-                                if (!response || (Array.isArray(response) && response.length === 0)) {
-                                    $('#cityId').append('<option value="" disabled>No City Found</option>');
-                                } else {
-                                    $.each(response, function(key, value) {
-                                        $('#cityId').append('<option value="' + value.id + '">' + value.name + '</option>');
-                                    });
-                                }
-                            },
-                            error:function(error){
-                                console.log(error);
-                                Swal.fire({
-                                    icon:'error',
-                                    title:'Error',
-                                    text: 'An error occured: '+error.responseJSON.message,
-                                });
-                            }
-                        });
-                    }
-                });
 
             // Form validation
             $("#btnSubmit").click(function (e) { 
                 // Remove any existing error messages
                 $(".alert").remove();
                 
-                // To Check countryId is empty or Now
-                let countryId = $("#countryId").val();
-                if (countryId == null || countryId.trim() === '') {
-                    e.preventDefault();
-                    $("#countryId").after('<div class="alert alert-danger">Country Should be Provided</div>');
-                }
-                
-                // To Check stateId is empty or Now
-                let stateId = $("#stateId").val();
-                if (stateId == null || stateId.trim() === '') {
-                    e.preventDefault();
-                    $("#stateId").after('<div class="alert alert-danger">State Should be Provided</div>');
-                }
-                
-                // To Check cityId is empty or Now
-                let cityId = $("#cityId").val();
-                if (cityId == null || cityId.trim() === '') {
-                    e.preventDefault();
-                    $("#cityId").after('<div class="alert alert-danger">City Should be Provided</div>');
-                }
                 
                 // To Check electionCategoryId is empty or Now
                 let electionCategoryId = $("#electionCategoryId").val();

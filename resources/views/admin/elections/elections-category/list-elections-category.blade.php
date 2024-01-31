@@ -112,9 +112,6 @@
                             else{
                                 return '<span class="badge bg-success">Active</span>';
                             }
-                            // var statusClass = data === '1' ? 'badge bg-danger' : 'badge bg-success';
-                            // var statusText = data == '1' ? 'Block' : 'Active';
-                            // return '<span class="' + statusClass + '">' + statusText + '</span>';
                         }
                     },
                     { 

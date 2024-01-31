@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\ElectionsCategroy;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -25,13 +26,32 @@ class CandidateNominationController extends Controller
             if($candidates){
                 return redirect()->route('client.dashboard.index')->with('warning','You have already applied. Kindly view your Nomination File.');
             }
-            $countries = Country::all();
+            $usersAll = User::where('id',Auth::id())->with(['country','state','city'])->first();
+            if($usersAll->countryId == null){
+                return redirect()->route('client.viewProfile')->with('info','Kindly Select Country First. And Complete Your Profile section');
+            }
+            else if($usersAll->stateId == null){
+                return redirect()->route('client.viewProfile')->with('info','Kindly Select State First. And Complete Your Profile section');
+            }
+            else if($usersAll->cityId == null){
+                return redirect()->route('client.viewProfile')->with('info','Kindly Select City First. And Complete Your Profile section');
+            }
+            else if($usersAll->address == null){
+                return redirect()->route('client.viewProfile')->with('info','Kindly Provide Your Address First. And Complete Your Profile section');
+            }
+            else if($usersAll->short_description == null){
+                return redirect()->route('client.viewProfile')->with('info','Kindly Provide Your Short Description First. And Complete Your Profile section');
+            }
+            else if($usersAll->picture_path == null){
+                return redirect()->route('client.viewProfile')->with('info','Kindly Provide Your Profile Picture First. And Complete Your Profile section');
+            }
+            // dd($usersAll->toArray());
             $electionCategories = ElectionsCategroy::where('status',1)->get();
             $elections = Election::where('status','on')->get();
             return view('client.election-nomination.post-nomination')->with([
-                'countries' => $countries,
                 'electionCategories' => $electionCategories,
                 'elections' => $elections,
+                'usersAll' => $usersAll,
             ]);
         }
         catch(Exception $e){
@@ -51,9 +71,6 @@ class CandidateNominationController extends Controller
                 return redirect()->route('client.dashboard.index')->with('warning','You have already applied. Kindly view your Nomination File.');
             }
             $rules = [
-                'countryId' => 'required|exists:countries,id',
-                'stateId' => 'required|exists:states,id',
-                'cityId' => 'required|exists:cities,id',
                 'electionCategoryId' => 'required|exists:nhapk_election_categories,id',
                 'electionId' => 'required|exists:nhapk_elections,id',
                 'candidateFile' => 'required|mimes:pdf,jpg,jpeg,png|max:2048', // PDF, JPEG, PNG, maximum 2MB
@@ -86,8 +103,8 @@ class CandidateNominationController extends Controller
             }
             $candidate = new Candidate();
             $candidate->userId = Auth::id();
-            $candidate->stateId = $request->stateId;
-            $candidate->cityId = $request->cityId;
+            $candidate->stateId = Auth::user()->stateId;
+            $candidate->cityId = Auth::user()->cityId;
             $candidate->electionCategoryId = $request->electionCategoryId;
             $candidate->electionId = $request->electionId;
             $candidate->file = $filename;
@@ -135,6 +152,48 @@ class CandidateNominationController extends Controller
         catch(Exception $e){
             DB::rollBack();
             return redirect()->back()->with('error','Your Exception is: '.$e->getMessage());
+        }
+    }
+
+    /**
+     * Function tp view the canidate details
+    */
+    public function viewCandidateDetails($id){
+        try{
+            $candidate = Candidate::find($id);
+            if(!($candidate)){
+                return response()->json([
+                    'status' => 'invalid',
+                    'message' => 'Your are accessing invalid candidate. Kindly acccess the valid one.',
+                ]);
+            }
+            else{
+                $user = $candidate->user;
+                $electionCategory = $candidate->electionCategory;
+                $election = $candidate->election;
+                $country= $user->country;
+                $state= $user->state;
+                $city= $user->state;
+                // dd($country->toArray());
+                // dd($user->toArray());
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Details are',
+                    'user' => $user,
+                    'country' => $country,
+                    'state' => $state,
+                    'city' => $city,
+                    'electionCategory' => $electionCategory,
+                    'election' => $election,
+                ],200);
+            }
+
+        }
+        catch(Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Your Exception is; '.$e->getMessage(),
+            ], 500);
         }
     }
 }
