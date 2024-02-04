@@ -33,7 +33,7 @@ class UserController extends Controller
     {
         $exists = User::where('cnic_no', $cnic)->exists();
         if ($exists) {
-            return User::where('cnic_no', $cnic)->first();   // CNIC exists
+            return User::where('cnic_no', $cnic)->with(['country','state','city'])->first();   // CNIC exists
         } else {
             return 0;   // CNIC does not exist
         }

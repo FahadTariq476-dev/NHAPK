@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Models\NewsFeed;
+use App\Models\Organogram;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
@@ -24,10 +25,12 @@ class HomeDashboardController extends Controller
         $roles = Role::where('nhapk_register',1)->whereIn('name',$allwoedrulesforLogin)->get();
         $blogs = Blog::where('status','published')->where('featured_post',1)->latest()->take(6)->get();
         $news = NewsFeed::where('status','published')->where('featured_post',1)->latest()->take(6)->get();
+        $organograms = Organogram::where('status',1)->latest()->with(['user','organogramDesignation'])->take(6)->get();
         return view('frontEnd.index')->with([
             'blogs'=>$blogs, 
             'news'=>$news,
             'roles'=>$roles,
+            'organograms'=>$organograms,
         ]);
     }
 }

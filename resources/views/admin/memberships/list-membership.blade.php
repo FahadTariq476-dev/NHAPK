@@ -39,24 +39,6 @@
                     <div class="col-12">
                         <div class="table-responsive">
                             <h2>Membership Record</h2>
-                            @if(session('success'))
-                                <script>
-                                    Swal.fire({
-                                        title: 'Success!',
-                                        text: "{{ session('success') }}",
-                                        icon: 'success'
-                                    });
-                                </script>
-                            @endif
-                            @if(session('error'))
-                                <script>
-                                    Swal.fire({
-                                        title: 'Error!',
-                                        text: "{{ session('error') }}",
-                                        icon: 'error'
-                                    });
-                                </script>
-                            @endif
                             <table class="table mb-0 dataTable" id="memberhsipTable" style="background-color: #f2f2f2; color: #333;">
                                 <thead>
                                     <tr>
@@ -79,8 +61,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                </tbody>
                                     <!-- Your data will be populated here dynamically -->
+                                </tbody>
                                 <tfoot>
                                     <tr>
                                         <th>Id</th>

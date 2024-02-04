@@ -35,40 +35,53 @@
 
             <!-- Post Organogram Designation Content Here -->
             <div class="content-body">
-                <div class="row">
-                    <div class="col-12">
-                        <form action="{{route('admin.organogramDesignation.store')}}" method="POST" id="organogramDesignationFrom">
-                            <h2 class="text-center mb-4">Save New Organogram Designation</h2>  
-                            @csrf
-                            <div class="form-group mb-1">
-                                <label for="title" class="form-label">Title:</label>
-                                <input type="text" name="title" id="title" class="form-control" minlength="3" maxlength="250" value="{{old('title')}}" placeholder="Enter title here:">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Save New Organogram Designation</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <div class="mb-2">
+                                <form action="{{route('admin.organogramDesignation.store')}}" method="POST" id="organogramDesignationFrom">
+                                    @csrf
+                                    <div class="form-group mb-1">
+                                        <label for="title" class="form-label">Title:</label>
+                                        <input type="text" name="title" id="title" class="form-control" minlength="3" maxlength="250" value="{{old('title')}}" placeholder="Enter title here:">
+                                    </div>
+                                    @error('title')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{$message}}
+                                        </div>
+                                    @enderror
+            
+                                    <div class="form-group mb-1">
+                                        <label for="description" class="form-label">Description:</label>
+                                        <textarea name="description" id="description" class="form-control" minlength="3" placeholder="Enter Description Here:">{{old('description')}}</textarea>
+                                    </div>
+                                    @error('description')
+                                        <div class="alert alert-danger" role="alert">
+                                            {{$message}}
+                                        </div>
+                                    @enderror
+            
+                                    <div class="mb-3">
+                                        <button type="submit" class="btn btn-info">Reset</button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                              
+                       
                             </div>
-                            @error('title')
-                                <div class="alert alert-danger" role="alert">
-                                    {{$message}}
+
+                            <div class="alert alert-primary" role="alert">
+                                <div class="alert-body">
+                                    <strong>Info:</strong> Please check the &nbsp;<a class="text-primary" href="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-layouts.html#layout-collapsed-menu" target="_blank">Layout documentation</a>&nbsp; for more layout options i.e collapsed menu, without menu, empty & blank.
                                 </div>
-                            @enderror
-    
-                            <div class="form-group mb-1">
-                                <label for="description" class="form-label">Description:</label>
-                                <textarea name="description" id="description" class="form-control" minlength="3" placeholder="Enter Description Here:">{{old('description')}}</textarea>
                             </div>
-                            @error('description')
-                                <div class="alert alert-danger" role="alert">
-                                    {{$message}}
-                                </div>
-                            @enderror
-    
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-info">Reset</button>
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Post Organogram Designation Content Here -->
+                <!--/ Post Organogram Designation Content Here -->
 
         </div>
     </div>
@@ -104,11 +117,9 @@
                     $("#titleAlertDanger").remove();
                     // To check that title is given or not
                     let title = $("#title").val();
-                    if(title.trim()==='' || title == null || title.length== 0){
-                        $("#title").after('<div class="alert alert-danger" id="titleAlertDanger">Title Should be provided.</div>');
-                    }
-                    else if((title.length>0 && title.length <4) || (title.length>255)){
+                    if((title.length>0 && title.length <4) || (title.length>255)){
                         $("#title").after('<div class="alert alert-danger" id="titleAlertDanger">Title Should be of minimum  length 3 and less than 255.</div>');
+                        $("#title").focus();
                     }
                     else{
                         $.ajax({
@@ -117,6 +128,7 @@
                             success: function (response) {
                                 if(response.status == 1){
                                     $("#title").after('<div class="alert alert-danger" id="titleAlertDanger">'+response.message+'</div>');
+                                    $("#title").focus();
                                 }
                             },
                             error: function (error) {

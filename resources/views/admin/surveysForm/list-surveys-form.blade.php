@@ -1,12 +1,12 @@
 @extends('admin.layouts.main')
 @section('css')
- <style>
-    .common-th {
-        text-transform: none !important;
-        font-size: initial !important;
-        letter-spacing: normal !important;
-    }
- </style>
+<style>
+   .common-th {
+       text-transform: none !important;
+       font-size: initial !important;
+       letter-spacing: normal !important;
+   }
+</style>
 @endsection
 @section('main-container')
     <!-- BEGIN: Content-->
@@ -18,12 +18,12 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-start mb-0">Home</h2>
+                            <h2 class="content-header-title float-start mb-0">Survey's Form</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{route('admin.ShowDashboard')}}">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="{{route('admin.organogram.post')}}">Organogram</a></li>
-                                    <li class="breadcrumb-item active">List Organogram Member</li>
+                                    <li class="breadcrumb-item"><a href="{{route('admin.suverysForm.post')}}">Survey's Form</a></li>
+                                    <li class="breadcrumb-item active">List Survey's Form</li>
                                 </ol>
                             </div>
                         </div>
@@ -43,23 +43,20 @@
                 <!-- Content Here -->
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">List Organogram Member</h4>
+                        <h4 class="card-title">List Survey's Form</h4>
                     </div>
                     <div class="card-body">
                         <div class="card-text">
                             <div class="mb-2">
-                                <table class="table mb-0 dataTable" id="nhapkOrganogramTable" style="background-color: #f2f2f2; color: #333;">
+                                <table class="table mb-0 dataTable" id="nhapkDynamicSurveysFormTable" style="background-color: #f2f2f2; color: #333;">
                                     <thead>
                                         <tr>
                                             <th class="common-th">Id</th>
-                                            <th class="common-th">Member Name</th>
-                                            <th class="common-th">Member Cnic</th>
-                                            <th class="common-th">Member Phone Number</th>
-                                            <th class="common-th">Member State</th>
-                                            <th class="common-th">Member City</th>
-                                            <th class="common-th">Member Dsignation</th>
+                                            <th class="common-th">Title</th>
+                                            <th class="common-th">Description</th>
+                                            <th class="common-th">Role to Show</th>
                                             <th class="common-th">Status</th>
-                                            <th class="common-th">Chahange Designation</th>
+                                            <th class="common-th">Change Role</th>
                                             <th class="common-th">Action</th>
                                         </tr>
                                     </thead>
@@ -69,14 +66,11 @@
                                     <tfoot>
                                         <tr>
                                             <th class="common-th">Id</th>
-                                            <th class="common-th">Member Name</th>
-                                            <th class="common-th">Member Cnic</th>
-                                            <th class="common-th">Member Phone Number</th>
-                                            <th class="common-th">Member State</th>
-                                            <th class="common-th">Member City</th>
-                                            <th class="common-th">Member Dsignation</th>
+                                            <th class="common-th">Title</th>
+                                            <th class="common-th">Description</th>
+                                            <th class="common-th">Role to Show</th>
                                             <th class="common-th">Status</th>
-                                            <th class="common-th">Chahange Designation</th>
+                                            <th class="common-th">Change Role</th>
                                             <th class="common-th">Action</th>
                                         </tr>
                                     </tfoot>
@@ -112,15 +106,12 @@
         var jq = jQuery.noConflict();
     
         jq(document).ready(function() {
-            var dataTable = jq('#nhapkOrganogramTable').DataTable({
+            var dataTable = jq('#nhapkDynamicSurveysFormTable').DataTable({
                 columns: [
                     { data: 'id' },
-                    { data: 'user_name' },
-                    { data: 'user_cnic_no' },
-                    { data: 'user_phone_number' },
-                    { data: 'state_name' },
-                    { data: 'city_name' },
-                    { data: 'organogram_designation_name' },
+                    { data: 'title' },
+                    { data: 'description' },
+                    { data: 'role_name' },
                     {
                         data: 'status',
                         render: function (data, type, row) {
@@ -136,20 +127,20 @@
                         data:null,
                         render: function(data, type, row) {
                             // Render the select button for the action column
-                            var selectedOrganogramDesignationId = data.organogramDesignationId;
-                            var organogramDesignation = '<form id="formOeganogramDesignationStatus">@csrf<select data-id="' + row.id + '" id="oganogramDesignationid" class="form-select">'+
-                                '<option selected disabled>Select Designation</option>'+
-                                '@if(count($organogramDesignations)>0)'+
-                                '@foreach ($organogramDesignations as $organogramDesignation)'+
-                                    '<option value="{{ $organogramDesignation->id }}" @if ("' + selectedOrganogramDesignationId + '" == $organogramDesignation->id) selected @endif >'+
-                                        '{{ $organogramDesignation->title }}'+
+                            var selectedRoles = data.role_id;
+                            var rolesToShow = '<form id="formSelectRoles">@csrf<select data-id="' + row.id + '" id="role_id" class="form-select">'+
+                                '<option selected disabled>Select Role to Show</option>'+
+                                '@if(count($roles)>0)'+
+                                '@foreach ($roles as $role)'+
+                                    '<option value="{{ $role->id }}" @if ("' + selectedRoles + '" == $role->id) selected @endif >'+
+                                        '{{ $role->name }}'+
                                     '</option>'+
                                 '@endforeach'+
                                 '@else'+
-                                    '<option value="" disabled>No Organogram Designation Found</option>'+
+                                    '<option value="" disabled>No Roles Found</option>'+
                                 '@endif'+
                                 '</select></from>';
-                            return organogramDesignation;
+                            return rolesToShow;
                         }
                         
                     },
@@ -188,7 +179,7 @@
                     [10, 25, 50, 100, 200, "All"]
                 ],
                 ajax: {
-                    url: "/admin/organogram/list",
+                    url: "/admin/surveys-form/list",
                     type: "GET",
                     data: function(d) {
                         // Add any additional parameters you need
@@ -209,7 +200,7 @@
             });
 
             // Event delegation for dynamically generated elements
-            jq('#nhapkOrganogramTable').on('change', '#oganogramDesignationid', function(e) {
+            jq('#nhapkDynamicSurveysFormTable').on('change', '#role_id', function(e) {
                 e.preventDefault();
                 var selectedValue = jq(this).val();
                 var dataId = jq(this).data('id');
@@ -225,10 +216,10 @@
                     confirmButtonText: "Yes",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var csrfToken = $('#formOeganogramDesignationStatus input[name="_token"]').val();
+                        var csrfToken = $('#formSelectRoles input[name="_token"]').val();
                         // Proceed with your action here
                         jq.ajax({
-                            url: '/admin/organogram/update/' + dataId + '/' + selectedValue,
+                            url: '/admin/surveys-form/update/' + dataId + '/' + selectedValue,
                             type: 'PUT',
                             data: {
                                     "_token": csrfToken,
@@ -263,7 +254,7 @@
             
             
             // Event delegation for changeStatus button
-            jq('#nhapkOrganogramTable').on('click', '.changeStatusBtn', function(e) {
+            jq('#nhapkDynamicSurveysFormTable').on('click', '.changeStatusBtn', function(e) {
                 e.preventDefault();
                 var dataId = jq(this).data('id');
 
@@ -281,7 +272,7 @@
                         var csrfToken = $('#statusForm input[name="_token"]').val();
                         // Proceed with your action here
                         jq.ajax({
-                            url: '/admin/organogram/update/' + dataId ,
+                            url: '/admin/surveys-form/update/' + dataId ,
                             type: 'PUT',
                             data: {
                                     "_token": csrfToken,
@@ -316,7 +307,7 @@
             });
 
             // 
-            jq('#nhapkOrganogramTable').on('click', '.delete-btn', function(e) {
+            jq('#nhapkDynamicSurveysFormTable').on('click', '.delete-btn', function(e) {
                 e.preventDefault();
                 var dataId = jq(this).data('id');
                 // Show SweetAlert confirmation dialog
@@ -333,7 +324,7 @@
                             var csrfToken = $('#statusForm input[name="_token"]').val();
                             // Proceed with delete action
                             jq.ajax({
-                                url: '/admin/organogram/delete/' + dataId,
+                                url: '/admin/surveys-form/delete/' + dataId,
                                 type: 'delete',
                                 data: {
                                     "_token": csrfToken,

@@ -38,9 +38,13 @@ use App\Http\Controllers\Admin\Elections\ElectionController;
 use App\Http\Controllers\Client\hostels\HostelClientController;
 use App\Http\Controllers\Frontend\Client\LoginClientController;
 use App\Http\Controllers\Client\hostelites\HostelitesController;
+use App\Http\Controllers\Admin\Organogram\OrganogramAdminController;
 use App\Http\Controllers\Admin\ReferralLevels\ReferralLevelController;
+use App\Http\Controllers\Admin\SurveysForm\SurveysFormAdminController;
 use App\Http\Controllers\Client\membership\MembershipClientController;
 use App\Http\Controllers\Admin\Elections\ElectionsResultAdminController;
+use App\Http\Controllers\Client\SurveysForrm\SurveysForrmClientController;
+use App\Http\Controllers\Frontend\Organogram\OrganogramFrontendController;
 use App\Http\Controllers\Admin\MembershipTypes\MembershipTypeAdminController;
 use App\Http\Controllers\Client\CandidateNomination\NominationListController;
 use App\Http\Controllers\Client\ElectionSuggestion\ElectionSuggestionController;
@@ -403,6 +407,48 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
         Route::get('/unique-title/{organogramDesignationTitle}',[OrganogramDesignationAdminController::class,'uniqueTitle'])->name('admin.organogramDesignation.uniqueTitle');
     });
 
+    /*
+        |--------------------------------------------------------------------------
+        | Organogram Route for Admin 
+        |--------------------------------------------------------------------------
+        |
+    */
+    Route::group(['prefix' => '/organogram'], function(){
+        // list
+        Route::get('/list',[OrganogramAdminController::class,'list'])->name('admin.organogram.list');
+        // post
+        Route::get('/post',[OrganogramAdminController::class,'post'])->name('admin.organogram.post');
+        // store
+        Route::post('/store',[OrganogramAdminController::class,'store'])->name('admin.organogram.store');
+        // updateDesignation
+        Route::put('/update/{organogramId}/{organogramDesignationId}',[OrganogramAdminController::class,'updateDesignation'])->name('admin.organogram.updateDesignation');
+        // updateStatusOrganogramMember
+        Route::put('/update/{organogramId}',[OrganogramAdminController::class,'updateStatusOrganogramMember'])->name('admin.organogram.updateStatusOrganogramMember');
+        // deleteOrganogramMember
+        Route::delete('/delete/{organogramId}',[OrganogramAdminController::class,'deleteOrganogramMember'])->name('admin.organogram.deleteOrganogramMember');
+    });
+    
+    /*
+        |--------------------------------------------------------------------------
+        | Survey's Form Route for Admin 
+        |--------------------------------------------------------------------------
+        |
+    */
+    Route::group(['prefix' => '/surveys-form'], function(){
+        // list
+        Route::get('/list',[SurveysFormAdminController::class,'list'])->name('admin.suverysForm.list');
+        // post
+        Route::get('/post',[SurveysFormAdminController::class,'post'])->name('admin.suverysForm.post');
+        // store
+        Route::post('/store',[SurveysFormAdminController::class,'store'])->name('admin.suverysForm.store');
+        // changeStatus
+        Route::put('/update/{dynamicSurveysFormId}',[SurveysFormAdminController::class,'changeStatus'])->name('admin.suverysForm.changeStatus');
+        // changeShowRole
+        Route::put('/update/{dynamicSurveysFormId}/{roleId}',[SurveysFormAdminController::class,'changeShowRole'])->name('admin.suverysForm.changeShowRole');
+        // delete
+        Route::delete('/delete/{dynamicSurveysFormId}',[SurveysFormAdminController::class,'delete'])->name('admin.suverysForm.delete');
+    });
+
     
 
 });
@@ -490,6 +536,19 @@ Route::get('/check-phone_number/{phone_number}',[LoginClientController::class,'c
 Route::get('/check-phone_number/{cnic_no}/{phone_number}',[LoginClientController::class,'cnicCheckPhoneNumber'])->name('cnic.checkPhoneNumber');
 
 // End: Routes For FrontEnd
+
+    /*
+        |--------------------------------------------------------------------------
+        | Organogram Route for Fornt End 
+        |--------------------------------------------------------------------------
+        |
+    */
+    Route::group(['prefix' => '/organogram'], function(){
+        // viewOrganogram
+        Route::get('/',[OrganogramFrontendController::class,'viewOrganogram'])->name('frontEnd.viewOrganogram');
+        // viewOrganogramMemberDetails
+        Route::get('/view/{organogramMemberId}',[OrganogramFrontendController::class,'viewOrganogramMemberDetails'])->name('frontEnd.viewOrganogramMemberDetails');
+    });
 
 
 // Begin: Routes For FrontEnd
@@ -601,6 +660,21 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
     */
     Route::group(['prefix' => '/election-suggestion'], function(){
         Route::post('/save',[ElectionSuggestionController::class,'post'])->name('client.electionSuggestion.post');
+        
+    });
+    
+    /*
+        |--------------------------------------------------------------------------
+        | Survey Form's Route for Client 
+        |--------------------------------------------------------------------------
+        |
+    */
+    Route::group(['prefix' => '/surveys-form'], function(){
+        Route::get('/show',[SurveysForrmClientController::class,'viewSurveyForms'])->name('client.surveyForms.viewSurveyForms');
+        // postResponseSurveyForms
+        Route::get('/post',[SurveysForrmClientController::class,'postResponseSurveyForms'])->name('client.surveyForms.postResponseSurveyForms');
+        // storeResponseSurveyForms
+        Route::post('/store',[SurveysForrmClientController::class,'storeResponseSurveyForms'])->name('client.surveyForms.storeResponseSurveyForms');
         
     });
 

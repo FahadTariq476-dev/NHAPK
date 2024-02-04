@@ -34,38 +34,45 @@
             </div>
 
             <!-- Post Organogram Designation Content Here -->
-            <div class="content-body">
-                <div class="row">
-                    <div class="col-12">
-                        <form action="{{route('admin.organogramDesignation.update')}}" method="POST" id="organogramDesignationFrom">
-                            <h2 class="text-center mb-4">Edit New Organogram Designation</h2>  
-                            @method('PUT')
-                            @csrf
-                            <input type="hidden" name="organogramDesignationId" id="organogramDesignationId" class="form-control" value="{{$organogramDesignation->id}}">
-                            <div class="form-group mb-1">
-                                <label for="title" class="form-label">Title:</label>
-                                <input type="text" name="title" id="title" class="form-control" minlength="3" maxlength="250" value="{{$organogramDesignation->title}}" placeholder="Enter title here:">
-                            </div>
-                            @error('title')
-                                <div class="alert alert-danger" role="alert">
-                                    {{$message}}
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Edit New Organogram Designation</h4>
+                </div>
+                <div class="card-body">
+                    <div class="card-text">
+                        <div class="mb-2">
+                            <!-- form -->
+                            <form action="{{route('admin.organogramDesignation.update')}}" method="POST" id="organogramDesignationFrom">
+                                @method('PUT')
+                                @csrf
+                                <input type="hidden" name="organogramDesignationId" id="organogramDesignationId" class="form-control" value="{{$organogramDesignation->id}}">
+                                <div class="form-group mb-1">
+                                    <label for="title" class="form-label">Title:</label>
+                                    <input type="text" name="title" id="title" class="form-control" minlength="3" maxlength="250" value="{{$organogramDesignation->title}}" placeholder="Enter title here:">
                                 </div>
-                            @enderror
-    
-                            <div class="form-group mb-1">
-                                <label for="description" class="form-label">Description:</label>
-                                <textarea name="description" id="description" class="form-control" minlength="3" placeholder="Enter Description Here:">{{$organogramDesignation->description}}</textarea>
-                            </div>
-                            @error('description')
-                                <div class="alert alert-danger" role="alert">
-                                    {{$message}}
+                                @error('title')
+                                    <div class="alert alert-danger" role="alert">
+                                        {{$message}}
+                                    </div>
+                                @enderror
+        
+                                <div class="form-group mb-1">
+                                    <label for="description" class="form-label">Description:</label>
+                                    <textarea name="description" id="description" class="form-control" minlength="3" placeholder="Enter Description Here:">{{$organogramDesignation->description}}</textarea>
                                 </div>
-                            @enderror
-    
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Update</button>
-                            </div>
-                        </form>
+                                @error('description')
+                                    <div class="alert alert-danger" role="alert">
+                                        {{$message}}
+                                    </div>
+                                @enderror
+        
+                                <div class="form-group mb-1">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </form>
+                            <!-- form -->
+                        </div>
+
                     </div>
                 </div>
             </div>

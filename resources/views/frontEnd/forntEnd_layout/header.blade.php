@@ -66,11 +66,14 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="/">Home</a>
                     </li>
-                    <li class="nav-item"style="text-align:justify;">
+                    {{-- <li class="nav-item"style="text-align:justify;">
                         <a href="{{ route('membershipRegister') }}" class="nav-link">Membership Registration</a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('saveHostelForm') }}" class="nav-link">Register Hostel</a>
+                    </li> --}}
+                    <li class="nav-item">
+                        <a href="{{ route('frontEnd.viewOrganogram') }}" class="nav-link">Members</a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('forntEnd.showAbout') }}" class="nav-link">About Us</a>
@@ -97,13 +100,13 @@
                         </ul>
                     </li>
 
-                    {{-- <li class="nav-item">
-                            <a href="{{route('front-end.client.login')}}" class="nav-link">Login</a>
-                        </li> --}}
-                    @if (auth()->check() &&
-                            auth()->user()->hasRole('nhapk_client'))
+                    @if (auth()->check() && auth()->user()->hasRole('nhapk_client'))
                         <li class="nav-item">
                             <a href="{{ route('client.dashboard.index') }}" class="nav-link">Dashboard</a>
+                        </li>
+                    @elseif (auth()->check() && auth()->user()->hasRole('nhapk_admin'))
+                        <li class="nav-item">
+                            <a href="{{ route('admin.ShowDashboard') }}" class="nav-link">Dashboard</a>
                         </li>
                     @else
                         <li class="nav-item">

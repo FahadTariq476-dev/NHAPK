@@ -73,7 +73,6 @@ class OrganogramDesignationAdminController extends Controller
                 'description' => 'required|string|min:3',
             ];
             $this->validate($request, $rules);
-            // dd($request->all());
             $organogramDesignation = new OrganogramDesignation();
             $organogramDesignation->title = $request->title;
             $organogramDesignation->description = $request->description;
@@ -100,7 +99,6 @@ class OrganogramDesignationAdminController extends Controller
     public function update(Request $request){
         try{
             DB::beginTransaction();
-            // dd($request->all());
             $organogramDesignationId = $request->organogramDesignationId;
             $organogramDesignation = OrganogramDesignation::find($organogramDesignationId);
             if(!($organogramDesignation)){
