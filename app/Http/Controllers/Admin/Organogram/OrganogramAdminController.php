@@ -34,6 +34,7 @@ class OrganogramAdminController extends Controller
         try{
             if($request->ajax()){
                 $organograms = Organogram::latest()->get();
+                $organogramDesignations = OrganogramDesignation::all();
                 return DataTables::of($organograms)
                 ->addIndexColumn()
                 ->addColumn('user_name', function ($organogram) {
@@ -54,12 +55,33 @@ class OrganogramAdminController extends Controller
                 ->addColumn('organogram_designation_name', function ($organogram) {
                     return $organogram->organogramDesignation ? $organogram->organogramDesignation->title : 'Null';
                 })
+                ->addColumn('organogram_designation_name_all', function ($organogram) use ($organogramDesignations) {
+                    $options = '';
+                    // Add a default option
+                    $options .= "<option value='' disabled>Select Designation</option>";
+
+                    // Add options for each designation
+                    foreach ($organogramDesignations as $designation) {
+                        $selected = ($organogram->organogramDesignation && $organogram->organogramDesignation->id == $designation->id) ? 'selected' : '';
+                        $options .= "<option value='{$designation->id}' {$selected}>{$designation->title}</option>";
+                    }
+
+                    // Check if no designations are available
+                    if ($organogramDesignations->isEmpty()) {
+                        $options .= "<option value='' disabled>No Designations Found</option>";
+                    }
+
+                    $token = csrf_token();
+    
+                    return "<form id='formOeganogramDesignationStatus'>"
+                        . "<input type='hidden' name='_token' value='{$token}'>"
+                        . "<select id='oganogramDesignationid' class='form-select' data-id='{$organogram->id}'>{$options}</select>"
+                        . "</form>";
+                })
+                ->rawColumns(['organogram_designation_name_all'])
                 ->make(true);
             }
-            $organogramDesignations = OrganogramDesignation::all();
-            return view('admin.organogram.list-organogram')->with([
-                'organogramDesignations' =>$organogramDesignations,
-                ]);
+            return view('admin.organogram.list-organogram');
         }
         catch(Exception $e){
             return redirect()->back()->with('error', 'Your Exception is: '.$e->getMessage());

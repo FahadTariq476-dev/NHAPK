@@ -68,17 +68,39 @@ class SurveysFormAdminController extends Controller
         try{
             if($request->ajax()){
                 $dynamicSurveysForms = DynamicSurveysForms::latest()->get();
+                $roles = Role::where('nhapk_register', 1)->get();
                 return DataTables::of($dynamicSurveysForms)
                 ->addIndexColumn()
                 ->addColumn('role_name', function ($dynamicSurveysForm) {
                     return $dynamicSurveysForm->roleId->name ? $dynamicSurveysForm->roleId->name : 'Null';
                 })
+                ->addColumn('role_name_all', function ($dynamicSurveysForm) use ($roles) {
+                    $options = '';
+                    // Add a default option
+                    $options .= "<option value='' selected disabled>Select Role</option>";
+
+                    // Add options for each role
+                    foreach ($roles as $role) {
+                        $selected = ($dynamicSurveysForm->roleId && $dynamicSurveysForm->roleId->id == $role->id) ? 'selected' : '';
+                        $options .= "<option value='{$role->id}' {$selected}>{$role->name}</option>";
+                    }
+
+                    // Check if no roles are available
+                    if ($roles->isEmpty()) {
+                        $options .= "<option value='' disabled>No Roles Found</option>";
+                    }
+
+                    $token = csrf_token();
+
+                    return "<form id='formSelectRoles'>"
+                        . "<input type='hidden' name='_token' value='{$token}'>"
+                        . "<select id='role_id' class='form-select' data-id='{$dynamicSurveysForm->id}'>{$options}</select>"
+                        . "</form>";
+                })
+                ->rawColumns(['role_name_all'])
                 ->make(true);
             }
-            $roles = Role::where('nhapk_register', 1)->get();
-            return view('admin.surveysForm.list-surveys-form')->with([
-                'roles' => $roles,
-            ]);
+            return view('admin.surveysForm.list-surveys-form');
         }
         catch(Exception $e){
             return redirect()->back()->with('error','Your Exception is: '.$e->getMessage());

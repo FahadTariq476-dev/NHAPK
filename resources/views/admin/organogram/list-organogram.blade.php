@@ -133,26 +133,9 @@
                     },
                     // Action column
                     {
-                        data:null,
-                        render: function(data, type, row) {
-                            // Render the select button for the action column
-                            var selectedOrganogramDesignationId = data.organogramDesignationId;
-                            var organogramDesignation = '<form id="formOeganogramDesignationStatus">@csrf<select data-id="' + row.id + '" id="oganogramDesignationid" class="form-select">'+
-                                '<option selected disabled>Select Designation</option>'+
-                                '@if(count($organogramDesignations)>0)'+
-                                '@foreach ($organogramDesignations as $organogramDesignation)'+
-                                    '<option value="{{ $organogramDesignation->id }}" @if ("' + selectedOrganogramDesignationId + '" == $organogramDesignation->id) selected @endif >'+
-                                        '{{ $organogramDesignation->title }}'+
-                                    '</option>'+
-                                '@endforeach'+
-                                '@else'+
-                                    '<option value="" disabled>No Organogram Designation Found</option>'+
-                                '@endif'+
-                                '</select></from>';
-                            return organogramDesignation;
-                        }
-                        
+                        data: 'organogram_designation_name_all',
                     },
+                    
                     { 
                         data: null, // Placeholder for the action column
                         render: function(data, type, row) {
@@ -374,3 +357,38 @@
     
       
 @endsection
+{{-- // {
+    //     data:null,
+    //     render: function(data, type, row) {
+    //         // Render the select button for the action column
+    //         var selectedOrganogramDesignationId = data.organogramDesignationId;
+    //         var organogramDesignation = '<form id="formOeganogramDesignationStatus">@csrf<select data-id="' + row.id + '" id="oganogramDesignationid" class="form-select">'+
+    //             '<option selected disabled>Select Designation</option>'+
+    //             '@if(count($organogramDesignations)>0)'+
+    //             '@foreach ($organogramDesignations as $organogramDesignation)'+
+    //                 '<option value="{{ $organogramDesignation->id }}" @if ("' + selectedOrganogramDesignationId + '" === "{{$organogramDesignation->id}}") selected @endif >'+
+    //                     '{{ $organogramDesignation->title }}'+
+    //                 '</option>'+
+    //             '@endforeach'+
+    //             '@else'+
+    //                 '<option value="" disabled>No Organogram Designation Found</option>'+
+    //             '@endif'+
+    //             '</select></form>';
+    //         return organogramDesignation;
+    //     }
+        
+    // },
+    // var selectedOrganogramDesignationId = data.organogramDesignationId;
+    //         var organogramDesignation = '<form id="formOeganogramDesignationStatus">@csrf<select data-id="' + row.id + '" id="oganogramDesignationid" class="form-select">'+
+    //             '<option selected disabled>Select Designation</option>'+
+    //             '@if(count($organogramDesignations)>0)'+
+    //             '@foreach ($organogramDesignations as $organogramDesignation)'+
+    //                 '<option value="{{ $organogramDesignation->id }}" @if ("' + selectedOrganogramDesignationId + '" == "{{$organogramDesignation->id}}") selected @endif >'+
+    //                     '{{ $organogramDesignation->title }}'+
+    //                 '</option>'+
+    //             '@endforeach'+
+    //             '@else'+
+    //                 '<option value="" disabled>No Organogram Designation Found</option>'+
+    //             '@endif'+
+    //             '</select></from>';
+    //         return organogramDesignation; --}}

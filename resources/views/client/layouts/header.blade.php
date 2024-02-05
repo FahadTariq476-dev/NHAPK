@@ -94,7 +94,7 @@
                     <a class="d-flex align-items-center" href="#">
                         <i data-feather="menu"></i>
                         <span class="menu-title text-truncate" data-i18n="Page Layouts">Menu</span>
-                        <span class="badge badge-light-danger rounded-pill ms-auto me-1">2</span>
+                        <span class="badge badge-light-danger rounded-pill ms-auto me-1">6</span>
                     </a>
                     <ul class="menu-content">
                         @if ($hosteliteMetasFieldData=="Filled" || $hosteliteMetasFieldData=="NotRequired")
@@ -147,9 +147,6 @@
                             <li class="nav-item">
                                 <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">SOP's</span></a>
                                 <ul class="menu-content">
-                                    <li>
-                                        <a class="d-flex align-items-center" href="#"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Collapsed">Post</span></a>
-                                    </li>
                                     <li>
                                         <a class="d-flex align-items-center" href="{{route('client.sops.list_sops')}}"><i data-feather="star"></i><span class="menu-item text-truncate" data-i18n="Layout">List SOP's</span></a>
                                     </li>
