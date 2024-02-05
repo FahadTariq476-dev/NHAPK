@@ -2,25 +2,6 @@
 @section('title','Home')
 @section('main-container')
 
-            @if(session('success'))
-                <script>
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success!',
-                        text: '{{ session('success') }}',
-                    });
-                </script>
-            @endif
-
-            @if(session('error'))
-                <script>
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error!',
-                        text: '{{ session('error') }}',
-                    });
-                </script>
-            @endif
 
         <!-- ***** Welcome Area Start ***** -->
         <section id="home" class="section welcome-area bg-overlay overflow-hidden d-flex align-items-center">
@@ -42,10 +23,10 @@
                         <!-- Welcome Thumb -->
                         <div class="welcome-thumb-wrapper mt-5 mt-md-0">
                             <span class="welcome-thumb-1">
-                                {{-- <img class="welcome-animation d-block ml-auto" src="assets/img/welcome/thumb_1.png" alt=""> --}}
+                                <!-- <img class="welcome-animation d-block ml-auto" src="assets/img/welcome/thumb_1.png" alt=""> -->
                                 <img class="welcome-animation d-block ml-auto" src="assets/img/welcome/h.jpg" alt="">
                             </span>
-                            {{-- <span class="welcome-thumb-2">
+                            <!-- <span class="welcome-thumb-2">
                                 <img class="welcome-animation d-block" src="assets/img/welcome/thumb_2.png" alt="">
                             </span>
                             <span class="welcome-thumb-3">
@@ -59,7 +40,7 @@
                             </span>
                             <span class="welcome-thumb-6">
                                 <img class="welcome-animation d-block" src="assets/img/welcome/thumb_6.png" alt="">
-                            </span> --}}
+                            </span> -->
                         </div>
                     </div>
                 </div>
@@ -101,115 +82,6 @@
         </section>
         <!-- ***** Welcome Area End ***** -->
 
-        <script>
-            $(document).ready(function () {
-                // Function to handle keyup event on the name input
-                $('#search_data').on('keyup', function () {
-                    var inputVal = $(this).val();
-                    if(inputVal.trim()==='' || inputVal ===null || inputVal.length==0){
-                        $('#nameSuggestions').hide();
-                        $('#nameSuggestions').html("");
-                        $('#selectedHostelId').val("");
-                    }
-                    if ($('#rd_by_name').prop('checked')) {
-                        if(!(inputVal.trim()==='' || inputVal ===null )){
-                            // 
-                            // Perform an AJAX request to get suggestions
-                            $.ajax({
-                                url: '/get-hostel-suggestions', // Change this to your actual route
-                                method: 'GET',
-                                data: { inputVal: inputVal },
-                                success: function (data) {
-                                    // Display the suggestions in the suggestions div
-                                    $('#nameSuggestions').html(data);
-                                    $('#nameSuggestions').show(); // Show the suggestions
-                                },
-                                error: function (error) {
-                                    console.log(error);
-                                }
-                            });
-                        }else {
-                            // Hide the suggestions if the input is empty
-                            $('#nameSuggestions').hide();
-                            $('#nameSuggestions').html("");
-                            $('#selectedHostelId').val("");
-                        }
-                    }
-                });
-
-
-                // Handle click on a suggestion
-                $(document).on('click', '.suggestion-item', function () {
-                    var hostelName = $(this).text();
-                    var hostelId = $(this).data('hostel-id');
-            
-                    // Set the selected value in the input field
-                    $('#search_data').val(hostelName);
-
-                    // Do something with the selected hostel ID (e.g., save it in a hidden input)
-                    $('#selectedHostelId').val(hostelId);
-
-                    // Hide the suggestions
-                    $('#nameSuggestions').hide();
-                });
-
-            });
-        </script>
-
-        <script>
-            $(document).ready(function(){
-                $('input[name="search_type"]').on('change', function (){
-                    var currentSelectedRadio = $(this).attr('id');
-                    if (currentSelectedRadio === 'rd_by_name') {
-                        $('#selectedHostelId').val("");
-                    } else if (currentSelectedRadio === 'rd_reg_no') {
-                        $('#selectedHostelId').val("");
-                    }
-                });
-            });
-        </script>
-
-        <script>
-            $(document).ready(function(){
-                // Handle form submission
-        $('#searchForm').submit(function (e) {
-            // Check if Reg. Number radio button is checked
-            var isRegNoChecked = $('#rd_reg_no').prop('checked');
-
-            // If Reg. Number is checked, submit the form as is
-            if (isRegNoChecked) {
-                let search_data = $("#search_data").val();
-                if(search_data.trim() ==='' || search_data ===null || search_data.length==0){
-                    e.preventDefault();
-                    alert("Registration Number Should be provided");
-                    return false;
-                }
-                return true;
-            }
-
-            // Extract the selected hostel ID
-            var selectedHostelId = $('#selectedHostelId').val();
-
-            // Perform any additional checks if needed
-            if (selectedHostelId) {
-                // Set the selected hostel ID in a hidden input and submit the form
-                $('<input>').attr({
-                    type: 'hidden',
-                    name: 'selectedHostelId',
-                    value: selectedHostelId
-                }).appendTo('#searchForm');
-
-                // Submit the form
-                $('#searchForm').submit();
-            } else {
-                // Handle the case when no hostel is selected
-                e.preventDefault();
-                alert('Please select a hostel from the suggestions.');
-            }
-        });
-            });
-        </script>
-
         {{-- Begin: View Blogs Area --}}
         <div class="container mt-5">
             <h2>Blogs</h2>
@@ -218,12 +90,21 @@
                     <!-- Replace this with a loop through your blog data -->
                     <div class="col-md-4 mb-4">
                         <div class="card">
-                            <img
-                                src="{{ asset($blog->thumbnail_image_path) }}"
-                                class="card-img-top img-fluid" style=" height: 300px;  "
-                                alt="Thumbnail Image" 
-                                onerror="this.onerror=null; this.src='{{ asset('app-assets/images/no-image-icon.jpg') }}';"
-                            >
+                            @if (File::exists(public_path($blog->thumbnail_image_path)))  
+                                <img
+                                    src="{{ asset($blog->thumbnail_image_path) }}"
+                                    class="card-img-top img-fluid" style=" height: 300px;  "
+                                    alt="Thumbnail Image" 
+                                    onerror="this.onerror=null; this.src='{{ asset('app-assets/images/no-image-icon.jpg') }}';"
+                                >
+                            @else
+                                <img
+                                    src="{{ asset('app-assets/images/no-image-icon.jpg') }}"
+                                    class="card-img-top img-fluid"
+                                    style="height: 300px;"
+                                    alt="No Image Available"
+                                >
+                            @endif
                             <div class="card-body">
                                 <h5 class="card-title">
                                     {{$blog->title}}
@@ -263,12 +144,22 @@
                     <!-- Replace this with a loop through your blog data -->
                     <div class="col-md-4 mb-4">
                         <div class="card">
-                            <img
-                                src="{{ asset($item->thumbnail_image_path) }}"
-                                class="card-img-top img-fluid" style=" height: 300px;  "
-                                alt="Thumbnail Image" 
-                                onerror="this.onerror=null; this.src='{{ asset('app-assets/images/no-image-icon.jpg') }}';"
-                            >
+                            @if (File::exists(public_path($item->thumbnail_image_path)))
+                                <img
+                                    src="{{ asset($item->thumbnail_image_path) }}"
+                                    class="card-img-top img-fluid"
+                                    style="height: 300px;"
+                                    alt="Thumbnail Image"
+                                    onerror="this.onerror=null; this.src='{{ asset('app-assets/images/no-image-icon.jpg') }}';"
+                                >
+                            @else
+                                <img
+                                    src="{{ asset('app-assets/images/no-image-icon.jpg') }}"
+                                    class="card-img-top img-fluid"
+                                    style="height: 300px;"
+                                    alt="No Image Available"
+                                >
+                            @endif
                             <div class="card-body">
                                 <h5 class="card-title">
                                     {{$item->title}}
@@ -398,7 +289,7 @@
         <!-- ***** Content Area End ***** -->
 
         <!-- ***** Service Area End ***** -->
-        {{-- <section id="service" class="section service-area bg-grey ptb_150">
+        <section id="service" class="section service-area bg-grey ptb_150">
             <!-- Shape Top -->
             <div class="shape shape-top">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none" fill="#FFFFFF">
@@ -483,7 +374,7 @@
         c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"></path>
                 </svg>
             </div>
-        </section> --}}
+        </section>
         <!-- ***** Service Area End ***** -->
 
 
@@ -640,7 +531,7 @@
         <!-- ***** Portfolio Area End ***** -->
 
         <!-- ***** Price Plan Area Start ***** -->
-        {{-- <section id="pricing" class="section price-plan-area bg-grey overflow-hidden ptb_100">
+        <section id="pricing" class="section price-plan-area bg-grey overflow-hidden ptb_100">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-10 col-lg-7">
@@ -720,7 +611,7 @@
                     <p class="pt-4 fw-5">Not sure what to choose? <a class="service-btn" href="{{route('ContactUsForm')}}"><strong>Contact Us</strong></a></p>
                 </div>
             </div>
-        </section> --}}
+        </section>
         <!-- ***** Price Plan Area End ***** -->
 
         <!-- ***** Review Area Start ***** -->
@@ -730,9 +621,19 @@
                     <div class="col-12 col-md-10 col-lg-7">
                         <!-- Section Heading -->
                         <div class="section-heading text-center">
-                            <h2 class="text-white">Our clients says</h2>
-                            <p class="text-white d-none d-sm-block mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati dignissimos quae quo ad iste ipsum officiis deleniti asperiores sit.</p>
-                            <p class="text-white d-block d-sm-none mt-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum obcaecati.</p>
+                            <h2 class="text-white" style="text-transform: none">Our Members</h2>
+                            <p class="text-white text-justify d-none d-sm-block mt-4">
+                                Enthusiastic learner and problem-solver, fueled by a curiosity for the unknown.
+                                Creative soul navigating life's adventures with an open heart and a love for storytelling.
+                                A tech enthusiast with a passion for innovation and a knack for turning ideas into reality.
+                                Nature lover, constantly seeking tranquility in the great outdoors and the beauty of simplicity.
+                                A coffee connoisseur and bibliophile who finds solace in the world of words and warm beverages.
+                                Aspiring chef experimenting in the kitchen, blending flavors and creating culinary delights.
+                                Fitness enthusiast on a journey to conquer personal goals and embrace a healthy lifestyle.
+                                Globe-trotter with a suitcase full of dreams, exploring the world one destination at a time.
+                                A music aficionado, finding inspiration and rhythm in the melodies that shape my day.
+                                Advocate for positivity, spreading good vibes and encouraging a life filled with laughter and joy.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -740,83 +641,38 @@
                     <!-- Client Reviews -->
                     <div class="client-reviews owl-carousel">
                         <!-- Single Review -->
-                        <div class="single-review p-5">
-                            <!-- Review Content -->
-                            <div class="review-content">
-                                <!-- Review Text -->
-                                <div class="review-text">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam est modi amet error earum aperiam, fuga labore facere rem ab nemo possimus cum excepturi expedita. Culpa rerum, quaerat qui non.</p>
+                        @foreach ($organograms as $organogram)
+                            <div class="single-review p-5">
+                                <!-- Review Content -->
+                                <div class="review-content">
+                                    <!-- Review Text -->
+                                    <div class="review-text">
+                                        {{-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam est modi amet error earum aperiam, fuga labore facere rem ab nemo possimus cum excepturi expedita. Culpa rerum, quaerat qui non.</p> --}}
+                                        <p class="text-justify">{{$organogram->user->short_description ?? 'Enthusiastic learner and problem-solver, fueled by a curiosity for the unknown. Creative soul navigating life\'s adventures with an open heart and a love for storytelling.'}}</p>
+                                    </div>
+                                    <!-- Quotation Icon -->
+                                    <div class="quot-icon">
+                                        <img class="avatar-sm" src="assets/img/quote.png" alt="">
+                                    </div>
                                 </div>
-                                <!-- Quotation Icon -->
-                                <div class="quot-icon">
-                                    <img class="avatar-sm" src="assets/img/quote.png" alt="">
+                                <!-- Reviewer -->
+                                <div class="reviewer media mt-6">
+                                    <!-- Reviewer Thumb -->
+                                    <div class="reviewer-thumb">
+                                        <img class="avatar-lg radius-50" src="{{ Storage::url($organogram->user->picture_path) }}" alt="memberImage"
+                                        onerror="this.onerror=null; this.src='{{ asset('app-assets/images/no-image-icon.jpg') }}';">
+                                    </div>
+                                    <!-- Reviewer Media -->
+                                    <div class="reviewer-meta media-body align-self-center ml-4">
+                                        <a href="{{route('frontEnd.viewOrganogramMemberDetails', ['organogramMemberId' => $organogram->id])}}"><h5 class="reviewer-name text-justify color-primary mb-1">{{$organogram->user->name ?? 'Name Here'}}</h5></a>
+                                        <h6 class="text-secondary text-justify fw-6">{{$organogram->organogramDesignation->title}}</h6>
+                                        <h6 class="text-secondary text-justify fw-6">{{$organogram->user->city->name ?? 'Null'}}</h6>
+                                    </div>
                                 </div>
                             </div>
-                            <!-- Reviewer -->
-                            <div class="reviewer media mt-3">
-                                <!-- Reviewer Thumb -->
-                                <div class="reviewer-thumb">
-                                    <img class="avatar-lg radius-100" src="assets/img/avatar/avatar-1.png" alt="">
-                                </div>
-                                <!-- Reviewer Media -->
-                                <div class="reviewer-meta media-body align-self-center ml-4">
-                                    <h5 class="reviewer-name color-primary mb-2">Junaid Hasan</h5>
-                                    <h6 class="text-secondary fw-6">CEO, Themeland</h6>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                         <!-- Single Review -->
-                        <div class="single-review p-5">
-                            <!-- Review Content -->
-                            <div class="review-content">
-                                <!-- Review Text -->
-                                <div class="review-text">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam est modi amet error earum aperiam, fuga labore facere rem ab nemo possimus cum excepturi expedita. Culpa rerum, quaerat qui non.</p>
-                                </div>
-                                <!-- Quotation Icon -->
-                                <div class="quot-icon">
-                                    <img class="avatar-sm" src="assets/img/quote.png" alt="">
-                                </div>
-                            </div>
-                            <!-- Reviewer -->
-                            <div class="reviewer media mt-3">
-                                <!-- Reviewer Thumb -->
-                                <div class="reviewer-thumb">
-                                    <img class="avatar-lg radius-100" src="assets/img/avatar/avatar-2.png" alt="">
-                                </div>
-                                <!-- Reviewer Media -->
-                                <div class="reviewer-meta media-body align-self-center ml-4">
-                                    <h5 class="reviewer-name color-primary mb-2">Yasmin Akter</h5>
-                                    <h6 class="text-secondary fw-6">Founder, Themeland</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Single Review -->
-                        <div class="single-review p-5">
-                            <!-- Review Content -->
-                            <div class="review-content">
-                                <!-- Review Text -->
-                                <div class="review-text">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam est modi amet error earum aperiam, fuga labore facere rem ab nemo possimus cum excepturi expedita. Culpa rerum, quaerat qui non.</p>
-                                </div>
-                                <!-- Quotation Icon -->
-                                <div class="quot-icon">
-                                    <img class="avatar-sm" src="assets/img/quote.png" alt="">
-                                </div>
-                            </div>
-                            <!-- Reviewer -->
-                            <div class="reviewer media mt-3">
-                                <!-- Reviewer Thumb -->
-                                <div class="reviewer-thumb">
-                                    <img class="avatar-lg radius-100" src="assets/img/avatar/avatar-3.png" alt="">
-                                </div>
-                                <!-- Reviewer Media -->
-                                <div class="reviewer-meta media-body align-self-center ml-4">
-                                    <h5 class="reviewer-name color-primary mb-2">Md. Arham</h5>
-                                    <h6 class="text-secondary fw-6">CEO, Themeland</h6>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -833,8 +689,9 @@
                         <!-- Section Heading -->
                         <div class="section-heading text-center m-0">
                             <h1 class="text-white">Looking for the best hostel registration &amp; marketing solution?</h1>
-                            <p class="text-white d-block d-sm-block mt-4">We are National Hostel Association of Pakistan.</p>
-                            <p class="text-white d-block d-sm-block mt-4">A non-profit organization. The hostel owners community named as National Hostels Association of Pakistan</p>
+                            <p class="text-white text-justify d-block d-sm-block mt-4">We are National Hostel Association of Pakistan.
+                                A non-profit organization. The hostel owners community named as National Hostels Association of Pakistan
+                            </p>
                             <a href="{{route('ContactUsForm')}}" class="btn btn-bordered-white mt-4">Contact Us</a>
                         </div>
                     </div>

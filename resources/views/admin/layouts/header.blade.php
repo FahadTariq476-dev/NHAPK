@@ -307,10 +307,10 @@
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Organogram</span></a>
                         <ul class="menu-content">
                             <li>
-                                <a class="d-flex align-items-center" href="{{route('admin.elections.post')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Post Organogram</span></a>
+                                <a class="d-flex align-items-center" href="{{route('admin.organogram.post')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Post Organogram</span></a>
                             </li>
                             <li>
-                                <a class="d-flex align-items-center" href="{{route('admin.elections.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Organogram</span></a>
+                                <a class="d-flex align-items-center" href="{{route('admin.organogram.list')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Organogram</span></a>
                             </li>
                             <!-- Begin: Organogram Designation -->
                             <li class="nav-item">
@@ -325,6 +325,21 @@
                                 </ul>
                             </li>
                             <!-- End: Organogram Designation -->
+                        </ul>
+                    </li>
+                    <!-- End: Organogram -->
+                    
+                    <!-- Begin: Survey's Form -->
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Survey's Form</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.suverysForm.post')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Post Survey's Form</span></a>
+                            </li>
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.suverysForm.list')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Survey's Form</span></a>
+                            </li>
+                            <!-- End: Survey's Form  -->
                         </ul>
                     </li>
                     <!-- End: Organogram -->

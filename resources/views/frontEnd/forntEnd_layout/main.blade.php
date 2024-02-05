@@ -56,6 +56,9 @@
 <body>
     @include('frontEnd.forntEnd_layout.header')
 
+    <!-- Begin: To Show sett alert with respect to message -->
+    @include('frontEnd.forntEnd_layout.compulsory-sweetalert')
+    <!-- End: To Show sett alert with respect to message -->
     @yield('main-container')
 
 
