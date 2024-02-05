@@ -38,24 +38,6 @@
                     <div class="container" style="color: black;">
                         <form class="blog-form" id="blogForm" action="{{route('admin.saveBlogPost')}}" method="POST" enctype="multipart/form-data">
                           <h2 class="text-center mb-4">Blog Entry</h2>
-                          @if(session('success'))
-                          <script>
-                              Swal.fire({
-                                  title: 'Success!',
-                                  text: "{{ session('success') }}",
-                                  icon: 'success'
-                              });
-                          </script>
-                      @endif
-                      @if(session('error'))
-                          <script>
-                              Swal.fire({
-                                  title: 'Error!',
-                                  text: "{{ session('error') }}",
-                                  icon: 'error'
-                              });
-                          </script>
-                      @endif
                           <!-- Your form fields here -->
                           @csrf
                       
@@ -134,18 +116,6 @@
                           <button type="submit" class="btn btn-primary btn-block">Submit Blog</button>
                         </form>
                       </div>
-                </div>
-                <br>
-                <br>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="alert alert-primary" role="alert">
-                            <div class="alert-body">
-                                <strong>Info:</strong> Please check the&nbsp;<a class="text-primary" href="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-layout-full.html" target="_blank">Layout full documentation</a>&nbsp; for more details.
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

@@ -38,24 +38,6 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="table-responsive">
-                            @if(session('success'))
-                                <script>
-                                    Swal.fire({
-                                        title: 'Success!',
-                                        text: "{{ session('success') }}",
-                                        icon: 'success'
-                                    });
-                                </script>
-                            @endif
-                            @if(session('error'))
-                                <script>
-                                    Swal.fire({
-                                        title: 'Error!',
-                                        text: "{{ session('error') }}",
-                                        icon: 'error'
-                                    });
-                                </script>
-                            @endif
                             <table class="table mb-0 dataTable" id="usersTable">
                                 <thead>
                                     <tr>
@@ -98,18 +80,6 @@
                                 </tfoot>
                             </table>
                            
-                        </div>
-                        <div class="row justify-content-center">
-                            <div class="col-10">
-                             
-                            </div>
-                        </div>
-                        <div class="alert alert-primary" role="alert">
-                            <div class="alert-body">
-                                <strong>Info:</strong> Please check the&nbsp;<a class="text-primary"
-                                    href="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-layout-full.html"
-                                    target="_blank">Layout full documentation</a>&nbsp; for more details.
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -124,25 +124,7 @@
                     },
                     // Action column
                     {
-                        data:null,
-                        render: function(data, type, row) {
-                            // Render the select button for the action column
-                            var selectedRoles = data.role_id;
-                            var rolesToShow = '<form id="formSelectRoles">@csrf<select data-id="' + row.id + '" id="role_id" class="form-select">'+
-                                '<option selected disabled>Select Role to Show</option>'+
-                                '@if(count($roles)>0)'+
-                                '@foreach ($roles as $role)'+
-                                    '<option value="{{ $role->id }}" @if ("' + selectedRoles + '" == $role->id) selected @endif >'+
-                                        '{{ $role->name }}'+
-                                    '</option>'+
-                                '@endforeach'+
-                                '@else'+
-                                    '<option value="" disabled>No Roles Found</option>'+
-                                '@endif'+
-                                '</select></from>';
-                            return rolesToShow;
-                        }
-                        
+                        data: 'role_name_all',
                     },
                     { 
                         data: null, // Placeholder for the action column

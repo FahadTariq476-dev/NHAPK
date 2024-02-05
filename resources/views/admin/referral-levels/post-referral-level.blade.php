@@ -83,17 +83,11 @@
                                     
                                     <!-- Buttons -->
                                     <div class="form-group">
-                                        <button type="reset" id="btnReset" name="btnReset" class="button btn-primary">Reset</button>
-                                        <button type="submit" id="btnSave" name="btnSave" class="button btn-success">Save</button>
+                                        <button type="reset" id="btnReset" name="btnReset" class="btn btn-primary">Reset</button>
+                                        <button type="submit" id="btnSave" name="btnSave" class="btn btn-success">Save</button>
                                     </div>
                                 </form>
                                 <!-- formReferralLevel -->
-                            </div>
-
-                            <div class="alert alert-primary" role="alert">
-                                <div class="alert-body">
-                                    <strong>Info:</strong> Please check the &nbsp;<a class="text-primary" href="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-layouts.html#layout-collapsed-menu" target="_blank">Layout documentation</a>&nbsp; for more layout options i.e collapsed menu, without menu, empty & blank.
-                                </div>
                             </div>
                         </div>
                     </div>

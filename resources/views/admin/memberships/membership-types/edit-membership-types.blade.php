@@ -41,34 +41,6 @@
                     <div class="container" style="color: black;">
                         <form class="blog-form" id="membershipTypesFrom" action="{{route('admin.membership.membershipTypes.updateMembershipTypes')}}" method="POST">
                           <h2 class="text-center mb-2">Edit Membership Types</h2>
-                          @if(session('success'))
-                            <script>
-                              Swal.fire({
-                                title: 'Success!',
-                                text: "{{ session('success') }}",
-                                icon: 'success'
-                              });
-                            </script>
-                          @endif
-                          @if(session('error'))
-                            <script>
-                              Swal.fire({
-                                title: 'Error!',
-                                text: "{{ session('error') }}",
-                                icon: 'error'
-                              });
-                            </script>
-                          @endif
-                          @if(session('invalid'))
-                            <script>
-                              Swal.fire({
-                                title: 'Error!',
-                                text: "{{ session('invalid') }}",
-                                icon: 'error'
-                              });
-                            </script>
-                          @endif
-                          <!-- Your form fields here -->
                           @csrf
                           <input type="hidden" class="form-control" id="membershipTypesId" name="membershipTypesId" value="{{ $membershipTypes->id }}" placeholder="membershipTypesId here" readonly>
                           <div class="form-group mb-1">
@@ -104,21 +76,9 @@
                             <div class="alert alert-danger">{{$message}}</div>
                           @enderror
                       
-                          <button type="submit" class="btn btn-primary btn-block">Update</button>
+                          <button type="submit" class="btn btn-success btn-block">Update</button>
                         </form>
                       </div>
-                </div>
-                <br>
-                <br>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="alert alert-primary" role="alert">
-                            <div class="alert-body">
-                                <strong>Info:</strong> Please check the&nbsp;<a class="text-primary" href="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-layout-full.html" target="_blank">Layout full documentation</a>&nbsp; for more details.
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

@@ -638,6 +638,8 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
         Route::get('/post',[VoteController::class,'post'])->name('client.vote.post');
         // store
         Route::post('/save',[VoteController::class,'store'])->name('client.vote.store');
+        // voteCandidateDetails
+        Route::get('/get-candidates/{electionId}/{electionCategoryId}',[VoteController::class,'voteCandidateDetails'])->name('client.vote.voteCandidateDetails');
     });
     Route::get('/viewCandidateDetails/{id}',[CandidateNominationController::class,'viewCandidateDetails'])->name('viewCandidateDetails');
 

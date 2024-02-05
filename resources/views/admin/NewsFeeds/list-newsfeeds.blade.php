@@ -39,24 +39,6 @@
                     <div class="col-12">
                         <div class="table-responsive">
                             <h2>Posted Blogs</h2>
-                            @if(session('success'))
-                                <script>
-                                    Swal.fire({
-                                        title: 'Success!',
-                                        text: "{{ session('success') }}",
-                                        icon: 'success'
-                                    });
-                                </script>
-                            @endif
-                            @if(session('error'))
-                                <script>
-                                    Swal.fire({
-                                        title: 'Error!',
-                                        text: "{{ session('error') }}",
-                                        icon: 'error'
-                                    });
-                                </script>
-                            @endif
                             <table class="table mb-0 dataTable" id="nhapkNewsfeedTable" style="background-color: #f2f2f2; color: #333;">
                                 <thead>
                                     <tr>
@@ -89,11 +71,6 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                        </div>
-                        <div class="alert alert-primary" role="alert">
-                            <div class="alert-body">
-                                <strong>Info:</strong> Please check the&nbsp;<a class="text-primary" href="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-layout-full.html" target="_blank">Layout full documentation</a>&nbsp; for more details.
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -37,64 +37,47 @@
                 </div>
             </div>
             <div class="content-body">
-                <div class="row">
-                    <div class="container" style="color: black;">
-                        <form class="blog-form" id="complaint_typesForm" action="{{route('admin.complaint-types.store')}}" method="POST">
-                          <h2 class="text-center mb-2">Complaint Types Entry</h2>
-                          @if(session('success'))
-                            <script>
-                              Swal.fire({
-                                title: 'Success!',
-                                text: "{{ session('success') }}",
-                                icon: 'success'
-                              });
-                            </script>
-                          @endif
-                          @if(session('error'))
-                            <script>
-                              Swal.fire({
-                                title: 'Error!',
-                                text: "{{ session('error') }}",
-                                icon: 'error'
-                              });
-                            </script>
-                          @endif
-                          <!-- Your form fields here -->
-                          @csrf
-                      
-                          <div class="form-group mb-1">
-                            <label for="name">Complaint Types Name:</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" placeholder="Enter the name">
-                          </div>
-                          @error('name')
-                              <div class="alert alert-danger">{{ $message }}</div>
-                          @enderror
-                      
-                          <div class="form-group mb-1">
-                            <label for="description">Complaint Types Description:</label>
-                            <input type="text" class="form-control" id="description" name="description" value="{{old('description')}}" maxlength="65535" placeholder="Enter a description here">
-                          </div>
-                          @error('description')
-                            <div class="alert alert-danger">{{$message}}</div>
-                          @enderror
-                      
-                          <button type="reset" class="btn btn-success btn-block">Reset</button>
-                          <button type="submit" class="btn btn-primary btn-block">Submit Complaint Types</button>
-                        </form>
-                      </div>
-                </div>
-                <br>
-                <br>
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="alert alert-primary" role="alert">
-                            <div class="alert-body">
-                                <strong>Info:</strong> Please check the&nbsp;<a class="text-primary" href="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-layout-full.html" target="_blank">Layout full documentation</a>&nbsp; for more details.
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              <!-- Content Here -->
+              <div class="card">
+                  <div class="card-header">
+                      <h4 class="card-title"></h4>
+                  </div>
+                  <div class="card-body">
+                      <div class="card-text">
+                          <div class="mb-2">
+                              <!-- form -->
+                              <form class="blog-form" id="complaint_typesForm" action="{{route('admin.complaint-types.store')}}" method="POST">
+                                <h2 class="text-center mb-2">Complaint Types Entry</h2>
+                                <!-- Your form fields here -->
+                                @csrf
+                            
+                                <div class="form-group mb-1">
+                                  <label for="name">Complaint Types Name:</label>
+                                  <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" placeholder="Enter the name">
+                                </div>
+                                @error('name')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            
+                                <div class="form-group mb-1">
+                                  <label for="description">Complaint Types Description:</label>
+                                  <input type="text" class="form-control" id="description" name="description" value="{{old('description')}}" maxlength="65535" placeholder="Enter a description here">
+                                </div>
+                                @error('description')
+                                  <div class="alert alert-danger">{{$message}}</div>
+                                @enderror
+                            
+                                <button type="reset" class="btn btn-success btn-block">Reset</button>
+                                <button type="submit" class="btn btn-primary btn-block">Submit Complaint Types</button>
+                              </form>
+                              <!-- form -->
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+              <!--/ Content Here -->
             </div>
         </div>
     </div>

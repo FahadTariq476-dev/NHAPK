@@ -22,10 +22,10 @@ class CandidateNominationController extends Controller
     */
     public function post(){
         try{
-            $candidates = Candidate::where('userId', Auth::id())->first();
-            if($candidates){
-                return redirect()->route('client.dashboard.index')->with('warning','You have already applied. Kindly view your Nomination File.');
-            }
+            // $candidates = Candidate::where('userId', Auth::id())->first();
+            // if($candidates){
+            //     return redirect()->route('client.dashboard.index')->with('warning','You have already applied. Kindly view your Nomination File.');
+            // }
             $usersAll = User::where('id',Auth::id())->with(['country','state','city'])->first();
             if($usersAll->countryId == null){
                 return redirect()->route('client.viewProfile')->with('info','Kindly Select Country First. And Complete Your Profile section');
@@ -66,7 +66,7 @@ class CandidateNominationController extends Controller
         try{
             DB::beginTransaction();
             // dd($request->all());
-            $candidates = Candidate::where('userId', Auth::id())->first();
+            $candidates = Candidate::where('userId', Auth::id())->where('electionId', $request->electionId)->first();
             if($candidates){
                 return redirect()->route('client.dashboard.index')->with('warning','You have already applied. Kindly view your Nomination File.');
             }
@@ -135,6 +135,9 @@ class CandidateNominationController extends Controller
         try{
             DB::beginTransaction();
             $candidate = Candidate::where('userId',Auth::id())->first();
+            if(!$candidate){
+                return redirect()->back()->with('info','You did not Apply for Nomination.');
+            }
             // Retrieve related data using relationships
             $stateName = ($candidate->state) ? $candidate->state->name : null;
             $cityName = ($candidate->city) ? $candidate->city->name : null;

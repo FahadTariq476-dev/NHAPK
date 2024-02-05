@@ -53,7 +53,7 @@
                     </div>
                     <div class="card-body">
                         <div class="card-text">
-                            <form id="formVoteNow" action="{{route('client.vote.store')}}" method="POST">
+                            <form id="formVoteNow" action="#" method="POST">
                                 @csrf
                                 <!-- Your Name -->
                                 <div class="form-group">
@@ -72,73 +72,6 @@
                                     <input type="text" id="yourMobileNo" name="yourMobileNo" value="{{Auth::user()->phone_number}}" class="form-control" readonly>
                                 </div>
 
-                                <!-- Select Candidate -->
-                                <div class="form-group">
-                                    <label for="candidateId">Select Your Candidate</label>
-                                    <select id="candidateId" name="candidateId" class="form-control">
-                                        <option value="" selected disabled>Select Candidate</option>
-                                        @if (count($candidates)>0)
-                                        @foreach ($candidates as $candidate)
-                                            <option value="{{ $candidate->id }}" data-image="{{ Storage::url($candidate->user->picture_path) }}">
-                                                {{ $candidate->user->name }}
-                                            </option>
-                                        @endforeach
-                                        @else
-                                            <option value="" disabled>No Candidate Found</option>
-                                        @endif
-                                    </select>
-                                    <div id="selectedCandidate">
-                                        <!-- Selected candidate info will be displayed here -->
-                                    </div>
-                                </div>
-                                @error('candidateId')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-
-
-                                <script>
-                                    // Add an event listener to the dropdown
-                                    document.getElementById('candidateId').addEventListener('change', function () {
-                                        var selectedOption = this.options[this.selectedIndex];
-                                        var selectedCandidateDiv = document.getElementById('selectedCandidate');
-
-                                        // Check if an option is selected
-                                        if (selectedOption.value !== "") {
-                                            // Display the selected candidate's information, including the image
-                                            var candidateName = selectedOption.text;
-                                            var candidateImage = selectedOption.getAttribute('data-image');
-                                            var html = '<p>' + candidateName + '</p>';
-                                            if (candidateImage) {
-                                                html += '<img src="' + candidateImage + '" alt="' + candidateName + '" style="max-height: 120px; max-width: 120px; margin-left: 10px;">';
-                                            }
-                                            selectedCandidateDiv.innerHTML = html;
-                                        } else {
-                                            // Clear the selected candidate's information if no option is selected
-                                            selectedCandidateDiv.innerHTML = '';
-                                        }
-                                    });
-                                </script>
-
-                               
-                                
-                                <!-- Select electionCategories -->
-                                <div class="form-group">
-                                    <label for="electionCategoryId">Select Your Election Categories</label>
-                                    <select id="electionCategoryId" name="electionCategoryId" class="form-control">
-                                        <option value="" selected disabled>Select Election Categories</option>
-                                        @if (count($electionCategories)>0)
-                                            @foreach ($electionCategories as $electionCategory)
-                                                <option value="{{ $electionCategory->id }}" @if (old('electionCategoryId')==$electionCategory->id) selected @endif >{{ $electionCategory->name }}</option>
-                                            @endforeach
-                                        @else
-                                            <option value="" disabled>No Election Categories Found</option>
-                                        @endif
-                                    </select>
-                                </div>
-                                @error('electionCategoryId')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                                
                                 <!-- Select elections -->
                                 <div class="form-group">
                                     <label for="electionId">Select Your Election</label>
@@ -156,11 +89,29 @@
                                 @error('electionId')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
+                              
+                                <!-- Select electionCategories -->
+                                <div class="form-group mb-1">
+                                    <label for="electionCategoryId">Select Your Election Categories</label>
+                                    <select id="electionCategoryId" name="electionCategoryId" class="form-control">
+                                        <option value="" selected disabled>Select Election Categories</option>
+                                        @if (count($electionCategories)>0)
+                                            @foreach ($electionCategories as $electionCategory)
+                                                <option value="{{ $electionCategory->id }}" @if (old('electionCategoryId')==$electionCategory->id) selected @endif >{{ $electionCategory->name }}</option>
+                                            @endforeach
+                                        @else
+                                            <option value="" disabled>No Election Categories Found</option>
+                                        @endif
+                                    </select>
+                                </div>
+                                @error('electionCategoryId')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
 
                                 <!-- Actions Button -->
                                 <div class="form-group">
                                     <button type="reset" class="btn btn-primary" id="btnReset">Reset</button>
-                                    <button type="submit" class="btn btn-success" id="btnSubmit">Vote Now</button>
+                                    <button type="submit" class="btn btn-success" id="btnSubmit">Select Candidate</button>
                                 </div>
                             </form>
                         </div>
@@ -185,37 +136,113 @@
              // Form validation
              $("#btnSubmit").click(function (e) { 
                 // Remove any existing error messages
+                e.preventDefault();
                 $(".alert").remove();
                 
-                // To Check candidateId is empty or Now
-                let candidateId = $("#candidateId").val();
-                if (candidateId == null || candidateId.trim() === '') {
-                    e.preventDefault();
-                    $("#candidateId").after('<div class="alert alert-danger">Election Candidate Should be Provided</div>');
-                }
                 
                 // To Check electionCategoryId is empty or Now
                 let electionCategoryId = $("#electionCategoryId").val();
-                if (electionCategoryId == null || electionCategoryId.trim() === '') {
-                    e.preventDefault();
-                    $("#electionCategoryId").after('<div class="alert alert-danger">Election Category Should be Provided</div>');
-                }
-                
                 // To Check electionId is empty or Now
                 let electionId = $("#electionId").val();
-                if (electionId == null || electionId.trim() === '') {
-                    e.preventDefault();
+                if (electionCategoryId == null || electionCategoryId.trim() === '') {
+                    $("#electionCategoryId").after('<div class="alert alert-danger">Election Category Should be Provided</div>');
+                    return true;
+                }
+                else if (electionId == null || electionId.trim() === '') {
                     $("#electionId").after('<div class="alert alert-danger">Election Should be Provided</div>');
+                    return true;
+                }
+                else{
+                    $.ajax({
+                        type: "GET",
+                        url: "/client/vote/get-candidates/"+electionId+"/"+electionCategoryId,
+                        success: function (response) {
+                            if(response.status == "invalid"){
+                                Swal.fire({
+                                    icon:'warning',
+                                    title:'Invalid',
+                                    text: response.message,
+                                });
+                            }
+                            else  if(response.status == "error"){
+                                Swal.fire({
+                                    icon:response.status,
+                                    title:'Error',
+                                    text: response.message,
+                                });
+                            }
+                            else if(response.status == "success"){
+                                // Update modal content with received candidates
+                                updateModalContent(response.candidatesForVote);
+
+                                // Show the modal
+                                $("#ShowVoteCandidateModal").modal('show');
+                                Swal.fire({
+                                    icon:response.status,
+                                    title:'Success',
+                                    text: response.message,
+                                });
+                            }
+                            else if(response.status == "info"){
+                                Swal.fire({
+                                    icon:response.status,
+                                    title:'Info',
+                                    text: response.message,
+                                });
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            Swal.fire({
+                                icon:'error',
+                                title:'Error',
+                                text: 'An error occured: '+error.responseJSON.message,
+                            });
+                        }
+                    });
                 }
 
                
             });
+
+            var baseUrl = "{{ url('/') }}";
+
+            // Function to update modal content with candidate details
+            function updateModalContent(candidates) {
+                var modalBodyContent = $("#modalBodyContent");
+
+                // Clear existing content
+                modalBodyContent.empty();
+
+                // Loop through candidates and append card for each candidate
+                candidates.forEach(function (candidate) {
+                    var cardHtml = `
+                        <div class="card" style="width: 18rem;">
+                            <form action="/client/vote/save" method="POST">
+                                @csrf
+                                <input type="hidden" name="candidateId" id="candidateId" value="${candidate.id}" readonly/>
+                                <input type="hidden" name="candidateElectionId" id="candidateElectionId" value="${candidate.electionId}" readonly/>
+                                <input type="hidden" name="candidateElectionCategoryId" id="candidateElectionCategoryId" value="${candidate.electionCategoryId}" readonly/>
+                                <img src="${baseUrl}/storage/${candidate.user.picture_path}" class="card-img-top" alt="${candidate.user.name}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${candidate.user.name}</h5>
+                                    <button type="submit" class="btn btn-success">Vote Now</button>
+                                </div>
+                            </form>
+                        </div>
+                    `;
+
+                    modalBodyContent.append(cardHtml);
+                });
+            }
+
         });
 
         
     </script>
     
     @include('client.vote.view-candidate-detials-modal')
+    @include('client.vote.show-candidate-image-for-vote')
 @endsection
 <!-- End: Script Section Starts Here -->
 

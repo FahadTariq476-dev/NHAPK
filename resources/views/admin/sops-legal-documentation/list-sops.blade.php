@@ -39,24 +39,6 @@
                     <div class="col-12">
                         <div class="table-responsive">
                             <h2>SOP's Record</h2>
-                            @if(session('success'))
-                                <script>
-                                    Swal.fire({
-                                        title: 'Success!',
-                                        text: "{{ session('success') }}",
-                                        icon: 'success'
-                                    });
-                                </script>
-                            @endif
-                            @if(session('error'))
-                                <script>
-                                    Swal.fire({
-                                        title: 'Error!',
-                                        text: "{{ session('error') }}",
-                                        icon: 'error'
-                                    });
-                                </script>
-                            @endif
                             <table class="table mb-0 dataTable" id="sopsTable" style="background-color: #f2f2f2; color: #333;">
                                 <thead>
                                     <tr>
@@ -85,11 +67,6 @@
                                 </tfoot>
                             </table>
                         </div>
-                        <div class="alert alert-primary" role="alert">
-                            <div class="alert-body">
-                                <strong>Info:</strong> Please check the&nbsp;<a class="text-primary" href="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-layout-full.html" target="_blank">Layout full documentation</a>&nbsp; for more details.
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -98,24 +75,24 @@
     
     <!-- END: Content-->
     <!-- Bootstrap Modal -->
-<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="messageModalLabel">SOP's Description</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Message content will be inserted here dynamically -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">SOP's Description</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Message content will be inserted here dynamically -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
  
 
