@@ -33,44 +33,170 @@
             <div class="content-body">
 
                 <!-- Kick start -->
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Admin Dashboard</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-text">
-                            {{-- <p>
-                                Getting start with your project custom requirements using a ready template which is quite difficult and time
-                                taking process, Vuexy Admin provides useful features to kick start your project development with no efforts !
-                            </p>
-                            <ul>
-                                <li>
-                                    Vuexy Admin provides you getting start pages with different layouts, use the layout as per your custom
-                                    requirements and just change the branding, menu &amp; content.
-                                </li>
-                                <li>
-                                    Every components in Vuexy Admin are decoupled, it means use use only components you actually need! Remove
-                                    unnecessary and extra code easily just by excluding the path to specific SCSS, JS file.
-                                </li>
-                            </ul> --}}
+                <!-- Statistics Card -->
+                <div class="col-12">
+                    <div class="card card-statistics">
+                        <div class="card-header">
+                            <h4 class="card-title">Statistics</h4>
+                            <div class="d-flex align-items-center">
+                                <p class="card-text font-small-2 me-25 mb-0">Updated 1 month ago</p>
+                            </div>
+                        </div>
+                        <div class="card-body statistics-body">
+                            <div class="row">
+                                <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-primary me-2">
+                                            <div class="avatar-content">
+                                                <i data-feather="user" class="avatar-icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0">{{ $totalusers }}</h4>
+                                            <p class="card-text font-small-3 mb-0">Total Users</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-info me-2">
+                                            <div class="avatar-content">
+                                                <i data-feather="user" class="avatar-icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0">{{ $totalRegisteredUsers }}</h4>
+                                            <p class="card-text font-small-3 mb-0">Registered Users</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-sm-0">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-danger me-2">
+                                            <div class="avatar-content">
+                                                <i data-feather="user" class="avatar-icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0">{{ $totalUnRegisteredUsers }}</h4>
+                                            <p class="card-text font-small-3 mb-0">Un Registered Users</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-sm-6 col-12">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-success me-2">
+                                            <div class="avatar-content">
+                                                <i data-feather="dollar-sign" class="avatar-icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0">{{ $totalNhapkUsers }}</h4>
+                                            <p class="card-text font-small-3 mb-0">NHAPK Users</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <!--/ Statistics Card -->
+                <div class="card">
+                    <!-- Company Table Card -->
+                    <div class="col-lg-8 col-12">
+                        <div class="card card-company-table">
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Mob No</th>
+                                                <th>City</th>
+                                                <th>Designation</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (count($nhapkRegisteredUsers)>0)
+                                                @foreach ($nhapkRegisteredUsers as $nhapkRegisteredUser)
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar rounded">
+                                                                    <div class="avatar-content">
+                                                                        <i data-feather="user" class="avatar-icon"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <div class="fw-bolder">{{$nhapkRegisteredUser->name}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar rounded">
+                                                                    <div class="avatar-content">
+                                                                        <i data-feather="user" class="avatar-icon"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <div class="fw-bolder">{{$nhapkRegisteredUser->email}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar rounded">
+                                                                    <div class="avatar-content">
+                                                                        <i data-feather="user" class="avatar-icon"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <div class="fw-bolder">{{$nhapkRegisteredUser->phone_number}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar rounded">
+                                                                    <div class="avatar-content">
+                                                                        <i data-feather="user" class="avatar-icon"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <div class="fw-bolder">{{ $nhapkRegisteredUser->city->name ?? 'Null' }}</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar rounded">
+                                                                    <div class="avatar-content">
+                                                                        <i data-feather="user" class="avatar-icon"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <div class="fw-bolder">{{$nhapkRegisteredUser->phone_number ?? 'Null'}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td>No Data Found</td>
+                                                </tr>
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/ Company Table Card -->
                 </div>
                 <!--/ Kick start -->
-
-                <!-- Page layout -->
-                <div class="card">
-                    <div class="card-header">
-                        {{-- <h4 class="card-title">What is page layout?</h4> --}}
-                    </div>
-                    <div class="card-body">
-                        <div class="card-text">
-                            
-                        </div>
-                    </div>
-                </div>
-                <!--/ Page layout -->
-
             </div>
         </div>
     </div>

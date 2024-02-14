@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Election extends Model
+class Area extends Model
 {
     use HasFactory;
-    protected $table = 'nhapk_elections';
+    protected $table = 'nhapk_areas';
 
     public function country()
     {
@@ -24,21 +24,4 @@ class Election extends Model
     {
         return $this->belongsTo(City::class, 'cityId');
     }
-    
-    public function areas()
-    {
-        return $this->belongsTo(Area::class, 'areaId');
-    }
-    
-    public function electionCategory()
-    {
-        return $this->belongsTo(ElectionsCategroy::class, 'electionCategoryId');
-    }
-    
-    public function electionSeat()
-    {
-        return $this->belongsTo(ElectionSeat::class, 'electionSeatId');
-    }
-
-
 }

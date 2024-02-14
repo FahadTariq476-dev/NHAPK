@@ -84,4 +84,8 @@ class User extends Authenticatable
         // Define the relationship to the City model
         return $this->belongsTo(City::class, 'cityId');
     }
+
+    public function area(){
+        return $this->belongsTo(Area::class, 'areaId');
+    }
 }

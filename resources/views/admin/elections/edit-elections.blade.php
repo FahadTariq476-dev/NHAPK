@@ -1,4 +1,11 @@
 @extends('admin.layouts.main')
+@section('title','Elections - Edit Electon')
+
+
+@section('css')
+    <!-- Include Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+@endsection
 @section('main-container')
     <!-- BEGIN: Content-->
     <div class="app-content content ">
@@ -96,6 +103,124 @@
                                 @error('lastDate')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
+
+                                 <!-- Select Country -->
+                                 <div class="form-group">
+                                    <label for="countryId">Country</label>
+                                    <select name="countryId" id="countryId" class="form-control">
+                                        <option value="" selected disabled>Select Country</option>
+                                        @if (count($countries)>0)
+                                            @foreach ($countries as $country)
+                                                <option value="{{ $country->id }}" @if ($country->id == $elections->countryId) selected @endif >
+                                                    {{$country->name}}
+                                                </option>
+                                            @endforeach
+                                        @else
+                                            <option value="" disabled>No Country Found</option>
+                                        @endif
+                                    </select>
+                                </div>
+                                @error('countryId')
+                                    <div class="alert alert-danger">{{$message}}</div>
+                                @enderror
+
+                                <!-- Select State -->
+                                <div class="form-group">
+                                    <label for="stateId">State</label>
+                                    <select name="stateId" id="stateId" class="form-control">
+                                        <option value="" selected disabled>Select State</option>
+                                        @if (count($states)>0)
+                                            @foreach ($states as $state)
+                                                <option value="{{ $state->id }}" @if ($state->id == $elections->stateId) selected @endif >
+                                                    {{$state->name}}
+                                                </option>
+                                            @endforeach
+                                        @else
+                                            <option value="" disabled>No State Found</option>
+                                        @endif
+                                    </select>
+                                </div>
+                                @error('stateId')
+                                    <div class="alert alert-danger">{{$message}}</div>
+                                @enderror
+
+                                <!-- Select City -->
+                                <div class="form-group">
+                                    <label for="cityId">City</label>
+                                    <select name="cityId" id="cityId" class="form-control">
+                                        <option value="" selected disabled>Select City</option>
+                                        @if (count($cities)>0)
+                                            @foreach ($cities as $city)
+                                                <option value="{{ $city->id }}" @if ($city->id == $elections->cityId) selected @endif >
+                                                    {{$city->name}}
+                                                </option>
+                                            @endforeach
+                                        @else
+                                            <option value="" disabled>No City Found</option>
+                                        @endif
+                                    </select>
+                                </div>
+                                @error('cityId')
+                                    <div class="alert alert-danger">{{$message}}</div>
+                                @enderror
+
+                                <!-- Area Ttile -->
+                                <div class="form-group">
+                                    <label for="areaId">Area Title</label>
+                                    <select name="areaId[]" id="areaId" class="form-control select-2" multiple>
+                                        @if (count($areas)>0)
+                                            @foreach ($areas as $area)
+                                                <option value="{{ $area->id }}" @if (in_array($area->id, json_decode($elections->areaId))) selected @endif >
+                                                    {{$area->name}}
+                                                </option>
+                                            @endforeach
+                                        @else
+                                            <option value="" disabled>No Area Found</option>
+                                        @endif
+                                    </select>
+                                </div>
+                                @error('areaId')
+                                    <div class="alert alert-danger">{{$message}}</div>
+                                @enderror
+
+                                <!-- Select Election Categroy -->
+                                <div class="form-group">
+                                    <label for="electionCategregoryId">Election Category</label>
+                                    <select name="electionCategregoryId" id="electionCategregoryId" class="form-control">
+                                        <option value="" selected disabled>Select Election Category</option>
+                                        @if (count($electionCategories)>0)
+                                            @foreach ($electionCategories as $electionCategory)
+                                                <option value="{{ $electionCategory->id }}" @if ($electionCategory->id ==$elections->electionCategoryId) selected @endif >
+                                                    {{$electionCategory->name}}
+                                                </option>
+                                            @endforeach
+                                        @else
+                                            <option value="" disabled>No Election Category Found</option>
+                                        @endif
+                                    </select>
+                                </div>
+                                @error('electionCategregoryId')
+                                    <div class="alert alert-danger">{{$message}}</div>
+                                @enderror
+                                
+                                <!-- Select Election Categroy -->
+                                <div class="form-group mb-1">
+                                    <label for="electionSeatId">Election Seat</label>
+                                    <select name="electionSeatId[]" id="electionSeatId" class="form-control select2">
+                                        @if (count($electionSeats)>0)
+                                            @foreach ($electionSeats as $electionSeat)
+                                                <option value="{{ $electionSeat->id }}" @if (in_array($electionSeat->id, json_decode($elections->electionSeatId))) selected @endif >
+                                                    {{$electionSeat->title}}
+                                                </option>
+                                            @endforeach
+                                        @else
+                                            <option value="" disabled>No Election Seat Found</option>
+                                        @endif
+                                    </select>
+                                </div>
+                                @error('electionSeatId')
+                                    <div class="alert alert-danger">{{$message}}</div>
+                                @enderror
                                 
 
                                 <!-- Action Button -->
@@ -124,6 +249,119 @@
     @endphp
         <script type="text/javascript">
             $(document).ready(function () {
+                // Initialize Select2 on the city dropdown
+                $('#cityId').select2({
+                    placeholder: 'Select City',
+                    allowClear: true,
+                    width: '100%' // Set the width as per your requirement
+                });
+                $('#areaId').select2({
+                    placeholder: 'Select Area',
+                    allowClear: true,
+                    width: '100%' // Set the width as per your requirement
+                });
+                $('#electionSeatId').select2({
+                    placeholder: 'Select Seat',
+                    allowClear: true,
+                    width: '100%' // Set the width as per your requirement
+                });
+
+                // To Get the state using country id
+                $("#countryId").change(function(){
+                    let countryId = $("#countryId").val();
+                        $('#stateId').empty();
+                        $('#stateId').append('<option value="" disabled selected>Select State</option>');
+                        $('#cityId').empty();
+                        $('#cityId').append('<option value="" disabled selected>Select City</option>');
+                        $('#areaId').empty();
+                        // $('#areaId').append('<option value="" disabled selected>Select Area</option>');
+                    if(countryId !=null){
+                        $.ajax({
+                            url:'/get-states/'+countryId,
+                            type:'GET',
+                            success:function(response){
+                                if (!response || (Array.isArray(response) && response.length === 0)) {
+                                    $('#stateId').append('<option value="" disabled>No State Found</option>');
+                                } else {
+                                    $.each(response, function(key, value) {
+                                        $('#stateId').append('<option value="' + value.id + '">' + value.name + '</option>');
+                                    });
+                                }
+                            },
+                            error:function(error){
+                                console.log(error);
+                                Swal.fire({
+                                    icon:'error',
+                                    title:'Error',
+                                    text: 'An error occured: '+error.responseJSON.message,
+                                });
+                            }
+                        });
+                    }
+                });
+                    
+                //  To get Cities for the Given State
+                $("#stateId").change(function(){
+                    let stateId = $("#stateId").val();
+                        $('#cityId').empty();
+                        $('#cityId').append('<option value="" disabled selected>Select City</option>');
+                        $('#areaId').empty();
+                        // $('#areaId').append('<option value="" disabled selected>Select Area</option>');
+                    if(stateId !=null){
+                        $.ajax({
+                            url:'/get-cities/'+stateId,
+                            type:'GET',
+                            success:function(response){
+                                if (!response || (Array.isArray(response) && response.length === 0)) {
+                                    $('#cityId').append('<option value="" disabled>No City Found</option>');
+                                } else {
+                                    $.each(response, function(key, value) {
+                                        $('#cityId').append('<option value="' + value.id + '">' + value.name + '</option>');
+                                    });
+                                }
+                            },
+                            error:function(error){
+                                console.log(error);
+                                Swal.fire({
+                                    icon:'error',
+                                    title:'Error',
+                                    text: 'An error occured: '+error.responseJSON.message,
+                                });
+                            }
+                        });
+                    }
+                });
+                
+                
+                //  To get Areas for the Given State
+                $("#cityId").change(function(){
+                    let cityId = $("#cityId").val();
+                        $('#areaId').empty();
+                        // $('#areaId').append('<option value="" disabled selected>Select Area</option>');
+                    if(stateId !=null){
+                        $.ajax({
+                            url:'/admin/area/fetch-area/'+cityId,
+                            type:'GET',
+                            success:function(response){
+                                if(response.status == 1){
+                                    $('#areaId').append('<option value="" disabled>No Area Found</option>');
+                                }else if(response.status == 'success') {
+                                    $.each(response.areas, function(key, value) {
+                                        $('#areaId').append('<option value="' + value.id + '">' + value.name + '</option>');
+                                    });
+                                }
+                            },
+                            error:function(error){
+                                console.log(error);
+                                Swal.fire({
+                                    icon:'error',
+                                    title:'Error',
+                                    text: 'An error occured: '+error.responseJSON.message,
+                                });
+                            }
+                        });
+                    }
+                });
                 
                 // Function to check that Election Name is unique or Not
                 function checkUniqueName(name) {
@@ -319,5 +557,8 @@
                 });
 
             });
-        </script>
+        </script> 
+        
+        <!-- Include Select2 JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     @endsection

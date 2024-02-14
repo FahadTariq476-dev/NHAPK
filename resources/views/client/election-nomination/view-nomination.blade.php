@@ -1,5 +1,5 @@
 @extends('client.layouts.master')
-@section('title','Election Nomination - Apply')
+@section('title','Election Nomination - View')
 
 <!-- Begin: Addiitonal CSS Section starts Here -->
 @section('css')
@@ -28,7 +28,7 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{ route('client.dashboard.index') }}">Home</a></li>
                                     <li class="breadcrumb-item"><a href="#">Election Nomination</a></li>
-                                    <li class="breadcrumb-item active">Apply Election Nomination</li>
+                                    <li class="breadcrumb-item active">View Election Nomination</li>
                                 </ol>
                             </div>
                         </div>
@@ -47,81 +47,32 @@
                 <!-- Begin: Kick start -->
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Apply Election Nomination</h4>
+                        <h4 class="card-title">View Nomination</h4>
                     </div>
                     <div class="card-body">
                         <div class="card-text">
-                           <form id="formApplyElectionNomination" action="#" method="POST" enctype="multipart/form-data">
+                           <form id="formApplyElectionNomination" action="#" method="GET">
                                 @csrf
-                                <!-- Candidate Name -->
-                                <div class="form-group">
-                                    <label>Candidate Name</label>
-                                    <input type="text" id="candidateName" name="candidateName" value="{{Auth::user()->name}}" class="form-control" readonly>
-                                </div>
-                                <!-- Candidate Cnic -->
-                                <div class="form-group">
-                                    <label>Candidate Cnic</label>
-                                    <input type="text" id="candidateCnic" name="candidateCnic" value="{{Auth::user()->cnic_no}}" class="form-control" readonly>
-                                </div>
-                                
-                                <!-- Candidate Mobile No -->
-                                <div class="form-group">
-                                    <label>Candidate Mobile No</label>
-                                    <input type="text" id="candidateMobileNo" name="candidateMobileNo" value="{{Auth::user()->phone_number}}" class="form-control" readonly>
-                                </div>
-                                
-                                <!-- Select State -->
-                                <div class="form-group">
-                                    <label for="stateId">State</label>
-                                    <input type="text" id="stateId" name="stateId" value="{{$stateName}}" class="form-control" readonly>
-                                </div>
-                                
-                                <!-- Select City -->
-                                <div class="form-group">
-                                    <label for="cityId">City</label>
-                                    <input type="text" id="cityId" name="cityId" value="{{$cityName}}" class="form-control" readonly>
-                                </div>
-
-                                <!-- Select electionCategory -->
-                                <div class="form-group">
-                                    <label for="electionCategoryId">Election Category</label>
-                                    <input type="text" id="electionCategoryId" name="electionCategoryId" value="{{$electionCategoryName}}" class="form-control" readonly>
-                                </div>
-                                
                                 <!-- Select elections -->
-                                <div class="form-group">
-                                    <label for="electionId">Election</label>
-                                    <input type="text" id="electionId" name="electionId" value="{{$electionName}}" class="form-control" readonly>
-                                </div>
-                                
-                                <!-- Nomination File Status -->
-                                <div class="form-group">
-                                    <label for="electionId">Status</label>
-                                    <input type="text" id="status" name="status" value="{{$candidate->status}}" class="form-control" readonly>
-                                </div>
-                                
-                                
-                                <!-- Number of Refferals -->
-                                <div class="form-group">
-                                    <label for="electionId">Number of Refferals</label>
-                                    <input type="text" id="status" name="status" value="{{$candidate->referralCount}}" class="form-control" readonly>
-                                </div>
-                                
-                                <!-- Starts -->
-                                <div class="form-group">
-                                    <label for="electionId">Stars</label>
-                                    <input type="text" id="status" name="status" value="{{$candidate->stars}}" class="form-control" readonly>
+                                <div class="form-group mb-1">
+                                    <label for="electionId">Select Election</label>
+                                    <select id="electionId" name="electionId" class="form-control select2">
+                                        <option value="" selected disabled>Select Election</option>
+                                        @if (count($elections)>0)
+                                            @foreach ($elections as $elections)
+                                                <option value="{{ $elections->id }}" @if (old('electionId')==$elections->id) selected @endif >{{ $elections->name }}</option>
+                                            @endforeach
+                                        @else
+                                            <option value="" disabled>No Election Found</option>
+                                        @endif
+                                    </select>
                                 </div>
 
-
-                                {{-- <!--Select File -->
+                                <!-- Actions Button -->
                                 <div class="form-group">
-                                    <label for="candidateFile">File</label>
-                                    <img src="{{Storage::url($candidate->file)}}">
-                                    <a href="{{Storage::url($candidate->file)}}">Click Here to View The File</a>
-                                    <input type="text" id="countryId" name="countryId" value="{{Storage::url($candidate->file)}}" class="form-control" readonly>
-                                </div> --}}
-
+                                    <button type="reset" class="btn btn-primary" id="btnReset">Reset</button>
+                                    <button type="submit" class="btn btn-success" id="btnSubmit">Submit</button>
+                                </div>
                            </form>
                         </div>
                     </div>
@@ -138,8 +89,66 @@
 
 <!-- Begin: Script Section Starts Here -->
 @section('scripts')
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnSubmit").click(function (e) { 
+                e.preventDefault();
+                let electionId = $("#electionId").val();
+                if(electionId == null || electionId.trim() === '' || electionId.length== 0){
+                    e.preventDefault();
+                    $("#electionId").after('<div class="alert alert-danger">Election Should be Provided.</div>');
+                    return false;
+                }
+                else{
+                    var baseUrl = "{{ url('/') }}";
+                    $.ajax({
+                        type: "GET",
+                        url: "/client/election/nomination/view/details/"+electionId,
+                        success: function (response) {
+                            // resetFields();
+                            if(response.status == "invalid"){
+                                Swal.fire({
+                                    icon:'warning',
+                                    title:'Invalid',
+                                    text: response.message,
+                                });
+                            }
+                            else if (response.status == "success"){
+                                $("#candidateListModal").modal('show');
+                                $("#viewCandidateName").text(response.candidate.user.name);
+                                $("#viewCandidateMobileNo").text(response.candidate.user.phone_number);
+                                let address = response.candidate.user.address+ ", "+response.candidate.user.city.name+ ", "+response.candidate.user.state.name+ ", "
+                                $("#viewCandidateAddress").text(address);
+                                $("#viewCandidateArea").text(response.candidate.user.area.name);
+                                $("#viewCandidateDescription").text(response.candidate.user.short_description);
+                                $("#viewCandidateHsotelName").text(response.candidate.hostel.name);
+                                $("#viewCandidateObjectives").text(response.candidate.objectives);
+                                $("#viewElectionCategoryId").text(response.candidate.election_category.name);
+                                $("#viewElectionSeat").text(response.candidate.election_seat.title);
+                                $("#viewCandidateStatus").text(response.candidate.status);
+                                $("#viewCandidateReferal").text(response.candidate.referralCount);
+                                $("#viewCandidateStars").text(response.candidate.stars);
 
+                                // Update candidate picture
+                                $("#viewCandidateImage").attr("src", baseUrl + "/storage/" +response.candidate.user.picture_path);
+                                $("#viewCandidateImage").attr("alt", response.candidate.user.name);
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                            Swal.fire({
+                                icon:'error',
+                                title:'Error',
+                                text: 'An error occured: '+error.responseJSON.message,
+                            });
+                        },
+                    });
+                }
+            });
+        });
+    </script>
 
+    @include('client.election-nomination.view-nomination-modal')
 @endsection
 <!-- End: Script Section Starts Here -->
 

@@ -49,29 +49,12 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Vote Now</h4>
-                        <a href="#" id="viewCandidateListLink">View Candidate List Here:</a>
+                        <a href="{{route('client.NominationList.list')}}" id="viewCandidateList">View Candidate List Here:</a>
                     </div>
                     <div class="card-body">
                         <div class="card-text">
                             <form id="formVoteNow" action="#" method="POST">
                                 @csrf
-                                <!-- Your Name -->
-                                <div class="form-group">
-                                    <label>Your Name</label>
-                                    <input type="text" id="yourName" name="yourName" value="{{Auth::user()->name}}" class="form-control" readonly>
-                                </div>
-                                <!-- Your Cnic -->
-                                <div class="form-group">
-                                    <label>Your Cnic</label>
-                                    <input type="text" id="yourCnic" name="yourCnic" value="{{Auth::user()->cnic_no}}" class="form-control" readonly>
-                                </div>
-                                
-                                <!-- Your Mobile No -->
-                                <div class="form-group">
-                                    <label>Your Mobile No</label>
-                                    <input type="text" id="yourMobileNo" name="yourMobileNo" value="{{Auth::user()->phone_number}}" class="form-control" readonly>
-                                </div>
-
                                 <!-- Select elections -->
                                 <div class="form-group">
                                     <label for="electionId">Select Your Election</label>
@@ -90,24 +73,6 @@
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                               
-                                <!-- Select electionCategories -->
-                                <div class="form-group mb-1">
-                                    <label for="electionCategoryId">Select Your Election Categories</label>
-                                    <select id="electionCategoryId" name="electionCategoryId" class="form-control">
-                                        <option value="" selected disabled>Select Election Categories</option>
-                                        @if (count($electionCategories)>0)
-                                            @foreach ($electionCategories as $electionCategory)
-                                                <option value="{{ $electionCategory->id }}" @if (old('electionCategoryId')==$electionCategory->id) selected @endif >{{ $electionCategory->name }}</option>
-                                            @endforeach
-                                        @else
-                                            <option value="" disabled>No Election Categories Found</option>
-                                        @endif
-                                    </select>
-                                </div>
-                                @error('electionCategoryId')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-
                                 <!-- Actions Button -->
                                 <div class="form-group">
                                     <button type="reset" class="btn btn-primary" id="btnReset">Reset</button>
@@ -118,6 +83,13 @@
                     </div>
                 </div>
                 <!-- End: Kick start -->
+
+                <!-- Candidate Details Card (Initially Hidden) -->
+                <div class="card" id="candidateDetailsCard" style="display: none;">
+                    <div class="card-container d-flex flex-row">
+                        <!-- Candidate details will be appended here -->
+                    </div>
+                </div>
 
 
             </div>
@@ -139,23 +111,16 @@
                 e.preventDefault();
                 $(".alert").remove();
                 
-                
-                // To Check electionCategoryId is empty or Now
-                let electionCategoryId = $("#electionCategoryId").val();
                 // To Check electionId is empty or Now
                 let electionId = $("#electionId").val();
-                if (electionCategoryId == null || electionCategoryId.trim() === '') {
-                    $("#electionCategoryId").after('<div class="alert alert-danger">Election Category Should be Provided</div>');
-                    return true;
-                }
-                else if (electionId == null || electionId.trim() === '') {
+                if (electionId == null || electionId.trim() === '') {
                     $("#electionId").after('<div class="alert alert-danger">Election Should be Provided</div>');
                     return true;
                 }
                 else{
                     $.ajax({
                         type: "GET",
-                        url: "/client/vote/get-candidates/"+electionId+"/"+electionCategoryId,
+                        url: "/client/vote/get-candidates/"+electionId,
                         success: function (response) {
                             if(response.status == "invalid"){
                                 Swal.fire({
@@ -172,11 +137,15 @@
                                 });
                             }
                             else if(response.status == "success"){
-                                // Update modal content with received candidates
-                                updateModalContent(response.candidatesForVote);
+                                // Clear previous candidate details
+                                resetCandidateDetails();
+                                
 
-                                // Show the modal
-                                $("#ShowVoteCandidateModal").modal('show');
+                                // Iterate through each candidate and update details
+                                $.each(response.candidatesForVote, function(index, candidate) {
+                                    updateCandidateDetails(candidate);
+                                });// Show the candidate details card
+                                 $('#candidateDetailsCard').show();
                                 Swal.fire({
                                     icon:response.status,
                                     title:'Success',
@@ -205,43 +174,85 @@
                
             });
 
-            var baseUrl = "{{ url('/') }}";
-
-            // Function to update modal content with candidate details
-            function updateModalContent(candidates) {
-                var modalBodyContent = $("#modalBodyContent");
-
-                // Clear existing content
-                modalBodyContent.empty();
-
-                // Loop through candidates and append card for each candidate
-                candidates.forEach(function (candidate) {
-                    var cardHtml = `
-                        <div class="card" style="width: 18rem;">
-                            <form action="/client/vote/save" method="POST">
-                                @csrf
-                                <input type="hidden" name="candidateId" id="candidateId" value="${candidate.id}" readonly/>
-                                <input type="hidden" name="candidateElectionId" id="candidateElectionId" value="${candidate.electionId}" readonly/>
-                                <input type="hidden" name="candidateElectionCategoryId" id="candidateElectionCategoryId" value="${candidate.electionCategoryId}" readonly/>
-                                <img src="${baseUrl}/storage/${candidate.user.picture_path}" class="card-img-top" alt="${candidate.user.name}">
-                                <div class="card-body">
-                                    <h5 class="card-title">${candidate.user.name}</h5>
-                                    <button type="submit" class="btn btn-success">Vote Now</button>
-                                </div>
-                            </form>
-                        </div>
-                    `;
-
-                    modalBodyContent.append(cardHtml);
-                });
+            function resetCandidateDetails() {
+                // Clear previous candidate details
+                $('#candidateDetailsCard').hide();
+                $('#candidateName').empty();
+                $('#candidateArea').empty();
+                $('#candidatePicture').attr('src', '');
             }
+
+            var baseUrl = "{{ url('/') }}";
+            function updateCandidateDetails(candidate) {
+                // Create a new candidate card
+                var candidateCard = $('<div class="card mr-2 col-md-3" style="border: solid;">'); // Adding mr-2 for some margin between cards
+                candidateCard.append(
+                    '<div class="card-header"><h4 class="card-title">' + candidate.user.name + '</h4></div>'
+                );
+                candidateCard.append(
+                    '<form action="/client/vote/save" method="POST">@csrf'+
+                        '<input type="hidden" name="candidateId" id="candidateId" value="'+candidate.id+'" readonly/>'+
+                        '<input type="hidden" name="candidateElectionId" id="candidateElectionId" value="'+candidate.electionId+'" readonly/>'+
+                        '<input type="hidden" name="candidateElectionCategoryId" id="candidateElectionCategoryId" value="'+candidate.electionCategoryId+'" readonly/>'+
+                        '<div class="card-body">' +
+                            '<div class="row">' +
+                                '<div class="col-md-12"><img src="' +
+                                    baseUrl + "/storage/" + candidate.user.picture_path +
+                                    '" alt="' + candidate.user.name + '" class="img-fluid">' +
+                                '</div>' +
+                                '<div class="col-md-12"><strong>Area:</strong> ' +
+                                    candidate.user.area.name +
+                                '</br><strong>Election Seat:</strong> ' +
+                                    candidate.election_seat.title +
+                                '<button type="submit" class="btn btn-success">Vote Now</button>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>'+
+                    '</form>'
+                );
+
+                // Append the new candidate card to the card-container
+                $('#candidateDetailsCard .card-container').append(candidateCard);
+                // Show the candidate details card
+                $('#candidateDetailsCard').show();
+            }
+
+
+            // // Function to update modal content with candidate details
+            // function updateModalContent(candidates) {
+            //     var modalBodyContent = $("#modalBodyContent");
+
+            //     // Clear existing content
+            //     modalBodyContent.empty();
+
+            //     // Loop through candidates and append card for each candidate
+            //     candidates.forEach(function (candidate) {
+            //         var cardHtml = `
+            //             <div class="card" style="width: 18rem;">
+            //                 <form action="/client/vote/save" method="POST">
+            //                     @csrf
+            //                     <input type="hidden" name="candidateId" id="candidateId" value="${candidate.id}" readonly/>
+            //                     <input type="hidden" name="candidateElectionId" id="candidateElectionId" value="${candidate.electionId}" readonly/>
+            //                     <input type="hidden" name="candidateElectionCategoryId" id="candidateElectionCategoryId" value="${candidate.electionCategoryId}" readonly/>
+            //                     <img src="${baseUrl}/storage/${candidate.user.picture_path}" class="card-img-top" alt="${candidate.user.name}">
+            //                     <div class="card-body">
+            //                         <h5 class="card-title">${candidate.user.name}</h5>
+            //                         <button type="submit" class="btn btn-success">Vote Now</button>
+            //                     </div>
+            //                 </form>
+            //             </div>
+            //         `;
+
+            //         modalBodyContent.append(cardHtml);
+            //     });
+            // }
 
         });
 
         
     </script>
     
-    @include('client.vote.view-candidate-detials-modal')
+    {{-- @include('client.vote.view-candidate-detials-modal') --}}
     @include('client.vote.show-candidate-image-for-vote')
 @endsection
 <!-- End: Script Section Starts Here -->

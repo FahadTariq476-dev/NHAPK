@@ -38,4 +38,12 @@ class Candidate extends Model
     {
         return $this->belongsTo(User::class, 'userId');
     }
+
+    public function hostel(){
+        return $this->belongsTo(Properties::class, 'hostelId');
+    }
+
+    public function electionSeat(){
+        return $this->belongsTo(ElectionSeat::class, 'electionSeatId');
+    }
 }

@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\SopAdminController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PostBlogsController;
 use App\Http\Controllers\Admin\UserAdminController;
+use App\Http\Controllers\Admin\Areas\AreaController;
 use App\Http\Controllers\Client\Votes\VoteController;
 use App\Http\Controllers\HostelRegistrationController;
 use App\Http\Controllers\Admin\CompliantTypeController;
@@ -34,6 +35,7 @@ use App\Http\Controllers\Admin\Votes\VoteAdminController;
 use App\Http\Controllers\Client\DashboardClientController;
 use App\Http\Controllers\Client\profile\ProfileController;
 use App\Http\Controllers\Client\sops\SopsClientController;
+use App\Http\Controllers\Client\Areas\AreaClientController;
 use App\Http\Controllers\Admin\Elections\ElectionController;
 use App\Http\Controllers\Client\hostels\HostelClientController;
 use App\Http\Controllers\Frontend\Client\LoginClientController;
@@ -47,6 +49,7 @@ use App\Http\Controllers\Client\SurveysForrm\SurveysForrmClientController;
 use App\Http\Controllers\Frontend\Organogram\OrganogramFrontendController;
 use App\Http\Controllers\Admin\MembershipTypes\MembershipTypeAdminController;
 use App\Http\Controllers\Client\CandidateNomination\NominationListController;
+use App\Http\Controllers\Admin\Elections\ElectionsSeat\ElectionsSeatController;
 use App\Http\Controllers\Client\ElectionSuggestion\ElectionSuggestionController;
 use App\Http\Controllers\Client\CandidateNomination\CandidateNominationController;
 use App\Http\Controllers\Admin\ElectionSuggestion\ElectionSuggestionAdminController;
@@ -347,6 +350,12 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
         Route::get('/list',[CandidateNominationAdminController::class,'index'])->name('admin.CandidateNomination.index');
         // changeStatus
         Route::get('/change-status/{candidateId}/{status}',[CandidateNominationAdminController::class,'changeStatus'])->name('admin.CandidateNomination.changeStatus');
+        // post
+        Route::get('/post',[CandidateNominationAdminController::class,'post'])->name('admin.CandidateNomination.post');
+        // getElectionCategoriesSeatAndUser
+        Route::get('/get-details/{electionId}',[CandidateNominationAdminController::class,'getElectionCategoriesSeatAndUser'])->name('admin.CandidateNomination.getElectionCategoriesSeatAndUser');
+        // storeNomination
+        Route::post('/store/nomination',[CandidateNominationAdminController::class,'storeNomination'])->name('admin.CandidateNomination.storeNomination');
     });
     
     /*
@@ -449,6 +458,56 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
         Route::delete('/delete/{dynamicSurveysFormId}',[SurveysFormAdminController::class,'delete'])->name('admin.suverysForm.delete');
     });
 
+
+    /*
+        |--------------------------------------------------------------------------
+        | Area's Route for Admin 
+        |--------------------------------------------------------------------------
+        |
+    */
+    Route::group(['prefix' => '/area'], function(){
+        // post
+        Route::get('/post', [AreaController::class, 'post'])->name('admin.areas.post');
+        // list
+        Route::get('/list', [AreaController::class, 'list'])->name('admin.areas.list');
+        // fetchAreas
+        Route::get('/fetch-area/{cityId}', [AreaController::class, 'fetchAreas'])->name('admin.areas.fetchAreas');
+        // edit
+        Route::get('/edit/{areaId}', [AreaController::class, 'edit'])->name('admin.areas.edit');
+        // update
+        Route::put('/update', [AreaController::class, 'update'])->name('admin.areas.update');
+        // store
+        Route::post('/store', [AreaController::class, 'store'])->name('admin.areas.store');
+        // uniqueAreaName
+        Route::get('/unique/{areaName}', [AreaController::class, 'uniqueAreaName'])->name('admin.areas.uniqueAreaName');
+        // changeAreaStatus
+        Route::put('/status/{areaId}', [AreaController::class, 'changeAreaStatus'])->name('admin.areas.changeAreaStatus');
+        // delete
+        Route::delete('/delete/{areaId}', [AreaController::class, 'delete'])->name('admin.areas.delete');
+    });
+
+     /*
+        |--------------------------------------------------------------------------
+        | Election Seat Route for Admin 
+        |--------------------------------------------------------------------------
+        |
+    */
+    Route::group(['prefix' => '/election/seat'], function(){
+        // post
+        Route::get('/post',[ElectionsSeatController::class,'post'])->name('admin.electionSeats.post');
+        // store
+        Route::post('/store',[ElectionsSeatController::class,'store'])->name('admin.electionSeats.store');
+        // list
+        Route::get('/list',[ElectionsSeatController::class,'list'])->name('admin.electionSeats.list');
+        // edit
+        Route::get('/edit/{electionSeatId}',[ElectionsSeatController::class,'edit'])->name('admin.electionSeats.edit');
+        // update
+        Route::put('/update',[ElectionsSeatController::class,'update'])->name('admin.electionSeats.update');
+        // updateStatus
+        Route::put('/update-status/{electionSeatId}',[ElectionsSeatController::class,'updateStatus'])->name('admin.electionSeats.updateStatus');
+        // delete
+        Route::delete('/delete/{electionSeatId}',[ElectionsSeatController::class,'delete'])->name('admin.electionSeats.delete');
+    });
     
 
 });
@@ -572,6 +631,20 @@ Route::middleware('guest')->group(function () {
 // Begin: Route for Client
 Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasFieldData'], 'prefix' => '/client'], function () {
 
+
+    /*
+        |--------------------------------------------------------------------------
+        | Area's Route for Admin 
+        |--------------------------------------------------------------------------
+        |
+    */
+    Route::group(['prefix' => '/area'], function(){
+        // fetchAreas
+        Route::get('/fetch-area/{cityId}', [AreaController::class, 'fetchAreas'])->name('client.areas.fetchAreas');
+        // AreaClientController
+        Route::post('/store', [AreaClientController::class, 'store'])->name('client.areas.store');
+    });
+
     Route::get('/dashboard',[DashboardClientController::class,'index'])->name('client.dashboard.index');
     
     // Route for client to logout
@@ -613,6 +686,11 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
     });
 
 
+    // getElectionCategroyByElectionId
+    Route::get('/election-catogries/{electionId}',[ElectionController::class, 'getElectionCategroyByElectionId'])->name('client.getElectionCategroyByElectionId');
+    // getElectionCategoryAndSeat
+    Route::get('/election-catogries-seat/{electionId}',[ElectionController::class, 'getElectionCategoryAndSeat'])->name('client.getElectionCategoryAndSeat');
+
     /*
         |--------------------------------------------------------------------------
         | Election Nomination Routes
@@ -625,6 +703,8 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
         Route::post('/save',[CandidateNominationController::class,'store'])->name('client.electionNomination.store');
         // viewNomination
         Route::get('/view',[CandidateNominationController::class,'viewNomination'])->name('client.electionNomination.viewNomination');
+        // viewCandidateDetailsUsingElectionId
+        Route::get('/view/details/{electionId}',[CandidateNominationController::class,'viewCandidateDetailsUsingElectionId'])->name('client.electionNomination.viewCandidateDetailsUsingElectionId');
     });
 
 
@@ -639,7 +719,9 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
         // store
         Route::post('/save',[VoteController::class,'store'])->name('client.vote.store');
         // voteCandidateDetails
-        Route::get('/get-candidates/{electionId}/{electionCategoryId}',[VoteController::class,'voteCandidateDetails'])->name('client.vote.voteCandidateDetails');
+        Route::get('/get-candidates/{electionId}',[VoteController::class,'voteCandidateDetails'])->name('client.vote.voteCandidateDetails');
+        // showVotersList
+        Route::get('/get-voters',[VoteController::class,'showVotersList'])->name('client.vote.showVotersList');
     });
     Route::get('/viewCandidateDetails/{id}',[CandidateNominationController::class,'viewCandidateDetails'])->name('viewCandidateDetails');
 
@@ -651,6 +733,8 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
     */
     Route::group(['prefix' => '/nomination'], function(){
         Route::get('/list',[NominationListController::class,'list'])->name('client.NominationList.list');
+        // voteCandidateDetailsForObjection
+        Route::get('/list/candidate-list/{electionId}',[CandidateNominationController::class,'voteCandidateDetailsForObjection'])->name('client.NominationList.voteCandidateDetailsForObjection');
 
     });
     
@@ -679,6 +763,8 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
         Route::post('/store',[SurveysForrmClientController::class,'storeResponseSurveyForms'])->name('client.surveyForms.storeResponseSurveyForms');
         
     });
+
+
 
 });
 // End: Route for Client

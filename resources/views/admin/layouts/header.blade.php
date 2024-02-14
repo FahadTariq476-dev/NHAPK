@@ -91,6 +91,19 @@
                     <a class="d-flex align-items-center" href="#">
                         <i data-feather="layout"></i><span class="menu-title text-truncate" data-i18n="Page Layouts">Menus</span><span class="badge badge-light-danger rounded-pill ms-auto me-1">8</span>
                     </a>
+                    <!-- Begin: Areas -->
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Areas</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.areas.post')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Add New Area</span></a>
+                            </li>
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.areas.list')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Areas</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- End: Areas -->
                     <!-- Begin: Complaints -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Complaints</span></a>
@@ -255,19 +268,36 @@
                             </li>
                             <!-- End: Elections Category -->
                             
-                            <!-- Begin: Candidate Nomination -->
+                            <!-- Begin: Elections Seats -->
                             <li class="nav-item">
-                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Candidate Nomination</span></a>
+                                <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Elections Seats</span></a>
                                 <ul class="menu-content">
                                     <li>
-                                        <a class="d-flex align-items-center" href="{{route('admin.CandidateNomination.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Candidate Nomination</span></a>
+                                        <a class="d-flex align-items-center" href="{{route('admin.electionSeats.post')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Collapsed Menu">Post Elections Seats</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex align-items-center" href="{{route('admin.electionSeats.list')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Elections Seats</span></a>
                                     </li>
                                 </ul>
                             </li>
-                            <!-- End: Elections Category -->
+                            <!-- End: Elections Seats -->
                         </ul>
                     </li>
                     <!-- End: Elections -->
+
+                    <!-- Begin: Candidate Nomination -->
+                    <li class="nav-item">
+                        <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Candidate Nomination</span></a>
+                        <ul class="menu-content">
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.CandidateNomination.index')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">List Candidate Nomination</span></a>
+                            </li>
+                            <li>
+                                <a class="d-flex align-items-center" href="{{route('admin.CandidateNomination.post')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Save Candidate Nomination</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- End: Candidate Nomination -->
 
                     <!-- Begin: Election Suggestion / Objection -->
                     <li class="nav-item">

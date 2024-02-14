@@ -173,6 +173,48 @@
                                 @error('cityId')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
+
+                                <!-- Area Ttile -->
+                                <div class="form-group">
+                                    <label for="areaId">Area Title</label>
+                                    <select name="areaId" id="areaId" class="form-control select-2">
+                                        <option value="" selected disabled>Select Area Title</option>
+                                        @if (count($areas)>0)
+                                            @foreach ($areas as $area)
+                                                <option value="{{ $area->id }}" @if ( $users->areaId == $area->id) selected @endif >{{ $area->name }}</option>
+                                            @endforeach
+                                        @else
+                                            <option value="" disabled>No Area Title Found</option>
+                                        @endif
+                                    </select>
+                                    {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAreaModal" id="addAreaModalBtn"> --}}
+                                       <a href="#" data-toggle="modal" data-target="#addAreaModal" id="addAreaModalBtn">Add Area</a> 
+                                       {{-- Add Area --}}
+                                    {{-- </button> --}}
+                                </div>
+                                @error('areaId')
+                                    <div class="alert alert-danger">{{$message}}</div>
+                                @enderror
+
+                                 <!-- Select Hostel -->
+                                 <div class="form-group">
+                                    <label for="hostelId">Select Hostel</label>
+                                    <select id="hostelId" name="hostelId" class="form-control select2">
+                                        <option value="" selected disabled>Select Hostel</option>
+                                        @if (count($hostels)>0)
+                                        @foreach ($hostels as $hostel)
+                                            <option value="{{ $hostel->id }}" @if ( $users->hostel_name == $hostel->id) selected @endif >{{ $hostel->name }}</option>
+                                        @endforeach
+                                        @else
+                                            <option value="" disabled>No Hostel Found</option>
+                                        @endif
+                                    </select>
+                                </div>
+                                @error('hostelId')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+
+                                
                                 
                                 <!-- User Addres -->
                                 <div class="form-group">
@@ -210,7 +252,7 @@
                                 @endif
 
                                 <div class="form-group">
-                                    <button type="submit" class="button btn-primary" id="btnSubmit">Submit</button>
+                                    <button type="submit" class="btn btn-primary" id="btnSubmit">Submit</button>
                                 </div>
                             </form>
                         </div>
@@ -246,6 +288,18 @@
                 allowClear: true,
                 width: '100%' // Set the width as per your requirement
             });
+            
+            $('#areaId').select2({
+                placeholder: 'Select Area',
+                allowClear: true,
+                width: '100%' // Set the width as per your requirement
+            });
+            
+            $('#hostelId').select2({
+                placeholder: 'Select Hostel',
+                allowClear: true,
+                width: '100%' // Set the width as per your requirement
+            });
 
             // To Get the state using country id
             $("#countryId").change(function(){
@@ -254,6 +308,8 @@
                     $('#stateId').append('<option value="" disabled selected>Select State</option>');
                     $('#cityId').empty();
                     $('#cityId').append('<option value="" disabled selected>Select City</option>');
+                    $('#hostelId').empty();
+                    $('#hostelId').append('<option value="" disabled selected>Select Hostel</option>');
                 if(countryId !=null){
                     $.ajax({
                         url:'/get-states/'+countryId,
@@ -284,6 +340,8 @@
                 let stateId = $("#stateId").val();
                     $('#cityId').empty();
                     $('#cityId').append('<option value="" disabled selected>Select City</option>');
+                    $('#hostelId').empty();
+                    $('#hostelId').append('<option value="" disabled selected>Select Hostel</option>');
                 if(stateId !=null){
                     $.ajax({
                         url:'/get-cities/'+stateId,
@@ -308,6 +366,61 @@
                     });
                 }
             });
+
+            //  To get Areas for the Given cityId
+            $("#cityId").change(function(){
+                let cityId = $("#cityId").val();
+                $('#hostelId').empty();
+                $('#hostelId').append('<option value="" disabled selected>Select Hostel</option>');
+                $('#areaId').empty().val(null).trigger('change');
+                if(cityId !=null){
+                    $.ajax({
+                        url:'/client/area/fetch-area/'+cityId,
+                        type:'GET',
+                        success:function(response){
+                            if(response.status == 1){
+                                $('#areaId').append('<option value="" disabled>No Area Found</option>');
+                            }else if(response.status == 'success') {
+                                $.each(response.areas, function(key, value) {
+                                    $('#areaId').append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
+                            }
+                            $('#areaId').val(null).trigger('change');
+                        },
+                        error:function(error){
+                            console.log(error);
+                            Swal.fire({
+                                icon:'error',
+                                title:'Error',
+                                text: 'An error occured: '+error.responseJSON.message,
+                            });
+                        }
+                    });
+                    
+                    $.ajax({
+                        url:'/get-properties/'+cityId,
+                        type:'GET',
+                        success:function(response){
+                            if (!response || (Array.isArray(response) && response.length === 0)) {
+                                $('#hostelId').append('<option value="" disabled>No Hostel Found</option>');
+                            } else {
+                                $.each(response, function(key, value) {
+                                    $('#hostelId').append('<option value="' + value.id + '">' + value.name + '</option>');
+                                });
+                            }
+                        },
+                        error:function(error){
+                            console.log(error);
+                            Swal.fire({
+                                icon:'error',
+                                title:'Error',
+                                text: 'An error occured: '+error.responseJSON.message,
+                            });
+                        }
+                    });
+                }
+            });
+
 
             $("#btnSubmit").click(function (e) { 
                 $(".alert-danger").remove();
@@ -367,6 +480,20 @@
                     e.preventDefault();
                     $("#cityId").after('<div class="alert alert-danger">City Should be Provided.</div>');
                 }
+                
+                //  To Check areaId  is empty or not
+                let areaId = $("#areaId").val();
+                if(areaId == null || areaId.trim()=== ''){
+                    e.preventDefault();
+                    $("#areaId").after('<div class="alert alert-danger">Area Should be Provided.</div>');
+                }
+                
+                //  To Check hostelId  is empty or not
+                let hostelId = $("#hostelId").val();
+                if(hostelId == null || areaId.trim()=== ''){
+                    e.preventDefault();
+                    $("#hostelId").after('<div class="alert alert-danger">Hsotel Should be Provided.</div>');
+                }
 
                 // Check the file userProfileImage
                 let imageInput = $('#userProfileImage')[0];
@@ -393,6 +520,7 @@
         });
     </script>
 
+    @include('client.profile.add-area-modal')
     <!-- Include Select2 JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 @endsection
