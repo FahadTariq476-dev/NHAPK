@@ -137,6 +137,12 @@
                             </li>
                             <!--- Begin: Election Nomination   -->
                             
+                            <!-- Begin: Voter List -->
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center" href="{{route('client.vote.showVotersList')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Voter List</span></a>
+                            </li>
+                            <!--- Begin: Voter List  -->
+                            
                             <!-- Begin: Vote Now -->
                             <li class="nav-item">
                                 <a class="d-flex align-items-center" href="{{route('client.vote.post')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout">Vote Now</span></a>

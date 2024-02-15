@@ -53,77 +53,6 @@
                         <div class="card-text">
                            <form id="formApplyElectionNomination" action="{{route('client.electionNomination.store')}}" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                <!-- Candidate Picture-->
-                                <div class="form-group">
-                                    <label>Candidate Picture</label><br>
-                                    <img class="round" src="{{ Storage::url($usersAll->picture_path) }}" alt="avatar" height="140" width="140">
-                                </div>
-
-                                <!-- Candidate Name -->
-                                <div class="form-group">
-                                    <label>Candidate Name</label>
-                                    <input type="text" id="candidateName" name="candidateName" value="{{$usersAll->name}}" class="form-control" readonly>
-                                </div>
-                                <!-- Candidate Cnic -->
-                                <div class="form-group">
-                                    <label>Candidate Cnic</label>
-                                    <input type="text" id="candidateCnic" name="candidateCnic" value="{{$usersAll->cnic_no}}" class="form-control" readonly>
-                                </div>
-                                
-                                <!-- Candidate Mobile No -->
-                                <div class="form-group">
-                                    <label>Candidate Mobile No</label>
-                                    <input type="text" id="candidateMobileNo" name="candidateMobileNo" value="{{$usersAll->phone_number}}" class="form-control" readonly>
-                                </div>
-                                
-                                <!-- Candidate Country-->
-                                <div class="form-group">
-                                    <label>Candidate Country</label>
-                                    <input type="text" id="candidateCountryName" name="candidateCountryName" value="{{$usersAll->country->name}}" class="form-control" readonly>
-                                </div>
-                                
-                                <!-- Candidate State-->
-                                <div class="form-group">
-                                    <label>Candidate State</label>
-                                    <input type="text" id="candidateStateName" name="candidateStateName" value="{{$usersAll->state->name}}" class="form-control" readonly>
-                                </div>
-                                
-                                <!-- Candidate City-->
-                                <div class="form-group">
-                                    <label>Candidate City</label>
-                                    <input type="text" id="candidateCityName" name="candidateCityName" value="{{$usersAll->city->name}}" class="form-control" readonly>
-                                </div>
-                                
-                                <!-- Candidate Address-->
-                                <div class="form-group">
-                                    <label>Candidate Address</label>
-                                    <input type="text" id="candidateAddress" name="candidateAddress" value="{{$usersAll->city->name}}" class="form-control" readonly>
-                                </div>
-                                
-                                <!-- Candidate Description-->
-                                <div class="form-group">
-                                    <label>Candidate Description</label>
-                                    <textarea id="candidateDescription" name="candidateDescription" class="form-control" readonly>{{$usersAll->short_description}}</textarea>
-                                </div>
-
-                                <!-- Select electionCategory -->
-                                <div class="form-group">
-                                    <label for="electionCategoryId">Select Election Category</label>
-                                    <select id="electionCategoryId" name="electionCategoryId" class="form-control select2">
-                                        <option value="" selected disabled>Select Election Category</option>
-                                        @if (count($electionCategories)>0)
-                                            @foreach ($electionCategories as $electionCategory)
-                                                <option value="{{ $electionCategory->id }}" @if (old('countryId')==$electionCategory->id) selected @endif >{{ $electionCategory->name }}</option>
-                                            @endforeach
-                                        @else
-                                            <option value="" disabled>No Country Found</option>
-                                        @endif
-                                    </select>
-                                </div>
-                                @error('electionCategoryId')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
-                                
                                 <!-- Select elections -->
                                 <div class="form-group">
                                     <label for="electionId">Select Election</label>
@@ -141,6 +70,35 @@
                                 @error('electionId')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
+
+                                <!-- Select electionCategory -->
+                                <div class="form-group">
+                                    <label for="electionCategoryId">Select Election Category</label>
+                                    {{-- <input type="text" name="electionCategoryIdText" id="electionCategoryIdText" class="form-control" readonly> --}}
+                                    <select id="electionCategoryId" name="electionCategoryId" class="form-control">
+                                        <option value="" selected disabled>Select Election Category</option>
+                                    </select>
+                                </div>
+                                @error('electionCategoryId')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                                
+                                <!-- Select Election Seat -->
+                                <div class="form-group">
+                                    <label for="electionSeatId">Select Election Seat</label>
+                                    <select id="electionSeatId" name="electionSeatId" class="form-control">
+                                        <option value="" selected disabled>Select Election Seat</option>
+                                    </select>
+                                </div>
+                                @error('electionSeatId')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+
+                                <!-- Candidate Objectives-->
+                                <div class="form-group">
+                                    <label>Candidate Objectives</label>
+                                    <textarea id="candidateObjectives" name="candidateObjectives" class="form-control"></textarea>
+                                </div>
 
                                 <!--Select File -->
                                 <div class="form-group">
@@ -175,6 +133,64 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function () {
+        // electionId
+        $("#electionId").change(function () { 
+            let electionId = $("#electionId").val();
+            $("#electionCategroyId").empty();
+            $('#electionCategroyId').append('<option value="" selected disabled>Select Election Category</option>');
+            $("#electionSeatId").empty();
+            $('#electionSeatId').append('<option value="" selected disabled>Select Election Seat</option>');
+            if( electionId == null || electionId.length == 0){
+                $("#electionId").after('<div class="alert alert-danger">Election Should be Provided.</div>');
+                $("#electionId").focus();
+                return true
+            }
+            else{
+                $.ajax({
+                    type: "GET",
+                    url: "/client/election-catogries-seat/"+electionId,
+                    success: function (response) {
+                        if(response.status == "invalid"){
+                            Swal.fire({
+                                icon:'warning',
+                                title:'Invalid',
+                                text: response.message,
+                            });
+                        }
+                        else if(response.status == "success"){
+                            if (!response.elections.election_category || response.elections.election_category.length === 0) {
+                                $('#electionCategoryId').append('<option value="" disabled>No Election Category Found</option>');
+                            } else {
+                                $('#electionCategoryId').append('<option value="' + response.elections.election_category.id + '">' + response.elections.election_category.name + '</option>');
+                            }
+                            if(response.electionSeats === 0 || response.electionSeats === null){
+                                $('#electionSeatId').append('<option value="" disabled>No Seat Found</option>');
+                            }
+                            else{
+                                $.each(response.electionSeats, function(key, value) {
+                                    $('#electionSeatId').append('<option value="' + value.id + '">' + value.title + '</option>');
+                                });
+                            }
+                        }
+                        else{
+                            Swal.fire({
+                                icon:'error',
+                                title:'Error',
+                                text: response.message,
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        Swal.fire({
+                            icon:'error',
+                            title:'Error',
+                            text: 'An error occured: '+error.responseJSON.message,
+                        });
+                    },
+                });
+            }
+        });
 
             // Form validation
             $("#btnSubmit").click(function (e) { 
@@ -182,20 +198,34 @@
                 $(".alert").remove();
                 
                 
-                // To Check electionCategoryId is empty or Now
-                let electionCategoryId = $("#electionCategoryId").val();
-                if (electionCategoryId == null || electionCategoryId.trim() === '') {
-                    e.preventDefault();
-                    $("#electionCategoryId").after('<div class="alert alert-danger">Election Category Should be Provided</div>');
-                }
-                
-                // To Check electionId is empty or Now
+                // To Check electionId is empty or Not
                 let electionId = $("#electionId").val();
                 if (electionId == null || electionId.trim() === '') {
                     e.preventDefault();
                     $("#electionId").after('<div class="alert alert-danger">Election Should be Provided</div>');
                 }
 
+                // To Check electionCategoryId is empty or Not
+                let electionCategoryId = $("#electionCategoryId").val();
+                if (electionCategoryId == null || electionCategoryId.trim() === '') {
+                    e.preventDefault();
+                    $("#electionCategoryId").after('<div class="alert alert-danger">Election Category Should be Provided</div>');
+                }
+                
+                // To Check electionSeatId is empty or Not
+                let electionSeatId = $("#electionSeatId").val();
+                if (electionSeatId == null || electionSeatId.trim() === '') {
+                    e.preventDefault();
+                    $("#electionSeatId").after('<div class="alert alert-danger">Election Seat Should be Provided</div>');
+                }
+                
+                // To Check candidateObjectives is empty or Not
+                let candidateObjectives = $("#candidateObjectives").val();
+                if (candidateObjectives == null || candidateObjectives.trim() === '' || candidateObjectives.length() == 0) {
+                    e.preventDefault();
+                    $("#candidateObjectives").after('<div class="alert alert-danger">Candidate Objectives Should be Provided</div>');
+                }
+                
                 // File validation
                 let fileInput = $("#candidateFile");
                 let fileName = fileInput.val();

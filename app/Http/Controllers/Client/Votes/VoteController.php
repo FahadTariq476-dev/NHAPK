@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\ElectionsCategroy;
+use App\Models\User;
 use App\Models\Vote;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use Yajra\DataTables\Facades\DataTables;
 
 class VoteController extends Controller
 {
@@ -37,23 +39,48 @@ class VoteController extends Controller
         }
     }
 
+    public function showVotersList(Request $request){
+        if($request->ajax()){
+
+            $users = User::latest()->where('areaId',Auth::user()->areaId)->with(['area','properties'])->get();
+            // $users = User::latest()->with(['area','properties'])->get();
+            return DataTables::of($users)
+            ->addIndexColumn()
+            ->addColumn('name', function ($user) {
+                if ($user->name === null) {
+                    return 'Full Name is Not Provided';
+                } else {
+                    return $user->name;
+                }
+            })
+            ->addColumn('area_name', function ($user) {
+                if ($user->areaId === null) {
+                    return 'Area is Not Selected';
+                } else {
+                    return $user->area ? $user->area->name : 'Area Name is not Provided';
+                }
+            })
+            ->addColumn('hostel_name', function ($user) {
+                return $user->properties ? $user->properties->name : 'Hostel Name is not Provided';
+            })
+            ->make(true);
+        }
+        return view('client.voter-list.voter-list');
+    }
+
     /**
      * Fucntion to show candidate details for vote in modal
      */
-    public function voteCandidateDetails($electionId, $electionCategoryId){
+    public function voteCandidateDetails($electionId){
         try{
-            $elections = Election::where('status','on')->where('id', $electionId)->get();
-            if(!(count($elections)>0)){
+            $elections = Election::where('status','on')->where('id', $electionId)->first();
+            $electionSeatCount = count(json_decode($elections->electionSeatId));
+            // echo count(json_decode($electionSeatId));
+            // dd($electionSeatId);
+            if(!($elections)){
                 return response()->json([
                     'status' => 'invalid',
                     'message' => 'You are accessing invalid elections. Kindly access the valid one.',
-                ]);
-            }
-            $electionCategories = ElectionsCategroy::where('status',1)->where('id', $electionCategoryId)->get();
-            if(!(count($electionCategories)>0)){
-                return response()->json([
-                    'status' => 'invalid',
-                    'message' => 'You are accessing invalid Election Category. Kindly access the valid one.',
                 ]);
             }
             $voter = Vote::where('userId', Auth::id())->where('electionId', $electionId)->get();
@@ -63,17 +90,24 @@ class VoteController extends Controller
                     'message' => 'Your Vote Has been already casted.',
                 ]);
             }
-            $candidatesForVote = Candidate::where('status','approved')->where('electionId',$electionId)->where('electionCategoryId',$electionCategoryId)->with('user')->get();
+            // $candidate = Candidate::where('electionId', $electionId)->where('userId', Auth::id())
+            // ->with(['user.city', 'user.state', 'user.area', 'electionCategory', 'hostel', 'electionSeat'])
+            // ->first();
+            $candidatesForVote = Candidate::where('status','approved')->where('electionId',$electionId)
+            ->with(['user.area', 'electionCategory', 'hostel', 'electionSeat'])
+            ->get();
+            // dd($candidatesForVote);
             if(!(count($candidatesForVote)>0)){
                 return response()->json([
                     'status' => 'invalid',
-                    'message' => 'There is no candidate on this Election Category.',
+                    'message' => 'There is no candidate on this Election.',
                 ]);
             }
             return response()->json([
                 'status' => 'success',
                 'message' => 'Select Your Candidate to Vote',
                 'candidatesForVote' => $candidatesForVote,
+                'electionSeatCount' => $electionSeatCount,
             ], 200);
         }
         catch(Exception $e){

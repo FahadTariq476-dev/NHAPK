@@ -55,115 +55,28 @@
                                 @csrf
                                 <!-- Select Candidate -->
                                 <div class="form-group mb-1">
-                                    <label for="viewCandidateId">Select Your Candidate</label>
-                                    <select id="viewCandidateId" name="viewCandidateId" class="form-control">
-                                        <option value="" selected disabled>Select Candidate</option>
-                                        @if (count($candidates)>0)
-                                        @foreach ($candidates as $candidate)
-                                            <option value="{{ $candidate->id }}" @if (old('viewCandidateId') == $candidate->id) selected @endif>
-                                                {{ $candidate->user->name }}
+                                    <label for="electionId">Select Election</label>
+                                    <select id="electionId" name="electionId" class="form-control">
+                                        <option value="" selected>Select Election</option>
+                                        @if (count($electionsLists)>0)
+                                        @foreach ($electionsLists as $electionsList)
+                                            <option value="{{ $electionsList->id }}" @if (old('electionId') == $electionsList->id) selected @endif>
+                                                {{ $electionsList->name }}
                                             </option>
                                         @endforeach
                                         @else
-                                            <option value="" disabled>No Candidate Found</option>
+                                            <option value="" disabled>No Election Found</option>
                                         @endif
                                     </select>
                                 </div>
-                                @error('viewCandidateId')
+                                @error('electionId')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
-
-                                <!-- Candidate Details -->
-                                <div id="candidateDetailsDiv">
-                                    <!-- Candidate Picture-->
-                                    <div class="form-group">
-                                        <label for="viewCandidateImage">Candidate Picture</label><br>
-                                        <img class="round" id="viewCandidateImage" name="viewCandidateImage" src="{{old('viewCandidateImage')}}" alt="avatar" height="140" width="140">
-                                    </div>
-            
-                                    <!-- Candidate Cnic -->
-                                    <div class="form-group">
-                                        <label for="viewCandidateCnic">Candidate Cnic</label>
-                                        <input type="text" id="viewCandidateCnic" name="viewCandidateCnic" value="{{old('viewCandidateCnic')}}" class="form-control" readonly>
-                                    </div>
-                                    
-                                    <!-- Candidate Mobile No -->
-                                    <div class="form-group">
-                                        <label for="viewCandidateMobileNo">Candidate Mobile No</label>
-                                        <input type="text" id="viewCandidateMobileNo" name="viewCandidateMobileNo" value="{{old('viewCandidateMobileNo')}}" class="form-control" readonly>
-                                    </div>
-                                    
-                                    <!-- Candidate Country-->
-                                    <div class="form-group">
-                                        <label for="viewCandidateCountryName">Candidate Country</label>
-                                        <input type="text" id="viewCandidateCountryName" name="viewCandidateCountryName" value="{{old('viewCandidateCountryName')}}" class="form-control" readonly>
-                                    </div>
-                                    
-                                    <!-- Candidate State-->
-                                    <div class="form-group">
-                                        <label for="viewCandidateStateName">Candidate State</label>
-                                        <input type="text" id="viewCandidateStateName" name="viewCandidateStateName" value="{{old('viewCandidateStateName')}}" class="form-control" readonly>
-                                    </div>
-                                    
-                                    <!-- Candidate City-->
-                                    <div class="form-group">
-                                        <label for="viewCandidateCityName">Candidate City</label>
-                                        <input type="text" id="viewCandidateCityName" name="viewCandidateCityName" value="{{old('viewCandidateCityName')}}" class="form-control" readonly>
-                                    </div>
-                                    
-                                    <!-- Candidate Address-->
-                                    <div class="form-group">
-                                        <label for="viewCandidateAddress">Candidate Address</label>
-                                        <input type="text" id="viewCandidateAddress" name="viewCandidateAddress" value="{{old('viewCandidateAddress')}}" class="form-control" readonly>
-                                    </div>
-                                    
-                                    <!-- Candidate Description-->
-                                    <div class="form-group">
-                                        <label for="viewCandidateDescription">Candidate Description</label>
-                                        <textarea id="viewCandidateDescription" name="viewCandidateDescription" class="form-control" readonly>{{old('viewCandidateDescription')}}</textarea>
-                                    </div>
-            
-                                    <!-- Select electionCategory -->
-                                    <div class="form-group">
-                                        <label for="viewElectionCategoryId">Election Category</label>
-                                        <input type="text" id="viewElectionCategoryId" name="viewElectionCategoryId" value="{{old('viewElectionCategoryId')}}" class="form-control" readonly>
-                                    </div>
-                                    
-                                    <!-- Select elections -->
-                                    <div class="form-group">
-                                        <label for="viewElectionId">Election</label>
-                                        <input type="text" id="viewElectionId" name="viewElectionId" value="{{old('viewElectionId')}}" class="form-control" readonly>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label>Select Suggestion / Objection</label>
-                                        <select name="suggestionType" id="suggestionType" class="form-control">
-                                            <option value="" selected disabled>Select Your Choice</option>
-                                            <option value="suggestion" @if (old('suggestionType') == "suggestion") selected @endif >Suggestion</option>
-                                            <option value="objection" @if (old('suggestionType') == "objection") selected @endif>Objection</option>
-                                        </select>
-                                    </div>
-                                    @error('suggestionType')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-
-                                    <div class="form-group mb-1">
-                                        <label>Your Any Suggestion / Objection</label>
-                                        <input type="text" id="suggestionTypeText" name="suggestionTypeText" value="{{old('suggestionTypeText')}}" class="form-control" placeholder="Enter Your Sugggestion / Objection Here" />
-                                    </div>
-                                    @error('suggestionTypeText')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                    
-                                    <!-- Actions Button -->
-                                    <div class="form-group mb-1">
-                                        <button type="submit" class="btn btn-success" id="btnSave">Save</button>
-                                    </div>
-
-                                </div>
+                                
                                 
                                 <div class="form-group">
                                     <button type="reset" class="btn btn-info" id="resetBtn">Reset</button>
+                                    <button type="submit" class="btn btn-success" id="goBtn">Go</button>
                                 </div>
                             </form>
                         </div>
@@ -183,27 +96,6 @@
 @section('scripts')
 <script>
     $(document).ready(function () {
-
-        function resetFields(){
-            $("#viewCandidateCnic").val('');
-            $("#viewCandidateMobileNo").val('');
-            $("#viewCandidateCountryName").val('');
-            $("#viewCandidateStateName").val('');
-            $("#viewCandidateCityName").val('');
-            $("#viewCandidateAddress").val('');
-            $("#viewCandidateDescription").val('');
-            $("#viewElectionCategoryId").val('');
-            $("#viewElectionId").val('');
-            $("#suggestionType").val('');
-            $("#suggestionTypeText").val('');
-
-            // Update candidate picture
-            $("#viewCandidateImage").attr("src", "");
-            $("#viewCandidateImage").attr("alt", "avtar");
-        }
-        $("#resetBtn").click(function () { 
-            resetFields();
-        });
         
         $("#viewCandidateId").change(function () { 
             let viewCandidateId = $("#viewCandidateId").val();
@@ -251,35 +143,240 @@
                 });
             }
         });
+        
+        // electionId
+        $("#electionId").change(function () { 
+            let electionId = $("#electionId").val();
+            $("#electionCategroyId").empty();
+            $('#electionCategroyId').append('<option value="" selected disabled>Select Election Category</option>');
+            if( electionId == null || electionId.length == 0){
+                $("#electionId").after('<div class="alert alert-danger">Election Should be Provided.</div>');
+                $("#electionId").focus();
+                return true
+            }
+            else{
+                $.ajax({
+                    type: "GET",
+                    url: "/client/election-catogries/"+electionId,
+                    success: function (response) {
+                        if(response.status == "invalid"){
+                            Swal.fire({
+                                icon:'warning',
+                                title:'Invalid',
+                                text: response.message,
+                            });
+                        }
+                        else if(response.status == "success"){
+                            if(response === 0 || response === null){
+                                $('#electionCategroyId').append('<option value="" disabled>No Category Found</option>');
+                            }
+                            else{
+                                $.each(response.electionCategories, function(key, value) {
+                                    $('#electionCategroyId').append('<option value="' + value.election_category.id + '">' + value.election_category.name + '</option>');
+                                });
+                            }
+                        }
+                        else{
+                            Swal.fire({
+                                icon:'error',
+                                title:'Error',
+                                text: response.message,
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        Swal.fire({
+                            icon:'error',
+                            title:'Error',
+                            text: 'An error occured: '+error.responseJSON.message,
+                        });
+                    },
+                });
+            }
+        });
 
-        $("#btnSave").click(function (e) { 
+
+        $("#goBtn").click(function (e) { 
+            e.preventDefault();
             $(".alert-danger").remove();
 
-            // //  To check viewCandidateId is empty or not
-            // let viewCandidateId = $("#viewCandidateId").val();
-            // if( viewCandidateId == null || viewCandidateId.trim()===''){
-            //     e.preventDefault();
-            //     $("#viewCandidateId").after('<div class="alert alert-danger">Candidate  Should be Provided.</div>');
-            // }
+            //  To check electionId is empty or not
+            let electionId = $("#electionId").val();
+            if( electionId == null || electionId.length == 0 || electionId.trim()===''){
+                e.preventDefault();
+                $("#electionId").after('<div class="alert alert-danger">Election Should be Provided.</div>');
+                return true;
+            }
             
-            // //  To check suggestionType is empty or not
-            // let suggestionType = $("#suggestionType").val();
-            // if( suggestionType == null || suggestionType.trim()===''){
-            //     e.preventDefault();
-            //     $("#suggestionType").after('<div class="alert alert-danger">Suggestion Type Should be Provided.</div>');
-            // }
-            
-            // //  To check suggestionTypeText is empty or not
-            // let suggestionTypeText = $("#suggestionTypeText").val();
-            // if( suggestionTypeText == null || suggestionTypeText.trim()==='' || suggestionTypeText.length == 0){
-            //     e.preventDefault();
-            //     $("#suggestionTypeText").after('<div class="alert alert-danger">Your Suggestion / Objection Should be Provided.</div>');
-            // }
+            $.ajax({
+                type: "GET",
+                url: "/client/nomination/list/candidate-list/"+electionId,
+                success: function (response) {
+                    if(response.status == "invalid"){
+                        Swal.fire({
+                            icon:'warning',
+                            title:'Invalid',
+                            text: response.message,
+                        });
+                    }
+                    else  if(response.status == "error"){
+                        Swal.fire({
+                            icon:response.status,
+                            title:'Error',
+                            text: response.message,
+                        });
+                    }
+                    else if(response.status == "success"){
+                        // Update modal content with received candidates
+                        updateModalContent(response.candidatesForVote);
+
+                        // Show the modal
+                        $("#ShowVoteCandidateModal").modal('show');
+                        Swal.fire({
+                            icon:response.status,
+                            title:'Success',
+                            text: response.message,
+                        });
+                    }
+                    else if(response.status == "info"){
+                        Swal.fire({
+                            icon:response.status,
+                            title:'Info',
+                            text: response.message,
+                        });
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                    Swal.fire({
+                        icon:'error',
+                        title:'Error',
+                        text: 'An error occured: '+error.responseJSON.message,
+                    });
+                }
+            });
             
         });
 
+        var baseUrl = "{{ url('/') }}";
+
+        // Function to update modal content with candidate details
+        function updateModalContent(candidates) {
+            var modalBodyContent = $("#modalBodyContent");
+
+            // Clear existing content
+            modalBodyContent.empty();
+
+            // Loop through candidates and append card for each candidate
+            
+                        // <form action="/client/vote/save" method="POST">
+            candidates.forEach(function (candidate) {
+                var cardHtml = `
+                    <div class="card" style="width: 24rem;">
+                        <form action="#" >
+                            @csrf
+                            <input type="hidden" name="candidateId" id="candidateId" value="${candidate.id}" readonly/>
+                            <input type="hidden" name="candidateElectionId" id="candidateElectionId" value="${candidate.electionId}" readonly/>
+                            <input type="hidden" name="candidateElectionCategoryId" id="candidateElectionCategoryId" value="${candidate.electionCategoryId}" readonly/>
+                            <img src="${baseUrl}/storage/${candidate.user.picture_path}" class="card-img-top" alt="${candidate.user.name}">
+                            <div class="card-body">
+                                <label for="candidateName" class="fw-bold">Name:</label>${candidate.user.name}</br>
+                                <label for="candidateName" class="fw-bold">Election Category:</label>${candidate.election_category.name}</br>
+                                <label for="candidateName" class="fw-bold">Election Seat:</label>${candidate.election_seat.title}</br>
+                                <label for="candidateName" class="fw-bold">Area:</label>${candidate.user.area.name}</br>
+                                <label for="candidateName" class="fw-bold">Hostel Name:</label>${candidate.hostel.name}</br>
+                                <label for="candidateCity" class="fw-bold">City:</label>${candidate.user.city.name}
+        
+                                <div class="btn-group mt-2" role="group">
+                                    <button type="submit" class="btn btn-info btn-sm suggestionObjectionBtn" data-id=${candidate.id}>Object / Suggest Now</button>
+                                    <button type="submit" class="btn btn-success btn-sm viewDetailsBtn" data-id=${candidate.id}>View Details</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                `;
+
+                modalBodyContent.append(cardHtml);
+            });
+        }
+
+        // Delegated click event for dynamically created elements
+        $("#modalBodyContent").on("click", ".viewDetailsBtn", function (e) {
+            e.preventDefault();
+
+            // Get the candidate id from the data attribute
+            let viewCandidateId = $(this).data("id");
+            var baseUrl = "{{ url('/') }}";
+            if( viewCandidateId == null){
+                return true
+            }
+            else{
+                $.ajax({
+                    type: "GET",
+                    url: "/client/viewCandidateDetails/"+viewCandidateId,
+                    success: function (response) {
+                        // resetFields();
+                        if(response.status == "invalid"){
+                            Swal.fire({
+                                icon:'warning',
+                                title:'Invalid',
+                                text: response.message,
+                            });
+                        }
+                        else{
+                            $("#candidateListModal").modal('show');
+                            $("#viewCandidateName").text(response.candidate.user.name);
+                            $("#viewCandidateMobileNo").text(response.candidate.user.phone_number);
+                            let address = response.candidate.user.address+ ", "+response.candidate.user.city.name+ ", "+response.candidate.user.state.name+ ", "
+                            $("#viewCandidateAddress").text(address);
+                            $("#viewCandidateArea").text(response.candidate.user.area.name);
+                            $("#viewCandidateHostelName").text(response.candidate.hostel.name);
+                            $("#viewCandidateObjectives").text(response.candidate.objectives);
+                            $("#viewElectionCategoryId").text(response.candidate.election_category.name);
+                            $("#viewElectionSeatId").text(response.candidate.election_seat.title);
+                            $("#viewCandidateStatus").text(response.candidate.status);
+
+                            // Update candidate picture
+                            $("#viewCandidateImage").attr("src", baseUrl + "/storage/" +response.candidate.user.picture_path);
+                            $("#viewCandidateImage").attr("alt", response.candidate.user.name);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        Swal.fire({
+                            icon:'error',
+                            title:'Error',
+                            text: 'An error occured: '+error.responseJSON.message,
+                        });
+                    },
+                });
+            }
+        });
+
+        // Add an event listener to the "Object Now" button
+        $("#modalBodyContent").on("click", ".suggestionObjectionBtn", function (e) {
+            e.preventDefault();
+            // Open the Bootstrap modal
+            $('#suggestionModal').modal('show');
+
+            // Get the candidate id from the data attribute
+            let suggestionCandidateId = $(this).data("id");
+
+            // Set the suggestionCandidateId in the modal input
+            $('#suggestionCandidateId').val(suggestionCandidateId);
+
+        });
+
+
+        
+       
+
     });
 </script>
+@include('client.nominee-list.nominee-modal-view-button')
+@include('client.nominee-list.view-candidate-detials-modal')
+@include('client.nominee-list.suggestion-objection-modal')
 @endsection
 <!-- End: Script Section Starts Here -->
 

@@ -19,30 +19,50 @@ class ElectionSuggestionController extends Controller
         try{
             DB::beginTransaction();
             $rules = [
-                'viewCandidateId' => 'required|exists:nhapk_candidates,id',
+                'suggestionCandidateId' => 'required|exists:nhapk_candidates,id',
                 'suggestionType' => 'required|in:objection,suggestion',
-                'suggestionTypeText' => 'required|string|min:3',
+                'suggestionText' => 'required|string|min:3',
             ];
             $this->validate($request,$rules);
+            $electionSuggestionCheck = ElectionSuggestion::where('userId', Auth::id())->where('candidateId', $request->suggestionCandidateId)->first();
+            if($electionSuggestionCheck){
+                DB::commit();
+                return response()->json([
+                    'status' => 'info',
+                    'message' => 'You have already suggest/object on this candidate.',
+                ]);
+            }
             $electionSuggestion = new ElectionSuggestion();
-            $electionSuggestion->text = $request->suggestionTypeText;
+            $electionSuggestion->text = $request->suggestionText;
             $electionSuggestion->suggestionType = $request->suggestionType;
-            $electionSuggestion->candidateId = $request->viewCandidateId;
+            $electionSuggestion->candidateId = $request->suggestionCandidateId;
             $electionSuggestion->userId = Auth::id();
             $result = $electionSuggestion->save();
-            if(!($result)){
+            if (!($result)) {
                 DB::commit();
-                return redirect()->back()->with('error','There is an error while saving the suggestion. Kindly try again');
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'There is an error while saving the suggestion. Kindly try again',
+                ], 500);
             }
             DB::commit();
-            return redirect()->route('client.dashboard.index')->with('success','Your Suggestion Successfully Saved Now!');
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Your Suggestion Successfully Saved Now!',
+            ], 200);
         }
-        catch(ValidationException $validationErrors){
-            return redirect()->back()->withErrors($validationErrors->validator->getMessageBag())->withInput();
+        catch(ValidationException $validationErrors){ 
+            return response()->json([
+                'status' => 'validation_error',
+                'errors' => $validationErrors->validator->getMessageBag(),
+            ], 422);
         }
         catch(Exception $e){
             DB::rollback();
-            return redirect()->back()->with('error','Your Exception is: '.$e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Your Exception is: '.$e->getMessage(),
+            ], 500);
         }
     }
 }

@@ -6,6 +6,8 @@ use Exception;
 use App\Models\Candidate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Election;
+use Illuminate\Support\Facades\Auth;
 
 class NominationListController extends Controller
 {
@@ -14,9 +16,22 @@ class NominationListController extends Controller
      */
     public function list(){
         try{
-            $candidates = Candidate::where('status','approved')->with('user')->get();
+            // echo Auth::user()->areaId;
+            // $userAreaId = [Auth::user()->areaId];
+            // $candidates = Candidate::where('status','approved')->with('user')->get();
+            $electionsLists = Election::where('status','on')->get();
+            $matchedElections = [];
+            foreach($electionsLists as $election){
+                $decodedAreaIds = json_decode($election->areaId, true);
+
+                if (in_array(Auth::user()->areaId, $decodedAreaIds)) {
+                    $matchedElections[] = $election;
+                }
+                
+            }
+            // dd($electionsLists);
             return view('client.nominee-list.nominee-list')->with([
-                'candidates' => $candidates,
+                'electionsLists' => $matchedElections,
             ]);
         }
         catch(Exception $e){

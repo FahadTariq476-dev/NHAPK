@@ -13,8 +13,7 @@
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{route('admin.ShowDashboard')}}">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="#">Elections</a></li>
-                                    <li class="breadcrumb-item"><a href="{{route('admin.electionCategeories.post')}}">Candidate Nomination</a></li>
+                                    <li class="breadcrumb-item"><a href="{{route('admin.CandidateNomination.index')}}">Candidate Nomination</a></li>
                                     <li class="breadcrumb-item active">Candidate Nomination List</li>
                                 </ol>
                             </div>

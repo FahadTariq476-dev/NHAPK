@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\Client\profile;
 
 use Exception;
+use App\Models\Area;
+use App\Models\City;
 use App\Models\User;
+use App\Models\State;
 use App\Models\Country;
+use App\Models\Properties;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\City;
-use App\Models\State;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -30,6 +32,13 @@ class ProfileController extends Controller
             $countriesAll = Country::all();
             $statesAll = State::where('country_id',$userCountry)->get();
             $citiesAll = City::where('states_id',$userState)->get();
+            if(!empty($userCity)){
+                $areas = Area::where('cityId', $userCity)->get();
+                $hostels = Properties::where('city_id', $userCity)->get();
+            }else{
+                $areas = [];
+                $hostels = [];
+            }
             
             return view('client.profile.list-profile')->with([
                 'users' => $users,
@@ -38,6 +47,8 @@ class ProfileController extends Controller
                 'statesAll' => $statesAll,
                 'citiesAll' => $citiesAll,
                 'userCountry' => $userCountry,
+                'areas' => $areas,
+                'hostels' => $hostels,
             ]);
         }
         catch(Exception $e){
@@ -51,6 +62,7 @@ class ProfileController extends Controller
     public function updateProfile(Request $request){
         try{
             DB::beginTransaction();
+            // dd($request->all());
             $userOldInfo = Auth::user();
             $oldUserProfile = $userOldInfo->picture_path;
             
@@ -63,6 +75,8 @@ class ProfileController extends Controller
                 'countryId' =>'required|exists:countries,id',
                 'stateId' =>'required|exists:states,id',
                 'cityId' =>'required|exists:cities,id',
+                'areaId' => ['required', 'exists:nhapk_areas,id'],
+                'hostelId' => ['required', 'exists:properties,id'],
             ];
             if($oldUserProfile == null){
                 $rules['userProfileImage']='required|image|mimes:jpeg,png,jpg,JPEG,PNG,JPG|max:2048';
@@ -71,6 +85,7 @@ class ProfileController extends Controller
                 $rules['userProfileImage']='sometimes|image|mimes:jpeg,png,jpg,JPEG,PNG,JPG|max:2048';
             }
             $this->validate($request,$rules);
+            // dd($request->all());
         
             $name = $request->firstName." ".$request->lastName;
             $slug = Str::slug($name);
@@ -110,6 +125,8 @@ class ProfileController extends Controller
             $user->countryId = $request->countryId;
             $user->stateId = $request->stateId;
             $user->cityId = $request->cityId;
+            $user->areaId = $request->areaId;
+            $user->hostel_name = $request->hostelId;
             $results = $user->save();
             if(!$results){
                 DB::commit();

@@ -1,4 +1,14 @@
 @extends('admin.layouts.main')
+@section('title','Election - List Election')
+@section('css')
+<style>
+   .common-th {
+       text-transform: none !important;
+       font-size: initial !important;
+       letter-spacing: normal !important;
+   }
+</style>
+@endsection
 @section('main-container')
     <!-- BEGIN: Content-->
     <div class="app-content content ">
@@ -43,16 +53,21 @@
                             <table class="table mb-0 dataTable" id="nhapkElectionsTable" style="background-color: #f2f2f2; color: #333;">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Apply Start Date</th>
-                                        <th>Apply Last Date</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-                                        <th>Status</th>
-                                        <th>Created At</th>
-                                        <th>Action</th>
+                                        <th class="common-th">ID</th>
+                                        <th class="common-th">Name</th>
+                                        <th class="common-th">Description</th>
+                                        <th class="common-th">State</th>
+                                        <th class="common-th">City</th>
+                                        <th class="common-th">Areas</th>
+                                        <th class="common-th">Election Category</th>
+                                        <th class="common-th">Election Seats</th>
+                                        <th class="common-th">Apply Start Date</th>
+                                        <th class="common-th">Apply Last Date</th>
+                                        <th class="common-th">Start Date</th>
+                                        <th class="common-th">End Date</th>
+                                        <th class="common-th">Status</th>
+                                        <th class="common-th">Created At</th>
+                                        <th class="common-th">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -60,16 +75,21 @@
                                     <!-- Your data will be populated here dynamically -->
                                 <tfoot>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Apply Start Date</th>
-                                        <th>Apply Last Date</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-                                        <th>Status</th>
-                                        <th>Created At</th>
-                                        <th>Action</th>
+                                        <th class="common-th">ID</th>
+                                        <th class="common-th">Name</th>
+                                        <th class="common-th">Description</th>
+                                        <th class="common-th">State</th>
+                                        <th class="common-th">City</th>
+                                        <th class="common-th">Areas</th>
+                                        <th class="common-th">Election Category</th>
+                                        <th class="common-th">Election Seats</th>
+                                        <th class="common-th">Apply Start Date</th>
+                                        <th class="common-th">Apply Last Date</th>
+                                        <th class="common-th">Start Date</th>
+                                        <th class="common-th">End Date</th>
+                                        <th class="common-th">Status</th>
+                                        <th class="common-th">Created At</th>
+                                        <th class="common-th">Action</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -109,10 +129,51 @@
                     { data: 'id' },
                     { data: 'name' },
                     { data: 'description'},
-                    { data: 'applyStartDate'},
-                    { data: 'lastDate'},
-                    { data: 'startDate'},
-                    { data: 'endDate'},
+                    { data: 'stateName' },
+                    { data: 'cityName' },
+                    { data: 'areaNames' },
+                    { data: 'electionCategoryName' },
+                    { data: 'electionSeats' },
+                    { 
+                        data: 'applyStartDate',
+                        render: function(data, type, row) {
+                            // Format the date in the desired format
+                            if (type === 'display' || type === 'filter') {
+                                return moment(data).format('DD-MMM-yyyy [at] h:mm A');
+                            }
+                            return data;
+                        }
+                    },
+                    {
+                        data: 'lastDate',
+                        render: function(data, type, row) {
+                            // Format the date in the desired format
+                            if (type === 'display' || type === 'filter') {
+                                return moment(data).format('DD-MMM-yyyy [at] h:mm A');
+                            }
+                            return data;
+                        }
+                    },
+                    { 
+                        data: 'startDate',
+                        render: function(data, type, row) {
+                            // Format the date in the desired format
+                            if (type === 'display' || type === 'filter') {
+                                return moment(data).format('DD-MMM-yyyy [at] h:mm A');
+                            }
+                            return data;
+                        }
+                    },
+                    { 
+                        data: 'endDate',
+                        render: function(data, type, row) {
+                            // Format the date in the desired format
+                            if (type === 'display' || type === 'filter') {
+                                return moment(data).format('DD-MMM-yyyy [at] h:mm A');
+                            }
+                            return data;
+                        }
+                    },
                     { 
                         data: 'status',
                         render: function(data, type, row) {
@@ -136,7 +197,7 @@
                         render: function(data, type, row) {
                             // Format the date in the desired format
                             if (type === 'display' || type === 'filter') {
-                                return moment(data).format('DD-MM-yyyy');
+                                return moment(data).format('DD-MMM-yyyy [at] h:mm A');
                             }
                             return data;
                         }

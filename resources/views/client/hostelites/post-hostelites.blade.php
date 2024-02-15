@@ -153,8 +153,8 @@
                                 @enderror
 
                                 <div class="form-group">
-                                    <button type="reset" class="button btn-primary" id="btnReset">Reset</button>
-                                    <button type="submit" class="button btn-success">Submit</button>
+                                    <button type="reset" class="btn btn-primary" id="btnReset">Reset</button>
+                                    <button type="submit" class="btn btn-success">Submit</button>
                                 </div>
                            </form>
                         </div>

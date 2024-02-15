@@ -1,5 +1,5 @@
 @extends('admin.layouts.main')
-@section('title','')
+@section('title','Election Seats - Edit')
 @section('main-container')
     <!-- BEGIN: Content-->
     <div class="app-content content ">
@@ -14,8 +14,9 @@
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{route('admin.ShowDashboard')}}">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="#"></a></li>
-                                    <li class="breadcrumb-item active">Post Referral Level</li>
+                                    <li class="breadcrumb-item"><a href="{{route('admin.elections.index')}}">Elections</a></li>
+                                    <li class="breadcrumb-item"><a href="{{route('admin.electionSeats.list')}}">Elections Seat</a></li>
+                                    <li class="breadcrumb-item active">Edit Elections Seat</li>
                                 </ol>
                             </div>
                         </div>
@@ -35,14 +36,35 @@
                 <!-- Content Here -->
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title"></h4>
+                        <h4 class="card-title">Edit Election Seat</h4>
                     </div>
                     <div class="card-body">
                         <div class="card-text">
                             <div class="mb-2">
                                 <!-- form -->
-                                <form action="#" method="POST" id="form">
+                                <form action="{{route('admin.electionSeats.update')}}" method="POST" id="formAddElectionSeat">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="electionSeatId" id="electionSeatId" value="{{$electionSeats->id}}" class="form-control" placeholder="Election Seat Id Here:" readonly>
+                                    <!-- Election Seat Title -->
+                                    <div class="form-group">
+                                        <label for="title">Seat Title:</label>
+                                        <input type="text" name="title" id="title" value="{{$electionSeats->title}}" class="form-control" placeholder="Enter Election Seat Title Here:" >
+                                    </div>
+                                    @error('title')
+                                        <div class="alert alert-danger">{{$message}}</div>
+                                    @enderror
                                     
+                                    <!-- Election Seat Description -->
+                                    <div class="form-group mb-1">
+                                        <label for="title">Seat Description:</label>
+                                        <textarea name="description" id="description" class="form-control" rows="3" placeholder="Enter Your Seat Description Here: ">{{$electionSeats->description}}</textarea>
+                                    </div>
+
+                                    <!-- Actions Button Here -->
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-success">Change</button>
+                                    </div>
                                 </form>
                                 <!-- form -->
                             </div>

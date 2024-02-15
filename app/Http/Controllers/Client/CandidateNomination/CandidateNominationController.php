@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\ElectionsCategroy;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\HosteliteMeta;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -22,10 +23,6 @@ class CandidateNominationController extends Controller
     */
     public function post(){
         try{
-            // $candidates = Candidate::where('userId', Auth::id())->first();
-            // if($candidates){
-            //     return redirect()->route('client.dashboard.index')->with('warning','You have already applied. Kindly view your Nomination File.');
-            // }
             $usersAll = User::where('id',Auth::id())->with(['country','state','city'])->first();
             if($usersAll->countryId == null){
                 return redirect()->route('client.viewProfile')->with('info','Kindly Select Country First. And Complete Your Profile section');
@@ -44,13 +41,23 @@ class CandidateNominationController extends Controller
             }
             else if($usersAll->picture_path == null){
                 return redirect()->route('client.viewProfile')->with('info','Kindly Provide Your Profile Picture First. And Complete Your Profile section');
+            }else if($usersAll->hostel_name == null){
+                return redirect()->route('client.viewProfile')->with('info','Kindly Provide Your Hostel Name First. And Complete Your Profile section');
             }
             // dd($usersAll->toArray());
-            $electionCategories = ElectionsCategroy::where('status',1)->get();
             $elections = Election::where('status','on')->get();
+            // dd($elections);
+            $matchedElections = [];
+            foreach($elections as $election){
+                $decodedAreaIds = json_decode($election->areaId, true);
+
+                if (in_array(Auth::user()->areaId, $decodedAreaIds)) {
+                    $matchedElections[] = $election;
+                }
+                
+            }
             return view('client.election-nomination.post-nomination')->with([
-                'electionCategories' => $electionCategories,
-                'elections' => $elections,
+                'elections' => $matchedElections,
                 'usersAll' => $usersAll,
             ]);
         }
@@ -65,6 +72,8 @@ class CandidateNominationController extends Controller
     public function  store(Request $request){
         try{
             DB::beginTransaction();
+            $users = Auth::user();
+            $hostelId = $users->hostel_name;
             // dd($request->all());
             $candidates = Candidate::where('userId', Auth::id())->where('electionId', $request->electionId)->first();
             if($candidates){
@@ -73,9 +82,12 @@ class CandidateNominationController extends Controller
             $rules = [
                 'electionCategoryId' => 'required|exists:nhapk_election_categories,id',
                 'electionId' => 'required|exists:nhapk_elections,id',
+                'electionSeatId' => 'required|exists:nhapk_election_seats,id',
+                'candidateObjectives' => 'required|string|min:3',
                 'candidateFile' => 'required|mimes:pdf,jpg,jpeg,png|max:2048', // PDF, JPEG, PNG, maximum 2MB
             ];
             $this->validate($request,$rules);
+            // dd($request->all());
             $referalNo = Membership::where('parent_id',Auth::id())->count();
             if ($referalNo == 0) {
                 $stars = 0;
@@ -107,6 +119,9 @@ class CandidateNominationController extends Controller
             $candidate->cityId = Auth::user()->cityId;
             $candidate->electionCategoryId = $request->electionCategoryId;
             $candidate->electionId = $request->electionId;
+            $candidate->electionSeatId = $request->electionSeatId;
+            $candidate->hostelId = $hostelId;
+            $candidate->objectives = $request->candidateObjectives;
             $candidate->file = $filename;
             $candidate->referralCount = $referalNo;
             $candidate->stars = $stars." Stars";
@@ -119,6 +134,7 @@ class CandidateNominationController extends Controller
             return redirect()->route('client.dashboard.index')->with('success','Your Nomination File Saved Now');
         }
         catch(ValidationException $validationError){
+            throw $validationError->validator->getMessageBag();
             return redirect()->back()->withErrors($validationError->validator->getMessageBag())->withInput();
         }
         catch(Exception $e){
@@ -138,18 +154,10 @@ class CandidateNominationController extends Controller
             if(!$candidate){
                 return redirect()->back()->with('info','You did not Apply for Nomination.');
             }
-            // Retrieve related data using relationships
-            $stateName = ($candidate->state) ? $candidate->state->name : null;
-            $cityName = ($candidate->city) ? $candidate->city->name : null;
-            $electionCategoryName = ($candidate->electionCategory) ? $candidate->electionCategory->name : null;
-            $electionName = ($candidate->election) ? $candidate->election->name : null;
+            $elections = Election::all();
             DB::commit();
             return view('client.election-nomination.view-nomination')->with([
-                'candidate' => $candidate,
-                'stateName' => $stateName,
-                'cityName' => $cityName,
-                'electionCategoryName' => $electionCategoryName,
-                'electionName' => $electionName,
+                'elections' => $elections,
             ]);
         }
         catch(Exception $e){
@@ -163,7 +171,9 @@ class CandidateNominationController extends Controller
     */
     public function viewCandidateDetails($id){
         try{
-            $candidate = Candidate::find($id);
+            $candidate = Candidate::where('id', $id)
+            ->with(['user.city', 'user.state', 'user.area', 'electionCategory', 'hostel', 'electionSeat'])
+            ->first();
             if(!($candidate)){
                 return response()->json([
                     'status' => 'invalid',
@@ -171,23 +181,10 @@ class CandidateNominationController extends Controller
                 ]);
             }
             else{
-                $user = $candidate->user;
-                $electionCategory = $candidate->electionCategory;
-                $election = $candidate->election;
-                $country= $user->country;
-                $state= $user->state;
-                $city= $user->state;
-                // dd($country->toArray());
-                // dd($user->toArray());
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Details are',
-                    'user' => $user,
-                    'country' => $country,
-                    'state' => $state,
-                    'city' => $city,
-                    'electionCategory' => $electionCategory,
-                    'election' => $election,
+                    'candidate' => $candidate,
                 ],200);
             }
 
@@ -199,4 +196,75 @@ class CandidateNominationController extends Controller
             ], 500);
         }
     }
+    
+    /**
+     * Function to view the canidate details using election id
+    */
+    public function viewCandidateDetailsUsingElectionId($electionId){
+        try{
+            $candidate = Candidate::where('electionId', $electionId)->where('userId', Auth::id())
+            ->with(['user.city', 'user.state', 'user.area', 'electionCategory', 'hostel', 'electionSeat'])
+            ->first();
+            // dd($candidate->toArray());
+            if(!($candidate)){
+                return response()->json([
+                    'status' => 'invalid',
+                    'message' => 'Your are accessing invalid elections. Kindly acccess the valid one. You don\'t have any nomination file against this election.',
+                ]);
+            }
+            else{
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Details are',
+                    'candidate' => $candidate,
+                ],200);
+            }
+
+        }
+        catch(Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Your Exception is; '.$e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Fucntion to show candidate details for vote in modal
+     */
+    public function voteCandidateDetailsForObjection($electionId){
+        try{
+            $elections = Election::where('status','on')->where('id', $electionId)->get();
+            if(!(count($elections)>0)){
+                return response()->json([
+                    'status' => 'invalid',
+                    'message' => 'You are accessing invalid elections. Kindly access the valid one.',
+                ]);
+            }
+            $candidatesForVote = Candidate::where('electionId', $electionId)->where('status','approved')
+            ->with(['user.city', 'user.state', 'user.area', 'electionCategory', 'hostel', 'electionSeat'])
+            ->get();
+            // $candidatesForVote = Candidate::where('status','approved')->where('electionId',$electionId)->where('electionCategoryId',$electionCategoryId)
+            // ->with(['user.city'])
+            // ->get();
+            if(!(count($candidatesForVote)>0)){
+                return response()->json([
+                    'status' => 'invalid',
+                    'message' => 'There is no candidate on this Election Category.',
+                ]);
+            }
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Select Your Candidate to View / Objection / Suggestion',
+                'candidatesForVote' => $candidatesForVote,
+            ], 200);
+        }
+        catch(Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Your Exception is: '.$e->getMessage(),
+            ], 500);
+        }
+    }
+
 }
