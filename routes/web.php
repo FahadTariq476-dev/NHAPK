@@ -37,6 +37,7 @@ use App\Http\Controllers\Client\profile\ProfileController;
 use App\Http\Controllers\Client\sops\SopsClientController;
 use App\Http\Controllers\Client\Areas\AreaClientController;
 use App\Http\Controllers\Admin\Elections\ElectionController;
+use App\Http\Controllers\Frontend\User\UserFrontEndController;
 use App\Http\Controllers\Client\hostels\HostelClientController;
 use App\Http\Controllers\Frontend\Client\LoginClientController;
 use App\Http\Controllers\Client\hostelites\HostelitesController;
@@ -89,6 +90,18 @@ Route::get('/checkEmail/{email}', [UserController::class, 'uniqueEmail'])->name(
 Route::get('/checkCNIC/{cnic}', [UserController::class, 'uniqueCNIC'])->name('uniqueCNIC');
 // Route the check the CNIC from the user table and send the user in response
 Route::get('/checkCnicWithData/{cnic}', [UserController::class, 'uniqueCnicWithData'])->name('uniqueCnicWithData');
+
+Route::group(['prefix' => '/users'], function(){
+    // cnicDetails
+    Route::get('/cnic-details/{cnic}', [UserFrontEndController::class, 'cnicDetails'])->name('user.cnicDetails');
+    // cnicUnique
+    Route::get('/cnic-unique/{cnic}', [UserFrontEndController::class, 'cnicUnique'])->name('user.cnicUnique');
+    // cnicMobileNumb
+    Route::get('/mob-no-unique/{mobNo}', [UserFrontEndController::class, 'uniqueMobileNumb'])->name('user.uniqueMobileNumb');
+    // uniqueEmail
+    Route::get('/email-unique/{email}', [UserFrontEndController::class, 'uniqueEmail'])->name('user.uniqueEmail');
+
+});
 
 
 
@@ -618,12 +631,12 @@ Route::get('/list',[UserController::class,'index'])->name('admin.user');
 // Begin: Login Route for Client
 Route::middleware('guest')->group(function () {
     Route::group(['prefix' => 'client'], function () {
-        // Route to show the client login page
-        Route::get('/login', [LoginClientController::class, 'index'])->name('front-end.client.login');
         // Route to login the page
         Route::post('/login', [LoginClientController::class, 'login_credentials'])->name('front-end.client.login_credentials');
         // Route to store new use
         Route::post('/login/store',[LoginClientController::class,'storeNewUser'])->name('front-end.storeNewUser');
+        // changePassword
+        Route::post('/login/change',[LoginClientController::class,'changePassword'])->name('front-end.changePassword');
     });
 });
 // End: Login Route for Client

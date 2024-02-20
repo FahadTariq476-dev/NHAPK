@@ -19,32 +19,23 @@ use Illuminate\Validation\ValidationException;
 
 class LoginClientController extends Controller
 {
-    //
-    public function index(){
-        try{
-            return view('frontEnd.client.login-client');
-        }
-        catch(Exception $e){
-            return redirect()->route('Home')->with('error','Your Exception is: '.$e->getMessage());
-        }
-    }
-
     // Begin: Function to check the credentails and logged in the client user
     public function login_credentials(Request $req){
         try{
-            $users = User::where('phone_number','+92'.$req->phone_number_login)->where('cnic_no',$req->cnic_no_login)->first();
+            // dd($req->all());
+            $users = User::where('cnic_no',$req->cnic_no_login)->first();
             if(!($users)){
                 return response()->json([
-                    'status' => 'error',
-                    'message' => 'Invalid Credentials',
-                ]);
+                    'status' => 'invalid',
+                    'message' => 'Invalid User',
+                ], 200);
             }
             $userRoles = $users->getRoleNames(); 
             if ($userRoles->contains('nhapk_admin')) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Invalid Roles',
-                ]);
+                ], 200);
             } else if (!$userRoles->contains('nhapk_client')) {
                 $users->assignRole("nhapk_client");
             }
@@ -62,12 +53,12 @@ class LoginClientController extends Controller
                     'status' => 'success',
                     'message' => 'Successfully Logged in Now!',
                     'redirect' => route('client.dashboard.index'), // Adjust this to your dashboard route
-                ]);
+                ], 200);
             } else {
                 return response()->json([
-                    'status' => 'error',
-                    'message' => 'Invalid Credentials',
-                ]);
+                    'status' => 'invalidCredentials',
+                    'message' => 'Invalid Password.',
+                ], 200);
             }
         }
         catch(Exception $e){
@@ -106,19 +97,41 @@ class LoginClientController extends Controller
     */
     public function cnicCheckPhoneNumber($cnic_no,$phone_number){
         try{
-            $users = User::where('phone_number','+92'.$phone_number)->where('cnic_no',$cnic_no)->first();
-            if(($users)){
-                if($users->nhapk_verified==0){
-                    return -1;      // It means that user exist but it is not verified it will verify the otp here
+            $user = User::where('cnic_no',$cnic_no)->first();
+            if(($user)){
+                if($user->phone_number == $phone_number){
+                    if($user->nhapk_verified == 0){
+                        return response()->json([
+                            'status' => -1,    // It means that user exist but it is not verified it will verify the otp here
+                            'message' => 'This is is your first visit on NHAPK. Kindly Verify Your OTP to Login.',
+                        ], 200);
+                    }
+                    else{
+                        return response()->json([
+                            'status' => 1,    // It means that user exist and it is nhapk_verified it will enter the password here
+                            'message' => 'Show Password Modal. User is verified.',
+                        ], 200);
+                    }
                 }
-                return 1;       // It means that user exist and it is nhapk_verified it will enter the password here
+                else{
+                    return response()->json([
+                        'status' => 0,    // It means that user mobile number doesn't match with cnic.
+                        'message' => 'Your Mobile Number doesn\'t match with given cnic. Kindly Provide the Correct Mob No.',
+                    ], 200);
+                }
             }
             else{
-                return 0;   // It means that user does not exist with mobile number and cnic it will can register now
+                return response()->json([
+                    'status' => 'invalid',     
+                    'message' => 'You are accessing invalid user. User with this cnic doesn\'t exist our record. Kindly Go to Sign Up & Register Your Account.',
+                ], 200);
             }
         }
         catch(Exception $e){
-            return redirect()->back()->with('error','Your Exception is:'.$e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Your Exception is: '.$e->getMessage(),
+            ], 500);
         }
     }
     /**
@@ -126,10 +139,52 @@ class LoginClientController extends Controller
     */
 
     /**
+     * Function to change Password
+     */
+    public function changePassword(Request $request){
+        try{
+            $user = User::where('cnic_no',$request->cnic_no_restePassword)->first();
+            if(!($user)){
+                return response()->json([
+                    'status' => 'invalid',
+                    'message' => 'Invalid Cnic No',
+                ]);
+            }
+            $newPassword = $request->restePassword;
+            if(strlen($newPassword) !=8){
+                return response()->json([
+                    'status' => 'validationError',
+                    'message' => 'New Password Length Should be of 8 characters.',
+                ]);
+            }
+            // Hash the new password
+            $hashedPassword = Hash::make($newPassword);
+
+            // Update the user's password in the database
+            $user->update([
+                'password' => $hashedPassword,
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Password successfully updated.',
+            ], 200);
+            
+        }
+        catch(Exception $e){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Your Exception is: '.$e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
      * Begin: Function to store new user
      */
         public function storeNewUser(Request $request){
             try{
+                // dd($request->all());
                 $allwoedrulesforLogin = 
                 [
                     'Who did not  decided  role yet',
@@ -145,8 +200,8 @@ class LoginClientController extends Controller
                     'firstname' => 'required|string|max:255',
                     'lastname' => 'required|string|max:255',
                     'email' => 'required|email|unique:users,email',
-                    'cnic_no' => 'required|string|max:15|min:15|unique:users,cnic_no',
-                    'new_phone_number' => [
+                    'cnic_no_register' => 'required|string|max:15|min:15|unique:users,cnic_no',
+                    'new_phone_number_register' => [
                         'required',
                         'numeric',
                         'digits:10',

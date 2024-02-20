@@ -17,7 +17,8 @@
                         <div class="user-nav d-sm-flex d-none">
                             <span class="user-name fw-bolder">{{ auth()->user()->name }}</span>
                             <span class="user-status">
-                                {{ implode(', ', Auth::user()->getRoleNames()->toArray()) }}
+                                {{-- {{ implode(', ', Auth::user()->getRoleNames()->toArray()) }} --}}
+                                {{ ucwords(str_replace('_', ' ', implode(', ', Auth::user()->getRoleNames()->toArray()))) }}
                             </span>
                         </div>
                             <span class="avatar">
