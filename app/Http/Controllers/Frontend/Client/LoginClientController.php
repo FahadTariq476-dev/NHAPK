@@ -229,9 +229,9 @@ class LoginClientController extends Controller
                 $user->name = $name;
                 $user->firstname = $request->firstname;
                 $user->lastname = $request->lastname;
-                $user->cnic_no = $request->cnic_no;
+                $user->cnic_no = $request->cnic_no_register;
                 $user->email = $request->email;
-                $user->phone_number = '+92'.$request->new_phone_number;
+                $user->phone_number = '+92'.$request->new_phone_number_register;
                 $user->slug = $uniqueSlug;
                 $user->password = Hash::make($request->password);
                 $user->nhapk_register = 1;
