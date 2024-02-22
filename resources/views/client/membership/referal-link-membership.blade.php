@@ -72,11 +72,11 @@
     <!-- END: Content-->
 
 @endsection
-{{-- Begin: Main-Content Section  --}}
+<!-- Begin: Main-Content Section  -->
 
-{{-- Begin: Script Section Starts Here --}}
+<!-- Begin: Script Section Starts Here -->
 @section('scripts')
-    {{--  --}}
+    <!--  -->
     <script>
         function copyToClipboard() {
             // Get the referral link text
@@ -97,5 +97,5 @@
         }
     </script>
 @endsection
-{{-- End: Script Section Starts Here --}}
+<!-- End: Script Section Starts Here -->
 

@@ -47,16 +47,20 @@
             <form class="row g-3 d-flex justify-content-center" id="mobNoForm">
                 <div class="col-8 mb-2">
                     <label for="phone" class="form-label">
-                        <h5 style="color: #7367f0; font-family: inherit;">Enter Your Phone Number</h5>
-                        <h5 style="color: #7367f0; font-family: inherit;">+923*****<span id="LastDigitMobNo"></span></h5>
+                        <h5 style="color: #7367f0; font-family: inherit;">Enter The Missing Digits of Your Phone Number</h5>
+                        {{-- <h5 style="color: #7367f0; font-family: inherit;">+923*****<span id="LastDigitMobNo"></span></h5> --}}
                     </label>
-                    <div class="input-group w-100" style="border-top: none;">
-                        <div class="input-group" id="divPhone_number">
-                            <input type="tel" class="form-control" id="phone_number" name="phone_number" maxlength="6" minlength="6" 
-                            pattern="[0-9]*" inputmode="numeric" placeholder="Enter Your Mobile Number Here:" 
-                            oninput="validateInput()">
-                            <br><small class="form-text text-muted">Please enter the missing number of your mobile number.</small>
+                    <div class="input-group" id="divPhone_number">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">+923</span>
                         </div>
+                        <input type="tel" class="form-control" id="phone_number" name="phone_number" maxlength="6" minlength="6" 
+                        pattern="[0-9]*" inputmode="numeric" placeholder="Complete Your Mobile Number Here:" 
+                        oninput="validateInput()">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="LastDigitMobNo"></span>
+                        </div>
+                        <br><small class="form-text text-muted">Please enter the missing number of your mobile number.</small>
                     </div>
                 </div>
                 <div class="col-8 mb-2">
