@@ -104,5 +104,6 @@
     <!--====== Modal Responsive Menu Area End ======-->
 
     
-    @include('frontEnd.forntEnd_layout.loginmodal')
+
+    @include('frontEnd.forntEnd_layout.login-modal')
 
