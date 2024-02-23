@@ -19,13 +19,11 @@ class MembershipClientController extends Controller
     // Begin: Function to show the referal page with link
     public function show_refferal(){
         try{
-            $author_id = Auth::user()->id;
-
-            // Encrypt the author ID to create a reversible identifier
-            $encryptedAuthorId = Crypt::encrypt($author_id);
+            $userCnicNo = Auth::user()->cnic_no;
+            // $extractedUserCnicNo = substr($userCnicNo, 6, 7);
 
             // Generate the referral link using the route function
-            $referralLink = route('membership.registration.refferal', ['token' => $encryptedAuthorId]);
+            $referralLink = route('front-end.client.signupReferal', ['cnicNo' => $userCnicNo]);
 
             // dd($referralLink);
             return view('client.membership.referal-link-membership')->with(['referralLink' => $referralLink]);

@@ -233,11 +233,10 @@ style="height: auto;">
                             <div class="input-group w-100" style="border-top: none;">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">+923</span>
+                                        <span class="input-group-text">+92</span>
                                     </div>
-                                    <input type="tel" class="form-control" id="new_phone_number_register" name="new_phone_number_register" maxlength="9" minlength="9" readonly
-                                    placeholder="Enter Your Mobile Number Here:" 
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);">
+                                    <input type="tel" class="form-control" id="new_phone_number_register" name="new_phone_number_register" maxlength="10" minlength="10" readonly
+                                    placeholder="Enter Your Mobile Number Here:" >
                                 </div>
                             </div>
                         </div>
