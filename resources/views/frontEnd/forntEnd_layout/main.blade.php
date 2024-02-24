@@ -43,7 +43,9 @@
 
     
     <!-- jQuery(necessary for all JavaScript plugins) -->
-    <script src="{{asset('front-end-asset/assets/js/jquery/jquery-3.5.1.min.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>  
+     <!-- jQuery Validatio  plugins) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{asset('front-end-asset/assets/js/bootstrap/bootstrap.min.js')}}">
@@ -80,7 +82,7 @@
     <script src="{{asset('front-end-asset/assets/js/active.js')}}"></script>
 
 
-    @yield('frontEnd-js')
+    
     
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrN1lnwhavrmfKr2HWruDFDdXJcIfAM1M&libraries=places"></script>
@@ -104,6 +106,8 @@
         }
     });
     </script>
+
+    @yield('frontEnd-js')
 
 </body>
 

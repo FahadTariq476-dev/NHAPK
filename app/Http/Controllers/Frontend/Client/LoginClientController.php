@@ -19,6 +19,148 @@ use Illuminate\Validation\ValidationException;
 
 class LoginClientController extends Controller
 {
+    /**
+     * Function to Signup Form For Refferal
+     */
+    public function signupReferal($referalCnicNo){
+        try{
+            $user = User::where('cnic_no', $referalCnicNo)->first();
+            if(!($user)){
+                return redirect()->back()->with('invalid', 'You are accesing invalid refferal. Kindly access the valid one.');
+            }
+            $allwoedrulesforLogin = 
+            [
+                'Who did not  decided  role yet',
+                'I am Hostelites',
+                'Hostel Working Staff eg. Made,  Helper, Doormen / Guard',
+                'Admin / Manager / Cook / Warden',
+                'Staff or Team Member of NHAP',
+                'Sponsor / Supporter of NHAP',
+                'Private Hostel Owner/ Antiusist',
+            ];
+            $roles = Role::where('nhapk_register',1)->whereIn('name',$allwoedrulesforLogin)->get();
+            return view('frontEnd.referral-signup.signup-referal')->with([
+                'roles' => $roles,
+                'referalCnicNo' => $referalCnicNo,
+            ]);
+        }
+        catch(Exception $e){
+            return redirect()->back()->with('error', 'Your Exception is: '.$e->getMessage());
+        }
+    }
+
+    /**
+     * Function to store referal user in db
+     */
+    public function storeReferralUser(Request $request){
+        try{
+            DB::beginTransaction();
+            $allwoedrulesforLogin = 
+                [
+                    'Who did not  decided  role yet',
+                    'I am Hostelites',
+                    'Hostel Working Staff eg. Made,  Helper, Doormen / Guard',
+                    'Admin / Manager / Cook / Warden',
+                    'Staff or Team Member of NHAP',
+                    'Sponsor / Supporter of NHAP',
+                    'Private Hostel Owner/ Antiusist',
+                ];
+            $rules = [
+                'userFullName' => 'required|string|min:3|max:255',
+                'userFatherName' => 'required|string|min:3|max:255',
+                'userEmail' => 'required|email|unique:users,email',
+                'userCnicNo' => 'required|string|max:15|min:15|unique:users,cnic_no',
+                'referalCnicNo' => 'required|string|max:15|min:15|exists:users,cnic_no',
+                'userMobileNo' => [
+                    'required',
+                    'numeric',
+                    'digits:10',
+                    'regex:/^3\d{9}$/',
+                    Rule::unique('users', 'phone_number')->where(function ($query) use ($request) {
+                        // Customize the condition to match your database structure
+                        $query->where('phone_number', '+92' . $request->new_phone_number);
+                    }),
+                ],
+                'userRoleId' =>['required', Rule::exists('roles', 'id')->where(function ($query) use ($allwoedrulesforLogin) {
+                        $query->where('nhapk_register', 1)->whereIn('name',$allwoedrulesforLogin);
+                    }),
+                ],
+                'userPassword' => 'required|string|required|max:8|min:8',
+                'userConfirmPassword' => 'required|string|required|max:8|min:8|required_with:userPassword|same:userPassword',
+            ];
+            $this->validate($request,$rules);
+            // dd($request->all());
+            // Generate the initial slug from the title
+            $name = $request->userFullName." ".$request->userFatherName;
+            $slug = Str::slug($name);
+            // Make the slug unique
+            $uniqueSlug = $this->makeSlugUnique($slug);
+            $user = new User();
+            $user->name = $name;
+            $user->firstname = $request->userFullName;
+            $user->lastname = $request->userFatherName;
+            $user->cnic_no = $request->userCnicNo;
+            $user->email = $request->userEmail;
+            $user->phone_number = '+92'.$request->userMobileNo;
+            $user->slug = $uniqueSlug;
+            $user->password = Hash::make($request->userPassword);
+            $user->nhapk_register = 1;
+            $user->nhapk_verified = 1;
+            $cnic_no = $request->userCnicNo;
+            $last_digit = substr($cnic_no, -1);
+            if (intval($last_digit) % 2 == 0) {
+                $user->gender = 'female';
+            } else {
+                $user->gender = 'male';
+            }
+            // Save the user
+            $results = $user->save();
+
+            $roles= Role::find($request->userRoleId);
+            // Assign role only if the user is successfully saved
+            if ($results) {
+                $user->assignRole($roles->name);
+                $user->assignRole("nhapk_client");
+                $membershipTypes = MembershipTypes::where('role_id', $request->userRoleId)->first();
+                $membership = new Membership();
+                $membership->name = $name;
+                $membership->cnic = $request->userCnicNo;
+                $referalUser = User::where('cnic_no', $request->referalCnicNo)->first();
+                $membership->parent_id = $referalUser->id;
+                $membership->referal_cnic = $request->referalCnicNo;
+                $membership->membershiptype_id = $membershipTypes->id;
+                $cnic_no = $request->userCnicNo;
+                $last_digit = substr($cnic_no, -1);
+
+                if (intval($last_digit) % 2 == 0) {
+                    $membership->gender = 'female';
+                } else {
+                    $membership->gender = 'male';
+                }
+                $membership->since = now();
+                $resultMemberships = $membership->save();
+                if(!$resultMemberships){
+                    DB::rollBack();
+                    DB::commit();
+                    return redirect()->back()->with('error', 'There is an error while saving the user. Try again.');
+                }
+                DB::commit();
+                Auth::login($user);
+                return redirect('client.dashboard.index')->back()->with('success', 'User added successfully.');
+            } else {
+                DB::commit();
+                return redirect()->back()->with('error', 'User not saved successfully.');
+            }
+        }
+        catch(ValidationException $validationException){
+            return redirect()->back()->wihtError($validationException->validator->getMessageBag)->wihtInput();
+        }
+        catch(Exception $e){
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Your Exception is: '.$e->getMessage());
+        }
+    }
+
     // Begin: Function to check the credentails and logged in the client user
     public function login_credentials(Request $req){
         try{
@@ -236,6 +378,13 @@ class LoginClientController extends Controller
                 $user->password = Hash::make($request->password);
                 $user->nhapk_register = 1;
                 $user->nhapk_verified = 1;
+                $cnic_no = $request->cnic_no;
+                $last_digit = substr($cnic_no, -1);
+                if (intval($last_digit) % 2 == 0) {
+                    $user->gender = 'female';
+                } else {
+                    $user->gender = 'male';
+                }
                 // Save the user
                 $results = $user->save();
 
