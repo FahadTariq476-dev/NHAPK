@@ -141,7 +141,7 @@
                         </ul>
                     </li>
                     <!-- End: Blogs (News Feed) -->
-                    
+
                     <!-- Begin: NewsFeeds -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">News & Media</span></a>
@@ -155,7 +155,16 @@
                         </ul>
                     </li>
                     <!-- End: NewsFeeds -->
-
+                <li class="{{ in_array(Route::currentRouteName(), ['admin.membershiptype']) ? 'open' : '' }}"><a
+                        class="d-flex align-items-center" href="#"><i data-feather="activity"></i><span
+                            class="menu-item text-truncate" data-i18n="MembershipType">Membership</span></a>
+                    <ul class="menu-content ">
+                        <li><a class="d-flex align-items-center {{ Route::currentRouteName() == 'admin.membershiptype' ? 'active' : '' }}"
+                               href="{{ route('admin.membershiptype') }}"><span class="menu-item text-truncate"
+                                                                                data-i18n="MembershipType"><i data-feather='activity'></i>Membership Type</span></a>
+                        </li>
+                    </ul>
+                </li>
                     <!-- Begin: Membership -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Membership</span></a>
@@ -179,7 +188,7 @@
                         </ul>
                     </li>
                     <!-- End: Membership -->
-                    
+
                     <!-- Begin: Contact Us -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Contact Us</span></a>
@@ -217,8 +226,8 @@
                         </ul>
                     </li>
                     <!-- End: SOP's & Legal Documentation -->
-                    
-                    
+
+
                    <!-- Begin: Users -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Users</span></a>
@@ -229,7 +238,7 @@
                         </ul>
                     </li>
                     <!-- End: Users -->
-                    
+
                     <!-- Begin: Referral Levels -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Referral Levels</span></a>
@@ -267,7 +276,7 @@
                                 </ul>
                             </li>
                             <!-- End: Elections Category -->
-                            
+
                             <!-- Begin: Elections Seats -->
                             <li class="nav-item">
                                 <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Elections Seats</span></a>
@@ -309,7 +318,7 @@
                         </ul>
                     </li>
                     <!-- End: Election Suggestion / Objection -->
-                    
+
                     <!-- Begin: Vote -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Vote</span></a>
@@ -320,7 +329,7 @@
                         </ul>
                     </li>
                     <!-- End: Vote -->
-                    
+
                     <!-- Begin: Election Result -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Election Result</span></a>
@@ -358,7 +367,7 @@
                         </ul>
                     </li>
                     <!-- End: Organogram -->
-                    
+
                     <!-- Begin: Survey's Form -->
                     <li class="nav-item">
                         <a class="d-flex align-items-center" href="#"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Layout Full">Survey's Form</span></a>
@@ -376,6 +385,6 @@
                 </li>
             </ul>
         </div>
-        
-    </div> 
+
+    </div>
     <!-- END: Main Menu -->

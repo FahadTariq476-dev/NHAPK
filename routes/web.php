@@ -146,7 +146,7 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
     Route::get('/complaint-types/list-complaint-types',[CompliantTypeController::class,'list'])->name('admin.complaint-types.list');
     // Route for the admin to show the list-complaint-types.blade.php
     Route::get('/complaint-types/list-complaint-types/get-complaint-types',[CompliantTypeController::class,'get_complaint_types'])->name('admin.complaint-types.get-complaint-types');
-    // Route to update_status from active to inactive or vice verse 
+    // Route to update_status from active to inactive or vice verse
     Route::get('/complaint_types/list-complaint-types/update-status/{statu}/{id}',[CompliantTypeController::class,'update_status'])->name('admin.complaint-types.update-status');
     // Route for the admin to get the full description of complaint_types using complaint_types id
     Route::get('/complaint-types/list-complaint-types/description/{id}',[CompliantTypeController::class,'get_description'])->name('admin.complaint-types.get_description');
@@ -179,7 +179,7 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
     Route::get('/memberships/update-status/{membershipId}/{membershipStatus}',[MembershipAdminController::class,'updateMembershipStatus'])->name('admin.memmbership.updateMembershipStatus');
     // Rute for admin to display the edit membership view from list-memebrship page having id of membership
     Route::get('/editMembership/{id}',[MembershipAdminController::class,'editMemebershipView'])->name('admin.editMemebershipView');
-    // Route for admin to update the membership in controller 
+    // Route for admin to update the membership in controller
     Route::post('/updateMembership',[MembershipAdminController::class,'updateMembership'])->name('admin.updateMembership');
         // Route for Membership Types
             // Route to list Membership Types
@@ -199,15 +199,15 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
         // Route for Membership Types
     // End: Routes for Membership
 
-    // Begin: Route for Contact Us 
+    // Begin: Route for Contact Us
     // Route for Contact Us to show the list of  list-contactus blade file
     Route::get('/list-contctUs',[ContactUsAdminController::class,'index'])->name('admin.contactUs.list-contactus');
     // Route for admin to get the list of cantact us using ajax request
     Route::get('/get-contactus',[ContactUsAdminController::class,'adminListContactUs'])->name('admin.contactUs.get-contactUs');
     // Route for the the admin to get message of contct us using the id
     Route::get('/contactus/get-message/{id}',[ContactUsAdminController::class,'get_message'])->name('admin.contactus.get-message');
-    // End: Route for Contact Us 
-    
+    // End: Route for Contact Us
+
 
     // Begin: Route for News & Feeds
     // Route for admin to show the post news and feed page
@@ -298,7 +298,7 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
         // uniqueTitle
         Route::get('/unique-title/{title}',[ReferralLevelController::class,'uniqueTitle'])->name('admin.referralLevels.uniqueTitle');
     });
-    
+
 
     /*
     |--------------------------------------------------------------------------
@@ -326,7 +326,7 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
     });
 
 
-    
+
     /*
     |--------------------------------------------------------------------------
     | Election Category
@@ -370,7 +370,7 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
         // storeNomination
         Route::post('/store/nomination',[CandidateNominationAdminController::class,'storeNomination'])->name('admin.CandidateNomination.storeNomination');
     });
-    
+
     /*
     |--------------------------------------------------------------------------
     | Votes
@@ -384,7 +384,7 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
 
     /*
         |--------------------------------------------------------------------------
-        | Election Suggestion Route for Admin 
+        | Election Suggestion Route for Admin
         |--------------------------------------------------------------------------
         |
     */
@@ -393,10 +393,10 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
         // changeStatus
         Route::get('/change-status/{electionSuggestionId}/{status}',[ElectionSuggestionAdminController::class,'changeStatus'])->name('admin.electionSuggestion.changeStatus');
     });
-    
+
     /*
         |--------------------------------------------------------------------------
-        | Election Result Route for Admin 
+        | Election Result Route for Admin
         |--------------------------------------------------------------------------
         |
     */
@@ -405,10 +405,10 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
         // calculateResult
         Route::post('/calculate',[ElectionsResultAdminController::class,'calculateResult'])->name('admin.electionsResult.calculateResult');
     });
-    
+
     /*
         |--------------------------------------------------------------------------
-        | Organogram Designation Route for Admin 
+        | Organogram Designation Route for Admin
         |--------------------------------------------------------------------------
         |
     */
@@ -431,7 +431,7 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
 
     /*
         |--------------------------------------------------------------------------
-        | Organogram Route for Admin 
+        | Organogram Route for Admin
         |--------------------------------------------------------------------------
         |
     */
@@ -449,10 +449,10 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
         // deleteOrganogramMember
         Route::delete('/delete/{organogramId}',[OrganogramAdminController::class,'deleteOrganogramMember'])->name('admin.organogram.deleteOrganogramMember');
     });
-    
+
     /*
         |--------------------------------------------------------------------------
-        | Survey's Form Route for Admin 
+        | Survey's Form Route for Admin
         |--------------------------------------------------------------------------
         |
     */
@@ -474,7 +474,7 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
 
     /*
         |--------------------------------------------------------------------------
-        | Area's Route for Admin 
+        | Area's Route for Admin
         |--------------------------------------------------------------------------
         |
     */
@@ -501,7 +501,7 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
 
      /*
         |--------------------------------------------------------------------------
-        | Election Seat Route for Admin 
+        | Election Seat Route for Admin
         |--------------------------------------------------------------------------
         |
     */
@@ -521,7 +521,16 @@ Route::group(['middleware' => ['role:nhapk_admin', 'auth'], 'prefix' => '/admin'
         // delete
         Route::delete('/delete/{electionSeatId}',[ElectionsSeatController::class,'delete'])->name('admin.electionSeats.delete');
     });
-    
+
+
+    //MembershipType routes
+    Route::group(['prefix' => 'membershiptype'], function () {
+        Route::get('/', [App\Http\Controllers\Admin\MembershipTypeController::class, 'index'])->name("admin.membershiptype");
+        Route::post('/list', [App\Http\Controllers\Admin\MembershipTypeController::class, 'getListData'])->name("admin.membershiptype.list");
+        Route::post('/getrowdetail', [App\Http\Controllers\Admin\MembershipTypeController::class, 'getRowDetail'])->name("admin.membershiptype.detail");
+        Route::post('/save', [App\Http\Controllers\Admin\MembershipTypeController::class, 'save'])->name("admin.membershiptype.save");
+        Route::post('/delete', [App\Http\Controllers\Admin\MembershipTypeController::class, 'delete'])->name("admin.membershiptype.delete");
+    });
 
 });
 
@@ -612,7 +621,7 @@ Route::get('/check-phone_number/{cnic_no}/{phone_number}',[LoginClientController
 
     /*
         |--------------------------------------------------------------------------
-        | Organogram Route for Fornt End 
+        | Organogram Route for Fornt End
         |--------------------------------------------------------------------------
         |
     */
@@ -636,7 +645,7 @@ Route::middleware('guest')->group(function () {
         Route::post('/login', [LoginClientController::class, 'login_credentials'])->name('front-end.client.login_credentials');
         // Route to store new use
         Route::post('/login/store',[LoginClientController::class,'storeNewUser'])->name('front-end.storeNewUser');
-        
+
         // signupReferal
         Route::get('/login/{cnicNo}', [LoginClientController::class, 'signupReferal'])->name('front-end.client.signupReferal');
         // storeReferralUser
@@ -655,7 +664,7 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
 
     /*
         |--------------------------------------------------------------------------
-        | Area's Route for Admin 
+        | Area's Route for Admin
         |--------------------------------------------------------------------------
         |
     */
@@ -667,7 +676,7 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
     });
 
     Route::get('/dashboard',[DashboardClientController::class,'index'])->name('client.dashboard.index');
-    
+
     // Route for client to logout
     Route::get('/logout',[LogoutClientController::class,'logout'])->name('client.logout');
 
@@ -695,7 +704,7 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
         Route::get('/hostels/edit/{hostelId}',[HostelClientController::class,'editHostel'])->name('client.hostels.editHostel');
     // End: Hostels
 
-    // Hostwelites & Metas 
+    // Hostwelites & Metas
     Route::get('/hostel-contact-and-author/{hostelId}',[HostelitesController::class,'hostelContactAndAuthor'])->name('client.hostelContactAndAuthor');
     // storeHosteliteMetas
     Route::post('/hostelite-metas/store',[HostelitesController::class,'storeHosteliteMetas'])->name('client.storeHosteliteMetas');
@@ -731,7 +740,7 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
 
      /*
         |--------------------------------------------------------------------------
-        | Vote Route for Client 
+        | Vote Route for Client
         |--------------------------------------------------------------------------
         |
     */
@@ -748,7 +757,7 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
 
     /*
         |--------------------------------------------------------------------------
-        | Nomination List Route for Client 
+        | Nomination List Route for Client
         |--------------------------------------------------------------------------
         |
     */
@@ -758,21 +767,21 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
         Route::get('/list/candidate-list/{electionId}',[CandidateNominationController::class,'voteCandidateDetailsForObjection'])->name('client.NominationList.voteCandidateDetailsForObjection');
 
     });
-    
+
     /*
         |--------------------------------------------------------------------------
-        | Election Suggestion Route for Client 
+        | Election Suggestion Route for Client
         |--------------------------------------------------------------------------
         |
     */
     Route::group(['prefix' => '/election-suggestion'], function(){
         Route::post('/save',[ElectionSuggestionController::class,'post'])->name('client.electionSuggestion.post');
-        
+
     });
-    
+
     /*
         |--------------------------------------------------------------------------
-        | Survey Form's Route for Client 
+        | Survey Form's Route for Client
         |--------------------------------------------------------------------------
         |
     */
@@ -782,7 +791,7 @@ Route::group(['middleware' => ['role:nhapk_client', 'auth', 'hosteliteMetasField
         Route::get('/post',[SurveysForrmClientController::class,'postResponseSurveyForms'])->name('client.surveyForms.postResponseSurveyForms');
         // storeResponseSurveyForms
         Route::post('/store',[SurveysForrmClientController::class,'storeResponseSurveyForms'])->name('client.surveyForms.storeResponseSurveyForms');
-        
+
     });
 
 
